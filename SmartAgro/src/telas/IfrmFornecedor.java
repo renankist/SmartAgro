@@ -9,13 +9,16 @@ package telas;
  *
  * @author Morgana
  */
-public class IfrmUnidadeMedida extends javax.swing.JInternalFrame {
+public class IfrmFornecedor extends javax.swing.JInternalFrame {
 
     /**
      * Creates new form IfrmUnidadeMedida
      */
-    public IfrmUnidadeMedida() {
+    public IfrmFornecedor(int aba) {
         initComponents();
+        
+        // Abre na aba passada por parametro
+        tabAbas.setSelectedIndex(aba);
     }
 
     /**
@@ -35,10 +38,6 @@ public class IfrmUnidadeMedida extends javax.swing.JInternalFrame {
         btnNovo = new javax.swing.JButton();
         tabAbas = new javax.swing.JTabbedPane();
         pnlCadastro = new javax.swing.JPanel();
-        lblUnidade = new javax.swing.JLabel();
-        tfdUnidade = new javax.swing.JTextField();
-        tfdDescricao = new javax.swing.JTextField();
-        lblDescricao = new javax.swing.JLabel();
         pnlConsulta = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -50,7 +49,7 @@ public class IfrmUnidadeMedida extends javax.swing.JInternalFrame {
         setIconifiable(true);
         setMaximizable(true);
         setResizable(true);
-        setTitle("Unidades de Medida");
+        setTitle("Fornecedores");
 
         btnEditar.setText("Editar");
         btnEditar.addActionListener(new java.awt.event.ActionListener() {
@@ -80,39 +79,15 @@ public class IfrmUnidadeMedida extends javax.swing.JInternalFrame {
             }
         });
 
-        lblUnidade.setText("Unidade");
-
-        lblDescricao.setText("Descrição");
-
         javax.swing.GroupLayout pnlCadastroLayout = new javax.swing.GroupLayout(pnlCadastro);
         pnlCadastro.setLayout(pnlCadastroLayout);
         pnlCadastroLayout.setHorizontalGroup(
             pnlCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlCadastroLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(pnlCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnlCadastroLayout.createSequentialGroup()
-                        .addComponent(lblUnidade, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tfdUnidade, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(pnlCadastroLayout.createSequentialGroup()
-                        .addComponent(lblDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tfdDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(264, Short.MAX_VALUE))
+            .addGap(0, 586, Short.MAX_VALUE)
         );
         pnlCadastroLayout.setVerticalGroup(
             pnlCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlCadastroLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(pnlCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblUnidade)
-                    .addComponent(tfdUnidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(pnlCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblDescricao)
-                    .addComponent(tfdDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(203, Short.MAX_VALUE))
+            .addGap(0, 248, Short.MAX_VALUE)
         );
 
         tabAbas.addTab("Cadastro", pnlCadastro);
@@ -134,7 +109,7 @@ public class IfrmUnidadeMedida extends javax.swing.JInternalFrame {
         pnlConsulta.setLayout(pnlConsultaLayout);
         pnlConsultaLayout.setHorizontalGroup(
             pnlConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 565, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 586, Short.MAX_VALUE)
         );
         pnlConsultaLayout.setVerticalGroup(
             pnlConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -161,7 +136,7 @@ public class IfrmUnidadeMedida extends javax.swing.JInternalFrame {
         pnlFiltrosLayout.setHorizontalGroup(
             pnlFiltrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlFiltrosLayout.createSequentialGroup()
-                .addContainerGap(430, Short.MAX_VALUE)
+                .addContainerGap(451, Short.MAX_VALUE)
                 .addComponent(btnGerar)
                 .addContainerGap())
         );
@@ -185,7 +160,7 @@ public class IfrmUnidadeMedida extends javax.swing.JInternalFrame {
             pnlRelatorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlRelatorioLayout.createSequentialGroup()
                 .addComponent(pnlFiltros, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 114, Short.MAX_VALUE))
+                .addGap(0, 99, Short.MAX_VALUE))
         );
 
         tabAbas.addTab("Relatório", pnlRelatorio);
@@ -225,13 +200,11 @@ public class IfrmUnidadeMedida extends javax.swing.JInternalFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 570, Short.MAX_VALUE)
+            .addComponent(jScrollPane1)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jScrollPane1)
         );
 
         pack();
@@ -263,14 +236,10 @@ public class IfrmUnidadeMedida extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
-    private javax.swing.JLabel lblDescricao;
-    private javax.swing.JLabel lblUnidade;
     private javax.swing.JPanel pnlCadastro;
     private javax.swing.JPanel pnlConsulta;
     private javax.swing.JPanel pnlFiltros;
     private javax.swing.JPanel pnlRelatorio;
     private javax.swing.JTabbedPane tabAbas;
-    private javax.swing.JTextField tfdDescricao;
-    private javax.swing.JTextField tfdUnidade;
     // End of variables declaration//GEN-END:variables
 }

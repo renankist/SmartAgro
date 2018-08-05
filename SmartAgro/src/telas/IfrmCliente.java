@@ -112,7 +112,7 @@ public class IfrmCliente extends javax.swing.JInternalFrame {
         setIconifiable(true);
         setMaximizable(true);
         setResizable(true);
-        setTitle("Cadastro de Clientes");
+        setTitle("Clientes");
 
         pnlCadastro.addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentShown(java.awt.event.ComponentEvent evt) {

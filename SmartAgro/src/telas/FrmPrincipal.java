@@ -32,7 +32,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jDesktopPane1 = new javax.swing.JDesktopPane();
+        dskArea = new javax.swing.JDesktopPane();
         barMenu = new javax.swing.JMenuBar();
         mnuCliente = new javax.swing.JMenu();
         itmCadastroCliente = new javax.swing.JMenuItem();
@@ -65,14 +65,14 @@ public class FrmPrincipal extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("SmartAgro");
 
-        javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
-        jDesktopPane1.setLayout(jDesktopPane1Layout);
-        jDesktopPane1Layout.setHorizontalGroup(
-            jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout dskAreaLayout = new javax.swing.GroupLayout(dskArea);
+        dskArea.setLayout(dskAreaLayout);
+        dskAreaLayout.setHorizontalGroup(
+            dskAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 900, Short.MAX_VALUE)
         );
-        jDesktopPane1Layout.setVerticalGroup(
-            jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        dskAreaLayout.setVerticalGroup(
+            dskAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 260, Short.MAX_VALUE)
         );
 
@@ -203,6 +203,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         mnuFinanceiro.add(itmContasPagar);
         mnuFinanceiro.add(jSeparator2);
 
+        itmFormasPagamento.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/24/money.png"))); // NOI18N
         itmFormasPagamento.setText("Formas de Pagamento");
         mnuFinanceiro.add(itmFormasPagamento);
 
@@ -259,11 +260,11 @@ public class FrmPrincipal extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jDesktopPane1)
+            .addComponent(dskArea)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jDesktopPane1)
+            .addComponent(dskArea)
         );
 
         pack();
@@ -283,15 +284,15 @@ public class FrmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_itmRelatorioClienteActionPerformed
 
     private void itmCadastroProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmCadastroProdutoActionPerformed
-        // TODO add your handling code here:
+        cadastroProduto(0);
     }//GEN-LAST:event_itmCadastroProdutoActionPerformed
 
     private void itmConsultaProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmConsultaProdutoActionPerformed
-        // TODO add your handling code here:
+        cadastroProduto(1);
     }//GEN-LAST:event_itmConsultaProdutoActionPerformed
 
     private void itmRelatorioProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmRelatorioProdutoActionPerformed
-        // TODO add your handling code here:
+        cadastroProduto(2);
     }//GEN-LAST:event_itmRelatorioProdutoActionPerformed
 
     private void itmUnidadeMedidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmUnidadeMedidaActionPerformed
@@ -299,15 +300,15 @@ public class FrmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_itmUnidadeMedidaActionPerformed
 
     private void itmCadastroFornecedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmCadastroFornecedorActionPerformed
-        // TODO add your handling code here:
+        cadastroFornecedor(0);
     }//GEN-LAST:event_itmCadastroFornecedorActionPerformed
 
     private void itmConsultaFornecedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmConsultaFornecedorActionPerformed
-        // TODO add your handling code here:
+        cadastroFornecedor(1);
     }//GEN-LAST:event_itmConsultaFornecedorActionPerformed
 
     private void itmRelatorioFornecedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmRelatorioFornecedorActionPerformed
-        // TODO add your handling code here:
+        cadastroFornecedor(2);
     }//GEN-LAST:event_itmRelatorioFornecedorActionPerformed
 
     private void itmCadastroColaboradorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmCadastroColaboradorActionPerformed
@@ -323,19 +324,31 @@ public class FrmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_itmRelatorioColaboradorActionPerformed
 
     private void itmSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmSairActionPerformed
-        // TODO add your handling code here:
+        this.dispose();
     }//GEN-LAST:event_itmSairActionPerformed
 
     private void cadastroCliente(int aba) {
         IfrmCliente janelaClientes = new IfrmCliente(aba);
-        jDesktopPane1.add(janelaClientes);
+        dskArea.add(janelaClientes);
         janelaClientes.setVisible(true);
+    }
+    
+    private void cadastroProduto(int aba){
+        IfrmProduto janelaProdutos = new IfrmProduto(aba);
+        dskArea.add(janelaProdutos);
+        janelaProdutos.setVisible(true);
     }
 
     private void cadastroUnidadeMedida() {
         IfrmUnidadeMedida janelaUnidadesMedida = new IfrmUnidadeMedida();
-        jDesktopPane1.add(janelaUnidadesMedida);
+        dskArea.add(janelaUnidadesMedida);
         janelaUnidadesMedida.setVisible(true);
+    }
+    
+    private void cadastroFornecedor(int aba){
+        IfrmFornecedor janelaFornecedores = new IfrmFornecedor(aba);
+        dskArea.add(janelaFornecedores);
+        janelaFornecedores.setVisible(true);
     }
 
     /**
@@ -352,6 +365,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuBar barMenu;
+    private javax.swing.JDesktopPane dskArea;
     private javax.swing.JMenuItem itmCadastroCliente;
     private javax.swing.JMenuItem itmCadastroColaborador;
     private javax.swing.JMenuItem itmCadastroFornecedor;
@@ -369,7 +383,6 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem itmRelatorioProduto;
     private javax.swing.JMenuItem itmSair;
     private javax.swing.JMenuItem itmUnidadeMedida;
-    private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JMenu mnuCliente;
