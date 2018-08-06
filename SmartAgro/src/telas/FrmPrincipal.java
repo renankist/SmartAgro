@@ -20,7 +20,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         setExtendedState(MAXIMIZED_BOTH);
 
         /* Define o icone da aplicação */
-        setIconImage(java.awt.Toolkit.getDefaultToolkit().getImage(getClass().getResource("/imagens/stack.png")));
+        setIconImage(java.awt.Toolkit.getDefaultToolkit().getImage(getClass().getResource("/imagens/32/stack.png")));
     }
 
     /**
