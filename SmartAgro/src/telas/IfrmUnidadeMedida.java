@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.InputVerifier;
 import javax.swing.JComponent;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 /**
  *
@@ -26,6 +27,7 @@ public class IfrmUnidadeMedida extends javax.swing.JInternalFrame {
         initComponents();
         
         tfdUnidade.setInputVerifier(verifier);
+        tfdDescricao.setInputVerifier(verifier);
     }
 
     /**
@@ -268,7 +270,6 @@ public class IfrmUnidadeMedida extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
-        validaCampos();
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
@@ -306,17 +307,32 @@ public class IfrmUnidadeMedida extends javax.swing.JInternalFrame {
 class MyVerifier extends InputVerifier implements ActionListener {
 
     @Override
-    public boolean verify(JComponent input) {
-        System.out.println("eu sou verificador");
-        return false;
-    }
-
-    @Override
     public void actionPerformed(ActionEvent e) {
-        System.out.println("kakakakaka");
-        JTextField source = (JTextField)e.getSource();
-            shouldYieldFocus(source); //ignore return value
-          source.selectAll();
-    }
+        // Pega o objeto que disparou o evento
+        JComponent componente = (JComponent) e.getSource();
+        
+        // Método da própria classe InputVerifier que chama a função que para validar os campos
+        // Se este método retornar false, o foco permanece no campo que não foi validado
+        shouldYieldFocus(componente);
+   }
     
+    @Override
+    public boolean verify(JComponent input) {
+        JOptionPane.showMessageDialog(null, "Entrei na função que valida");
+        
+        // Aqui vai verificar se os campos estão OK
+        JTextField txt = (JTextField) input;
+        
+        boolean inputOK = !(txt.getText().trim().isEmpty());
+        
+        ColoreCampos.pintarCampo(txt, !inputOK);
+        
+        if (!inputOK){
+            JOptionPane.showMessageDialog(null, "O campo não foi validado");
+        } else {
+            JOptionPane.showMessageDialog(null, "O campo foi validado com sucesso!");
+        }
+        
+        return inputOK;
+    }
 }
