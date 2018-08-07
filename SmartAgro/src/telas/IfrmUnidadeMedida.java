@@ -5,17 +5,27 @@
  */
 package telas;
 
+import apoio.ColoreCampos;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.InputVerifier;
+import javax.swing.JComponent;
+import javax.swing.JTextField;
 /**
  *
  * @author Morgana
  */
 public class IfrmUnidadeMedida extends javax.swing.JInternalFrame {
+    
+    private MyVerifier verifier = new MyVerifier();
 
     /**
      * Creates new form IfrmUnidadeMedida
      */
     public IfrmUnidadeMedida() {
         initComponents();
+        
+        tfdUnidade.setInputVerifier(verifier);
     }
 
     /**
@@ -35,8 +45,8 @@ public class IfrmUnidadeMedida extends javax.swing.JInternalFrame {
         btnNovo = new javax.swing.JButton();
         tabAbas = new javax.swing.JTabbedPane();
         pnlCadastro = new javax.swing.JPanel();
-        lblUnidade = new javax.swing.JLabel();
         tfdUnidade = new javax.swing.JTextField();
+        lblUnidade = new javax.swing.JLabel();
         tfdDescricao = new javax.swing.JTextField();
         lblDescricao = new javax.swing.JLabel();
         pnlConsulta = new javax.swing.JPanel();
@@ -99,7 +109,7 @@ public class IfrmUnidadeMedida extends javax.swing.JInternalFrame {
                         .addComponent(lblDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(tfdDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(264, Short.MAX_VALUE))
+                .addContainerGap(399, Short.MAX_VALUE))
         );
         pnlCadastroLayout.setVerticalGroup(
             pnlCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -112,7 +122,7 @@ public class IfrmUnidadeMedida extends javax.swing.JInternalFrame {
                 .addGroup(pnlCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblDescricao)
                     .addComponent(tfdDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(203, Short.MAX_VALUE))
+                .addContainerGap(191, Short.MAX_VALUE))
         );
 
         tabAbas.addTab("Cadastro", pnlCadastro);
@@ -134,7 +144,7 @@ public class IfrmUnidadeMedida extends javax.swing.JInternalFrame {
         pnlConsulta.setLayout(pnlConsultaLayout);
         pnlConsultaLayout.setHorizontalGroup(
             pnlConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 565, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 702, Short.MAX_VALUE)
         );
         pnlConsultaLayout.setVerticalGroup(
             pnlConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -161,7 +171,7 @@ public class IfrmUnidadeMedida extends javax.swing.JInternalFrame {
         pnlFiltrosLayout.setHorizontalGroup(
             pnlFiltrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlFiltrosLayout.createSequentialGroup()
-                .addContainerGap(430, Short.MAX_VALUE)
+                .addContainerGap(567, Short.MAX_VALUE)
                 .addComponent(btnGerar)
                 .addContainerGap())
         );
@@ -185,7 +195,7 @@ public class IfrmUnidadeMedida extends javax.swing.JInternalFrame {
             pnlRelatorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlRelatorioLayout.createSequentialGroup()
                 .addComponent(pnlFiltros, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 114, Short.MAX_VALUE))
+                .addGap(0, 99, Short.MAX_VALUE))
         );
 
         tabAbas.addTab("Relatório", pnlRelatorio);
@@ -225,22 +235,40 @@ public class IfrmUnidadeMedida extends javax.swing.JInternalFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 570, Short.MAX_VALUE)
+            .addComponent(jScrollPane1)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jScrollPane1)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void validaCampos() {
+
+        if (tfdUnidade.getText().trim().isEmpty()) {
+            ColoreCampos.pintarCampo(tfdUnidade, true);
+            tfdUnidade.requestFocus();
+            return;
+        } else {
+            ColoreCampos.pintarCampo(tfdUnidade, false);
+        }
+
+        if (tfdDescricao.getText().trim().isEmpty()) {
+            ColoreCampos.pintarCampo(tfdDescricao, true);
+            tfdDescricao.requestFocus();
+            return;
+        } else {
+            ColoreCampos.pintarCampo(tfdDescricao, false);
+        }
+    }
+
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
+        validaCampos();
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
@@ -273,4 +301,22 @@ public class IfrmUnidadeMedida extends javax.swing.JInternalFrame {
     private javax.swing.JTextField tfdDescricao;
     private javax.swing.JTextField tfdUnidade;
     // End of variables declaration//GEN-END:variables
+}
+
+class MyVerifier extends InputVerifier implements ActionListener {
+
+    @Override
+    public boolean verify(JComponent input) {
+        System.out.println("eu sou verificador");
+        return false;
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        System.out.println("kakakakaka");
+        JTextField source = (JTextField)e.getSource();
+            shouldYieldFocus(source); //ignore return value
+          source.selectAll();
+    }
+    
 }

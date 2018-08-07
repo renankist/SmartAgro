@@ -26,15 +26,12 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="jScrollPane1" alignment="0" pref="570" max="32767" attributes="0"/>
+          <Component id="jScrollPane1" alignment="0" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
-              <Component id="jScrollPane1" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-          </Group>
+          <Component id="jScrollPane1" alignment="0" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
   </Layout>
@@ -127,7 +124,7 @@
                   <Layout>
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" alignment="0" attributes="0">
@@ -141,7 +138,7 @@
                                       <Component id="tfdDescricao" min="-2" pref="225" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
-                              <EmptySpace pref="264" max="32767" attributes="0"/>
+                              <EmptySpace pref="399" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -158,18 +155,18 @@
                                   <Component id="lblDescricao" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="tfdDescricao" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace pref="203" max="32767" attributes="0"/>
+                              <EmptySpace pref="191" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
                   </Layout>
                   <SubComponents>
+                    <Component class="javax.swing.JTextField" name="tfdUnidade">
+                    </Component>
                     <Component class="javax.swing.JLabel" name="lblUnidade">
                       <Properties>
                         <Property name="text" type="java.lang.String" value="Unidade"/>
                       </Properties>
-                    </Component>
-                    <Component class="javax.swing.JTextField" name="tfdUnidade">
                     </Component>
                     <Component class="javax.swing.JTextField" name="tfdDescricao">
                     </Component>
@@ -192,7 +189,7 @@
                   <Layout>
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jScrollPane2" alignment="0" pref="565" max="32767" attributes="0"/>
+                          <Component id="jScrollPane2" alignment="0" pref="702" max="32767" attributes="0"/>
                       </Group>
                     </DimensionLayout>
                     <DimensionLayout dim="1">
@@ -249,7 +246,7 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="pnlFiltros" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="0" pref="114" max="32767" attributes="0"/>
+                              <EmptySpace min="0" pref="99" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -270,7 +267,7 @@
                         <DimensionLayout dim="0">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="1" attributes="0">
-                                  <EmptySpace pref="430" max="32767" attributes="0"/>
+                                  <EmptySpace pref="567" max="32767" attributes="0"/>
                                   <Component id="btnGerar" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                               </Group>
