@@ -325,6 +325,7 @@ class MyVerifier extends InputVerifier implements ActionListener {
         
         boolean inputOK = !(txt.getText().trim().isEmpty());
         
+        // Pinta o campo caso não estiver de acordo
         ColoreCampos.pintarCampo(txt, !inputOK);
         
         if (!inputOK){
