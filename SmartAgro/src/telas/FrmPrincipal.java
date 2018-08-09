@@ -205,6 +205,11 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
         itmFormasPagamento.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/24/money.png"))); // NOI18N
         itmFormasPagamento.setText("Formas de Pagamento");
+        itmFormasPagamento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itmFormasPagamentoActionPerformed(evt);
+            }
+        });
         mnuFinanceiro.add(itmFormasPagamento);
 
         barMenu.add(mnuFinanceiro);
@@ -327,6 +332,10 @@ public class FrmPrincipal extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_itmSairActionPerformed
 
+    private void itmFormasPagamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmFormasPagamentoActionPerformed
+        cadastroFormaPagamento(); 
+    }//GEN-LAST:event_itmFormasPagamentoActionPerformed
+
     private void cadastroCliente(int aba) {
         IfrmCliente janelaClientes = new IfrmCliente(aba);
         dskArea.add(janelaClientes);
@@ -343,6 +352,12 @@ public class FrmPrincipal extends javax.swing.JFrame {
         IfrmUnidadeMedida janelaUnidadesMedida = new IfrmUnidadeMedida();
         dskArea.add(janelaUnidadesMedida);
         janelaUnidadesMedida.setVisible(true);
+    }
+    
+    private void cadastroFormaPagamento() {
+        IfrmFormaPagamento janelaFormaPagamento = new IfrmFormaPagamento();
+        dskArea.add(janelaFormaPagamento);
+        janelaFormaPagamento.setVisible(true);
     }
     
     private void cadastroFornecedor(int aba){
