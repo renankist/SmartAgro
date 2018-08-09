@@ -23,8 +23,8 @@ public class TestEstadoDao {
 
         //salvar();
         //consultarTodos(); 
-        atualizar();
-
+        //atualizar();
+        consultarById(); 
         exit(0);
     }
 
@@ -77,6 +77,16 @@ public class TestEstadoDao {
             System.out.println("Erro ao atualizado!");
         }
 
+    }
+    
+    public static void consultarById(){
+        
+        GenericDAO dao = new GenericDAO();
+        
+        Estado e = (Estado) dao.consultarPorId(4, "Estado");
+        
+        System.out.println(e.getId()+" - "+e.getNome());
+        
     }
 
 }
