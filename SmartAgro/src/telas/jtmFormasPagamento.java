@@ -16,7 +16,7 @@ import javax.swing.table.AbstractTableModel;
 public class jtmFormasPagamento extends AbstractTableModel {
 
     private ArrayList<Formapagamento> formas;
-    private String[] colunas = {"Código", "Descrição", "Ativo"};
+    private String[] colunas = {"Código", "Descrição"};
 
     public jtmFormasPagamento(ArrayList<Formapagamento> formas) {
         this.formas = formas;
@@ -59,14 +59,7 @@ public class jtmFormasPagamento extends AbstractTableModel {
             case 0:
                 return formas.get(linha).getId();
             case 1:
-                return formas.get(linha).getDescricao();
-            case 2:
-                if(formas.get(linha).getAtivo()){
-                    return "Sim";
-                }else{
-                    return "Não";
-                }
-             
+                return formas.get(linha).getDescricao();          
         }
 
         return null;

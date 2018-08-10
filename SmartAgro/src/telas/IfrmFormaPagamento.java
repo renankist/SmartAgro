@@ -128,11 +128,11 @@ public class IfrmFormaPagamento extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "Código", "Descrição", "Ativo"
+                "Código", "Descrição"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
