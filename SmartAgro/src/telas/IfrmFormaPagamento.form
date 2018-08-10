@@ -4,7 +4,7 @@
   <Properties>
     <Property name="closable" type="boolean" value="true"/>
     <Property name="iconifiable" type="boolean" value="true"/>
-    <Property name="title" type="java.lang.String" value="Unidades de Medida"/>
+    <Property name="title" type="java.lang.String" value="Formas de Pagamento"/>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>

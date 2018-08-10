@@ -5,25 +5,30 @@
  */
 package telas;
 
+import dao.GenericDAO;
+import entidade.Formapagamento;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Morgana
  */
 public class IfrmFormaPagamento extends javax.swing.JInternalFrame {
 
-    /**
-     * Creates new form IfrmUnidadeMedida
-     */
     public IfrmFormaPagamento() {
 
         initComponents();
         //Deixar o focus no campo de descrição
+        focus();
+
+    }
+
+    private void focus() {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 tfdDescricao.requestFocusInWindow();
             }
         });
-
     }
 
     /**
@@ -54,7 +59,7 @@ public class IfrmFormaPagamento extends javax.swing.JInternalFrame {
 
         setClosable(true);
         setIconifiable(true);
-        setTitle("Unidades de Medida");
+        setTitle("Formas de Pagamento");
 
         btnEditar.setText("Editar");
         btnEditar.addActionListener(new java.awt.event.ActionListener() {
@@ -233,6 +238,19 @@ public class IfrmFormaPagamento extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
+
+        Formapagamento un = new Formapagamento();
+        GenericDAO dao = new GenericDAO();
+        un.setDescricao(tfdDescricao.getText());
+        un.setAtivo(true);
+        if (dao.salvar(un)) {
+            JOptionPane.showMessageDialog(rootPane, "Forma de pagamento " + un.getDescricao() + "inserida com sucesso", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "Problema para inserir forma de pagamento.", "Problemas", JOptionPane.ERROR_MESSAGE);
+        }
+        tfdDescricao.setText(null);
+        focus();
+
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
