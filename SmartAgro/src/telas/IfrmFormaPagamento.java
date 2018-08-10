@@ -244,7 +244,7 @@ public class IfrmFormaPagamento extends javax.swing.JInternalFrame {
         un.setDescricao(tfdDescricao.getText());
         un.setAtivo(true);
         if (dao.salvar(un)) {
-            JOptionPane.showMessageDialog(rootPane, "Forma de pagamento " + un.getDescricao() + "inserida com sucesso", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(rootPane, "Forma de pagamento " + un.getDescricao() + " inserida com sucesso", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
         } else {
             JOptionPane.showMessageDialog(rootPane, "Problema para inserir forma de pagamento.", "Problemas", JOptionPane.ERROR_MESSAGE);
         }
