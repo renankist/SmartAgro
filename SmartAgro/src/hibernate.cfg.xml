@@ -9,6 +9,7 @@
     <property name="hibernate.connection.password">postgres</property>
     <property name="hbm2ddl.auto">update</property>
     <property name="show_sql">true</property>
-     <mapping class="entidade.Estado"/>
+    <mapping class="entidade.Estado"/>
+    <mapping class="entidade.Unidademedida"/>
   </session-factory>
 </hibernate-configuration>

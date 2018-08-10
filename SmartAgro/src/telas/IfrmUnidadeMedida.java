@@ -5,8 +5,9 @@
  */
 package telas;
 
-import apoio.ColoreCampos;
-import apoio.VerificadorCampos;
+import apoio.*;
+import entidade.Unidademedida;
+import dao.GenericDAO;
 /**
  *
  * @author Morgana
@@ -21,8 +22,20 @@ public class IfrmUnidadeMedida extends javax.swing.JInternalFrame {
     public IfrmUnidadeMedida() {
         initComponents();
         
+        // Aplica o validador
         tfdUnidade.setInputVerifier(verifier);
         tfdDescricao.setInputVerifier(verifier);
+        
+        //Deixar o focus no campo de descrição
+        focus();
+    }
+    
+    private void focus() {
+        javax.swing.SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                tfdUnidade.requestFocusInWindow();
+            }
+        });
     }
 
     /**
@@ -242,6 +255,20 @@ public class IfrmUnidadeMedida extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
+        Unidademedida unidade = new Unidademedida();
+        GenericDAO dao = new GenericDAO();
+        unidade.setUnidade(tfdUnidade.getText());
+        unidade.setDescricao(tfdDescricao.getText());
+        unidade.setAtivo(true);
+        
+        if (dao.salvar(unidade)) {
+            Mensagem.mostraInformacao("Sucesso", "Unidade de medida " + unidade.getDescricao() + " inserida com sucesso");
+        } else {
+            Mensagem.mostraInformacao("Problema", "Problema para inserir unidade de medida");
+        }
+        
+        LimpaCampos.limparCampos(pnlCadastro);
+        focus();
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
