@@ -17,7 +17,10 @@ import javax.swing.JOptionPane;
  */
 public class IfrmFormaPagamento extends javax.swing.JInternalFrame {
 
-   
+    private Formapagamento forma;
+    private FormaPagamentoDAO dao;
+    private ArrayList<Formapagamento> formas;
+
     public IfrmFormaPagamento() {
 
         initComponents();
@@ -288,12 +291,12 @@ public class IfrmFormaPagamento extends javax.swing.JInternalFrame {
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
 
-        Formapagamento un = new Formapagamento();
-        GenericDAO dao = new GenericDAO();
-        un.setDescricao(tfdDescricao.getText());
-        un.setAtivo(true);
-        if (dao.salvar(un)) {
-            JOptionPane.showMessageDialog(rootPane, "Forma de pagamento " + un.getDescricao() + " inserida com sucesso", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+        this.forma = new Formapagamento();
+        this.dao = new FormaPagamentoDAO();
+        forma.setDescricao(tfdDescricao.getText());
+        forma.setAtivo(true);
+        if (this.dao.salvar(forma)) {
+            JOptionPane.showMessageDialog(rootPane, "Forma de pagamento " + forma.getDescricao() + " inserida com sucesso", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
         } else {
             JOptionPane.showMessageDialog(rootPane, "Problema para inserir forma de pagamento.", "Problemas", JOptionPane.ERROR_MESSAGE);
         }
@@ -312,16 +315,16 @@ public class IfrmFormaPagamento extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnGerarActionPerformed
 
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
-       
-        FormaPagamentoDAO dao = new FormaPagamentoDAO();
-        
-        ArrayList<Formapagamento> formas = new ArrayList(); 
-        
-        formas = dao.consultarTodasFormas();
-        
+
+        this.dao = new FormaPagamentoDAO();
+
+        this.formas = new ArrayList();
+
+        this.formas = dao.consultarTodasFormas();
+
         this.jTableFormasPagamento.setModel(new jtmFormasPagamento(formas));
-        
-        
+
+
     }//GEN-LAST:event_btnPesquisarActionPerformed
 
 
