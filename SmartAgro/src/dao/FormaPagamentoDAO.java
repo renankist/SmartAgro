@@ -28,7 +28,32 @@ public class FormaPagamentoDAO extends GenericDAO {
             sessao.beginTransaction();
 
             org.hibernate.Query q = sessao.createQuery("from Formapagamento");
-            
+
+            resultado = (ArrayList) q.list();
+
+        } catch (HibernateException he) {
+            he.printStackTrace();
+        }finally{
+            sessao.close();
+        }
+
+        return resultado;
+
+    }
+     
+      public ArrayList<Formapagamento> consultarPorDescricao(String descricao) {
+
+        ArrayList resultado = null;
+        
+        Session sessao = null;
+        try {
+
+             sessao = HibernateUtil.getSessionFactory().openSession();
+            sessao.beginTransaction();
+
+            org.hibernate.Query q = sessao.createQuery("from Formapagamento where descricao like :desc order by descricao");
+
+            q.setString("desc", "%"+descricao+"%");
             
             resultado = (ArrayList) q.list();
 

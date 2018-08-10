@@ -59,7 +59,6 @@ public class IfrmFormaPagamento extends javax.swing.JInternalFrame {
         pnlConsulta = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTableFormasPagamento = new javax.swing.JTable();
-        lblDescricao1 = new javax.swing.JLabel();
         lblDescricaoConsulta = new javax.swing.JLabel();
         tfdDescricaoConsulta = new javax.swing.JTextField();
         btnPesquisar = new javax.swing.JButton();
@@ -107,10 +106,10 @@ public class IfrmFormaPagamento extends javax.swing.JInternalFrame {
             pnlCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlCadastroLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(tfdDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(462, Short.MAX_VALUE))
+                .addContainerGap(440, Short.MAX_VALUE))
         );
         pnlCadastroLayout.setVerticalGroup(
             pnlCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -119,7 +118,7 @@ public class IfrmFormaPagamento extends javax.swing.JInternalFrame {
                 .addGroup(pnlCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblDescricao)
                     .addComponent(tfdDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(230, Short.MAX_VALUE))
+                .addContainerGap(234, Short.MAX_VALUE))
         );
 
         tabAbas.addTab("Cadastro", pnlCadastro);
@@ -142,8 +141,6 @@ public class IfrmFormaPagamento extends javax.swing.JInternalFrame {
         });
         jScrollPane2.setViewportView(jTableFormasPagamento);
 
-        lblDescricao1.setText("Descrição *");
-
         lblDescricaoConsulta.setText("Descrição:");
 
         btnPesquisar.setText("Pesquisar");
@@ -159,20 +156,15 @@ public class IfrmFormaPagamento extends javax.swing.JInternalFrame {
             pnlConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlConsultaLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblDescricaoConsulta, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lblDescricaoConsulta, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(tfdDescricaoConsulta, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnPesquisar)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(pnlConsultaLayout.createSequentialGroup()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 755, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 763, Short.MAX_VALUE)
                 .addContainerGap())
-            .addGroup(pnlConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(pnlConsultaLayout.createSequentialGroup()
-                    .addGap(311, 311, 311)
-                    .addComponent(lblDescricao1, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(390, Short.MAX_VALUE)))
         );
         pnlConsultaLayout.setVerticalGroup(
             pnlConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -185,11 +177,6 @@ public class IfrmFormaPagamento extends javax.swing.JInternalFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
                 .addContainerGap())
-            .addGroup(pnlConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(pnlConsultaLayout.createSequentialGroup()
-                    .addGap(124, 124, 124)
-                    .addComponent(lblDescricao1)
-                    .addContainerGap(130, Short.MAX_VALUE)))
         );
 
         tabAbas.addTab("Consulta", pnlConsulta);
@@ -320,10 +307,11 @@ public class IfrmFormaPagamento extends javax.swing.JInternalFrame {
 
         this.formas = new ArrayList();
 
-        this.formas = dao.consultarTodasFormas();
+        this.formas = dao.consultarPorDescricao(tfdDescricaoConsulta.getText());
 
         this.jTableFormasPagamento.setModel(new jtmFormasPagamento(formas));
-
+        
+       //this.jTableFormasPagamento.setDefaultRenderer(Object.class, new RenderizadorTabelas());
 
     }//GEN-LAST:event_btnPesquisarActionPerformed
 
@@ -340,7 +328,6 @@ public class IfrmFormaPagamento extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTableFormasPagamento;
     private javax.swing.JLabel lblDescricao;
-    private javax.swing.JLabel lblDescricao1;
     private javax.swing.JLabel lblDescricaoConsulta;
     private javax.swing.JPanel pnlCadastro;
     private javax.swing.JPanel pnlConsulta;

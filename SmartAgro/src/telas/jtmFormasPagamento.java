@@ -61,7 +61,12 @@ public class jtmFormasPagamento extends AbstractTableModel {
             case 1:
                 return formas.get(linha).getDescricao();
             case 2:
-                return formas.get(linha).getAtivo();
+                if(formas.get(linha).getAtivo()){
+                    return "Sim";
+                }else{
+                    return "Não";
+                }
+             
         }
 
         return null;
