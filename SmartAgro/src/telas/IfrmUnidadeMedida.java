@@ -6,19 +6,14 @@
 package telas;
 
 import apoio.ColoreCampos;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.swing.InputVerifier;
-import javax.swing.JComponent;
-import javax.swing.JOptionPane;
-import javax.swing.JTextField;
+import apoio.VerificadorCampos;
 /**
  *
  * @author Morgana
  */
 public class IfrmUnidadeMedida extends javax.swing.JInternalFrame {
     
-    private MyVerifier verifier = new MyVerifier();
+    private VerificadorCampos verifier = new VerificadorCampos();
 
     /**
      * Creates new form IfrmUnidadeMedida
@@ -60,8 +55,6 @@ public class IfrmUnidadeMedida extends javax.swing.JInternalFrame {
 
         setClosable(true);
         setIconifiable(true);
-        setMaximizable(true);
-        setResizable(true);
         setTitle("Unidades de Medida");
 
         btnEditar.setText("Editar");
@@ -92,9 +85,9 @@ public class IfrmUnidadeMedida extends javax.swing.JInternalFrame {
             }
         });
 
-        lblUnidade.setText("Unidade");
+        lblUnidade.setText("Unidade *");
 
-        lblDescricao.setText("Descrição");
+        lblDescricao.setText("Descrição *");
 
         javax.swing.GroupLayout pnlCadastroLayout = new javax.swing.GroupLayout(pnlCadastro);
         pnlCadastro.setLayout(pnlCadastroLayout);
@@ -102,16 +95,14 @@ public class IfrmUnidadeMedida extends javax.swing.JInternalFrame {
             pnlCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlCadastroLayout.createSequentialGroup()
                 .addContainerGap()
+                .addGroup(pnlCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(lblUnidade, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblDescricao, javax.swing.GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnlCadastroLayout.createSequentialGroup()
-                        .addComponent(lblUnidade, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tfdUnidade, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(pnlCadastroLayout.createSequentialGroup()
-                        .addComponent(lblDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tfdDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(399, Short.MAX_VALUE))
+                    .addComponent(tfdUnidade, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tfdDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(389, Short.MAX_VALUE))
         );
         pnlCadastroLayout.setVerticalGroup(
             pnlCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -247,25 +238,6 @@ public class IfrmUnidadeMedida extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void validaCampos() {
-
-        if (tfdUnidade.getText().trim().isEmpty()) {
-            ColoreCampos.pintarCampo(tfdUnidade, true);
-            tfdUnidade.requestFocus();
-            return;
-        } else {
-            ColoreCampos.pintarCampo(tfdUnidade, false);
-        }
-
-        if (tfdDescricao.getText().trim().isEmpty()) {
-            ColoreCampos.pintarCampo(tfdDescricao, true);
-            tfdDescricao.requestFocus();
-            return;
-        } else {
-            ColoreCampos.pintarCampo(tfdDescricao, false);
-        }
-    }
-
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
     }//GEN-LAST:event_btnEditarActionPerformed
 
@@ -302,38 +274,4 @@ public class IfrmUnidadeMedida extends javax.swing.JInternalFrame {
     private javax.swing.JTextField tfdDescricao;
     private javax.swing.JTextField tfdUnidade;
     // End of variables declaration//GEN-END:variables
-}
-
-class MyVerifier extends InputVerifier implements ActionListener {
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        // Pega o objeto que disparou o evento
-        JComponent componente = (JComponent) e.getSource();
-        
-        // Método da própria classe InputVerifier que chama a função que para validar os campos
-        // Se este método retornar false, o foco permanece no campo que não foi validado
-        shouldYieldFocus(componente);
-   }
-    
-    @Override
-    public boolean verify(JComponent input) {
-        JOptionPane.showMessageDialog(null, "Entrei na função que valida");
-        
-        // Aqui vai verificar se os campos estão OK
-        JTextField txt = (JTextField) input;
-        
-        boolean inputOK = !(txt.getText().trim().isEmpty());
-        
-        // Pinta o campo caso não estiver de acordo
-        ColoreCampos.pintarCampo(txt, !inputOK);
-        
-        if (!inputOK){
-            JOptionPane.showMessageDialog(null, "O campo não foi validado");
-        } else {
-            JOptionPane.showMessageDialog(null, "O campo foi validado com sucesso!");
-        }
-        
-        return inputOK;
-    }
 }
