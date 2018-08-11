@@ -6,7 +6,6 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-public class GenericDAO {
 public class GenericDAO<Object> {
 
     public boolean salvar(Object o) {
