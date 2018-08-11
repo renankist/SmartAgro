@@ -24,7 +24,8 @@ public class TestEstadoDao {
         //salvar();
         //consultarTodos(); 
         //atualizar();
-        consultarById(); 
+        //consultarById(); 
+        consultarPorCriterio();
         exit(0);
     }
 
@@ -47,15 +48,14 @@ public class TestEstadoDao {
 
     public static void consultarTodos() {
 
-        GenericDAO dao = new GenericDAO();
+        GenericDAO dao = new GenericDAO<Estado>();
 
-        ArrayList<Object> es = dao.consultarTodos("Estado");
+        ArrayList<Estado> es = dao.consultarTodos("Estado");
 
         for (int i = 0; i < es.size(); i++) {
 
-            Estado e = (Estado) es.get(i);
-
-            System.out.println(e);
+            
+            System.out.println(es.get(i).getNome());
 
         }
 
@@ -86,6 +86,21 @@ public class TestEstadoDao {
         Estado e = (Estado) dao.consultarPorId(4, "Estado");
         
         System.out.println(e.getId()+" - "+e.getNome());
+        
+    }
+    
+    public static void consultarPorCriterio(){
+        
+        GenericDAO<Estado> dao = new GenericDAO();
+
+        ArrayList<Estado> es = dao.consultarComCriterio("Estado", "nome", "Rio Grande do Sul");
+
+        for (int i = 0; i < es.size(); i++) {
+
+            
+            System.out.println(es.get(i).getNome());
+
+        }
         
     }
 
