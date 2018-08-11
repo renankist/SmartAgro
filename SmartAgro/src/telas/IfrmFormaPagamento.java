@@ -5,7 +5,7 @@
  */
 package telas;
 
-import dao.FormaPagamentoDAO;
+import dao.GenericDAO;
 import dao.GenericDAO;
 import entidade.Formapagamento;
 import java.util.ArrayList;
@@ -18,7 +18,7 @@ import javax.swing.JOptionPane;
 public class IfrmFormaPagamento extends javax.swing.JInternalFrame {
 
     private Formapagamento forma;
-    private FormaPagamentoDAO dao;
+    private GenericDAO<Formapagamento> dao;
     private ArrayList<Formapagamento> formas;
 
     public IfrmFormaPagamento() {
@@ -279,7 +279,7 @@ public class IfrmFormaPagamento extends javax.swing.JInternalFrame {
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
 
         this.forma = new Formapagamento();
-        this.dao = new FormaPagamentoDAO();
+        this.dao = new GenericDAO<>();
         forma.setDescricao(tfdDescricao.getText());
         forma.setAtivo(true);
         if (this.dao.salvar(forma)) {
@@ -303,11 +303,11 @@ public class IfrmFormaPagamento extends javax.swing.JInternalFrame {
 
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
 
-        this.dao = new FormaPagamentoDAO();
+        this.dao = new GenericDAO<>();
 
         this.formas = new ArrayList();
 
-        this.formas = dao.consultarPorDescricao(tfdDescricaoConsulta.getText());
+        this.formas = dao.consultarComCriterio("Formapagamento","descricao",tfdDescricaoConsulta.getText());
 
         this.jTableFormasPagamento.setModel(new jtmFormasPagamento(formas));
         
