@@ -293,6 +293,26 @@ public class IfrmFormaPagamento extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
+     //Pega //Pega o valor da primeira coluna da linha selecionada na tabela de serviços e atribuiu a uma variável do tipo inteiro
+        int id = Integer.parseInt(jTableFormasPagamento.getValueAt(jTableFormasPagamento.getSelectedRow(), 0).toString());  
+        forma = dao.consultarPorId(id, "Formapagamento");      
+        if(forma.getAtivo()){
+         //Abre uma mensagem pedindo se o usuário realmente quer excluír o registro
+        int resposta = JOptionPane.showConfirmDialog(null, "Deseja realmente excluir a forma de pagamento: "+forma.getDescricao()+ " ?", "Atenção", JOptionPane.YES_NO_OPTION);  
+        //Se a respota for sim
+        if (resposta == JOptionPane.YES_OPTION) {
+            forma.setAtivo(false);
+            if (dao.atualizar(forma)) {//Chamado o método do ServicoDao de excluir um registro, e caso o retorno é true, retorna uma mensagem de sucesso
+                JOptionPane.showMessageDialog(rootPane, "Forma de pagamento excluída", "Confirmação de exclusão", JOptionPane.PLAIN_MESSAGE); 
+                this.formas = dao.consultarComCriterio("Formapagamento","descricao",tfdDescricaoConsulta.getText());
+                this.jTableFormasPagamento.setModel(new jtmFormasPagamento(formas));
+                //this.tblServicos.setDefaultRenderer(Object.class, new RenderizadorTabelas());
+            }
+        }
+       }else{
+           JOptionPane.showMessageDialog(rootPane, "Problema para excluir forma de pagamento", "Problema", JOptionPane.PLAIN_MESSAGE);
+       }
+
     }//GEN-LAST:event_btnExcluirActionPerformed
 
     private void btnNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoActionPerformed
