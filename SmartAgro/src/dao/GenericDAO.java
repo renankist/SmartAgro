@@ -124,7 +124,7 @@ public class GenericDAO<Object> {
 
             org.hibernate.Query q = sessao.createQuery("from " + className+" where "+criterio+" like :criterio and ativo = :ativ");
             
-            q.setString("criterio", valor);
+            q.setString("criterio", "%"+valor+"%");
             q.setBoolean("ativ", true);
             
             resultado = (ArrayList) q.list();
