@@ -25,4 +25,8 @@ public class Mensagem {
         JOptionPane.showMessageDialog(null, mensagem, titulo, JOptionPane.ERROR_MESSAGE);
     }
     
+    public static boolean confirmaMensagem(String titulo, String mensagem){
+        int conf = JOptionPane.showConfirmDialog(null, mensagem, titulo, JOptionPane.YES_NO_OPTION);
+        return conf == 0;
+   }
 }

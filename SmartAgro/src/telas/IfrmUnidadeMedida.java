@@ -26,7 +26,7 @@ public class IfrmUnidadeMedida extends javax.swing.JInternalFrame {
      */
     public IfrmUnidadeMedida() {
         initComponents();
-        
+
         // Preenche a tabela de consulta com as colunas corretas
         unidades = new ArrayList();
         tblUnidades.setModel(new jtmUnidadeMedida(unidades));
@@ -309,6 +309,29 @@ public class IfrmUnidadeMedida extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
+        // Pega o código do registro para consultar o objeto
+        int id = Integer.parseInt(tblUnidades.getValueAt(tblUnidades.getSelectedRow(), 0).toString());
+
+        unidade = dao.consultarPorId(id, "Unidademedida");
+        
+        if (unidade.getAtivo()) {
+            //Abre uma mensagem pedindo se o usuário realmente quer excluír o registro
+            boolean resposta = Mensagem.confirmaMensagem("Atenção", "Deseja realmente excluir a unidade de medida: " + unidade.getUnidade()+ "?");
+
+            if (resposta) {
+                unidade.setAtivo(false);
+
+                // Exclui o registro
+                if (dao.atualizar(unidade)) {
+                    Mensagem.mostraInformacao("Confirmação de exclusão", "Unidade excluída");
+                    
+                    this.unidades = dao.consultarComCriterio("Unidademedida", "descricao", tfdCriterio.getText());
+                    this.tblUnidades.setModel(new jtmUnidadeMedida(unidades));
+                }
+            }
+        } else {
+            Mensagem.mostraErro("Problema", "Problema para excluir unidade de medida");
+        }
     }//GEN-LAST:event_btnExcluirActionPerformed
 
     private void btnNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoActionPerformed
@@ -320,7 +343,7 @@ public class IfrmUnidadeMedida extends javax.swing.JInternalFrame {
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
         dao = new GenericDAO<>();
         unidades = new ArrayList();
-        
+
         unidades = dao.consultarComCriterio("Unidademedida", "descricao", tfdCriterio.getText());
         tblUnidades.setModel(new jtmUnidadeMedida(unidades));
     }//GEN-LAST:event_btnPesquisarActionPerformed
