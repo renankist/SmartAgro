@@ -3,8 +3,11 @@
   <persistence-unit name="SmartAgroPU" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <class>entidade.Estado</class>
+<<<<<<< HEAD
     <class>entidade.Formapagamento</class>
+=======
     <class>entidade.Unidademedida</class>
+>>>>>>> UnidadeMedida
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/smartagro"/>
       <property name="javax.persistence.jdbc.user" value="postgres"/>
@@ -13,4 +16,3 @@
     </properties>
   </persistence-unit>
 </persistence>
-

@@ -17,7 +17,8 @@ public class FrmPrincipal extends javax.swing.JFrame {
     public FrmPrincipal() {
         initComponents();
 
-        setExtendedState(MAXIMIZED_BOTH);
+        /* Abrir a tela maximizada */
+        //setExtendedState(MAXIMIZED_BOTH);
 
         /* Define o icone da aplicação */
         setIconImage(java.awt.Toolkit.getDefaultToolkit().getImage(getClass().getResource("/imagens/32/stack.png")));
@@ -64,6 +65,8 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("SmartAgro");
+        setPreferredSize(new java.awt.Dimension(1300, 1000));
+        setSize(new java.awt.Dimension(0, 0));
 
         javax.swing.GroupLayout dskAreaLayout = new javax.swing.GroupLayout(dskArea);
         dskArea.setLayout(dskAreaLayout);
@@ -73,7 +76,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         );
         dskAreaLayout.setVerticalGroup(
             dskAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 260, Short.MAX_VALUE)
+            .addGap(0, Short.MAX_VALUE, Short.MAX_VALUE)
         );
 
         barMenu.setAutoscrolls(true);
@@ -329,7 +332,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_itmRelatorioColaboradorActionPerformed
 
     private void itmSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmSairActionPerformed
-        this.dispose();
+        System.exit(0);
     }//GEN-LAST:event_itmSairActionPerformed
 
     private void itmFormasPagamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmFormasPagamentoActionPerformed
