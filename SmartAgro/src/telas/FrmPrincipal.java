@@ -327,7 +327,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_itmRelatorioColaboradorActionPerformed
 
     private void itmSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmSairActionPerformed
-        this.dispose();
+        System.exit(0);
     }//GEN-LAST:event_itmSairActionPerformed
 
     private void cadastroCliente(int aba) {

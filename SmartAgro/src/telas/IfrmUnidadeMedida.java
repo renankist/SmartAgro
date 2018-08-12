@@ -6,8 +6,9 @@
 package telas;
 
 import apoio.*;
+import dao.GenericDAO;
 import entidade.Unidademedida;
-import dao.UnidadeMedidaDAO;
+import java.util.ArrayList;
 
 /**
  *
@@ -16,7 +17,8 @@ import dao.UnidadeMedidaDAO;
 public class IfrmUnidadeMedida extends javax.swing.JInternalFrame {
 
     private Unidademedida unidade;
-    private UnidadeMedidaDAO unidadeDAO;
+    private GenericDAO<Unidademedida> dao;
+    private ArrayList<Unidademedida> unidades;
     private VerificadorCampos verifier;
 
     /**
@@ -24,6 +26,10 @@ public class IfrmUnidadeMedida extends javax.swing.JInternalFrame {
      */
     public IfrmUnidadeMedida() {
         initComponents();
+        
+        // Preenche a tabela de consulta com as colunas corretas
+        unidades = new ArrayList();
+        tblUnidades.setModel(new jtmUnidadeMedida(unidades));
 
         verifier = new VerificadorCampos();
 
@@ -66,7 +72,10 @@ public class IfrmUnidadeMedida extends javax.swing.JInternalFrame {
         lblDescricao = new javax.swing.JLabel();
         pnlConsulta = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblUnidades = new javax.swing.JTable();
+        jLabel1 = new javax.swing.JLabel();
+        tfdCriterio = new javax.swing.JTextField();
+        btnPesquisar = new javax.swing.JButton();
         pnlRelatorio = new javax.swing.JPanel();
         pnlFiltros = new javax.swing.JPanel();
         btnGerar = new javax.swing.JButton();
@@ -133,12 +142,12 @@ public class IfrmUnidadeMedida extends javax.swing.JInternalFrame {
                 .addGroup(pnlCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblDescricao)
                     .addComponent(tfdDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(191, Short.MAX_VALUE))
+                .addContainerGap(199, Short.MAX_VALUE))
         );
 
         tabAbas.addTab("Cadastro", pnlCadastro);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblUnidades.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
                 {null, null, null},
@@ -149,19 +158,42 @@ public class IfrmUnidadeMedida extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3"
             }
         ));
-        jScrollPane2.setViewportView(jTable1);
+        jScrollPane2.setViewportView(tblUnidades);
+
+        jLabel1.setText("Descrição:");
+
+        btnPesquisar.setText("Pesquisar");
+        btnPesquisar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPesquisarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnlConsultaLayout = new javax.swing.GroupLayout(pnlConsulta);
         pnlConsulta.setLayout(pnlConsultaLayout);
         pnlConsultaLayout.setHorizontalGroup(
             pnlConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 702, Short.MAX_VALUE)
+            .addGroup(pnlConsultaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(tfdCriterio)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnPesquisar)
+                .addGap(14, 14, 14))
         );
         pnlConsultaLayout.setVerticalGroup(
             pnlConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlConsultaLayout.createSequentialGroup()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(pnlConsultaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(pnlConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(tfdCriterio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnPesquisar))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(19, Short.MAX_VALUE))
         );
 
         tabAbas.addTab("Consulta", pnlConsulta);
@@ -206,7 +238,7 @@ public class IfrmUnidadeMedida extends javax.swing.JInternalFrame {
             pnlRelatorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlRelatorioLayout.createSequentialGroup()
                 .addComponent(pnlFiltros, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 99, Short.MAX_VALUE))
+                .addGap(0, 110, Short.MAX_VALUE))
         );
 
         tabAbas.addTab("Relatório", pnlRelatorio);
@@ -260,14 +292,13 @@ public class IfrmUnidadeMedida extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
-
-        unidadeDAO = new UnidadeMedidaDAO();
+        dao = new GenericDAO();
         unidade = new Unidademedida();
         unidade.setUnidade(tfdUnidade.getText());
         unidade.setDescricao(tfdDescricao.getText());
         unidade.setAtivo(true);
 
-        if (unidadeDAO.salvar(unidade)) {
+        if (dao.salvar(unidade)) {
             Mensagem.mostraInformacao("Sucesso", "Unidade de medida " + unidade.getDescricao() + " inserida com sucesso");
         } else {
             Mensagem.mostraInformacao("Problema", "Problema para inserir unidade de medida");
@@ -286,17 +317,26 @@ public class IfrmUnidadeMedida extends javax.swing.JInternalFrame {
     private void btnGerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGerarActionPerformed
     }//GEN-LAST:event_btnGerarActionPerformed
 
+    private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
+        dao = new GenericDAO<>();
+        unidades = new ArrayList();
+        
+        unidades = dao.consultarComCriterio("Unidademedida", "descricao", tfdCriterio.getText());
+        tblUnidades.setModel(new jtmUnidadeMedida(unidades));
+    }//GEN-LAST:event_btnPesquisarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnExcluir;
     private javax.swing.JButton btnGerar;
     private javax.swing.JButton btnNovo;
+    private javax.swing.JButton btnPesquisar;
     private javax.swing.JButton btnSalvar;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
     private javax.swing.JLabel lblDescricao;
     private javax.swing.JLabel lblUnidade;
     private javax.swing.JPanel pnlCadastro;
@@ -304,6 +344,8 @@ public class IfrmUnidadeMedida extends javax.swing.JInternalFrame {
     private javax.swing.JPanel pnlFiltros;
     private javax.swing.JPanel pnlRelatorio;
     private javax.swing.JTabbedPane tabAbas;
+    private javax.swing.JTable tblUnidades;
+    private javax.swing.JTextField tfdCriterio;
     private javax.swing.JTextField tfdDescricao;
     private javax.swing.JTextField tfdUnidade;
     // End of variables declaration//GEN-END:variables
