@@ -6,7 +6,9 @@
 package entidade;
 
 import java.io.Serializable;
+import java.util.Collection;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,6 +16,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -31,6 +34,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Unidademedida.findByDescricao", query = "SELECT u FROM Unidademedida u WHERE u.descricao = :descricao")
     , @NamedQuery(name = "Unidademedida.findByAtivo", query = "SELECT u FROM Unidademedida u WHERE u.ativo = :ativo")})
 public class Unidademedida implements Serializable {
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "unidademedida")
+    private Collection<Produto> produtoCollection;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -117,6 +123,14 @@ public class Unidademedida implements Serializable {
     @Override
     public String toString() {
         return "entidade.Unidademedida[ id=" + id + " ]";
+    }
+
+    public Collection<Produto> getProdutoCollection() {
+        return produtoCollection;
+    }
+
+    public void setProdutoCollection(Collection<Produto> produtoCollection) {
+        this.produtoCollection = produtoCollection;
     }
     
 }

@@ -4,7 +4,7 @@
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <class>entidade.Estado</class>
     <class>entidade.Formapagamento</class>
-    <class>entidade.Unidademedida</class>
+    <class>entidade.Produto</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/smartagro"/>
       <property name="javax.persistence.jdbc.user" value="postgres"/>
@@ -13,4 +13,3 @@
     </properties>
   </persistence-unit>
 </persistence>
-
