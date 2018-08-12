@@ -9,6 +9,7 @@ import apoio.*;
 import dao.GenericDAO;
 import entidade.Unidademedida;
 import java.util.ArrayList;
+import javax.swing.JComponent;
 
 /**
  *
@@ -19,7 +20,7 @@ public class IfrmUnidadeMedida extends javax.swing.JInternalFrame {
     private Unidademedida unidade;
     private GenericDAO<Unidademedida> dao;
     private ArrayList<Unidademedida> unidades;
-    private VerificadorCampos verifier;
+    private boolean editando = false;
 
     /**
      * Creates new form IfrmUnidadeMedida
@@ -31,12 +32,6 @@ public class IfrmUnidadeMedida extends javax.swing.JInternalFrame {
         unidades = new ArrayList();
         tblUnidades.setModel(new jtmUnidadeMedida(unidades));
 
-        verifier = new VerificadorCampos();
-
-        // Aplica o validador
-        tfdUnidade.setInputVerifier(verifier);
-        tfdDescricao.setInputVerifier(verifier);
-
         //Deixar o focus no campo de descrição
         focus();
     }
@@ -47,6 +42,12 @@ public class IfrmUnidadeMedida extends javax.swing.JInternalFrame {
                 tfdUnidade.requestFocusInWindow();
             }
         });
+    }
+    
+    private boolean validaCampos(){
+        boolean inputOK = false;
+        
+        return inputOK;
     }
 
     /**
@@ -109,6 +110,12 @@ public class IfrmUnidadeMedida extends javax.swing.JInternalFrame {
         btnNovo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnNovoActionPerformed(evt);
+            }
+        });
+
+        tabAbas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabAbasMouseClicked(evt);
             }
         });
 
@@ -289,19 +296,50 @@ public class IfrmUnidadeMedida extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        // Pega o código do registro para consultar o objeto
+        int id = Integer.parseInt(tblUnidades.getValueAt(tblUnidades.getSelectedRow(), 0).toString());
+
+        unidade = dao.consultarPorId(id, "Unidademedida");
+
+        //Se o objeto buscado no método do ServidoDao for diferente de null
+        if (unidade != null) {
+            tfdUnidade.setText(unidade.getUnidade());
+            tfdDescricao.setText(unidade.getDescricao());
+            tabAbas.setSelectedIndex(0);
+            editando = true;
+            focus();
+        }
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
-        dao = new GenericDAO();
-        unidade = new Unidademedida();
-        unidade.setUnidade(tfdUnidade.getText());
-        unidade.setDescricao(tfdDescricao.getText());
-        unidade.setAtivo(true);
+        // Aplica o validador
+        JComponent[] components = new JComponent[]{tfdDescricao, tfdUnidade};
+        VerificadorCampos verifier = new VerificadorCampos(components);
+        if (!verifier.validaCampos()) {
+            return;
+        }
+ 
+        this.dao = new GenericDAO();
 
-        if (dao.salvar(unidade)) {
-            Mensagem.mostraInformacao("Sucesso", "Unidade de medida " + unidade.getDescricao() + " inserida com sucesso");
+        if (editando) {
+            unidade.setDescricao(tfdDescricao.getText());
+            if (dao.atualizar(unidade)) {
+                Mensagem.mostraInformacao("Sucesso", "Unidade de medida " + unidade.getDescricao() + " atualizada com sucesso");
+            } else {
+                Mensagem.mostraInformacao("Problema", "Problema ao atualizar unidade de medida");
+            }
+            editando = false;
         } else {
-            Mensagem.mostraInformacao("Problema", "Problema para inserir unidade de medida");
+            unidade = new Unidademedida();
+            unidade.setUnidade(tfdUnidade.getText());
+            unidade.setDescricao(tfdDescricao.getText());
+            unidade.setAtivo(true);
+
+            if (dao.salvar(unidade)) {
+                Mensagem.mostraInformacao("Sucesso", "Unidade de medida " + unidade.getDescricao() + " inserida com sucesso");
+            } else {
+                Mensagem.mostraInformacao("Problema", "Problema para inserir unidade de medida");
+            }
         }
 
         LimpaCampos.limparCampos(pnlCadastro);
@@ -313,10 +351,10 @@ public class IfrmUnidadeMedida extends javax.swing.JInternalFrame {
         int id = Integer.parseInt(tblUnidades.getValueAt(tblUnidades.getSelectedRow(), 0).toString());
 
         unidade = dao.consultarPorId(id, "Unidademedida");
-        
+
         if (unidade.getAtivo()) {
             //Abre uma mensagem pedindo se o usuário realmente quer excluír o registro
-            boolean resposta = Mensagem.confirmaMensagem("Atenção", "Deseja realmente excluir a unidade de medida: " + unidade.getUnidade()+ "?");
+            boolean resposta = Mensagem.confirmaMensagem("Atenção", "Deseja realmente excluir a unidade de medida: " + unidade.getUnidade() + "?");
 
             if (resposta) {
                 unidade.setAtivo(false);
@@ -324,7 +362,7 @@ public class IfrmUnidadeMedida extends javax.swing.JInternalFrame {
                 // Exclui o registro
                 if (dao.atualizar(unidade)) {
                     Mensagem.mostraInformacao("Confirmação de exclusão", "Unidade excluída");
-                    
+
                     this.unidades = dao.consultarComCriterio("Unidademedida", "descricao", tfdCriterio.getText());
                     this.tblUnidades.setModel(new jtmUnidadeMedida(unidades));
                 }
@@ -341,12 +379,18 @@ public class IfrmUnidadeMedida extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnGerarActionPerformed
 
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
-        dao = new GenericDAO<>();
-        unidades = new ArrayList();
+        this.dao = new GenericDAO<>();
+        this.unidades = new ArrayList();
 
-        unidades = dao.consultarComCriterio("Unidademedida", "descricao", tfdCriterio.getText());
+        this.unidades = dao.consultarComCriterio("Unidademedida", "descricao", tfdCriterio.getText());
         tblUnidades.setModel(new jtmUnidadeMedida(unidades));
     }//GEN-LAST:event_btnPesquisarActionPerformed
+
+    private void tabAbasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabAbasMouseClicked
+        this.dao = new GenericDAO<>();
+        this.unidades = this.dao.consultarTodos("Unidademedida");
+        tblUnidades.setModel(new jtmUnidadeMedida(unidades));
+    }//GEN-LAST:event_tabAbasMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
