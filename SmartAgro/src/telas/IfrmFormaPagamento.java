@@ -20,7 +20,8 @@ public class IfrmFormaPagamento extends javax.swing.JInternalFrame {
     private Formapagamento forma;
     private GenericDAO<Formapagamento> dao;
     private ArrayList<Formapagamento> formas;
-
+    private boolean editando = false;
+    
     public IfrmFormaPagamento() {
 
         initComponents();
@@ -109,7 +110,7 @@ public class IfrmFormaPagamento extends javax.swing.JInternalFrame {
                 .addComponent(lblDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(tfdDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(440, Short.MAX_VALUE))
+                .addContainerGap(441, Short.MAX_VALUE))
         );
         pnlCadastroLayout.setVerticalGroup(
             pnlCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -155,15 +156,15 @@ public class IfrmFormaPagamento extends javax.swing.JInternalFrame {
         pnlConsultaLayout.setHorizontalGroup(
             pnlConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlConsultaLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lblDescricaoConsulta, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tfdDescricaoConsulta, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnPesquisar)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(pnlConsultaLayout.createSequentialGroup()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 763, Short.MAX_VALUE)
+                .addGroup(pnlConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlConsultaLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(lblDescricaoConsulta, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(tfdDescricaoConsulta)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnPesquisar))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 764, Short.MAX_VALUE))
                 .addContainerGap())
         );
         pnlConsultaLayout.setVerticalGroup(
@@ -197,7 +198,7 @@ public class IfrmFormaPagamento extends javax.swing.JInternalFrame {
         pnlFiltrosLayout.setHorizontalGroup(
             pnlFiltrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlFiltrosLayout.createSequentialGroup()
-                .addContainerGap(630, Short.MAX_VALUE)
+                .addContainerGap(639, Short.MAX_VALUE)
                 .addComponent(btnGerar)
                 .addContainerGap())
         );
@@ -274,25 +275,78 @@ public class IfrmFormaPagamento extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+
+        //Pega o valor da primeira coluna da linha selecionada na tabela de serviços e atribuiu a uma variável do tipo inteiro
+        int id = Integer.parseInt(jTableFormasPagamento.getValueAt(jTableFormasPagamento.getSelectedRow(), 0).toString());
+        //Busca um servico com o codigo/id pego anteriomente
+        forma = dao.consultarPorId(id, "Formapagamento");
+        //Defini o editando como true(o registro está sendo editado...)
+
+        if (forma != null) { //Se o objeto buscado no método do ServidoDao for diferente de null
+            tfdDescricao.setText(forma.getDescricao());//Seta no campo Descrição do formulário de serviços o valor da Descrição do obejto do tipo Servico
+            tabAbas.setSelectedIndex(0);//Passa da tela de "Consulta" para a "Manutenção"
+            tfdDescricao.requestFocus();//Poem o cursor no campo Descriçã
+            editando = true;
+        }
+
+
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
 
-        this.forma = new Formapagamento();
+      
         this.dao = new GenericDAO<>();
-        forma.setDescricao(tfdDescricao.getText());
-        forma.setAtivo(true);
-        if (this.dao.salvar(forma)) {
-            JOptionPane.showMessageDialog(rootPane, "Forma de pagamento " + forma.getDescricao() + " inserida com sucesso", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+      
+        //Modo edição
+        if (editando) {
+
+            forma.setDescricao(tfdDescricao.getText());
+            if (this.dao.atualizar(forma)) {
+                JOptionPane.showMessageDialog(rootPane, "Forma de pagamento " + forma.getDescricao() + " atualizada com sucesso", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(rootPane, "Problema para atualizar forma de pagamento.", "Problemas", JOptionPane.ERROR_MESSAGE);
+            }  
+            editando = false;
+            
+        //Modo inserção
         } else {
-            JOptionPane.showMessageDialog(rootPane, "Problema para inserir forma de pagamento.", "Problemas", JOptionPane.ERROR_MESSAGE);
+             this.forma = new Formapagamento(); 
+             forma.setDescricao(tfdDescricao.getText());
+             forma.setAtivo(true);
+            if (this.dao.salvar(forma)) {
+                JOptionPane.showMessageDialog(rootPane, "Forma de pagamento " + forma.getDescricao() + " inserida com sucesso", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(rootPane, "Problema para inserir forma de pagamento.", "Problemas", JOptionPane.ERROR_MESSAGE);
+            }
+            
         }
+
         tfdDescricao.setText(null);
         focus();
 
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
+        //Pega //Pega o valor da primeira coluna da linha selecionada na tabela de serviços e atribuiu a uma variável do tipo inteiro
+        int id = Integer.parseInt(jTableFormasPagamento.getValueAt(jTableFormasPagamento.getSelectedRow(), 0).toString());
+        forma = dao.consultarPorId(id, "Formapagamento");
+        if (forma.getAtivo()) {
+            //Abre uma mensagem pedindo se o usuário realmente quer excluír o registro
+            int resposta = JOptionPane.showConfirmDialog(null, "Deseja realmente excluir a forma de pagamento: " + forma.getDescricao() + " ?", "Atenção", JOptionPane.YES_NO_OPTION);
+            //Se a respota for sim
+            if (resposta == JOptionPane.YES_OPTION) {
+                forma.setAtivo(false);
+                if (dao.atualizar(forma)) {//Chamado o método do ServicoDao de excluir um registro, e caso o retorno é true, retorna uma mensagem de sucesso
+                    JOptionPane.showMessageDialog(rootPane, "Forma de pagamento excluída", "Confirmação de exclusão", JOptionPane.PLAIN_MESSAGE);
+                    this.formas = dao.consultarComCriterio("Formapagamento", "descricao", tfdDescricaoConsulta.getText());
+                    this.jTableFormasPagamento.setModel(new jtmFormasPagamento(formas));
+                    //this.tblServicos.setDefaultRenderer(Object.class, new RenderizadorTabelas());
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "Problema para excluir forma de pagamento", "Problema", JOptionPane.PLAIN_MESSAGE);
+        }
+
     }//GEN-LAST:event_btnExcluirActionPerformed
 
     private void btnNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoActionPerformed
@@ -307,11 +361,11 @@ public class IfrmFormaPagamento extends javax.swing.JInternalFrame {
 
         this.formas = new ArrayList();
 
-        this.formas = dao.consultarComCriterio("Formapagamento","descricao",tfdDescricaoConsulta.getText());
+        this.formas = dao.consultarComCriterio("Formapagamento", "descricao", tfdDescricaoConsulta.getText());
 
         this.jTableFormasPagamento.setModel(new jtmFormasPagamento(formas));
-        
-       //this.jTableFormasPagamento.setDefaultRenderer(Object.class, new RenderizadorTabelas());
+
+        //this.jTableFormasPagamento.setDefaultRenderer(Object.class, new RenderizadorTabelas());
 
     }//GEN-LAST:event_btnPesquisarActionPerformed
 
