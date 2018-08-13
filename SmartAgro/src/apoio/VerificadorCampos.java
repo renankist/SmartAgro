@@ -8,8 +8,11 @@ package apoio;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.InputVerifier;
+import javax.swing.JComboBox;
 import javax.swing.JComponent;
+import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
+import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
 /**
@@ -39,7 +42,7 @@ public class VerificadorCampos extends InputVerifier {
         }
         return volta;
     }
-    
+
     @Override
     public boolean verify(JComponent input) {
         // Aqui vai verificar se os campos estão OK
@@ -60,8 +63,13 @@ public class VerificadorCampos extends InputVerifier {
         boolean campoOK = false;
 
         if (input instanceof JTextField) {
-            JTextField txt = (JTextField) input;
-            campoOK = !(txt.getText().trim().isEmpty());
+            campoOK = !(((JTextField) input).getText().trim().isEmpty());
+        } else if (input instanceof JFormattedTextField) {
+            campoOK = !(((JFormattedTextField) input).getText().trim().isEmpty());
+        } else if (input instanceof JComboBox) {
+            campoOK = !(((JComboBox) input).getSelectedIndex() == -1);
+        } else if (input instanceof JRadioButton) {
+            campoOK = !(((JRadioButton) input).getSelectedObjects() == null);
         } else {
             campoOK = true;
         }
@@ -73,8 +81,10 @@ public class VerificadorCampos extends InputVerifier {
 
         String mensagem = "";
 
-        if (input instanceof JTextField) {
+        if (input instanceof JTextField || input instanceof JFormattedTextField) {
             mensagem = "Preencha o campo corretamente";
+        } else if (input instanceof JComboBox || input instanceof JRadioButton) {
+            mensagem = "Selecione uma opção";
         } else {
             mensagem = "";
         }
