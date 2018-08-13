@@ -7,7 +7,9 @@ import dao.GenericDAO;
 import entidade.Produto;
 import entidade.Unidademedida;
 import java.math.BigDecimal;
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class IfrmProduto extends javax.swing.JInternalFrame {
 
@@ -32,9 +34,9 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
         this.unidades = new ArrayList();
         udao = new GenericDAO<>();
         this.unidades = udao.consultarTodos("Unidademedida");
-
         jComboUnidadeMedida.setModel(new UnidadesMedidasComboModel(this.unidades));
-
+ 
+        
         focus();
     }
 
@@ -73,10 +75,10 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
         lblValorVenda = new javax.swing.JLabel();
         lblValorVenda1 = new javax.swing.JLabel();
         tfdQuantidadeEstoque = new javax.swing.JTextField();
-        jFormattedTextValorVenda = new javax.swing.JFormattedTextField();
-        jFormattedTextFieldValorCompra = new javax.swing.JFormattedTextField();
         lblUnidadeMedida = new javax.swing.JLabel();
         jComboUnidadeMedida = new javax.swing.JComboBox();
+        moedaFormatadaValorCompra = new apoio.MoedaFormatada();
+        moedaFormatadaValorVenda = new apoio.MoedaFormatada();
         pnlConsulta = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblProdutos = new javax.swing.JTable();
@@ -120,7 +122,7 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
 
         lblDescricao.setText("Descrição *");
 
-        lblCodigoBarras.setText("Código de Barras:");
+        lblCodigoBarras.setText("Código de Barras");
 
         javax.swing.GroupLayout pnlIdentificacaoLayout = new javax.swing.GroupLayout(pnlIdentificacao);
         pnlIdentificacao.setLayout(pnlIdentificacaoLayout);
@@ -158,40 +160,38 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
 
         lblValorVenda1.setText("Quantidade estoque *");
 
-        jFormattedTextValorVenda.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter()));
-
         lblUnidadeMedida.setText("Unidade de Medida *");
 
         // Code adding the component to the parent container - not shown here
+
+        moedaFormatadaValorCompra.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+
+        moedaFormatadaValorVenda.setHorizontalAlignment(javax.swing.JTextField.LEFT);
 
         javax.swing.GroupLayout pnlValoresEstoqueLayout = new javax.swing.GroupLayout(pnlValoresEstoque);
         pnlValoresEstoque.setLayout(pnlValoresEstoqueLayout);
         pnlValoresEstoqueLayout.setHorizontalGroup(
             pnlValoresEstoqueLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlValoresEstoqueLayout.createSequentialGroup()
+                .addComponent(lblUnidadeMedida, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(4, 4, 4)
+                .addComponent(jComboUnidadeMedida, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(34, 34, 34)
+                .addComponent(lblValorVenda1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(tfdQuantidadeEstoque, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(305, 305, 305))
+            .addGroup(pnlValoresEstoqueLayout.createSequentialGroup()
                 .addGroup(pnlValoresEstoqueLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnlValoresEstoqueLayout.createSequentialGroup()
-                        .addGroup(pnlValoresEstoqueLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblValorVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblUnidadeMedida, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(pnlValoresEstoqueLayout.createSequentialGroup()
                         .addComponent(lblValorCompra, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addGroup(pnlValoresEstoqueLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnlValoresEstoqueLayout.createSequentialGroup()
-                        .addGap(1, 1, 1)
-                        .addComponent(jComboUnidadeMedida, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(39, 39, 39)
-                        .addComponent(lblValorVenda1, javax.swing.GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(tfdQuantidadeEstoque, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(272, 272, 272))
+                        .addComponent(moedaFormatadaValorCompra, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(pnlValoresEstoqueLayout.createSequentialGroup()
-                        .addGroup(pnlValoresEstoqueLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jFormattedTextValorVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jFormattedTextFieldValorCompra, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                        .addComponent(lblValorVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(moedaFormatadaValorVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pnlValoresEstoqueLayout.setVerticalGroup(
             pnlValoresEstoqueLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -199,14 +199,14 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(pnlValoresEstoqueLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblValorCompra)
-                    .addComponent(jFormattedTextFieldValorCompra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(moedaFormatadaValorCompra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(20, 20, 20)
                 .addGroup(pnlValoresEstoqueLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblValorVenda)
-                    .addComponent(jFormattedTextValorVenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(moedaFormatadaValorVenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(pnlValoresEstoqueLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlValoresEstoqueLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
                         .addComponent(lblUnidadeMedida)
                         .addGap(59, 59, 59))
                     .addGroup(pnlValoresEstoqueLayout.createSequentialGroup()
@@ -223,7 +223,7 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
         pnlCadastroLayout.setHorizontalGroup(
             pnlCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(pnlIdentificacao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(pnlValoresEstoque, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(pnlValoresEstoque, javax.swing.GroupLayout.PREFERRED_SIZE, 991, Short.MAX_VALUE)
         );
         pnlCadastroLayout.setVerticalGroup(
             pnlCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -381,8 +381,8 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
             p.setDescricao(tfdDescricao.getText());
             p.setCodigobarras(tfdCodigoBarras.getText());
             p.setAtivo(true);
-            p.setValorcompra(new BigDecimal(jFormattedTextFieldValorCompra.getText()));
-            p.setValorvenda(new BigDecimal(jFormattedTextValorVenda.getText()));
+            p.setValorcompra(moedaFormatadaValorCompra.getValue());
+            p.setValorvenda(moedaFormatadaValorVenda.getValue());
             p.setQuantidadeestoque(new BigDecimal(tfdQuantidadeEstoque.getText()));
             p.setUnidademedida((Unidademedida) jComboUnidadeMedida.getSelectedItem());
             
@@ -402,8 +402,8 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
             p.setDescricao(tfdDescricao.getText());
             p.setCodigobarras(tfdCodigoBarras.getText());
             p.setAtivo(true);
-            p.setValorcompra(new BigDecimal(jFormattedTextFieldValorCompra.getText()));
-            p.setValorvenda(new BigDecimal(jFormattedTextValorVenda.getText()));
+            p.setValorcompra(moedaFormatadaValorCompra.getValue());
+            p.setValorvenda(moedaFormatadaValorVenda.getValue());
             p.setQuantidadeestoque(new BigDecimal(tfdQuantidadeEstoque.getText()));
             p.setUnidademedida((Unidademedida) jComboUnidadeMedida.getSelectedItem());
             
@@ -430,8 +430,8 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
             tfdDescricao.setText(this.p.getDescricao());
             tfdCodigoBarras.setText(this.p.getCodigobarras());
             tfdQuantidadeEstoque.setText(this.p.getQuantidadeestoque() + "");
-            jFormattedTextFieldValorCompra.setText(this.p.getValorcompra() + "");
-            jFormattedTextValorVenda.setText((this.p.getValorvenda() + ""));
+            moedaFormatadaValorCompra.setText(this.p.getValorcompra() + "");
+            moedaFormatadaValorVenda.setText((this.p.getValorvenda() + ""));
             jComboUnidadeMedida.setSelectedItem(this.p.getUnidademedida());
             tabAbas.setSelectedIndex(0);
             editando = true;
@@ -457,8 +457,6 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnPesquisar;
     private javax.swing.JButton btnSalvar;
     private javax.swing.JComboBox jComboUnidadeMedida;
-    private javax.swing.JFormattedTextField jFormattedTextFieldValorCompra;
-    private javax.swing.JFormattedTextField jFormattedTextValorVenda;
     private javax.swing.JLabel jLbDescricaoConsulta;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
@@ -469,6 +467,8 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
     private javax.swing.JLabel lblValorCompra;
     private javax.swing.JLabel lblValorVenda;
     private javax.swing.JLabel lblValorVenda1;
+    private apoio.MoedaFormatada moedaFormatadaValorCompra;
+    private apoio.MoedaFormatada moedaFormatadaValorVenda;
     private javax.swing.JPanel pnlCadastro;
     private javax.swing.JPanel pnlConsulta;
     private javax.swing.JPanel pnlIdentificacao;

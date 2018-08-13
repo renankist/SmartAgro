@@ -126,7 +126,7 @@
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="pnlIdentificacao" alignment="0" max="32767" attributes="0"/>
-                          <Component id="pnlValoresEstoque" alignment="0" max="32767" attributes="0"/>
+                          <Component id="pnlValoresEstoque" alignment="0" pref="991" max="32767" attributes="0"/>
                       </Group>
                     </DimensionLayout>
                     <DimensionLayout dim="1">
@@ -198,7 +198,7 @@
                         </Component>
                         <Component class="javax.swing.JLabel" name="lblCodigoBarras">
                           <Properties>
-                            <Property name="text" type="java.lang.String" value="C&#xf3;digo de Barras:"/>
+                            <Property name="text" type="java.lang.String" value="C&#xf3;digo de Barras"/>
                           </Properties>
                         </Component>
                         <Component class="javax.swing.JTextField" name="tfdCodigoBarras">
@@ -220,37 +220,29 @@
                         <DimensionLayout dim="0">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
+                                  <Component id="lblUnidadeMedida" min="-2" pref="155" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
+                                  <Component id="jComboUnidadeMedida" min="-2" pref="264" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
+                                  <Component id="lblValorVenda1" max="32767" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="tfdQuantidadeEstoque" min="-2" pref="106" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="305" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" attributes="0">
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="102" attributes="0">
-                                          <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="lblValorVenda" min="-2" pref="141" max="-2" attributes="0"/>
-                                              <Component id="lblUnidadeMedida" alignment="0" min="-2" pref="154" max="-2" attributes="0"/>
-                                          </Group>
-                                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                                      </Group>
                                       <Group type="102" attributes="0">
                                           <Component id="lblValorCompra" min="-2" pref="141" max="-2" attributes="0"/>
-                                          <EmptySpace max="32767" attributes="0"/>
-                                      </Group>
-                                  </Group>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="102" attributes="0">
-                                          <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
-                                          <Component id="jComboUnidadeMedida" min="-2" pref="256" max="-2" attributes="0"/>
-                                          <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
-                                          <Component id="lblValorVenda1" pref="135" max="32767" attributes="0"/>
                                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                          <Component id="tfdQuantidadeEstoque" min="-2" pref="106" max="-2" attributes="0"/>
-                                          <EmptySpace min="-2" pref="272" max="-2" attributes="0"/>
+                                          <Component id="moedaFormatadaValorCompra" min="-2" pref="108" max="-2" attributes="0"/>
                                       </Group>
                                       <Group type="102" attributes="0">
-                                          <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="jFormattedTextValorVenda" alignment="0" min="-2" pref="139" max="-2" attributes="0"/>
-                                              <Component id="jFormattedTextFieldValorCompra" alignment="0" min="-2" pref="138" max="-2" attributes="0"/>
-                                          </Group>
-                                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                          <Component id="lblValorVenda" min="-2" pref="141" max="-2" attributes="0"/>
+                                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                          <Component id="moedaFormatadaValorVenda" min="-2" pref="108" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
+                                  <EmptySpace max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -260,16 +252,16 @@
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="3" attributes="0">
                                       <Component id="lblValorCompra" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jFormattedTextFieldValorCompra" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="moedaFormatadaValorCompra" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="3" attributes="0">
                                       <Component id="lblValorVenda" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jFormattedTextValorVenda" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="moedaFormatadaValorVenda" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Group type="102" attributes="0">
-                                          <EmptySpace pref="21" max="32767" attributes="0"/>
+                                          <EmptySpace pref="17" max="32767" attributes="0"/>
                                           <Component id="lblUnidadeMedida" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace min="-2" pref="59" max="-2" attributes="0"/>
                                       </Group>
@@ -305,15 +297,6 @@
                         </Component>
                         <Component class="javax.swing.JTextField" name="tfdQuantidadeEstoque">
                         </Component>
-                        <Component class="javax.swing.JFormattedTextField" name="jFormattedTextValorVenda">
-                          <Properties>
-                            <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
-                              <Format subtype="0" type="0"/>
-                            </Property>
-                          </Properties>
-                        </Component>
-                        <Component class="javax.swing.JFormattedTextField" name="jFormattedTextFieldValorCompra">
-                        </Component>
                         <Component class="javax.swing.JLabel" name="lblUnidadeMedida">
                           <Properties>
                             <Property name="text" type="java.lang.String" value="Unidade de Medida *"/>
@@ -329,6 +312,16 @@
                             <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="// Code adding the component to the parent container - not shown here"/>
                             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value=""/>
                           </AuxValues>
+                        </Component>
+                        <Component class="apoio.MoedaFormatada" name="moedaFormatadaValorCompra">
+                          <Properties>
+                            <Property name="horizontalAlignment" type="int" value="2"/>
+                          </Properties>
+                        </Component>
+                        <Component class="apoio.MoedaFormatada" name="moedaFormatadaValorVenda">
+                          <Properties>
+                            <Property name="horizontalAlignment" type="int" value="2"/>
+                          </Properties>
                         </Component>
                       </SubComponents>
                     </Container>
