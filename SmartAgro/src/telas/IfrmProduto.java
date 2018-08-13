@@ -33,7 +33,7 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
         //Enchendo combo de unidades de medida
         this.unidades = new ArrayList();
         udao = new GenericDAO<>();
-        this.unidades = udao.consultarComCriterio("Unidademedida","descricao","");
+        this.unidades = udao.consultarComCriterio("Unidademedida","descricao","", true);
         jComboUnidadeMedida.setModel(new UnidadesMedidasComboModel(this.unidades));
  
         
@@ -347,7 +347,7 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
                 if (dao.atualizar(p)) {
                     Mensagem.mostraInformacao("Confirmação de exclusão", "Produto excluído");
 
-                    this.produtos = dao.consultarComCriterio("Produto", "descricao", tfdCriterio.getText());
+                    this.produtos = dao.consultarComCriterio("Produto", "descricao", tfdCriterio.getText(), true);
                     this.tblProdutos.setModel(new jtmProduto(this.produtos));
                 }
             }
@@ -430,7 +430,7 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
         this.dao = new GenericDAO<>();
         this.unidades = new ArrayList();
 
-        this.produtos = dao.consultarComCriterio("Produto", "descricao", tfdCriterio.getText());
+        this.produtos = dao.consultarComCriterio("Produto", "descricao", tfdCriterio.getText(), true);
         tblProdutos.setModel(new jtmProduto(produtos));
     }//GEN-LAST:event_btnPesquisarActionPerformed
 
