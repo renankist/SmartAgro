@@ -221,8 +221,8 @@
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
                                   <Component id="lblUnidadeMedida" min="-2" pref="155" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
-                                  <Component id="jComboUnidadeMedida" min="-2" pref="264" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="0" max="-2" attributes="0"/>
+                                  <Component id="jComboUnidadeMedida" min="-2" pref="275" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
                                   <Component id="lblValorVenda1" max="32767" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
@@ -234,12 +234,12 @@
                                       <Group type="102" attributes="0">
                                           <Component id="lblValorCompra" min="-2" pref="141" max="-2" attributes="0"/>
                                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                          <Component id="moedaFormatadaValorCompra" min="-2" pref="108" max="-2" attributes="0"/>
+                                          <Component id="moedaFormatadaValorCompra" min="-2" pref="101" max="-2" attributes="0"/>
                                       </Group>
                                       <Group type="102" attributes="0">
                                           <Component id="lblValorVenda" min="-2" pref="141" max="-2" attributes="0"/>
                                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                          <Component id="moedaFormatadaValorVenda" min="-2" pref="108" max="-2" attributes="0"/>
+                                          <Component id="moedaFormatadaValorVenda" min="-2" pref="101" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                                   <EmptySpace max="32767" attributes="0"/>
@@ -254,14 +254,14 @@
                                       <Component id="lblValorCompra" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="moedaFormatadaValorCompra" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="3" attributes="0">
                                       <Component id="lblValorVenda" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="moedaFormatadaValorVenda" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Group type="102" attributes="0">
-                                          <EmptySpace pref="17" max="32767" attributes="0"/>
+                                          <EmptySpace pref="15" max="32767" attributes="0"/>
                                           <Component id="lblUnidadeMedida" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace min="-2" pref="59" max="-2" attributes="0"/>
                                       </Group>
