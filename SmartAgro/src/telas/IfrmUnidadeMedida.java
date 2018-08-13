@@ -248,7 +248,7 @@ public class IfrmUnidadeMedida extends javax.swing.JInternalFrame {
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         // Aplica o validador
-        JComponent[] components = new JComponent[]{tfdDescricao, tfdUnidade};
+        JComponent[] components = new JComponent[]{tfdUnidade, tfdDescricao};
         VerificadorCampos verifier = new VerificadorCampos(components);
         if (!verifier.validaCampos()) {
             return;

@@ -29,7 +29,7 @@
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="jScrollPane1" min="-2" max="-2" attributes="0"/>
+          <Component id="jScrollPane1" alignment="0" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
   </Layout>
@@ -61,14 +61,14 @@
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
-                      <Component id="tabAbas" min="-2" pref="343" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <Component id="tabAbas" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="btnSalvar" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="btnEditar" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="btnExcluir" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -122,8 +122,8 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="pnlIdentificacao" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="pnlIdentificacao" min="-2" pref="91" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
                               <Component id="pnlValoresEstoque" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="32767" attributes="0"/>
                           </Group>
@@ -146,8 +146,9 @@
                         <DimensionLayout dim="0">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
+                                  <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="lblDescricao" alignment="0" min="-2" pref="81" max="-2" attributes="0"/>
+                                      <Component id="lblDescricao" min="-2" pref="81" max="-2" attributes="0"/>
                                       <Component id="lblCodigoBarras" alignment="0" min="-2" pref="141" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
@@ -155,19 +156,19 @@
                                       <Component id="tfdDescricao" min="-2" pref="269" max="-2" attributes="0"/>
                                       <Component id="tfdCodigoBarras" min="-2" pref="269" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace min="0" pref="559" max="32767" attributes="0"/>
+                                  <EmptySpace min="0" pref="555" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
                         <DimensionLayout dim="1">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="tfdDescricao" min="-2" max="-2" attributes="0"/>
-                                      <Component id="lblDescricao" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="lblDescricao" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="tfdDescricao" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="3" attributes="0">
                                       <Component id="lblCodigoBarras" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="tfdCodigoBarras" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -209,29 +210,35 @@
                         <DimensionLayout dim="0">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
-                                  <Component id="lblUnidadeMedida" min="-2" pref="155" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="0" max="-2" attributes="0"/>
-                                  <Component id="jComboUnidadeMedida" min="-2" pref="275" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
-                                  <Component id="lblValorVenda1" max="32767" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="tfdQuantidadeEstoque" min="-2" pref="106" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="305" max="-2" attributes="0"/>
-                              </Group>
-                              <Group type="102" attributes="0">
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="102" attributes="0">
-                                          <Component id="lblValorCompra" min="-2" pref="141" max="-2" attributes="0"/>
-                                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                          <Component id="moedaFormatadaValorCompra" min="-2" pref="101" max="-2" attributes="0"/>
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <Component id="lblValorVenda1" max="32767" attributes="0"/>
+                                          <EmptySpace min="-2" pref="869" max="-2" attributes="0"/>
                                       </Group>
                                       <Group type="102" attributes="0">
-                                          <Component id="lblValorVenda" min="-2" pref="141" max="-2" attributes="0"/>
-                                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                          <Component id="moedaFormatadaValorVenda" min="-2" pref="101" max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Group type="102" attributes="0">
+                                                  <Component id="lblValorCompra" min="-2" pref="141" max="-2" attributes="0"/>
+                                                  <EmptySpace max="-2" attributes="0"/>
+                                                  <Component id="moedaFormatadaValorCompra" min="-2" pref="101" max="-2" attributes="0"/>
+                                              </Group>
+                                              <Group type="102" alignment="0" attributes="0">
+                                                  <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                                      <Component id="lblUnidadeMedida" alignment="0" max="32767" attributes="0"/>
+                                                      <Component id="lblValorVenda" alignment="0" pref="141" max="32767" attributes="0"/>
+                                                  </Group>
+                                                  <EmptySpace max="-2" attributes="0"/>
+                                                  <Group type="103" groupAlignment="0" attributes="0">
+                                                      <Component id="moedaFormatadaValorVenda" min="-2" pref="101" max="-2" attributes="0"/>
+                                                      <Component id="jComboUnidadeMedida" min="-2" pref="275" max="-2" attributes="0"/>
+                                                      <Component id="tfdQuantidadeEstoque" alignment="0" min="-2" pref="106" max="-2" attributes="0"/>
+                                                  </Group>
+                                              </Group>
+                                          </Group>
+                                          <EmptySpace max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
-                                  <EmptySpace max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -243,27 +250,22 @@
                                       <Component id="lblValorCompra" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="moedaFormatadaValorCompra" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="3" attributes="0">
                                       <Component id="lblValorVenda" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="moedaFormatadaValorVenda" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="102" attributes="0">
-                                          <EmptySpace pref="15" max="32767" attributes="0"/>
-                                          <Component id="lblUnidadeMedida" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace min="-2" pref="59" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <EmptySpace type="separate" max="-2" attributes="0"/>
-                                          <Group type="103" groupAlignment="3" attributes="0">
-                                              <Component id="jComboUnidadeMedida" alignment="3" min="-2" max="-2" attributes="0"/>
-                                              <Component id="lblValorVenda1" alignment="3" min="-2" max="-2" attributes="0"/>
-                                              <Component id="tfdQuantidadeEstoque" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          </Group>
-                                          <EmptySpace max="32767" attributes="0"/>
-                                      </Group>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="lblUnidadeMedida" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jComboUnidadeMedida" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="lblValorVenda1" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="tfdQuantidadeEstoque" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -335,7 +337,7 @@
                                   <Group type="102" attributes="0">
                                       <Component id="jLbDescricaoConsulta" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="tfdCriterio" pref="816" max="32767" attributes="0"/>
+                                      <Component id="tfdCriterio" pref="832" max="32767" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Component id="btnPesquisar" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
@@ -354,7 +356,8 @@
                                   <Component id="btnPesquisar" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jScrollPane2" pref="275" max="32767" attributes="0"/>
+                              <Component id="jScrollPane2" min="-2" pref="225" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>

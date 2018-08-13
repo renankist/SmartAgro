@@ -130,12 +130,10 @@ public class GenericDAO<Object> {
             sessao = HibernateUtil.getSessionFactory().openSession();
             sessao.beginTransaction();
 
-            String sql = "";
+            String sql = "from " + className + " where upper(" + criterio + ") like upper(:criterio)";
 
             if (soAtivos) {
-                sql = "from " + className + " where " + criterio + " like :criterio and ativo = :ativ";
-            } else {
-                sql = "from " + className + " where " + criterio + " like :criterio";
+                sql = sql + " and ativo = :ativ";
             }
 
             org.hibernate.Query q = sessao.createQuery(sql);

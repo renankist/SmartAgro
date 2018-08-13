@@ -5,10 +5,12 @@
  */
 package telas;
 
+import apoio.VerificadorCampos;
 import dao.GenericDAO;
 import dao.GenericDAO;
 import entidade.Formapagamento;
 import java.util.ArrayList;
+import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 
 /**
@@ -234,7 +236,12 @@ public class IfrmFormaPagamento extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
-
+         // Aplica o validador
+        JComponent[] components = new JComponent[]{tfdDescricao};
+        VerificadorCampos verifier = new VerificadorCampos(components);
+        if (!verifier.validaCampos()) {
+            return;
+        }
       
         this.dao = new GenericDAO<>();
       
