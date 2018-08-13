@@ -78,7 +78,6 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
         btnEditar = new javax.swing.JButton();
         btnSalvar = new javax.swing.JButton();
         btnExcluir = new javax.swing.JButton();
-        btnNovo = new javax.swing.JButton();
         tabAbas = new javax.swing.JTabbedPane();
         pnlCadastro = new javax.swing.JPanel();
         rbtFisica = new javax.swing.JRadioButton();
@@ -114,9 +113,6 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
         jLabel1 = new javax.swing.JLabel();
         tfdCriterio = new javax.swing.JTextField();
         btnPesquisar = new javax.swing.JButton();
-        pnlRelatorio = new javax.swing.JPanel();
-        pnlFiltros = new javax.swing.JPanel();
-        btnGerar = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -142,13 +138,6 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
         btnExcluir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnExcluirActionPerformed(evt);
-            }
-        });
-
-        btnNovo.setText("Novo");
-        btnNovo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnNovoActionPerformed(evt);
             }
         });
 
@@ -417,51 +406,6 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
 
         tabAbas.addTab("Consulta", pnlConsulta);
 
-        pnlFiltros.setBorder(javax.swing.BorderFactory.createTitledBorder("Filtros"));
-        pnlFiltros.setToolTipText("");
-        pnlFiltros.setName(""); // NOI18N
-
-        btnGerar.setText("Gerar relatório");
-        btnGerar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnGerarActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout pnlFiltrosLayout = new javax.swing.GroupLayout(pnlFiltros);
-        pnlFiltros.setLayout(pnlFiltrosLayout);
-        pnlFiltrosLayout.setHorizontalGroup(
-            pnlFiltrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlFiltrosLayout.createSequentialGroup()
-                .addContainerGap(824, Short.MAX_VALUE)
-                .addComponent(btnGerar)
-                .addContainerGap())
-        );
-        pnlFiltrosLayout.setVerticalGroup(
-            pnlFiltrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlFiltrosLayout.createSequentialGroup()
-                .addContainerGap(88, Short.MAX_VALUE)
-                .addComponent(btnGerar)
-                .addContainerGap())
-        );
-
-        javax.swing.GroupLayout pnlRelatorioLayout = new javax.swing.GroupLayout(pnlRelatorio);
-        pnlRelatorio.setLayout(pnlRelatorioLayout);
-        pnlRelatorioLayout.setHorizontalGroup(
-            pnlRelatorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlRelatorioLayout.createSequentialGroup()
-                .addComponent(pnlFiltros, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        pnlRelatorioLayout.setVerticalGroup(
-            pnlRelatorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlRelatorioLayout.createSequentialGroup()
-                .addComponent(pnlFiltros, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 198, Short.MAX_VALUE))
-        );
-
-        tabAbas.addTab("Relatório", pnlRelatorio);
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -469,13 +413,11 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
             .addComponent(tabAbas)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnNovo)
+                .addComponent(btnSalvar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnExcluir)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnEditar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnSalvar)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -486,8 +428,7 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSalvar)
                     .addComponent(btnEditar)
-                    .addComponent(btnExcluir)
-                    .addComponent(btnNovo))
+                    .addComponent(btnExcluir))
                 .addContainerGap())
         );
 
@@ -508,6 +449,31 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        // Pega o código do registro para consultar o objeto
+        int id = Integer.parseInt(tblFornecedores.getValueAt(tblFornecedores.getSelectedRow(), 0).toString());
+        this.fornecedor = dao.consultarPorId(id, "Fornecedor");
+        
+        // Pega os dados se existir objeto
+        if (this.fornecedor != null) {
+            if (this.fornecedor.getCnpj()!= null) {
+                tfdCNPJ.setText(this.fornecedor.getCnpj());
+            } else {
+                tfdCNPJ.setText(this.fornecedor.getCpf());
+            }
+            tfdCodigo.setText(String.valueOf(this.fornecedor.getId()));
+            tfdNome.setText(this.fornecedor.getNome());
+            tfdRazaoSocial.setText(this.fornecedor.getRazaosocial());
+            tfdLogradouro.setText(this.fornecedor.getEndereco().getRua());
+            tfdNumero.setText(this.fornecedor.getEndereco().getNumero());
+            tfdBairro.setText(this.fornecedor.getEndereco().getBairro());
+            tfdComplemento.setText(this.fornecedor.getEndereco().getComplemento());
+            tfdCidade.setText(this.fornecedor.getEndereco().getCidade().getNome());
+            ffdCEP.setText(this.fornecedor.getEndereco().getCep());
+            cmbUF.setSelectedItem(this.fornecedor.getEndereco().getCidade().getEstado());
+            tabAbas.setSelectedIndex(0);
+            editando = true;
+            focus();
+        }
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
@@ -520,19 +486,42 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
         this.dao = new GenericDAO();
 
         if (editando) {
+            endereco.setRua(tfdLogradouro.getText());
+            endereco.setNumero(tfdNumero.getText());
+            endereco.setBairro(tfdBairro.getText());
+            endereco.setComplemento(tfdComplemento.getText());
+            endereco.setCep(ffdCEP.getText());
+            endereco.setAtivo(true);
+            ArrayList<Cidade> cidades = new GenericDAO<Cidade>().consultarComCriterioIgualA("Cidade", "nome", tfdCidade.getText(), false);
+            for (Cidade cidade : cidades) {
+                if (cidade.getEstado().getId() == ((Estado) cmbUF.getSelectedItem()).getId()) {
+                    endereco.setCidade(cidade);
+                    break;
+                }
+            }
+            
+            fornecedor.setEndereco(endereco);
             if (rbtFisica.isSelected()) {
                 fornecedor.setCpf(tfdCNPJ.getText());
             } else {
                 fornecedor.setCnpj(tfdCNPJ.getText());
             }
-
             fornecedor.setNome(tfdNome.getText());
             fornecedor.setRazaosocial(tfdRazaoSocial.getText());
             fornecedor.setAtivo(true);
 
-            if (dao.atualizar(fornecedor)) {
+            try {
+                if (!new GenericDAO<>().atualizar(endereco))  {
+                    throw new Exception("Erro ao atualizar endereco - fornecedor");
+                }
+                
+                if (!dao.atualizar(fornecedor))  {
+                    throw new Exception("Erro ao atualizar fornecedor");
+                }
+                
                 Mensagem.mostraInformacao("Sucesso", "Fornecedor " + fornecedor.getNome() + " atualizado com sucesso");
-            } else {
+
+            } catch (Exception e) {
                 Mensagem.mostraInformacao("Problema", "Problema ao atualizar fornecedor");
             }
             editando = false;
@@ -544,7 +533,7 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
             endereco.setNumero(tfdNumero.getText());
             endereco.setBairro(tfdBairro.getText());
             endereco.setComplemento(tfdComplemento.getText());
-            endereco.setCep(Formatacao.removerFormatacao(ffdCEP.getText()));
+            endereco.setCep(ffdCEP.getText());
             endereco.setAtivo(true);
 
             ArrayList<Cidade> cidades = new GenericDAO<Cidade>().consultarComCriterioIgualA("Cidade", "nome", tfdCidade.getText(), false);
@@ -558,9 +547,9 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
             fornecedor.setEndereco(endereco);
 
             if (rbtFisica.isSelected()) {
-                fornecedor.setCpf(Formatacao.removerFormatacao(tfdCNPJ.getText()));
+                fornecedor.setCpf(tfdCNPJ.getText());
             } else {
-                fornecedor.setCnpj(Formatacao.removerFormatacao(tfdCNPJ.getText()));
+                fornecedor.setCnpj(tfdCNPJ.getText());
             }
 
             fornecedor.setNome(tfdNome.getText());
@@ -588,13 +577,31 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
+        // Pega o código do registro para consultar o objeto
+        int id = Integer.parseInt(tblFornecedores.getValueAt(tblFornecedores.getSelectedRow(), 0).toString());
+
+        this.fornecedor = dao.consultarPorId(id, "Fornecedor");
+        this.endereco = this.fornecedor.getEndereco();
+        
+        if (fornecedor.getAtivo()) {
+            //Abre uma mensagem pedindo se o usuário realmente quer excluír o registro
+            boolean resposta = Mensagem.confirmaMensagem("Atenção", "Deseja realmente excluir o fornecedor: " + this.fornecedor.getNome()+ "?");
+
+            if (resposta) {
+                this.fornecedor.setAtivo(false);
+
+                // Exclui o registro
+                if (dao.atualizar(fornecedor)) {
+                    Mensagem.mostraInformacao("Confirmação de exclusão", "Fornecedor excluído");
+
+                    this.fornecedores = dao.consultarComCriterio("Fornecedor", "nome", tfdCriterio.getText(), true);
+                    this.tblFornecedores.setModel(new jtmFornecedor(this.fornecedores));
+                }
+            }
+        } else {
+            Mensagem.mostraErro("Problema", "Problema para excluir fornecedor");
+        }
     }//GEN-LAST:event_btnExcluirActionPerformed
-
-    private void btnNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoActionPerformed
-    }//GEN-LAST:event_btnNovoActionPerformed
-
-    private void btnGerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGerarActionPerformed
-    }//GEN-LAST:event_btnGerarActionPerformed
 
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
         this.dao = new GenericDAO<>();
@@ -604,41 +611,41 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
         tblFornecedores.setModel(new jtmFornecedor(fornecedores));
     }//GEN-LAST:event_btnPesquisarActionPerformed
 
-    private void rbtFisicaStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_rbtFisicaStateChanged
-    }//GEN-LAST:event_rbtFisicaStateChanged
-
-    private void rbtJuridicaStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_rbtJuridicaStateChanged
-    }//GEN-LAST:event_rbtJuridicaStateChanged
+    private void btnZoomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnZoomActionPerformed
+        //        Estado uf = (Estado) cmbUF.getSelectedItem();
+        //        DlgCidades dlgCidades = new DlgCidades(null, true, uf.getIdEstado());
+        //        dlgCidades.setVisible(true);
+        //        if (dlgCidades.seleciou() && dlgCidades.getCidade() != null) {
+            //            tfdCidade.setText(dlgCidades.getCidade());
+            //        }
+    }//GEN-LAST:event_btnZoomActionPerformed
 
     private void tfdCidadeFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfdCidadeFocusLost
-//        if (tfdCidade.getText().trim().isEmpty()) {
-//            return;
-//        }
-//
-//        Object validou = new CidadeDAO().consultarNome(tfdCidade.getText().trim(), (Estado) cmbUF.getSelectedItem());
-//
-//        if (validou == null) {
-//            JOptionPane.showMessageDialog(this, "Cidade não cadastrada");
-//            tfdCidade.requestFocus();
-//        }
+        //        if (tfdCidade.getText().trim().isEmpty()) {
+            //            return;
+            //        }
+        //
+        //        Object validou = new CidadeDAO().consultarNome(tfdCidade.getText().trim(), (Estado) cmbUF.getSelectedItem());
+        //
+        //        if (validou == null) {
+            //            JOptionPane.showMessageDialog(this, "Cidade não cadastrada");
+            //            tfdCidade.requestFocus();
+            //        }
     }//GEN-LAST:event_tfdCidadeFocusLost
 
-    private void btnZoomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnZoomActionPerformed
-//        Estado uf = (Estado) cmbUF.getSelectedItem();
-//        DlgCidades dlgCidades = new DlgCidades(null, true, uf.getIdEstado());
-//        dlgCidades.setVisible(true);
-//        if (dlgCidades.seleciou() && dlgCidades.getCidade() != null) {
-//            tfdCidade.setText(dlgCidades.getCidade());
-//        }
-    }//GEN-LAST:event_btnZoomActionPerformed
+    private void rbtJuridicaStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_rbtJuridicaStateChanged
+
+    }//GEN-LAST:event_rbtJuridicaStateChanged
+
+    private void rbtFisicaStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_rbtFisicaStateChanged
+
+    }//GEN-LAST:event_rbtFisicaStateChanged
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup btgPessoa;
     private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnExcluir;
-    private javax.swing.JButton btnGerar;
-    private javax.swing.JButton btnNovo;
     private javax.swing.JButton btnPesquisar;
     private javax.swing.JButton btnSalvar;
     private javax.swing.JButton btnZoom;
@@ -662,9 +669,7 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
     private javax.swing.JPanel pnlCadastro;
     private javax.swing.JPanel pnlConsulta;
     private javax.swing.JPanel pnlEndereco;
-    private javax.swing.JPanel pnlFiltros;
     private javax.swing.JPanel pnlGeral;
-    private javax.swing.JPanel pnlRelatorio;
     private javax.swing.JRadioButton rbtFisica;
     private javax.swing.JRadioButton rbtJuridica;
     private javax.swing.JTabbedPane tabAbas;
