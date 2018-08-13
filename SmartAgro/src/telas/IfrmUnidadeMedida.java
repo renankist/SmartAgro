@@ -64,7 +64,6 @@ public class IfrmUnidadeMedida extends javax.swing.JInternalFrame {
         btnEditar = new javax.swing.JButton();
         btnSalvar = new javax.swing.JButton();
         btnExcluir = new javax.swing.JButton();
-        btnNovo = new javax.swing.JButton();
         tabAbas = new javax.swing.JTabbedPane();
         pnlCadastro = new javax.swing.JPanel();
         tfdUnidade = new javax.swing.JTextField();
@@ -77,9 +76,6 @@ public class IfrmUnidadeMedida extends javax.swing.JInternalFrame {
         jLabel1 = new javax.swing.JLabel();
         tfdCriterio = new javax.swing.JTextField();
         btnPesquisar = new javax.swing.JButton();
-        pnlRelatorio = new javax.swing.JPanel();
-        pnlFiltros = new javax.swing.JPanel();
-        btnGerar = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -103,13 +99,6 @@ public class IfrmUnidadeMedida extends javax.swing.JInternalFrame {
         btnExcluir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnExcluirActionPerformed(evt);
-            }
-        });
-
-        btnNovo.setText("Novo");
-        btnNovo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnNovoActionPerformed(evt);
             }
         });
 
@@ -205,64 +194,17 @@ public class IfrmUnidadeMedida extends javax.swing.JInternalFrame {
 
         tabAbas.addTab("Consulta", pnlConsulta);
 
-        pnlFiltros.setBorder(javax.swing.BorderFactory.createTitledBorder("Filtros"));
-        pnlFiltros.setToolTipText("");
-        pnlFiltros.setName(""); // NOI18N
-
-        btnGerar.setText("Gerar relatório");
-        btnGerar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnGerarActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout pnlFiltrosLayout = new javax.swing.GroupLayout(pnlFiltros);
-        pnlFiltros.setLayout(pnlFiltrosLayout);
-        pnlFiltrosLayout.setHorizontalGroup(
-            pnlFiltrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlFiltrosLayout.createSequentialGroup()
-                .addContainerGap(567, Short.MAX_VALUE)
-                .addComponent(btnGerar)
-                .addContainerGap())
-        );
-        pnlFiltrosLayout.setVerticalGroup(
-            pnlFiltrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlFiltrosLayout.createSequentialGroup()
-                .addContainerGap(88, Short.MAX_VALUE)
-                .addComponent(btnGerar)
-                .addContainerGap())
-        );
-
-        javax.swing.GroupLayout pnlRelatorioLayout = new javax.swing.GroupLayout(pnlRelatorio);
-        pnlRelatorio.setLayout(pnlRelatorioLayout);
-        pnlRelatorioLayout.setHorizontalGroup(
-            pnlRelatorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlRelatorioLayout.createSequentialGroup()
-                .addComponent(pnlFiltros, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        pnlRelatorioLayout.setVerticalGroup(
-            pnlRelatorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlRelatorioLayout.createSequentialGroup()
-                .addComponent(pnlFiltros, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 110, Short.MAX_VALUE))
-        );
-
-        tabAbas.addTab("Relatório", pnlRelatorio);
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnNovo)
+                .addComponent(btnSalvar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnExcluir)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnEditar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnSalvar)
                 .addContainerGap())
             .addComponent(tabAbas)
         );
@@ -274,9 +216,8 @@ public class IfrmUnidadeMedida extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSalvar)
                     .addComponent(btnEditar)
-                    .addComponent(btnExcluir)
-                    .addComponent(btnNovo))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnExcluir))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
 
         jScrollPane1.setViewportView(jPanel1);
@@ -372,12 +313,6 @@ public class IfrmUnidadeMedida extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btnExcluirActionPerformed
 
-    private void btnNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoActionPerformed
-    }//GEN-LAST:event_btnNovoActionPerformed
-
-    private void btnGerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGerarActionPerformed
-    }//GEN-LAST:event_btnGerarActionPerformed
-
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
         this.dao = new GenericDAO<>();
         this.unidades = new ArrayList();
@@ -396,8 +331,6 @@ public class IfrmUnidadeMedida extends javax.swing.JInternalFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnExcluir;
-    private javax.swing.JButton btnGerar;
-    private javax.swing.JButton btnNovo;
     private javax.swing.JButton btnPesquisar;
     private javax.swing.JButton btnSalvar;
     private javax.swing.JLabel jLabel1;
@@ -408,8 +341,6 @@ public class IfrmUnidadeMedida extends javax.swing.JInternalFrame {
     private javax.swing.JLabel lblUnidade;
     private javax.swing.JPanel pnlCadastro;
     private javax.swing.JPanel pnlConsulta;
-    private javax.swing.JPanel pnlFiltros;
-    private javax.swing.JPanel pnlRelatorio;
     private javax.swing.JTabbedPane tabAbas;
     private javax.swing.JTable tblUnidades;
     private javax.swing.JTextField tfdCriterio;
