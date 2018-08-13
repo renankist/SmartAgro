@@ -122,7 +122,7 @@ public class GenericDAO<Object> {
              sessao = HibernateUtil.getSessionFactory().openSession();
             sessao.beginTransaction();
 
-            org.hibernate.Query q = sessao.createQuery("from " + className+" where "+criterio+" like :criterio and ativo = :ativ");
+            org.hibernate.Query q = sessao.createQuery("from " + className+" where "+criterio+" like :criterio and ativo = :ativ order by " +criterio+"");
             
             q.setString("criterio", "%"+valor+"%");
             q.setBoolean("ativ", true);

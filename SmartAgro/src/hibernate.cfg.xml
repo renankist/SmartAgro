@@ -12,5 +12,6 @@
     <mapping class="entidade.Estado"/>
     <mapping class="entidade.Formapagamento"/>
     <mapping class="entidade.Unidademedida"/>
+    <mapping class="entidade.Produto"/>
   </session-factory>
 </hibernate-configuration>
