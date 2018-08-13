@@ -126,7 +126,7 @@
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="pnlIdentificacao" alignment="0" max="32767" attributes="0"/>
-                          <Component id="pnlValoresEstoque" alignment="0" max="32767" attributes="0"/>
+                          <Component id="pnlValoresEstoque" alignment="0" pref="991" max="32767" attributes="0"/>
                       </Group>
                     </DimensionLayout>
                     <DimensionLayout dim="1">
@@ -198,7 +198,7 @@
                         </Component>
                         <Component class="javax.swing.JLabel" name="lblCodigoBarras">
                           <Properties>
-                            <Property name="text" type="java.lang.String" value="C&#xf3;digo de Barras:"/>
+                            <Property name="text" type="java.lang.String" value="C&#xf3;digo de Barras"/>
                           </Properties>
                         </Component>
                         <Component class="javax.swing.JTextField" name="tfdCodigoBarras">
@@ -220,25 +220,25 @@
                         <DimensionLayout dim="0">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
-                                  <Component id="lblUnidadeMedida" min="-2" pref="136" max="-2" attributes="0"/>
-                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                  <Component id="jComboUnidadeMedida" min="-2" pref="256" max="-2" attributes="0"/>
+                                  <Component id="lblUnidadeMedida" min="-2" pref="155" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
+                                  <Component id="jComboUnidadeMedida" min="-2" pref="264" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
-                                  <Component id="lblValorVenda1" pref="114" max="32767" attributes="0"/>
+                                  <Component id="lblValorVenda1" max="32767" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="tfdQuantidadeEstoque" min="-2" pref="106" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="305" max="-2" attributes="0"/>
                               </Group>
                               <Group type="102" attributes="0">
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="102" alignment="0" attributes="0">
+                                      <Group type="102" attributes="0">
                                           <Component id="lblValorCompra" min="-2" pref="141" max="-2" attributes="0"/>
-                                          <EmptySpace max="-2" attributes="0"/>
+                                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                           <Component id="moedaFormatadaValorCompra" min="-2" pref="108" max="-2" attributes="0"/>
                                       </Group>
-                                      <Group type="102" alignment="0" attributes="0">
+                                      <Group type="102" attributes="0">
                                           <Component id="lblValorVenda" min="-2" pref="141" max="-2" attributes="0"/>
-                                          <EmptySpace max="-2" attributes="0"/>
+                                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                           <Component id="moedaFormatadaValorVenda" min="-2" pref="108" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
