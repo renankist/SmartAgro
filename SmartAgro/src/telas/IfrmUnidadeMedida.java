@@ -357,7 +357,7 @@ public class IfrmUnidadeMedida extends javax.swing.JInternalFrame {
                 if (dao.atualizar(unidade)) {
                     Mensagem.mostraInformacao("Confirmação de exclusão", "Unidade excluída");
 
-                    this.unidades = dao.consultarComCriterio("Unidademedida", "descricao", tfdCriterio.getText());
+                    this.unidades = dao.consultarComCriterio("Unidademedida", "descricao", tfdCriterio.getText(), true);
                     this.tblUnidades.setModel(new jtmUnidadeMedida(unidades));
                 }
             }
@@ -376,7 +376,7 @@ public class IfrmUnidadeMedida extends javax.swing.JInternalFrame {
         this.dao = new GenericDAO<>();
         this.unidades = new ArrayList();
 
-        this.unidades = dao.consultarComCriterio("Unidademedida", "descricao", tfdCriterio.getText());
+        this.unidades = dao.consultarComCriterio("Unidademedida", "descricao", tfdCriterio.getText(), true);
         tblUnidades.setModel(new jtmUnidadeMedida(unidades));
     }//GEN-LAST:event_btnPesquisarActionPerformed
 

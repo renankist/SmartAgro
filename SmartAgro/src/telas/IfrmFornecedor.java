@@ -9,6 +9,8 @@ import apoio.*;
 import dao.GenericDAO;
 import entidade.Fornecedor;
 import entidade.Estado;
+import entidade.Cidade;
+import entidade.Endereco;
 import java.util.ArrayList;
 import javax.swing.JComponent;
 
@@ -19,6 +21,7 @@ import javax.swing.JComponent;
 public class IfrmFornecedor extends javax.swing.JInternalFrame {
 
     private Fornecedor fornecedor;
+    private Endereco endereco;
     private GenericDAO<Fornecedor> dao;
     private ArrayList<Fornecedor> fornecedores;
     private ArrayList<Estado> ufs;
@@ -30,26 +33,26 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
     public IfrmFornecedor(int aba) {
         initComponents();
 
+        // Abre na aba passada por parametro
+        tabAbas.setSelectedIndex(aba);
+
         // Preenche a tabela de consulta com as colunas corretas
         fornecedores = new ArrayList();
         tblFornecedores.setModel(new jtmFornecedor(fornecedores));
-        
+
         // Preenche o combo
         popularCombos();
-
+        
         //Deixar o focus no campo de descrição
         focus();
     }
-    
+
     private void popularCombos() {
         // Popula combo UF
-        cmbUF.removeAllItems();
-
-        GenericDAO ufDAO = new GenericDAO<>();
-        for (Object obj : ufDAO.consultarTodos("estado")) {
-            Estado e = (Estado) obj;
-            cmbUF.addItem(e);
-        }
+        GenericDAO<Estado> ufdao = new GenericDAO<>();
+        this.ufs = new ArrayList();
+        this.ufs = ufdao.consultarTodos("Estado");
+        cmbUF.setModel(new EstadoComboModel(this.ufs));
     }
 
     private void focus() {
@@ -103,7 +106,7 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
         jLabel14 = new javax.swing.JLabel();
         tfdComplemento = new javax.swing.JTextField();
         jLabel16 = new javax.swing.JLabel();
-        cmbUF = new javax.swing.JComboBox<>();
+        cmbUF = new javax.swing.JComboBox();
         btnZoom = new javax.swing.JButton();
         pnlConsulta = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -517,21 +520,65 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
         this.dao = new GenericDAO();
 
         if (editando) {
+            if (rbtFisica.isSelected()) {
+                fornecedor.setCpf(tfdCNPJ.getText());
+            } else {
+                fornecedor.setCnpj(tfdCNPJ.getText());
+            }
+
             fornecedor.setNome(tfdNome.getText());
+            fornecedor.setRazaosocial(tfdRazaoSocial.getText());
+            fornecedor.setAtivo(true);
+
             if (dao.atualizar(fornecedor)) {
-                Mensagem.mostraInformacao("Sucesso", "Fornecedor " + fornecedor.getNome()+ " atualizado com sucesso");
+                Mensagem.mostraInformacao("Sucesso", "Fornecedor " + fornecedor.getNome() + " atualizado com sucesso");
             } else {
                 Mensagem.mostraInformacao("Problema", "Problema ao atualizar fornecedor");
             }
             editando = false;
         } else {
             fornecedor = new Fornecedor();
+            endereco = new Endereco();
+
+            endereco.setRua(tfdLogradouro.getText());
+            endereco.setNumero(tfdNumero.getText());
+            endereco.setBairro(tfdBairro.getText());
+            endereco.setComplemento(tfdComplemento.getText());
+            endereco.setCep(Formatacao.removerFormatacao(ffdCEP.getText()));
+            endereco.setAtivo(true);
+
+            ArrayList<Cidade> cidades = new GenericDAO<Cidade>().consultarComCriterioIgualA("Cidade", "nome", tfdCidade.getText(), false);
+            for (Cidade cidade : cidades) {
+                if (cidade.getEstado().getId() == ((Estado) cmbUF.getSelectedItem()).getId()) {
+                    endereco.setCidade(cidade);
+                    break;
+                }
+            }
+
+            fornecedor.setEndereco(endereco);
+
+            if (rbtFisica.isSelected()) {
+                fornecedor.setCpf(Formatacao.removerFormatacao(tfdCNPJ.getText()));
+            } else {
+                fornecedor.setCnpj(Formatacao.removerFormatacao(tfdCNPJ.getText()));
+            }
+
             fornecedor.setNome(tfdNome.getText());
+            fornecedor.setRazaosocial(tfdRazaoSocial.getText());
             fornecedor.setAtivo(true);
 
-            if (dao.salvar(fornecedor)) {
+            try {
+                if (!new GenericDAO<>().salvar(endereco))  {
+                    throw new Exception("Erro ao salvar endereco - fornecedor");
+                }
+                
+                if (!dao.salvar(fornecedor))  {
+                    throw new Exception("Erro ao salvar fornecedor");
+                }
+                
                 Mensagem.mostraInformacao("Sucesso", "Fornecedor " + fornecedor.getNome() + " inserido com sucesso");
-            } else {
+
+            } catch (Exception e) {
                 Mensagem.mostraInformacao("Problema", "Problema para inserir fornecedor");
             }
         }
@@ -553,7 +600,7 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
         this.dao = new GenericDAO<>();
         this.fornecedores = new ArrayList();
 
-        this.fornecedores = dao.consultarComCriterio("fornecedor", "nome", tfdCriterio.getText());
+        this.fornecedores = dao.consultarComCriterio("Fornecedor", "nome", tfdCriterio.getText(), true);
         tblFornecedores.setModel(new jtmFornecedor(fornecedores));
     }//GEN-LAST:event_btnPesquisarActionPerformed
 
@@ -595,7 +642,7 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnPesquisar;
     private javax.swing.JButton btnSalvar;
     private javax.swing.JButton btnZoom;
-    private javax.swing.JComboBox<Estado> cmbUF;
+    private javax.swing.JComboBox cmbUF;
     private javax.swing.JFormattedTextField ffdCEP;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;

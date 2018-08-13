@@ -58,7 +58,12 @@ public class jtmFornecedor extends AbstractTableModel {
             case 0:
                 return fornecedores.get(linha).getId();
             case 1:
-                String cpf_cnpj = fornecedores.get(linha).getCpf() + fornecedores.get(linha).getCnpj();
+                String cpf_cnpj = "";
+                if (fornecedores.get(linha).getCpf() != null) {
+                    cpf_cnpj = fornecedores.get(linha).getCpf();
+                } else {
+                    cpf_cnpj = fornecedores.get(linha).getCnpj();
+                }
                 return cpf_cnpj;
             case 2:
                 return fornecedores.get(linha).getNome();          

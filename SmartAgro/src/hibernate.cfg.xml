@@ -11,6 +11,7 @@
     <property name="show_sql">true</property>
     <mapping class="entidade.Estado"/>
     <mapping class="entidade.Cidade"/>
+    <mapping class="entidade.Endereco"/>
     <mapping class="entidade.Formapagamento"/>
     <mapping class="entidade.Unidademedida"/>
     <mapping class="entidade.Fornecedor"/>

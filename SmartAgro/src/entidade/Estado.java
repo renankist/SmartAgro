@@ -1,4 +1,3 @@
-
 package entidade;
 
 import java.io.Serializable;
@@ -9,7 +8,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
 
 /**
  *
@@ -91,7 +89,7 @@ public class Estado implements Serializable {
 
     @Override
     public String toString() {
-        return "entidade.Estado[ id=" + id + " ]";
+        return this.sigla;
     }
-    
+
 }

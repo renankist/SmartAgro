@@ -338,7 +338,7 @@ public class IfrmFormaPagamento extends javax.swing.JInternalFrame {
                 forma.setAtivo(false);
                 if (dao.atualizar(forma)) {//Chamado o método do ServicoDao de excluir um registro, e caso o retorno é true, retorna uma mensagem de sucesso
                     JOptionPane.showMessageDialog(rootPane, "Forma de pagamento excluída", "Confirmação de exclusão", JOptionPane.PLAIN_MESSAGE);
-                    this.formas = dao.consultarComCriterio("Formapagamento", "descricao", tfdDescricaoConsulta.getText());
+                    this.formas = dao.consultarComCriterio("Formapagamento", "descricao", tfdDescricaoConsulta.getText(), true);
                     this.jTableFormasPagamento.setModel(new jtmFormasPagamento(formas));
                     //this.tblServicos.setDefaultRenderer(Object.class, new RenderizadorTabelas());
                 }
@@ -361,7 +361,7 @@ public class IfrmFormaPagamento extends javax.swing.JInternalFrame {
 
         this.formas = new ArrayList();
 
-        this.formas = dao.consultarComCriterio("Formapagamento", "descricao", tfdDescricaoConsulta.getText());
+        this.formas = dao.consultarComCriterio("Formapagamento", "descricao", tfdDescricaoConsulta.getText(), true);
 
         this.jTableFormasPagamento.setModel(new jtmFormasPagamento(formas));
 
