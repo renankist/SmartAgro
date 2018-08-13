@@ -122,7 +122,12 @@ public class Unidademedida implements Serializable {
 
     @Override
     public String toString() {
-        return "entidade.Unidademedida[ id=" + id + " ]";
+        if(this.unidade.equals("Selecione")){
+            return this.unidade;
+        }else{
+             return this.unidade+" - "+this.descricao;
+        }
+       
     }
 
     public Collection<Produto> getProdutoCollection() {

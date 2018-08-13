@@ -1,26 +1,35 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package telas;
 
-/**
- *
- * @author Morgana
- */
+import dao.GenericDAO;
+import entidade.Produto;
+import entidade.Unidademedida;
+import java.util.ArrayList;
+
 public class IfrmProduto extends javax.swing.JInternalFrame {
 
-    /**
-     * Creates new form IfrmUnidadeMedida
-     */
+    private Produto p;
+    private GenericDAO<Produto> dao;
+    private GenericDAO<Unidademedida> udao;
+    private ArrayList<Produto> produtos;
+    private boolean editando = false;
+    private ArrayList<Unidademedida> unidades; 
+    
     public IfrmProduto(int aba) {
         initComponents();
         
         // Abre na aba passada por parametro
         tabAbas.setSelectedIndex(aba);
+        
+        //Enchendo combo de unidades de medida
+        this.unidades = new ArrayList();
+        udao = new GenericDAO<>();
+        this.unidades = udao.consultarTodos("Unidademedida");
+        
+       jComboUnidadeMedida.setModel(new UnidadesMedidasComboModel(this.unidades));
+               
     }
-
+   
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -43,7 +52,7 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
         tfdDescricao = new javax.swing.JTextField();
         lblCodigoBarras = new javax.swing.JLabel();
         lblUnidadeMedida = new javax.swing.JLabel();
-        jComboUnidadeMedida = new javax.swing.JComboBox<>();
+        jComboUnidadeMedida = new javax.swing.JComboBox();
         tfdCodigoBarras = new javax.swing.JTextField();
         pnlIdentificacao1 = new javax.swing.JPanel();
         lblValorCompra = new javax.swing.JLabel();
@@ -99,7 +108,7 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
 
         lblUnidadeMedida.setText("Unidade de Medida *");
 
-        jComboUnidadeMedida.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione" }));
+        // Code adding the component to the parent container - not shown here
 
         javax.swing.GroupLayout pnlIdentificacaoLayout = new javax.swing.GroupLayout(pnlIdentificacao);
         pnlIdentificacao.setLayout(pnlIdentificacaoLayout);
@@ -192,7 +201,7 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
         pnlCadastroLayout.setHorizontalGroup(
             pnlCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(pnlIdentificacao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(pnlIdentificacao1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+            .addComponent(pnlIdentificacao1, javax.swing.GroupLayout.PREFERRED_SIZE, 991, Short.MAX_VALUE)
         );
         pnlCadastroLayout.setVerticalGroup(
             pnlCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -203,8 +212,6 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
                 .addComponent(pnlIdentificacao1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-
-        pnlIdentificacao.getAccessibleContext().setAccessibleName("Identificação");
 
         tabAbas.addTab("Cadastro", pnlCadastro);
 
@@ -363,7 +370,7 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnGerar;
     private javax.swing.JButton btnNovo;
     private javax.swing.JButton btnSalvar;
-    private javax.swing.JComboBox<String> jComboUnidadeMedida;
+    private javax.swing.JComboBox jComboUnidadeMedida;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
