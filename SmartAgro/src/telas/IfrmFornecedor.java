@@ -572,7 +572,8 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
             }
         }
 
-        LimpaCampos.limparCampos(pnlCadastro);
+        LimpaCampos.limparCampos(pnlGeral);
+        LimpaCampos.limparCampos(pnlEndereco);
         focus();
     }//GEN-LAST:event_btnSalvarActionPerformed
 
