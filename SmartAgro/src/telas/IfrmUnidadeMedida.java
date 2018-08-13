@@ -322,9 +322,7 @@ public class IfrmUnidadeMedida extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnPesquisarActionPerformed
 
     private void tabAbasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabAbasMouseClicked
-        this.dao = new GenericDAO<>();
-        this.unidades = this.dao.consultarTodos("Unidademedida");
-        tblUnidades.setModel(new jtmUnidadeMedida(unidades));
+       
     }//GEN-LAST:event_tabAbasMouseClicked
 
 
