@@ -93,7 +93,7 @@ public class TestEstadoDao {
         
         GenericDAO<Estado> dao = new GenericDAO();
 
-        ArrayList<Estado> es = dao.consultarComCriterio("Estado", "nome", "Rio Grande do Sul", false);
+        ArrayList<Estado> es = dao.consultarComCriterio("Estado", "nome", "Rio Grande do Sul");
 
         for (int i = 0; i < es.size(); i++) {
 
