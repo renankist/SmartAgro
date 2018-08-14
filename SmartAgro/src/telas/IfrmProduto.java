@@ -3,6 +3,7 @@ package telas;
 import apoio.Formatacao;
 import apoio.LimpaCampos;
 import apoio.Mensagem;
+import apoio.VerificadorCampos;
 import dao.GenericDAO;
 import entidade.Produto;
 import entidade.Unidademedida;
@@ -10,6 +11,7 @@ import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Locale;
+import javax.swing.JComponent;
 
 public class IfrmProduto extends javax.swing.JInternalFrame {
 
@@ -381,6 +383,15 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
 
+        JComponent[] components = new JComponent[]{tfdCodigo, tfdDescricao, tfdQuantidadeEstoque, moedaFormatadaValorCompra, moedaFormatadaValorVenda, jComboUnidadeMedida};
+        VerificadorCampos verifier = new VerificadorCampos(components);
+        
+        if (!verifier.validaCampos()) {
+            return;
+        }
+        
+        
+        
         this.dao = new GenericDAO<>();
 
         if (editando) {

@@ -64,7 +64,7 @@ public class VerificadorCampos extends InputVerifier {
         } else if (input instanceof JFormattedTextField) {
             campoOK = !(((JFormattedTextField) input).getText().trim().isEmpty());
         } else if (input instanceof JComboBox) {
-            campoOK = !(((JComboBox) input).getSelectedIndex() == -1);
+            campoOK = !(((JComboBox) input).getSelectedIndex() == 0);
         } else if (input instanceof JRadioButton) {
             campoOK = !(((JRadioButton) input).getSelectedObjects() == null);
         } else {
