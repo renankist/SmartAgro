@@ -36,6 +36,8 @@ public class Produto implements Serializable {
     @Basic(optional = false)
     @Column(name = "descricao")
     private String descricao;
+     @Column(name = "codigo")
+    private String codigo;
     @Column(name = "codigobarras")
     private String codigobarras;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
@@ -69,7 +71,15 @@ public class Produto implements Serializable {
         this.quantidadeestoque = quantidadeestoque;
       
     }
+    
+    public String getCodigo() {
+        return codigo;
+    }
 
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
+    }
+    
     public Integer getId() {
         return id;
     }

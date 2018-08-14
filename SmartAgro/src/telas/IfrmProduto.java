@@ -42,7 +42,7 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
     private void focus() {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                tfdDescricao.requestFocusInWindow();
+                tfdCodigo.requestFocusInWindow();
             }
         });
     }
@@ -68,6 +68,8 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
         tfdDescricao = new javax.swing.JTextField();
         lblCodigoBarras = new javax.swing.JLabel();
         tfdCodigoBarras = new javax.swing.JTextField();
+        lblCodigo = new javax.swing.JLabel();
+        tfdCodigo = new javax.swing.JTextField();
         pnlValoresEstoque = new javax.swing.JPanel();
         lblValorCompra = new javax.swing.JLabel();
         lblValorVenda = new javax.swing.JLabel();
@@ -115,6 +117,14 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
 
         lblCodigoBarras.setText("Código de Barras");
 
+        lblCodigo.setText("Código *");
+
+        tfdCodigo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tfdCodigoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout pnlIdentificacaoLayout = new javax.swing.GroupLayout(pnlIdentificacao);
         pnlIdentificacao.setLayout(pnlIdentificacaoLayout);
         pnlIdentificacaoLayout.setHorizontalGroup(
@@ -123,25 +133,30 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(pnlIdentificacaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblCodigoBarras, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblCodigoBarras, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlIdentificacaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(tfdCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(tfdDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(tfdCodigoBarras, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 555, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         pnlIdentificacaoLayout.setVerticalGroup(
             pnlIdentificacaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlIdentificacaoLayout.createSequentialGroup()
-                .addGap(14, 14, 14)
+                .addContainerGap()
+                .addGroup(pnlIdentificacaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblCodigo)
+                    .addComponent(tfdCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
                 .addGroup(pnlIdentificacaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblDescricao)
                     .addComponent(tfdDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlIdentificacaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblCodigoBarras)
-                    .addComponent(tfdCodigoBarras, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(tfdCodigoBarras, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
         pnlValoresEstoque.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Valores e Estoque", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
@@ -206,7 +221,7 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
                 .addGroup(pnlValoresEstoqueLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblValorVenda1)
                     .addComponent(tfdQuantidadeEstoque, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout pnlCadastroLayout = new javax.swing.GroupLayout(pnlCadastro);
@@ -220,10 +235,9 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
             pnlCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlCadastroLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(pnlIdentificacao, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pnlValoresEstoque, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(pnlIdentificacao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(pnlValoresEstoque, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         tabAbas.addTab("Cadastro", pnlCadastro);
@@ -306,7 +320,7 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addComponent(tabAbas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSalvar)
                     .addComponent(btnEditar)
@@ -320,15 +334,29 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
+        this.dao = new GenericDAO<>();
+        this.unidades = new ArrayList();
+
+        this.produtos = dao.consultarComCriterio("Produto", "descricao", tfdCriterio.getText());
+        tblProdutos.setModel(new jtmProduto(produtos));
+    }//GEN-LAST:event_btnPesquisarActionPerformed
+
+    private void tfdCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfdCodigoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tfdCodigoActionPerformed
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
         // Pega o código do registro para consultar o objeto
@@ -336,21 +364,20 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
 
         this.p = dao.consultarPorId(id, "Produto");
 
-       
-            //Abre uma mensagem pedindo se o usuário realmente quer excluír o registro
-            boolean resposta = Mensagem.confirmaMensagem("Atenção", "Deseja realmente excluir o produto: " + this.p.getDescricao() + "?");
+        //Abre uma mensagem pedindo se o usuário realmente quer excluír o registro
+        boolean resposta = Mensagem.confirmaMensagem("Atenção", "Deseja realmente excluir o produto: " + this.p.getDescricao() + "?");
 
-            if (resposta) {
-                // Exclui o registro
-                if (dao.deletar(p)) {
-                    Mensagem.mostraInformacao("Confirmação de exclusão", "Produto excluído");
-                    this.produtos = dao.consultarComCriterio("Produto", "descricao", tfdCriterio.getText());
-                    this.tblProdutos.setModel(new jtmProduto(this.produtos));
-                } else {
-                    Mensagem.mostraErro("Problema", "Problema para excluir produto");
-                }
+        if (resposta) {
+            // Exclui o registro
+            if (dao.deletar(p)) {
+                Mensagem.mostraInformacao("Confirmação de exclusão", "Produto excluído");
+                this.produtos = dao.consultarComCriterio("Produto", "descricao", tfdCriterio.getText());
+                this.tblProdutos.setModel(new jtmProduto(this.produtos));
+            } else {
+                Mensagem.mostraErro("Problema", "Problema para excluir produto");
             }
-        
+        }
+
     }//GEN-LAST:event_btnExcluirActionPerformed
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
@@ -365,7 +392,8 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
             p.setValorvenda(moedaFormatadaValorVenda.getValue());
             p.setQuantidadeestoque(new BigDecimal(tfdQuantidadeEstoque.getText()));
             p.setUnidademedida((Unidademedida) jComboUnidadeMedida.getSelectedItem());
-
+            p.setCodigo(tfdCodigo.getText());
+            
             if (dao.atualizar(p)) {
                 Mensagem.mostraInformacao("Sucesso", "Produto " + this.p.getDescricao() + " atualizado com sucesso");
                 LimpaCampos.limparCampos(pnlIdentificacao);
@@ -385,7 +413,8 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
             p.setValorvenda(moedaFormatadaValorVenda.getValue());
             p.setQuantidadeestoque(new BigDecimal(tfdQuantidadeEstoque.getText()));
             p.setUnidademedida((Unidademedida) jComboUnidadeMedida.getSelectedItem());
-
+            p.setCodigo(tfdCodigo.getText());
+            
             if (dao.salvar(p)) {
                 Mensagem.mostraInformacao("Sucesso", "Produto " + p.getDescricao() + " inserido com sucesso");
                 LimpaCampos.limparCampos(pnlIdentificacao);
@@ -410,22 +439,14 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
             tfdQuantidadeEstoque.setText(this.p.getQuantidadeestoque() + "");
             moedaFormatadaValorCompra.setText(this.p.getValorcompra() + "");
             moedaFormatadaValorVenda.setText((this.p.getValorvenda() + ""));
+            tfdCodigo.setText(this.p.getCodigo());
             jComboUnidadeMedida.setSelectedItem(this.p.getUnidademedida());
             tabAbas.setSelectedIndex(0);
             editando = true;
             focus();
         }
 
-
     }//GEN-LAST:event_btnEditarActionPerformed
-
-    private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
-        this.dao = new GenericDAO<>();
-        this.unidades = new ArrayList();
-
-        this.produtos = dao.consultarComCriterio("Produto", "descricao", tfdCriterio.getText());
-        tblProdutos.setModel(new jtmProduto(produtos));
-    }//GEN-LAST:event_btnPesquisarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -438,6 +459,7 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel lblCodigo;
     private javax.swing.JLabel lblCodigoBarras;
     private javax.swing.JLabel lblDescricao;
     private javax.swing.JLabel lblUnidadeMedida;
@@ -452,6 +474,7 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
     private javax.swing.JPanel pnlValoresEstoque;
     private javax.swing.JTabbedPane tabAbas;
     private javax.swing.JTable tblProdutos;
+    private javax.swing.JTextField tfdCodigo;
     private javax.swing.JTextField tfdCodigoBarras;
     private javax.swing.JTextField tfdCriterio;
     private javax.swing.JTextField tfdDescricao;
