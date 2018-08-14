@@ -3,7 +3,6 @@ package dao;
 import apoio.HibernateUtil;
 import java.util.ArrayList;
 import org.hibernate.HibernateException;
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -157,6 +156,14 @@ public class GenericDAO<Object> {
         }
 
         return resultado;
+    }
+
+    public boolean existeRegistro(String className, String criterio, String valor) {
+
+        ArrayList resultado = consultarComCriterioIgualA(className, criterio, valor, true);
+
+        return (resultado.size() > 0);
+
     }
 
 }
