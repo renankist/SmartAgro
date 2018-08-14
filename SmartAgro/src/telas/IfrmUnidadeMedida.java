@@ -253,7 +253,7 @@ public class IfrmUnidadeMedida extends javax.swing.JInternalFrame {
         if (!verifier.validaCampos()) {
             return;
         }
- 
+
         this.dao = new GenericDAO();
 
         if (editando) {
@@ -268,7 +268,6 @@ public class IfrmUnidadeMedida extends javax.swing.JInternalFrame {
             unidade = new Unidademedida();
             unidade.setUnidade(tfdUnidade.getText());
             unidade.setDescricao(tfdDescricao.getText());
-            unidade.setAtivo(true);
 
             if (dao.salvar(unidade)) {
                 Mensagem.mostraInformacao("Sucesso", "Unidade de medida " + unidade.getDescricao() + " inserida com sucesso");
@@ -284,39 +283,32 @@ public class IfrmUnidadeMedida extends javax.swing.JInternalFrame {
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
         // Pega o código do registro para consultar o objeto
         int id = Integer.parseInt(tblUnidades.getValueAt(tblUnidades.getSelectedRow(), 0).toString());
-
         unidade = dao.consultarPorId(id, "Unidademedida");
+        //Abre uma mensagem pedindo se o usuário realmente quer excluír o registro
+        boolean resposta = Mensagem.confirmaMensagem("Atenção", "Deseja realmente excluir a unidade de medida: " + unidade.getUnidade() + "?");
+        if (resposta) {
 
-        if (unidade.getAtivo()) {
-            //Abre uma mensagem pedindo se o usuário realmente quer excluír o registro
-            boolean resposta = Mensagem.confirmaMensagem("Atenção", "Deseja realmente excluir a unidade de medida: " + unidade.getUnidade() + "?");
-
-            if (resposta) {
-                unidade.setAtivo(false);
-
-                // Exclui o registro
-                if (dao.atualizar(unidade)) {
-                    Mensagem.mostraInformacao("Confirmação de exclusão", "Unidade excluída");
-
-                    this.unidades = dao.consultarComCriterio("Unidademedida", "descricao", tfdCriterio.getText(), true);
-                    this.tblUnidades.setModel(new jtmUnidadeMedida(unidades));
-                }
+            // Exclui o registro
+            if (dao.deletar(unidade)) {
+                Mensagem.mostraInformacao("Confirmação de exclusão", "Unidade excluída");
+                this.unidades = dao.consultarComCriterio("Unidademedida", "descricao", tfdCriterio.getText());
+                this.tblUnidades.setModel(new jtmUnidadeMedida(unidades));
+            } else {
+                Mensagem.mostraErro("Problema", "Problema para excluir unidade de medida");
             }
-        } else {
-            Mensagem.mostraErro("Problema", "Problema para excluir unidade de medida");
+
         }
     }//GEN-LAST:event_btnExcluirActionPerformed
 
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
         this.dao = new GenericDAO<>();
         this.unidades = new ArrayList();
-
-        this.unidades = dao.consultarComCriterio("Unidademedida", "descricao", tfdCriterio.getText(), true);
+        this.unidades = dao.consultarComCriterio("Unidademedida", "descricao", tfdCriterio.getText());
         tblUnidades.setModel(new jtmUnidadeMedida(unidades));
     }//GEN-LAST:event_btnPesquisarActionPerformed
 
     private void tabAbasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabAbasMouseClicked
-       
+
     }//GEN-LAST:event_tabAbasMouseClicked
 
 

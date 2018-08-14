@@ -27,16 +27,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "unidademedida")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Unidademedida.findAll", query = "SELECT u FROM Unidademedida u")
-    , @NamedQuery(name = "Unidademedida.findById", query = "SELECT u FROM Unidademedida u WHERE u.id = :id")
-    , @NamedQuery(name = "Unidademedida.findByUnidade", query = "SELECT u FROM Unidademedida u WHERE u.unidade = :unidade")
-    , @NamedQuery(name = "Unidademedida.findByDescricao", query = "SELECT u FROM Unidademedida u WHERE u.descricao = :descricao")
-    , @NamedQuery(name = "Unidademedida.findByAtivo", query = "SELECT u FROM Unidademedida u WHERE u.ativo = :ativo")})
 public class Unidademedida implements Serializable {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "unidademedida")
-    private Collection<Produto> produtoCollection;
+   
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -50,10 +44,7 @@ public class Unidademedida implements Serializable {
     @Basic(optional = false)
     @Column(name = "descricao")
     private String descricao;
-    @Basic(optional = false)
-    @Column(name = "ativo")
-    private boolean ativo;
-
+    
     public Unidademedida() {
     }
 
@@ -61,11 +52,11 @@ public class Unidademedida implements Serializable {
         this.id = id;
     }
 
-    public Unidademedida(Integer id, String unidade, String descricao, boolean ativo) {
+    public Unidademedida(Integer id, String unidade, String descricao) {
         this.id = id;
         this.unidade = unidade;
         this.descricao = descricao;
-        this.ativo = ativo;
+        
     }
 
     public Integer getId() {
@@ -90,14 +81,6 @@ public class Unidademedida implements Serializable {
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
-    }
-
-    public boolean getAtivo() {
-        return ativo;
-    }
-
-    public void setAtivo(boolean ativo) {
-        this.ativo = ativo;
     }
 
     @Override
@@ -130,12 +113,6 @@ public class Unidademedida implements Serializable {
        
     }
 
-    public Collection<Produto> getProdutoCollection() {
-        return produtoCollection;
-    }
-
-    public void setProdutoCollection(Collection<Produto> produtoCollection) {
-        this.produtoCollection = produtoCollection;
-    }
+   
     
 }

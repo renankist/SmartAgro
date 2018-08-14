@@ -49,8 +49,7 @@ public class Produto implements Serializable {
     @Column(name = "quantidadeestoque")
     private BigDecimal quantidadeestoque;
     @Basic(optional = false)
-    @Column(name = "ativo")
-    private boolean ativo;
+
     @JoinColumn(name = "unidademedida", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Unidademedida unidademedida;
@@ -62,13 +61,13 @@ public class Produto implements Serializable {
         this.id = id;
     }
 
-    public Produto(Integer id, String descricao, BigDecimal valorcompra, BigDecimal valorvenda, BigDecimal quantidadeestoque, boolean ativo) {
+    public Produto(Integer id, String descricao, BigDecimal valorcompra, BigDecimal valorvenda, BigDecimal quantidadeestoque) {
         this.id = id;
         this.descricao = descricao;
         this.valorcompra = valorcompra;
         this.valorvenda = valorvenda;
         this.quantidadeestoque = quantidadeestoque;
-        this.ativo = ativo;
+      
     }
 
     public Integer getId() {
@@ -118,15 +117,6 @@ public class Produto implements Serializable {
     public void setQuantidadeestoque(BigDecimal quantidadeestoque) {
         this.quantidadeestoque = quantidadeestoque;
     }
-
-    public boolean getAtivo() {
-        return ativo;
-    }
-
-    public void setAtivo(boolean ativo) {
-        this.ativo = ativo;
-    }
-
     public Unidademedida getUnidademedida() {
         return unidademedida;
     }

@@ -26,14 +26,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "fornecedor")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Fornecedor.findAll", query = "SELECT f FROM Fornecedor f")
-    , @NamedQuery(name = "Fornecedor.findById", query = "SELECT f FROM Fornecedor f WHERE f.id = :id")
-    , @NamedQuery(name = "Fornecedor.findByNome", query = "SELECT f FROM Fornecedor f WHERE f.nome = :nome")
-    , @NamedQuery(name = "Fornecedor.findByCnpj", query = "SELECT f FROM Fornecedor f WHERE f.cnpj = :cnpj")
-    , @NamedQuery(name = "Fornecedor.findByCpf", query = "SELECT f FROM Fornecedor f WHERE f.cpf = :cpf")
-    , @NamedQuery(name = "Fornecedor.findByRazaosocial", query = "SELECT f FROM Fornecedor f WHERE f.razaosocial = :razaosocial")
-    , @NamedQuery(name = "Fornecedor.findByAtivo", query = "SELECT f FROM Fornecedor f WHERE f.ativo = :ativo")})
 public class Fornecedor implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -51,9 +43,7 @@ public class Fornecedor implements Serializable {
     private String cpf;
     @Column(name = "razaosocial")
     private String razaosocial;
-    @Basic(optional = false)
-    @Column(name = "ativo")
-    private boolean ativo;
+
     @JoinColumn(name = "endereco", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Endereco endereco;
@@ -65,10 +55,10 @@ public class Fornecedor implements Serializable {
         this.id = id;
     }
 
-    public Fornecedor(Integer id, String nome, boolean ativo) {
+    public Fornecedor(Integer id, String nome) {
         this.id = id;
         this.nome = nome;
-        this.ativo = ativo;
+
     }
 
     public Integer getId() {
@@ -109,16 +99,7 @@ public class Fornecedor implements Serializable {
 
     public void setRazaosocial(String razaosocial) {
         this.razaosocial = razaosocial;
-    }
-
-    public boolean getAtivo() {
-        return ativo;
-    }
-
-    public void setAtivo(boolean ativo) {
-        this.ativo = ativo;
-    }
-
+    }  
     public Endereco getEndereco() {
         return endereco;
     }

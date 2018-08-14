@@ -33,10 +33,9 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
         //Enchendo combo de unidades de medida
         this.unidades = new ArrayList();
         udao = new GenericDAO<>();
-        this.unidades = udao.consultarComCriterio("Unidademedida","descricao","", true);
+        this.unidades = udao.consultarComCriterio("Unidademedida", "descricao", "");
         jComboUnidadeMedida.setModel(new UnidadesMedidasComboModel(this.unidades));
- 
-        
+
         focus();
     }
 
@@ -337,72 +336,65 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
 
         this.p = dao.consultarPorId(id, "Produto");
 
-        if (p.getAtivo()) {
+       
             //Abre uma mensagem pedindo se o usuário realmente quer excluír o registro
             boolean resposta = Mensagem.confirmaMensagem("Atenção", "Deseja realmente excluir o produto: " + this.p.getDescricao() + "?");
 
             if (resposta) {
-                this.p.setAtivo(false);
-
                 // Exclui o registro
-                if (dao.atualizar(p)) {
+                if (dao.deletar(p)) {
                     Mensagem.mostraInformacao("Confirmação de exclusão", "Produto excluído");
-
-                    this.produtos = dao.consultarComCriterio("Produto", "descricao", tfdCriterio.getText(), true);
+                    this.produtos = dao.consultarComCriterio("Produto", "descricao", tfdCriterio.getText());
                     this.tblProdutos.setModel(new jtmProduto(this.produtos));
+                } else {
+                    Mensagem.mostraErro("Problema", "Problema para excluir produto");
                 }
             }
-        } else {
-            Mensagem.mostraErro("Problema", "Problema para excluir produto");
-        }
+        
     }//GEN-LAST:event_btnExcluirActionPerformed
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
 
         this.dao = new GenericDAO<>();
-       
 
         if (editando) {
-            
+
             p.setDescricao(tfdDescricao.getText());
             p.setCodigobarras(tfdCodigoBarras.getText());
-            p.setAtivo(true);
             p.setValorcompra(moedaFormatadaValorCompra.getValue());
             p.setValorvenda(moedaFormatadaValorVenda.getValue());
             p.setQuantidadeestoque(new BigDecimal(tfdQuantidadeEstoque.getText()));
             p.setUnidademedida((Unidademedida) jComboUnidadeMedida.getSelectedItem());
-            
+
             if (dao.atualizar(p)) {
                 Mensagem.mostraInformacao("Sucesso", "Produto " + this.p.getDescricao() + " atualizado com sucesso");
-                 LimpaCampos.limparCampos(pnlIdentificacao);
+                LimpaCampos.limparCampos(pnlIdentificacao);
                 LimpaCampos.limparCampos(pnlValoresEstoque);
             } else {
                 Mensagem.mostraInformacao("Problema", "Problema ao atualizar produto");
             }
             editando = false;
-            
+
         } else {
-            
+
             this.p = new Produto();
-            
+
             p.setDescricao(tfdDescricao.getText());
             p.setCodigobarras(tfdCodigoBarras.getText());
-            p.setAtivo(true);
             p.setValorcompra(moedaFormatadaValorCompra.getValue());
             p.setValorvenda(moedaFormatadaValorVenda.getValue());
             p.setQuantidadeestoque(new BigDecimal(tfdQuantidadeEstoque.getText()));
             p.setUnidademedida((Unidademedida) jComboUnidadeMedida.getSelectedItem());
-            
+
             if (dao.salvar(p)) {
                 Mensagem.mostraInformacao("Sucesso", "Produto " + p.getDescricao() + " inserido com sucesso");
-                 LimpaCampos.limparCampos(pnlIdentificacao);
-                 LimpaCampos.limparCampos(pnlValoresEstoque);
+                LimpaCampos.limparCampos(pnlIdentificacao);
+                LimpaCampos.limparCampos(pnlValoresEstoque);
             } else {
                 Mensagem.mostraInformacao("Problema", "Problema para inserir produto");
             }
         }
 
-       
         focus();
     }//GEN-LAST:event_btnSalvarActionPerformed
 
@@ -431,7 +423,7 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
         this.dao = new GenericDAO<>();
         this.unidades = new ArrayList();
 
-        this.produtos = dao.consultarComCriterio("Produto", "descricao", tfdCriterio.getText(), true);
+        this.produtos = dao.consultarComCriterio("Produto", "descricao", tfdCriterio.getText());
         tblProdutos.setModel(new jtmProduto(produtos));
     }//GEN-LAST:event_btnPesquisarActionPerformed
 

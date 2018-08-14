@@ -30,15 +30,6 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name = "endereco")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Endereco.findAll", query = "SELECT e FROM Endereco e")
-    , @NamedQuery(name = "Endereco.findById", query = "SELECT e FROM Endereco e WHERE e.id = :id")
-    , @NamedQuery(name = "Endereco.findByRua", query = "SELECT e FROM Endereco e WHERE e.rua = :rua")
-    , @NamedQuery(name = "Endereco.findByNumero", query = "SELECT e FROM Endereco e WHERE e.numero = :numero")
-    , @NamedQuery(name = "Endereco.findByBairro", query = "SELECT e FROM Endereco e WHERE e.bairro = :bairro")
-    , @NamedQuery(name = "Endereco.findByCep", query = "SELECT e FROM Endereco e WHERE e.cep = :cep")
-    , @NamedQuery(name = "Endereco.findByComplemento", query = "SELECT e FROM Endereco e WHERE e.complemento = :complemento")
-    , @NamedQuery(name = "Endereco.findByAtivo", query = "SELECT e FROM Endereco e WHERE e.ativo = :ativo")})
 public class Endereco implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -61,14 +52,11 @@ public class Endereco implements Serializable {
     private String cep;
     @Column(name = "complemento")
     private String complemento;
-    @Basic(optional = false)
-    @Column(name = "ativo")
-    private boolean ativo;
     @JoinColumn(name = "cidade", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Cidade cidade;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "endereco")
-    private Collection<Fornecedor> fornecedorCollection;
+ 
+ 
 
     public Endereco() {
     }
@@ -77,13 +65,13 @@ public class Endereco implements Serializable {
         this.id = id;
     }
 
-    public Endereco(Integer id, String rua, String numero, String bairro, String cep, boolean ativo) {
+    public Endereco(Integer id, String rua, String numero, String bairro, String cep) {
         this.id = id;
         this.rua = rua;
         this.numero = numero;
         this.bairro = bairro;
         this.cep = cep;
-        this.ativo = ativo;
+      
     }
 
     public Integer getId() {
@@ -134,14 +122,6 @@ public class Endereco implements Serializable {
         this.complemento = complemento;
     }
 
-    public boolean getAtivo() {
-        return ativo;
-    }
-
-    public void setAtivo(boolean ativo) {
-        this.ativo = ativo;
-    }
-
     public Cidade getCidade() {
         return cidade;
     }
@@ -149,16 +129,7 @@ public class Endereco implements Serializable {
     public void setCidade(Cidade cidade) {
         this.cidade = cidade;
     }
-
-    @XmlTransient
-    public Collection<Fornecedor> getFornecedorCollection() {
-        return fornecedorCollection;
-    }
-
-    public void setFornecedorCollection(Collection<Fornecedor> fornecedorCollection) {
-        this.fornecedorCollection = fornecedorCollection;
-    }
-
+    
     @Override
     public int hashCode() {
         int hash = 0;

@@ -33,9 +33,7 @@ public class Formapagamento implements Serializable {
     @Basic(optional = false)
     @Column(name = "descricao")
     private String descricao;
-    @Basic(optional = false)
-    @Column(name = "ativo")
-    private boolean ativo;
+  
 
     public Formapagamento() {
     }
@@ -44,10 +42,10 @@ public class Formapagamento implements Serializable {
         this.id = id;
     }
 
-    public Formapagamento(Integer id, String descricao, boolean ativo) {
+    public Formapagamento(Integer id, String descricao) {
         this.id = id;
         this.descricao = descricao;
-        this.ativo = ativo;
+        
     }
 
     public Integer getId() {
@@ -65,15 +63,7 @@ public class Formapagamento implements Serializable {
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
-
-    public boolean getAtivo() {
-        return ativo;
-    }
-
-    public void setAtivo(boolean ativo) {
-        this.ativo = ativo;
-    }
-
+    
     @Override
     public int hashCode() {
         int hash = 0;

@@ -21,7 +21,7 @@ public class TestFormaPagamentoDao {
         Formapagamento f = new Formapagamento(); 
   
         f.setDescricao("Teste");
-        f.setAtivo(true);
+        
         
         GenericDAO dao = new GenericDAO(); 
         

@@ -84,7 +84,32 @@ public class GenericDAO<Object> {
         }
         return r;
     }
+    
+    public boolean deletar(Object o) {
 
+        Boolean r = false;
+
+        Session sessao = null;
+
+        try {
+
+            sessao = HibernateUtil.getSessionFactory().openSession();
+            Transaction t = sessao.beginTransaction();
+
+            sessao.delete(o);
+
+            t.commit();
+
+            r = true;
+
+        } catch (HibernateException he) {
+            he.printStackTrace();
+        } finally {
+            sessao.close();
+        }
+        return r;
+    }
+    
     public Object consultarPorId(int id, String className) {
         Object o = null;
         Session sessao = null;
@@ -110,17 +135,17 @@ public class GenericDAO<Object> {
         return o;
     }
 
-    public ArrayList<Object> consultarComCriterio(String className, String criterio, String valor, boolean soAtivos) {
+    public ArrayList<Object> consultarComCriterio(String className, String criterio, String valor) {
 
-        return realizaConsulta(false, className, criterio, valor, soAtivos);
+        return realizaConsulta(false, className, criterio, valor);
     }
 
-    public ArrayList<Object> consultarComCriterioIgualA(String className, String criterio, String valor, boolean soAtivos) {
+    public ArrayList<Object> consultarComCriterioIgualA(String className, String criterio, String valor) {
 
-        return realizaConsulta(true, className, criterio, valor, soAtivos);
+        return realizaConsulta(true, className, criterio, valor);
     }
 
-    private ArrayList<Object> realizaConsulta(boolean valorExato, String className, String criterio, String valor, boolean soAtivos) {
+    private ArrayList<Object> realizaConsulta(boolean valorExato, String className, String criterio, String valor) {
         ArrayList resultado = null;
 
         Session sessao = null;
@@ -131,10 +156,6 @@ public class GenericDAO<Object> {
 
             String sql = "from " + className + " where upper(" + criterio + ") like upper(:criterio)";
 
-            if (soAtivos) {
-                sql = sql + " and ativo = :ativ";
-            }
-
             org.hibernate.Query q = sessao.createQuery(sql);
 
             if (valorExato) {
@@ -142,11 +163,6 @@ public class GenericDAO<Object> {
             } else {
                 q.setString("criterio", "%" + valor + "%");
             }
-
-            if (soAtivos) {
-                q.setBoolean("ativ", true);
-            }
-
             resultado = (ArrayList) q.list();
 
         } catch (HibernateException he) {
@@ -160,10 +176,12 @@ public class GenericDAO<Object> {
 
     public boolean existeRegistro(String className, String criterio, String valor) {
 
-        ArrayList resultado = consultarComCriterioIgualA(className, criterio, valor, true);
+        ArrayList resultado = consultarComCriterioIgualA(className, criterio, valor);
 
         return (resultado.size() > 0);
 
     }
+    
+    
 
 }

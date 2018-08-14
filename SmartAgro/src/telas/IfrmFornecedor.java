@@ -42,7 +42,7 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
 
         // Preenche o combo
         popularCombos();
-        
+
         //Deixar o focus no campo de descrição
         focus();
     }
@@ -452,10 +452,10 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
         // Pega o código do registro para consultar o objeto
         int id = Integer.parseInt(tblFornecedores.getValueAt(tblFornecedores.getSelectedRow(), 0).toString());
         this.fornecedor = dao.consultarPorId(id, "Fornecedor");
-        
+
         // Pega os dados se existir objeto
         if (this.fornecedor != null) {
-            if (this.fornecedor.getCnpj()!= null) {
+            if (this.fornecedor.getCnpj() != null) {
                 tfdCNPJ.setText(this.fornecedor.getCnpj());
             } else {
                 tfdCNPJ.setText(this.fornecedor.getCpf());
@@ -491,15 +491,14 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
             endereco.setBairro(tfdBairro.getText());
             endereco.setComplemento(tfdComplemento.getText());
             endereco.setCep(ffdCEP.getText());
-            endereco.setAtivo(true);
-            ArrayList<Cidade> cidades = new GenericDAO<Cidade>().consultarComCriterioIgualA("Cidade", "nome", tfdCidade.getText(), false);
+            ArrayList<Cidade> cidades = new GenericDAO<Cidade>().consultarComCriterioIgualA("Cidade", "nome", tfdCidade.getText());
             for (Cidade cidade : cidades) {
                 if (cidade.getEstado().getId() == ((Estado) cmbUF.getSelectedItem()).getId()) {
                     endereco.setCidade(cidade);
                     break;
                 }
             }
-            
+
             fornecedor.setEndereco(endereco);
             if (rbtFisica.isSelected()) {
                 fornecedor.setCpf(tfdCNPJ.getText());
@@ -508,17 +507,17 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
             }
             fornecedor.setNome(tfdNome.getText());
             fornecedor.setRazaosocial(tfdRazaoSocial.getText());
-            fornecedor.setAtivo(true);
+       
 
             try {
-                if (!new GenericDAO<>().atualizar(endereco))  {
+                if (!new GenericDAO<>().atualizar(endereco)) {
                     throw new Exception("Erro ao atualizar endereco - fornecedor");
                 }
-                
-                if (!dao.atualizar(fornecedor))  {
+
+                if (!dao.atualizar(fornecedor)) {
                     throw new Exception("Erro ao atualizar fornecedor");
                 }
-                
+
                 Mensagem.mostraInformacao("Sucesso", "Fornecedor " + fornecedor.getNome() + " atualizado com sucesso");
 
             } catch (Exception e) {
@@ -534,9 +533,8 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
             endereco.setBairro(tfdBairro.getText());
             endereco.setComplemento(tfdComplemento.getText());
             endereco.setCep(ffdCEP.getText());
-            endereco.setAtivo(true);
-
-            ArrayList<Cidade> cidades = new GenericDAO<Cidade>().consultarComCriterioIgualA("Cidade", "nome", tfdCidade.getText(), false);
+            
+            ArrayList<Cidade> cidades = new GenericDAO<Cidade>().consultarComCriterioIgualA("Cidade", "nome", tfdCidade.getText());
             for (Cidade cidade : cidades) {
                 if (cidade.getEstado().getId() == ((Estado) cmbUF.getSelectedItem()).getId()) {
                     endereco.setCidade(cidade);
@@ -554,17 +552,16 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
 
             fornecedor.setNome(tfdNome.getText());
             fornecedor.setRazaosocial(tfdRazaoSocial.getText());
-            fornecedor.setAtivo(true);
-
+         
             try {
-                if (!new GenericDAO<>().salvar(endereco))  {
+                if (!new GenericDAO<>().salvar(endereco)) {
                     throw new Exception("Erro ao salvar endereco - fornecedor");
                 }
-                
-                if (!dao.salvar(fornecedor))  {
+
+                if (!dao.salvar(fornecedor)) {
                     throw new Exception("Erro ao salvar fornecedor");
                 }
-                
+
                 Mensagem.mostraInformacao("Sucesso", "Fornecedor " + fornecedor.getNome() + " inserido com sucesso");
 
             } catch (Exception e) {
@@ -583,24 +580,21 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
 
         this.fornecedor = dao.consultarPorId(id, "Fornecedor");
         this.endereco = this.fornecedor.getEndereco();
-        
-        if (fornecedor.getAtivo()) {
-            //Abre uma mensagem pedindo se o usuário realmente quer excluír o registro
-            boolean resposta = Mensagem.confirmaMensagem("Atenção", "Deseja realmente excluir o fornecedor: " + this.fornecedor.getNome()+ "?");
 
-            if (resposta) {
-                this.fornecedor.setAtivo(false);
+        //Abre uma mensagem pedindo se o usuário realmente quer excluír o registro
+        boolean resposta = Mensagem.confirmaMensagem("Atenção", "Deseja realmente excluir o fornecedor: " + this.fornecedor.getNome() + "?");
 
-                // Exclui o registro
-                if (dao.atualizar(fornecedor)) {
-                    Mensagem.mostraInformacao("Confirmação de exclusão", "Fornecedor excluído");
+        if (resposta) {
+            // Exclui o registro
+            if (dao.deletar(fornecedor)) {
+                Mensagem.mostraInformacao("Confirmação de exclusão", "Fornecedor excluído");
 
-                    this.fornecedores = dao.consultarComCriterio("Fornecedor", "nome", tfdCriterio.getText(), true);
-                    this.tblFornecedores.setModel(new jtmFornecedor(this.fornecedores));
-                }
+                this.fornecedores = dao.consultarComCriterio("Fornecedor", "nome", tfdCriterio.getText());
+                this.tblFornecedores.setModel(new jtmFornecedor(this.fornecedores));
+            } else {
+                Mensagem.mostraErro("Problema", "Problema para excluir fornecedor");
             }
-        } else {
-            Mensagem.mostraErro("Problema", "Problema para excluir fornecedor");
+
         }
     }//GEN-LAST:event_btnExcluirActionPerformed
 
@@ -608,7 +602,7 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
         this.dao = new GenericDAO<>();
         this.fornecedores = new ArrayList();
 
-        this.fornecedores = dao.consultarComCriterio("Fornecedor", "nome", tfdCriterio.getText(), true);
+        this.fornecedores = dao.consultarComCriterio("Fornecedor", "nome", tfdCriterio.getText());
         tblFornecedores.setModel(new jtmFornecedor(fornecedores));
     }//GEN-LAST:event_btnPesquisarActionPerformed
 
@@ -617,21 +611,21 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
         //        DlgCidades dlgCidades = new DlgCidades(null, true, uf.getIdEstado());
         //        dlgCidades.setVisible(true);
         //        if (dlgCidades.seleciou() && dlgCidades.getCidade() != null) {
-            //            tfdCidade.setText(dlgCidades.getCidade());
-            //        }
+        //            tfdCidade.setText(dlgCidades.getCidade());
+        //        }
     }//GEN-LAST:event_btnZoomActionPerformed
 
     private void tfdCidadeFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfdCidadeFocusLost
         //        if (tfdCidade.getText().trim().isEmpty()) {
-            //            return;
-            //        }
+        //            return;
+        //        }
         //
         //        Object validou = new CidadeDAO().consultarNome(tfdCidade.getText().trim(), (Estado) cmbUF.getSelectedItem());
         //
         //        if (validou == null) {
-            //            JOptionPane.showMessageDialog(this, "Cidade não cadastrada");
-            //            tfdCidade.requestFocus();
-            //        }
+        //            JOptionPane.showMessageDialog(this, "Cidade não cadastrada");
+        //            tfdCidade.requestFocus();
+        //        }
     }//GEN-LAST:event_tfdCidadeFocusLost
 
     private void rbtJuridicaStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_rbtJuridicaStateChanged
