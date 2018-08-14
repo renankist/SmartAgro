@@ -203,7 +203,7 @@
                         </Component>
                         <Component class="javax.swing.JLabel" name="lblCodigo">
                           <Properties>
-                            <Property name="text" type="java.lang.String" value="C&#xf3;digo *"/>
+                            <Property name="text" type="java.lang.String" value="Refer&#xea;ncia  *"/>
                           </Properties>
                         </Component>
                         <Component class="javax.swing.JTextField" name="tfdCodigo">
@@ -355,7 +355,7 @@
                                   <Group type="102" attributes="0">
                                       <Component id="jLbDescricaoConsulta" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="tfdCriterio" pref="832" max="32767" attributes="0"/>
+                                      <Component id="tfdCriterio" pref="816" max="32767" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Component id="btnPesquisar" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
@@ -374,8 +374,7 @@
                                   <Component id="btnPesquisar" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jScrollPane2" min="-2" pref="225" max="-2" attributes="0"/>
-                              <EmptySpace max="32767" attributes="0"/>
+                              <Component id="jScrollPane2" pref="237" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -391,8 +390,9 @@
                         <Component class="javax.swing.JTable" name="tblProdutos">
                           <Properties>
                             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                              <Table columnCount="6" rowCount="0">
+                              <Table columnCount="7" rowCount="0">
                                 <Column editable="false" title="C&#xf3;digo" type="java.lang.Object"/>
+                                <Column editable="true" title="Refer&#xea;ncia" type="java.lang.Object"/>
                                 <Column editable="false" title="Descri&#xe7;&#xe3;o" type="java.lang.Object"/>
                                 <Column editable="false" title="Valor Compra" type="java.lang.Object"/>
                                 <Column editable="false" title="Valor Venda" type="java.lang.Object"/>
@@ -402,6 +402,11 @@
                             </Property>
                             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                               <TableColumnModel selectionModel="0">
+                                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                                  <Title/>
+                                  <Editor/>
+                                  <Renderer/>
+                                </Column>
                                 <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                                   <Title/>
                                   <Editor/>

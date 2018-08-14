@@ -15,7 +15,7 @@ import javax.swing.table.AbstractTableModel;
  */
 public class jtmProduto extends AbstractTableModel {
     private ArrayList<Produto> produtos;
-    private String[] colunas = {"Código", "Descrição", "Valor Compra", "Valor Venda", "Unidade de Medida", "Estoque"};
+    private String[] colunas = {"Código", "Referência", "Descrição", "Valor Compra", "Valor Venda", "Unidade de Medida", "Estoque"};
 
     public jtmProduto(ArrayList<Produto> produtos) {
         this.produtos = produtos;
@@ -58,14 +58,16 @@ public class jtmProduto extends AbstractTableModel {
             case 0:
                 return produtos.get(linha).getId();
             case 1:
-                return produtos.get(linha).getDescricao(); 
+                return produtos.get(linha).getCodigo();
             case 2:
+                return produtos.get(linha).getDescricao(); 
+            case 3:
                 return produtos.get(linha).getValorcompra(); 
-            case 3: 
+            case 4: 
                 return produtos.get(linha).getValorvenda();
-            case 4:
+            case 5:
                 return produtos.get(linha).getUnidademedida(); 
-            case 5: 
+            case 6: 
                 return produtos.get(linha).getQuantidadeestoque();
         }
 

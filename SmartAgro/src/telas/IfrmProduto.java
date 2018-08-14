@@ -117,7 +117,7 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
 
         lblCodigoBarras.setText("Código de Barras");
 
-        lblCodigo.setText("Código *");
+        lblCodigo.setText("Referência  *");
 
         tfdCodigo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -247,11 +247,11 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "Código", "Descrição", "Valor Compra", "Valor Venda", "Unidade de Medida", "Estoque"
+                "Código", "Referência", "Descrição", "Valor Compra", "Valor Venda", "Unidade de Medida", "Estoque"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, true, true
+                false, true, false, false, false, true, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -280,7 +280,7 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
                     .addGroup(pnlConsultaLayout.createSequentialGroup()
                         .addComponent(jLbDescricaoConsulta)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tfdCriterio, javax.swing.GroupLayout.DEFAULT_SIZE, 832, Short.MAX_VALUE)
+                        .addComponent(tfdCriterio, javax.swing.GroupLayout.DEFAULT_SIZE, 816, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnPesquisar)
                         .addContainerGap())))
@@ -294,8 +294,7 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
                     .addComponent(tfdCriterio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnPesquisar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 237, Short.MAX_VALUE))
         );
 
         tabAbas.addTab("Consulta", pnlConsulta);
