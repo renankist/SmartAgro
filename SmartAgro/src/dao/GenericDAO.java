@@ -1,6 +1,7 @@
 package dao;
 
 import apoio.HibernateUtil;
+import apoio.Validacao;
 import java.util.ArrayList;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -154,7 +155,14 @@ public class GenericDAO<Object> {
             sessao = HibernateUtil.getSessionFactory().openSession();
             sessao.beginTransaction();
 
-            String sql = "from " + className + " where upper(" + criterio + ") like upper(:criterio)";
+            String sql = "from " + className;
+                    
+            // Verifica se o critério é um numero, se for, não usa o upper
+            if (Validacao.isNumeric(criterio)) {
+                sql = sql + " where " + criterio + ") like :criterio";
+            } else {
+                sql = sql + " where upper(" + criterio + ") like upper(:criterio)";
+            }
 
             org.hibernate.Query q = sessao.createQuery(sql);
 

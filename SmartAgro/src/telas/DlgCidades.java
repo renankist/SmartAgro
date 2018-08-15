@@ -189,19 +189,23 @@ public class DlgCidades extends javax.swing.JDialog {
     
     public void popularTabela(String cidade, String uf) {
         
-        if (!cidade.trim().isEmpty()) {
-            cidades = dao.consultarComCriterio("Cidade", "nome", cidade, false);
-        } else if(!uf.trim().isEmpty()){
-            cidades = dao.consultarComCriterio("Cidade", "estado", String.valueOf(((Estado) cmbUF.getSelectedItem()).getId()), false);
-        } else {
-            cidades = dao.consultarComCriterio("Cidade", "nome", "", false);
+        Estado estado = null;
+        if (!uf.trim().isEmpty()) {
+            estado = ((Estado) cmbUF.getSelectedItem());
         }
         
-        if (!uf.trim().isEmpty()) {
+        if (!cidade.trim().isEmpty()) {
+            cidades = dao.consultarComCriterio("Cidade", "nome", cidade);
+        } else if(!uf.trim().isEmpty()){
+            cidades = dao.consultarComCriterio("Cidade", "estado", String.valueOf(estado.getId()));
+        } else {
+            cidades = dao.consultarComCriterio("Cidade", "nome", "");
+        }
+        
+        if (estado != null) {
             for (Cidade cid : cidades) {
-                if (cid.getEstado().getId() == ((Estado) cmbUF.getSelectedItem()).getId()) {
-                    this.cidade = cid;
-                    break;
+                if (cid.getEstado().getId() != ((Estado) cmbUF.getSelectedItem()).getId()) {
+                    cidades.remove(cid);
                 }
             }
         }
