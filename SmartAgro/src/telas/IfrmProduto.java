@@ -383,7 +383,7 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
 
-        JComponent[] components = new JComponent[]{tfdCodigo, tfdDescricao, tfdQuantidadeEstoque, moedaFormatadaValorCompra, moedaFormatadaValorVenda, jComboUnidadeMedida};
+        JComponent[] components = new JComponent[]{tfdCodigo, tfdDescricao, tfdQuantidadeEstoque, jComboUnidadeMedida};
         VerificadorCampos verifier = new VerificadorCampos(components);
         
         if (!verifier.validaCampos()) {
