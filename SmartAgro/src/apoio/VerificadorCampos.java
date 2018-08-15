@@ -5,6 +5,7 @@
  */
 package apoio;
 
+import java.util.ArrayList;
 import javax.swing.InputVerifier;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
@@ -19,25 +20,43 @@ import javax.swing.JTextField;
 public class VerificadorCampos extends InputVerifier {
 
     private JComponent[] components;
+    private ArrayList<String> mensagens;
 
     public VerificadorCampos(JComponent[] components) {
         this.components = components;
     }
 
     public boolean validaCampos() {
-        boolean volta = false;
+        boolean inputOK = false;
+        String mensagem = "";
+        JComponent campoFoco = null;
+
         // Método da própria classe InputVerifier que chama a função que para validar os campos
         // Se este método retornar false, o foco permanece no campo que não foi validado
         if (this.components != null) {
             for (JComponent campo : components) {
-                volta = shouldYieldFocus(campo);
-                if (!volta) {
-                    campo.requestFocus();
-                    break;
+
+                inputOK = shouldYieldFocus(campo);
+
+                if (!inputOK) {
+
+                    if (mensagem.trim().isEmpty()) {
+                        mensagem = retornaMensagem(campo);
+                    }
+
+                    if (campoFoco == null) {
+                        campoFoco = campo;
+                    }
                 }
             }
         }
-        return volta;
+
+        if (!mensagem.trim().isEmpty()) {
+            Mensagem.mostraInformacao("Atenção", mensagem);
+            campoFoco.requestFocus();
+        }
+
+        return inputOK;
     }
 
     @Override
@@ -47,10 +66,6 @@ public class VerificadorCampos extends InputVerifier {
 
         // Pinta o campo caso não estiver de acordo
         ColoreCampos.pintarCampo(input, !inputOK);
-
-        if (!inputOK) {
-            Mensagem.mostraAletra("Atenção", retornaMensagem(input));
-        }
 
         return inputOK;
     }
