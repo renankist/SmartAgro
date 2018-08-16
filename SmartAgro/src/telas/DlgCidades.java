@@ -15,34 +15,32 @@ import java.util.ArrayList;
  * @author morganabagatini
  */
 public class DlgCidades extends javax.swing.JDialog {
-    
+
     private Cidade cidade;
     private GenericDAO<Cidade> dao;
     private ArrayList<Cidade> cidades;
     private boolean selecionou;
-    
+
     //    DlgCidades dlgCidades = new DlgCidades(null, true);
 //        dlgCidades.setVisible(true);
 //        if (dlgCidades.seleciou() && dlgCidades.getCidade() != null) {
 //            //tfdCidade.setText(dlgCidades.getCidade());
 //        }
-
     /**
      * Creates new form DlgCidades
      */
     public DlgCidades(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        
+
         // DAO
         dao = new GenericDAO();
-        
+
         // Popula combo UF
         GenericDAO<Estado> ufdao = new GenericDAO<>();
-        ArrayList<Estado> ufs = new ArrayList();
-        ufs = ufdao.consultarTodos("Estado");
+        ArrayList<Estado> ufs = ufdao.consultarTodos("Estado");
         cmbUF.setModel(new EstadoComboModel(ufs));
-        
+
         popularTabela("", "");
     }
 
@@ -186,34 +184,38 @@ public class DlgCidades extends javax.swing.JDialog {
             }
         });
     }
-    
+
     public void popularTabela(String cidade, String uf) {
-        
+
         Estado estado = null;
         if (!uf.trim().isEmpty()) {
             estado = ((Estado) cmbUF.getSelectedItem());
         }
         
+        cidades = null;
+
         if (!cidade.trim().isEmpty()) {
             cidades = dao.consultarComCriterio("Cidade", "nome", cidade);
-        } else if(!uf.trim().isEmpty()){
+        } else if (!uf.trim().isEmpty()) {
             cidades = dao.consultarComCriterio("Cidade", "estado", String.valueOf(estado.getId()));
         } else {
             cidades = dao.consultarComCriterio("Cidade", "nome", "");
         }
-        
+
+        // Filtra somente as cidades do estado informado
         if (estado != null) {
-            for (Cidade cid : cidades) {
-                if (cid.getEstado().getId() != ((Estado) cmbUF.getSelectedItem()).getId()) {
-                    cidades.remove(cid);
+            ArrayList<Cidade> cidadesUF = new ArrayList();
+            for (int i = 0; i < cidades.size(); i++) {
+                if (cidades.get(i).getEstado().getId().equals(estado.getId())) {
+                    cidadesUF.add(cidades.get(i));
                 }
             }
+            cidades = cidadesUF;
         }
-        
+
         tblCidades.setModel(new jtmCidade((cidades)));
     }
-    
-    
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnPesquisar;
