@@ -27,7 +27,7 @@ public class VerificadorCampos extends InputVerifier {
     }
 
     public boolean validaCampos() {
-        boolean inputOK = false;
+        boolean inputOK = true;
         String mensagem = "";
         JComponent campoFoco = null;
 
@@ -36,9 +36,11 @@ public class VerificadorCampos extends InputVerifier {
         if (this.components != null) {
             for (JComponent campo : components) {
 
-                inputOK = shouldYieldFocus(campo);
+                boolean validou = shouldYieldFocus(campo);
 
-                if (!inputOK) {
+                if (!validou) {
+                    // Se não validou algum campo, sinaliza que tem problema nos dados
+                    inputOK = false;
 
                     if (mensagem.trim().isEmpty()) {
                         mensagem = retornaMensagem(campo);
@@ -74,11 +76,11 @@ public class VerificadorCampos extends InputVerifier {
 
         boolean campoOK = false;
 
-        if (input instanceof JTextField) {
-            campoOK = !(((JTextField) input).getText().trim().isEmpty());
-        } else if (input instanceof JFormattedTextField) {
+        if (input instanceof JFormattedTextField) {
             campoOK = !(((JFormattedTextField) input).getText().trim().isEmpty());
-        } else if (input instanceof JComboBox) {
+        } else if (input instanceof JTextField) {
+            campoOK = !(((JTextField) input).getText().trim().isEmpty());
+        } else  if (input instanceof JComboBox) {
             campoOK = !(((JComboBox) input).getSelectedIndex() == 0);
         } else if (input instanceof JRadioButton) {
             campoOK = !(((JRadioButton) input).getSelectedObjects() == null);

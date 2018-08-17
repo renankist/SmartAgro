@@ -16,16 +16,11 @@ import java.util.ArrayList;
  */
 public class DlgCidades extends javax.swing.JDialog {
 
-    private Cidade cidade;
     private GenericDAO<Cidade> dao;
     private ArrayList<Cidade> cidades;
     private boolean selecionou;
+    private jtmCidade modelCidade;
 
-    //    DlgCidades dlgCidades = new DlgCidades(null, true);
-//        dlgCidades.setVisible(true);
-//        if (dlgCidades.seleciou() && dlgCidades.getCidade() != null) {
-//            //tfdCidade.setText(dlgCidades.getCidade());
-//        }
     /**
      * Creates new form DlgCidades
      */
@@ -42,6 +37,54 @@ public class DlgCidades extends javax.swing.JDialog {
         cmbUF.setModel(new EstadoComboModel(ufs));
 
         popularTabela("", "");
+    }
+
+    public void popularTabela(String cidade, String uf) {
+
+        Estado estado = null;
+        if (!uf.trim().isEmpty()) {
+            estado = ((Estado) cmbUF.getSelectedItem());
+        }
+
+        cidades = null;
+
+        if (!cidade.trim().isEmpty()) {
+            cidades = dao.consultarComCriterio("Cidade", "nome", cidade);
+        } else if (!uf.trim().isEmpty()) {
+            cidades = dao.consultarComCriterio("Cidade", "estado", String.valueOf(estado.getId()));
+        } else {
+            cidades = dao.consultarComCriterio("Cidade", "nome", "");
+        }
+
+        // Filtra somente as cidades do estado informado
+        if (estado != null) {
+            ArrayList<Cidade> cidadesUF = new ArrayList();
+            for (int i = 0; i < cidades.size(); i++) {
+                if (cidades.get(i).getEstado().getId().equals(estado.getId())) {
+                    cidadesUF.add(cidades.get(i));
+                }
+            }
+            cidades = cidadesUF;
+        }
+
+        modelCidade = new jtmCidade((cidades));
+        tblCidades.setModel(modelCidade);
+    }
+
+    public Cidade getCidade() {
+        Cidade cid;
+
+        if (selecionou) {
+            cid = modelCidade.get(tblCidades.getSelectedRow());
+        } else {
+            cid = null;
+        }
+
+        return cid;
+    }
+
+    public boolean seleciou() {
+        return selecionou;
     }
 
     /**
@@ -61,8 +104,11 @@ public class DlgCidades extends javax.swing.JDialog {
         jScrollPane1 = new javax.swing.JScrollPane();
         tblCidades = new javax.swing.JTable();
         btnPesquisar = new javax.swing.JButton();
+        btnCancelar = new javax.swing.JButton();
+        btnSelecionar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Cidades");
 
         jLabel1.setText("Cidade");
 
@@ -79,12 +125,31 @@ public class DlgCidades extends javax.swing.JDialog {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tblCidades.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblCidadesMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblCidades);
 
         btnPesquisar.setText("Pesquisar");
         btnPesquisar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnPesquisarActionPerformed(evt);
+            }
+        });
+
+        btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
+
+        btnSelecionar.setText("Selecionar");
+        btnSelecionar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSelecionarActionPerformed(evt);
             }
         });
 
@@ -105,7 +170,12 @@ public class DlgCidades extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cmbUF, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnPesquisar)))
+                        .addComponent(btnPesquisar))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnSelecionar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnCancelar)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -119,7 +189,11 @@ public class DlgCidades extends javax.swing.JDialog {
                     .addComponent(cmbUF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnPesquisar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 309, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnCancelar)
+                    .addComponent(btnSelecionar))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -133,15 +207,33 @@ public class DlgCidades extends javax.swing.JDialog {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
         popularTabela(tfdCidade.getText(), cmbUF.getSelectedItem().toString());
     }//GEN-LAST:event_btnPesquisarActionPerformed
+
+    private void tblCidadesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblCidadesMouseClicked
+        if (evt.getClickCount() == 2) {
+            selecionou = true;
+            this.dispose();
+        }
+    }//GEN-LAST:event_tblCidadesMouseClicked
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        selecionou = false;
+        this.dispose();
+    }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void btnSelecionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelecionarActionPerformed
+        selecionou = true;
+        this.dispose();
+    }//GEN-LAST:event_btnSelecionarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -185,40 +277,10 @@ public class DlgCidades extends javax.swing.JDialog {
         });
     }
 
-    public void popularTabela(String cidade, String uf) {
-
-        Estado estado = null;
-        if (!uf.trim().isEmpty()) {
-            estado = ((Estado) cmbUF.getSelectedItem());
-        }
-        
-        cidades = null;
-
-        if (!cidade.trim().isEmpty()) {
-            cidades = dao.consultarComCriterio("Cidade", "nome", cidade);
-        } else if (!uf.trim().isEmpty()) {
-            cidades = dao.consultarComCriterio("Cidade", "estado", String.valueOf(estado.getId()));
-        } else {
-            cidades = dao.consultarComCriterio("Cidade", "nome", "");
-        }
-
-        // Filtra somente as cidades do estado informado
-        if (estado != null) {
-            ArrayList<Cidade> cidadesUF = new ArrayList();
-            for (int i = 0; i < cidades.size(); i++) {
-                if (cidades.get(i).getEstado().getId().equals(estado.getId())) {
-                    cidadesUF.add(cidades.get(i));
-                }
-            }
-            cidades = cidadesUF;
-        }
-
-        tblCidades.setModel(new jtmCidade((cidades)));
-    }
-
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnPesquisar;
+    private javax.swing.JButton btnSelecionar;
     private javax.swing.JComboBox cmbUF;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

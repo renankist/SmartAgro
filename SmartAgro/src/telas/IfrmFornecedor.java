@@ -25,6 +25,7 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
     private GenericDAO<Fornecedor> dao;
     private ArrayList<Fornecedor> fornecedores;
     private ArrayList<Estado> ufs;
+    private DlgCidades dlgCidades;
     private boolean editando = false;
 
     /**
@@ -40,19 +41,8 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
         fornecedores = new ArrayList();
         tblFornecedores.setModel(new jtmFornecedor(fornecedores));
 
-        // Preenche o combo
-        popularCombos();
-
         //Deixar o focus no campo de descrição
         focus();
-    }
-
-    private void popularCombos() {
-        // Popula combo UF
-        GenericDAO<Estado> ufdao = new GenericDAO<>();
-        this.ufs = new ArrayList();
-        this.ufs = ufdao.consultarTodos("Estado");
-        cmbUF.setModel(new EstadoComboModel(this.ufs));
     }
 
     private void focus() {
@@ -104,8 +94,6 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
         tfdCidade = new javax.swing.JTextField();
         jLabel14 = new javax.swing.JLabel();
         tfdComplemento = new javax.swing.JTextField();
-        jLabel16 = new javax.swing.JLabel();
-        cmbUF = new javax.swing.JComboBox();
         btnZoom = new javax.swing.JButton();
         pnlConsulta = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -230,16 +218,11 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
 
         jLabel13.setText("Cidade *");
 
-        tfdCidade.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                tfdCidadeFocusLost(evt);
-            }
-        });
+        tfdCidade.setEditable(false);
 
         jLabel14.setText("Complemento");
 
-        jLabel16.setText("UF *");
-
+        btnZoom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/zoom.png"))); // NOI18N
         btnZoom.setToolTipText("Pesquisar");
         btnZoom.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         btnZoom.addActionListener(new java.awt.event.ActionListener() {
@@ -275,19 +258,15 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
                         .addComponent(tfdLogradouro, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
                 .addGroup(pnlEnderecoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel11)
-                    .addComponent(jLabel14)
-                    .addComponent(jLabel16))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlEnderecoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel11)
+                        .addComponent(jLabel14))
+                    .addComponent(jLabel15, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlEnderecoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnlEnderecoLayout.createSequentialGroup()
-                        .addComponent(cmbUF, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel15)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(ffdCEP, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(tfdComplemento, javax.swing.GroupLayout.PREFERRED_SIZE, 351, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tfdNumero, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tfdNumero, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ffdCEP, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(47, Short.MAX_VALUE))
         );
         pnlEnderecoLayout.setVerticalGroup(
@@ -304,8 +283,6 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
                             .addComponent(tfdComplemento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(pnlEnderecoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel16)
-                            .addComponent(cmbUF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel15)
                             .addComponent(ffdCEP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(pnlEnderecoLayout.createSequentialGroup()
@@ -469,7 +446,6 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
             tfdComplemento.setText(this.fornecedor.getEndereco().getComplemento());
             tfdCidade.setText(this.fornecedor.getEndereco().getCidade().getNome());
             ffdCEP.setText(this.fornecedor.getEndereco().getCep());
-            cmbUF.setSelectedItem(this.fornecedor.getEndereco().getCidade().getEstado());
             tabAbas.setSelectedIndex(0);
             editando = true;
             focus();
@@ -477,7 +453,7 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
-        JComponent[] components = new JComponent[]{tfdNome, tfdLogradouro, tfdBairro, tfdCidade, cmbUF, ffdCEP};
+        JComponent[] components = new JComponent[]{tfdNome, tfdLogradouro, tfdBairro, tfdCidade, ffdCEP};
         VerificadorCampos verifier = new VerificadorCampos(components);
         if (!verifier.validaCampos()) {
             return;
@@ -491,23 +467,17 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
             endereco.setBairro(tfdBairro.getText());
             endereco.setComplemento(tfdComplemento.getText());
             endereco.setCep(ffdCEP.getText());
-            ArrayList<Cidade> cidades = new GenericDAO<Cidade>().consultarComCriterioIgualA("Cidade", "nome", tfdCidade.getText());
-            for (Cidade cidade : cidades) {
-                if (cidade.getEstado().getId() == ((Estado) cmbUF.getSelectedItem()).getId()) {
-                    endereco.setCidade(cidade);
-                    break;
-                }
-            }
+            endereco.setCidade(dlgCidades.getCidade());
 
             fornecedor.setEndereco(endereco);
+            fornecedor.setNome(tfdNome.getText());
+            fornecedor.setRazaosocial(tfdRazaoSocial.getText());
+            
             if (rbtFisica.isSelected()) {
                 fornecedor.setCpf(tfdCNPJ.getText());
             } else {
                 fornecedor.setCnpj(tfdCNPJ.getText());
             }
-            fornecedor.setNome(tfdNome.getText());
-            fornecedor.setRazaosocial(tfdRazaoSocial.getText());
-       
 
             try {
                 if (!new GenericDAO<>().atualizar(endereco)) {
@@ -533,26 +503,18 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
             endereco.setBairro(tfdBairro.getText());
             endereco.setComplemento(tfdComplemento.getText());
             endereco.setCep(ffdCEP.getText());
+            endereco.setCidade(dlgCidades.getCidade());
             
-            ArrayList<Cidade> cidades = new GenericDAO<Cidade>().consultarComCriterioIgualA("Cidade", "nome", tfdCidade.getText());
-            for (Cidade cidade : cidades) {
-                if (cidade.getEstado().getId() == ((Estado) cmbUF.getSelectedItem()).getId()) {
-                    endereco.setCidade(cidade);
-                    break;
-                }
-            }
-
             fornecedor.setEndereco(endereco);
-
+            fornecedor.setNome(tfdNome.getText());
+            fornecedor.setRazaosocial(tfdRazaoSocial.getText());
+            
             if (rbtFisica.isSelected()) {
                 fornecedor.setCpf(tfdCNPJ.getText());
             } else {
                 fornecedor.setCnpj(tfdCNPJ.getText());
             }
 
-            fornecedor.setNome(tfdNome.getText());
-            fornecedor.setRazaosocial(tfdRazaoSocial.getText());
-         
             try {
                 if (!new GenericDAO<>().salvar(endereco)) {
                     throw new Exception("Erro ao salvar endereco - fornecedor");
@@ -607,26 +569,13 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnPesquisarActionPerformed
 
     private void btnZoomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnZoomActionPerformed
-        //        Estado uf = (Estado) cmbUF.getSelectedItem();
-        //        DlgCidades dlgCidades = new DlgCidades(null, true, uf.getIdEstado());
-        //        dlgCidades.setVisible(true);
-        //        if (dlgCidades.seleciou() && dlgCidades.getCidade() != null) {
-        //            tfdCidade.setText(dlgCidades.getCidade());
-        //        }
+        dlgCidades = new DlgCidades(null, true);
+        dlgCidades.setVisible(true);
+        if (dlgCidades.seleciou() && dlgCidades.getCidade() != null) {
+            String cidade = dlgCidades.getCidade().getNome() + " - " + dlgCidades.getCidade().getEstado().getSigla();
+            tfdCidade.setText(cidade);
+        }
     }//GEN-LAST:event_btnZoomActionPerformed
-
-    private void tfdCidadeFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfdCidadeFocusLost
-        //        if (tfdCidade.getText().trim().isEmpty()) {
-        //            return;
-        //        }
-        //
-        //        Object validou = new CidadeDAO().consultarNome(tfdCidade.getText().trim(), (Estado) cmbUF.getSelectedItem());
-        //
-        //        if (validou == null) {
-        //            JOptionPane.showMessageDialog(this, "Cidade não cadastrada");
-        //            tfdCidade.requestFocus();
-        //        }
-    }//GEN-LAST:event_tfdCidadeFocusLost
 
     private void rbtJuridicaStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_rbtJuridicaStateChanged
 
@@ -644,7 +593,6 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnPesquisar;
     private javax.swing.JButton btnSalvar;
     private javax.swing.JButton btnZoom;
-    private javax.swing.JComboBox cmbUF;
     private javax.swing.JFormattedTextField ffdCEP;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -653,7 +601,6 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel25;
     private javax.swing.JPanel jPanel1;
