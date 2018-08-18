@@ -9,10 +9,12 @@ import apoio.*;
 import dao.GenericDAO;
 import entidade.Fornecedor;
 import entidade.Estado;
-import entidade.Cidade;
 import entidade.Endereco;
 import java.util.ArrayList;
 import javax.swing.JComponent;
+import javax.swing.JTabbedPane;
+import javax.swing.JPanel;
+import java.awt.event.ItemEvent;
 
 /**
  *
@@ -80,7 +82,7 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
         tfdCodigo = new javax.swing.JTextField();
         tfdRazaoSocial = new javax.swing.JTextField();
         lblNome1 = new javax.swing.JLabel();
-        tfdCNPJ = new javax.swing.JTextField();
+        ffdCNPJ = new javax.swing.JFormattedTextField();
         pnlEndereco = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
         tfdLogradouro = new javax.swing.JTextField();
@@ -95,6 +97,7 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
         jLabel14 = new javax.swing.JLabel();
         tfdComplemento = new javax.swing.JTextField();
         btnZoom = new javax.swing.JButton();
+        jLabel26 = new javax.swing.JLabel();
         pnlConsulta = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblFornecedores = new javax.swing.JTable();
@@ -129,19 +132,32 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
             }
         });
 
+        tabAbas.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                tabAbasStateChanged(evt);
+            }
+        });
+        tabAbas.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                tabAbasFocusLost(evt);
+            }
+        });
+
+        pnlCadastro.setName("pnlCadastro"); // NOI18N
+
         btgPessoa.add(rbtFisica);
         rbtFisica.setText("Pessoa Física");
-        rbtFisica.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                rbtFisicaStateChanged(evt);
+        rbtFisica.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                rbtFisicaItemStateChanged(evt);
             }
         });
 
         btgPessoa.add(rbtJuridica);
         rbtJuridica.setText("Pessoa Jurídica");
-        rbtJuridica.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                rbtJuridicaStateChanged(evt);
+        rbtJuridica.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                rbtJuridicaItemStateChanged(evt);
             }
         });
 
@@ -175,8 +191,8 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
                     .addComponent(tfdRazaoSocial)
                     .addGroup(pnlGeralLayout.createSequentialGroup()
                         .addGroup(pnlGeralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(tfdCNPJ, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(tfdCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(tfdCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(ffdCNPJ, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -186,10 +202,10 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
                 .addGroup(pnlGeralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel25)
                     .addComponent(tfdCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
                 .addGroup(pnlGeralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblNome1)
-                    .addComponent(tfdCNPJ, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(ffdCNPJ, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(pnlGeralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblNome)
@@ -302,6 +318,8 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jLabel26.setText("Tipo *");
+
         javax.swing.GroupLayout pnlCadastroLayout = new javax.swing.GroupLayout(pnlCadastro);
         pnlCadastro.setLayout(pnlCadastroLayout);
         pnlCadastroLayout.setHorizontalGroup(
@@ -311,6 +329,9 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
                 .addGroup(pnlCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(pnlGeral, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(pnlCadastroLayout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(jLabel26)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(rbtFisica)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(rbtJuridica)
@@ -324,7 +345,8 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(pnlCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(rbtFisica)
-                    .addComponent(rbtJuridica))
+                    .addComponent(rbtJuridica)
+                    .addComponent(jLabel26))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(pnlGeral, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -333,6 +355,8 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
         );
 
         tabAbas.addTab("Cadastro", pnlCadastro);
+
+        pnlConsulta.setName("pnlConsulta"); // NOI18N
 
         tblFornecedores.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -429,13 +453,18 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
         // Pega o código do registro para consultar o objeto
         int id = Integer.parseInt(tblFornecedores.getValueAt(tblFornecedores.getSelectedRow(), 0).toString());
         this.fornecedor = dao.consultarPorId(id, "Fornecedor");
+        
+        LimpaCampos.limparCampos(pnlGeral);
+        LimpaCampos.limparCampos(pnlEndereco);
 
         // Pega os dados se existir objeto
         if (this.fornecedor != null) {
             if (this.fornecedor.getCnpj() != null) {
-                tfdCNPJ.setText(this.fornecedor.getCnpj());
+                rbtJuridica.setSelected(true);
+                ffdCNPJ.setText(this.fornecedor.getCnpj());
             } else {
-                tfdCNPJ.setText(this.fornecedor.getCpf());
+                rbtFisica.setSelected(true);
+                ffdCNPJ.setText(this.fornecedor.getCpf());
             }
             tfdCodigo.setText(String.valueOf(this.fornecedor.getId()));
             tfdNome.setText(this.fornecedor.getNome());
@@ -452,33 +481,80 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btnEditarActionPerformed
 
-    private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
-        JComponent[] components = new JComponent[]{tfdNome, tfdLogradouro, tfdBairro, tfdCidade, ffdCEP};
-        VerificadorCampos verifier = new VerificadorCampos(components);
+    private boolean validaCampos() {
+        ArrayList<JComponent> components = new ArrayList();
+
+        // Verifica se um radio foi selecionado, se não foi valida os dois
+        if (btgPessoa.getSelection() == null) {
+            components.add(rbtFisica);
+            components.add(rbtJuridica);
+        } else {
+            ColoreCampos.pintarCampo(rbtFisica, false);
+            ColoreCampos.pintarCampo(rbtJuridica, false);
+        }
+
+        components.add(tfdNome);
+        components.add(tfdLogradouro);
+        components.add(tfdBairro);
+        components.add(tfdCidade);
+        components.add(ffdCEP);
+
+        JComponent[] simpleArray = new JComponent[components.size()];
+        components.toArray(simpleArray);
+        VerificadorCampos verifier = new VerificadorCampos(simpleArray);
+
         if (!verifier.validaCampos()) {
+            return false;
+        }
+
+        if (rbtFisica.isSelected()) {
+            if (!Validacao.validarCPF(Formatacao.removerFormatacao(ffdCNPJ.getText()))) {
+                Mensagem.mostraAletra("Atenção", "CPF inválido");
+                ffdCNPJ.requestFocus();
+                return false;
+            }
+        } else {
+            if (!Validacao.validarCNPJ(Formatacao.removerFormatacao(ffdCNPJ.getText()))) {
+                Mensagem.mostraAletra("Atenção", "CNPJ inválido");
+                ffdCNPJ.requestFocus();
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
+
+        if (!validaCampos()) {
             return;
         }
 
         this.dao = new GenericDAO();
 
+        if (!editando) {
+            fornecedor = new Fornecedor();
+            endereco = new Endereco();
+        }
+
+        endereco.setRua(tfdLogradouro.getText());
+        endereco.setNumero(tfdNumero.getText());
+        endereco.setBairro(tfdBairro.getText());
+        endereco.setComplemento(tfdComplemento.getText());
+        endereco.setCep(ffdCEP.getText());
+        endereco.setCidade(dlgCidades.getCidade());
+
+        fornecedor.setEndereco(endereco);
+        fornecedor.setNome(tfdNome.getText());
+        fornecedor.setRazaosocial(tfdRazaoSocial.getText());
+
+        if (rbtFisica.isSelected()) {
+            fornecedor.setCpf(ffdCNPJ.getText());
+        } else {
+            fornecedor.setCnpj(ffdCNPJ.getText());
+        }
+
         if (editando) {
-            endereco.setRua(tfdLogradouro.getText());
-            endereco.setNumero(tfdNumero.getText());
-            endereco.setBairro(tfdBairro.getText());
-            endereco.setComplemento(tfdComplemento.getText());
-            endereco.setCep(ffdCEP.getText());
-            endereco.setCidade(dlgCidades.getCidade());
-
-            fornecedor.setEndereco(endereco);
-            fornecedor.setNome(tfdNome.getText());
-            fornecedor.setRazaosocial(tfdRazaoSocial.getText());
-            
-            if (rbtFisica.isSelected()) {
-                fornecedor.setCpf(tfdCNPJ.getText());
-            } else {
-                fornecedor.setCnpj(tfdCNPJ.getText());
-            }
-
             try {
                 if (!new GenericDAO<>().atualizar(endereco)) {
                     throw new Exception("Erro ao atualizar endereco - fornecedor");
@@ -494,26 +570,8 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
                 Mensagem.mostraInformacao("Problema", "Problema ao atualizar fornecedor");
             }
             editando = false;
-        } else {
-            fornecedor = new Fornecedor();
-            endereco = new Endereco();
 
-            endereco.setRua(tfdLogradouro.getText());
-            endereco.setNumero(tfdNumero.getText());
-            endereco.setBairro(tfdBairro.getText());
-            endereco.setComplemento(tfdComplemento.getText());
-            endereco.setCep(ffdCEP.getText());
-            endereco.setCidade(dlgCidades.getCidade());
-            
-            fornecedor.setEndereco(endereco);
-            fornecedor.setNome(tfdNome.getText());
-            fornecedor.setRazaosocial(tfdRazaoSocial.getText());
-            
-            if (rbtFisica.isSelected()) {
-                fornecedor.setCpf(tfdCNPJ.getText());
-            } else {
-                fornecedor.setCnpj(tfdCNPJ.getText());
-            }
+        } else {
 
             try {
                 if (!new GenericDAO<>().salvar(endereco)) {
@@ -556,7 +614,6 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
             } else {
                 Mensagem.mostraErro("Problema", "Problema para excluir fornecedor");
             }
-
         }
     }//GEN-LAST:event_btnExcluirActionPerformed
 
@@ -577,14 +634,29 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btnZoomActionPerformed
 
-    private void rbtJuridicaStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_rbtJuridicaStateChanged
+    private void rbtFisicaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_rbtFisicaItemStateChanged
+        if (evt.getStateChange() == ItemEvent.SELECTED) {
+            if (rbtFisica.isSelected()) {
+                Formatacao.reformatarCpf(ffdCNPJ);
+            }
+        }
+    }//GEN-LAST:event_rbtFisicaItemStateChanged
 
-    }//GEN-LAST:event_rbtJuridicaStateChanged
+    private void rbtJuridicaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_rbtJuridicaItemStateChanged
+        if (evt.getStateChange() == ItemEvent.SELECTED) {
+            if (rbtJuridica.isSelected()) {
+                Formatacao.reformatarCnpj(ffdCNPJ);
+            }
+        }
+    }//GEN-LAST:event_rbtJuridicaItemStateChanged
 
-    private void rbtFisicaStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_rbtFisicaStateChanged
+    private void tabAbasStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tabAbasStateChanged
+        HabilitaCampos.controlaBotoes(evt, btnSalvar, btnEditar, btnExcluir);
+    }//GEN-LAST:event_tabAbasStateChanged
 
-    }//GEN-LAST:event_rbtFisicaStateChanged
-
+    private void tabAbasFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tabAbasFocusLost
+        HabilitaCampos.controlaPainelCadastro(evt, editando);
+    }//GEN-LAST:event_tabAbasFocusLost
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup btgPessoa;
@@ -594,6 +666,7 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnSalvar;
     private javax.swing.JButton btnZoom;
     private javax.swing.JFormattedTextField ffdCEP;
+    private javax.swing.JFormattedTextField ffdCNPJ;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -603,6 +676,7 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel25;
+    private javax.swing.JLabel jLabel26;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
@@ -617,7 +691,6 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
     private javax.swing.JTabbedPane tabAbas;
     private javax.swing.JTable tblFornecedores;
     private javax.swing.JTextField tfdBairro;
-    private javax.swing.JTextField tfdCNPJ;
     private javax.swing.JTextField tfdCidade;
     private javax.swing.JTextField tfdCodigo;
     private javax.swing.JTextField tfdComplemento;

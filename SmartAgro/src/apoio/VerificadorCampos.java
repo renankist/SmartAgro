@@ -5,7 +5,6 @@
  */
 package apoio;
 
-import java.util.ArrayList;
 import javax.swing.InputVerifier;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
@@ -20,7 +19,6 @@ import javax.swing.JTextField;
 public class VerificadorCampos extends InputVerifier {
 
     private JComponent[] components;
-    private ArrayList<String> mensagens;
 
     public VerificadorCampos(JComponent[] components) {
         this.components = components;
@@ -31,11 +29,10 @@ public class VerificadorCampos extends InputVerifier {
         String mensagem = "";
         JComponent campoFoco = null;
 
-        // Método da própria classe InputVerifier que chama a função que para validar os campos
-        // Se este método retornar false, o foco permanece no campo que não foi validado
         if (this.components != null) {
             for (JComponent campo : components) {
 
+                // Método da própria classe InputVerifier que chama a função que para validar os campos
                 boolean validou = shouldYieldFocus(campo);
 
                 if (!validou) {
@@ -71,19 +68,20 @@ public class VerificadorCampos extends InputVerifier {
 
         return inputOK;
     }
-
+    
     private boolean validaCampo(JComponent input) {
 
         boolean campoOK = false;
-
+        
         if (input instanceof JFormattedTextField) {
-            campoOK = !(((JFormattedTextField) input).getText().trim().isEmpty());
+            String campo = ((JFormattedTextField) input).getText().trim();
+            campoOK = !(Formatacao.removerFormatacao(campo).trim().isEmpty());
         } else if (input instanceof JTextField) {
             campoOK = !(((JTextField) input).getText().trim().isEmpty());
         } else  if (input instanceof JComboBox) {
-            campoOK = !(((JComboBox) input).getSelectedIndex() == 0);
+            campoOK = ((JComboBox) input).getSelectedIndex() != 0;
         } else if (input instanceof JRadioButton) {
-            campoOK = !(((JRadioButton) input).getSelectedObjects() == null);
+            campoOK = ((JRadioButton) input).getSelectedObjects() != null;
         } else {
             campoOK = true;
         }

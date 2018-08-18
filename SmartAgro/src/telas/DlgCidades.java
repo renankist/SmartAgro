@@ -35,8 +35,9 @@ public class DlgCidades extends javax.swing.JDialog {
         GenericDAO<Estado> ufdao = new GenericDAO<>();
         ArrayList<Estado> ufs = ufdao.consultarTodos("Estado");
         cmbUF.setModel(new EstadoComboModel(ufs));
-
-        popularTabela("", "");
+        
+        cmbUF.setSelectedIndex(21);        
+        popularTabela("", "RS");
     }
 
     public void popularTabela(String cidade, String uf) {
