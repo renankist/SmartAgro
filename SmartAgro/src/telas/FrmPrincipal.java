@@ -320,9 +320,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_itmRelatorioFornecedorActionPerformed
 
     private void itmCadastroColaboradorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmCadastroColaboradorActionPerformed
-           
-        cadastroColaborador(0);    
-         
+        // TODO add your handling code here:
     }//GEN-LAST:event_itmCadastroColaboradorActionPerformed
 
     private void itmConsultaColaboradorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmConsultaColaboradorActionPerformed
@@ -369,12 +367,6 @@ public class FrmPrincipal extends javax.swing.JFrame {
         IfrmFornecedor janelaFornecedores = new IfrmFornecedor(aba);
         dskArea.add(janelaFornecedores);
         janelaFornecedores.setVisible(true);
-    }
-    
-    private void cadastroColaborador(int aba){
-        IfrmColaborador janelaColaborador = new IfrmColaborador(aba);
-        dskArea.add(janelaColaborador);
-        janelaColaborador.setVisible(true);
     }
 
     /**

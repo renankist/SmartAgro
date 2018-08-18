@@ -9,7 +9,6 @@
     <class>entidade.Cidade</class>
     <class>entidade.Endereco</class>
     <class>entidade.Fornecedor</class>
-    <class>entidade.Colaborador</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/smartagro"/>
       <property name="javax.persistence.jdbc.user" value="postgres"/>
