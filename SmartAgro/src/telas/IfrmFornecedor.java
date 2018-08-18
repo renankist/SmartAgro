@@ -8,12 +8,9 @@ package telas;
 import apoio.*;
 import dao.GenericDAO;
 import entidade.Fornecedor;
-import entidade.Estado;
 import entidade.Endereco;
 import java.util.ArrayList;
 import javax.swing.JComponent;
-import javax.swing.JTabbedPane;
-import javax.swing.JPanel;
 import java.awt.event.ItemEvent;
 
 /**
@@ -26,7 +23,6 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
     private Endereco endereco;
     private GenericDAO<Fornecedor> dao;
     private ArrayList<Fornecedor> fornecedores;
-    private ArrayList<Estado> ufs;
     private DlgCidades dlgCidades;
     private boolean editando = false;
 
@@ -274,10 +270,9 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
                         .addComponent(tfdLogradouro, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
                 .addGroup(pnlEnderecoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlEnderecoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel11)
-                        .addComponent(jLabel14))
-                    .addComponent(jLabel15, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addComponent(jLabel14, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel15, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlEnderecoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(tfdComplemento, javax.swing.GroupLayout.PREFERRED_SIZE, 351, javax.swing.GroupLayout.PREFERRED_SIZE)
