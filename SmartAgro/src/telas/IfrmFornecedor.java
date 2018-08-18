@@ -12,8 +12,6 @@ import entidade.Estado;
 import entidade.Endereco;
 import java.util.ArrayList;
 import javax.swing.JComponent;
-import javax.swing.JTabbedPane;
-import javax.swing.JPanel;
 import java.awt.event.ItemEvent;
 
 /**

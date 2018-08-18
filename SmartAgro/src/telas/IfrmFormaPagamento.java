@@ -5,6 +5,8 @@
  */
 package telas;
 
+import apoio.HabilitaCampos;
+import apoio.LimpaCampos;
 import apoio.VerificadorCampos;
 import dao.GenericDAO;
 import dao.GenericDAO;
@@ -90,6 +92,19 @@ public class IfrmFormaPagamento extends javax.swing.JInternalFrame {
             }
         });
 
+        tabAbas.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                tabAbasStateChanged(evt);
+            }
+        });
+        tabAbas.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                tabAbasFocusLost(evt);
+            }
+        });
+
+        pnlCadastro.setName("pnlCadastro"); // NOI18N
+
         lblDescricao.setText("Descrição *");
 
         javax.swing.GroupLayout pnlCadastroLayout = new javax.swing.GroupLayout(pnlCadastro);
@@ -114,6 +129,8 @@ public class IfrmFormaPagamento extends javax.swing.JInternalFrame {
         );
 
         tabAbas.addTab("Cadastro", pnlCadastro);
+
+        pnlConsulta.setName("pnlConsulta"); // NOI18N
 
         jTableFormasPagamento.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -224,6 +241,8 @@ public class IfrmFormaPagamento extends javax.swing.JInternalFrame {
         //Busca um servico com o codigo/id pego anteriomente
         forma = dao.consultarPorId(id, "Formapagamento");
         //Defini o editando como true(o registro está sendo editado...)
+        
+        LimpaCampos.limparCampos(pnlCadastro);
 
         if (forma != null) { //Se o objeto buscado no método do ServidoDao for diferente de null
             tfdDescricao.setText(forma.getDescricao());//Seta no campo Descrição do formulário de serviços o valor da Descrição do obejto do tipo Servico
@@ -268,7 +287,7 @@ public class IfrmFormaPagamento extends javax.swing.JInternalFrame {
 
         }
 
-        tfdDescricao.setText(null);
+        LimpaCampos.limparCampos(pnlCadastro);
         
         focus();
 
@@ -310,6 +329,14 @@ public class IfrmFormaPagamento extends javax.swing.JInternalFrame {
         //this.jTableFormasPagamento.setDefaultRenderer(Object.class, new RenderizadorTabelas());
 
     }//GEN-LAST:event_btnPesquisarActionPerformed
+
+    private void tabAbasFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tabAbasFocusLost
+        HabilitaCampos.controlaPainelCadastro(evt, editando);
+    }//GEN-LAST:event_tabAbasFocusLost
+
+    private void tabAbasStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tabAbasStateChanged
+        HabilitaCampos.controlaBotoes(evt, btnSalvar, btnEditar, btnExcluir);
+    }//GEN-LAST:event_tabAbasStateChanged
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
