@@ -49,49 +49,4 @@ public class HabilitaCampos {
             }
         }
     }
-<<<<<<< HEAD
-=======
-
-    public static void controlaBotoes(javax.swing.event.ChangeEvent evt, JButton btnSalvar, JButton btnEditar, JButton btnExcluir) {
-        JTabbedPane abas = (JTabbedPane) evt.getSource();
-        JPanel painel = (JPanel) abas.getSelectedComponent();
-
-        switch (painel.getName()) {
-            case "pnlCadastro":
-                btnSalvar.setEnabled(true);
-                btnEditar.setEnabled(false);
-                btnExcluir.setEnabled(false);
-                break;
-
-            case "pnlConsulta":
-                btnSalvar.setEnabled(false);
-                btnEditar.setEnabled(true);
-                btnExcluir.setEnabled(true);
-                break;
-
-            case "pnlRelatorio":
-                btnSalvar.setEnabled(false);
-                btnEditar.setEnabled(false);
-                btnExcluir.setEnabled(false);
-                break;
-        }
-    }
-
-    public static void controlaPainelCadastro(java.awt.event.FocusEvent evt, boolean emEdicao) {
-        if (emEdicao) {
-            return;
-        }
-
-        JTabbedPane abas = (JTabbedPane) evt.getSource();
-        JPanel painel = (JPanel) abas.getSelectedComponent();
-
-        if (painel.getName() == "pnlCadastro") {
-            for (Component component : painel.getComponents()) {
-                if (component instanceof JPanel) {
-                    LimpaCampos.limparCampos((JPanel) component);
-                }
-            }
-        }
-    }
->>>>>>> parent of bce151b... Merge branch 'master' of https://github.com/renankist/SmartAgro
 }
