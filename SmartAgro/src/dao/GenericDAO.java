@@ -85,7 +85,7 @@ public class GenericDAO<Object> {
         }
         return r;
     }
-
+    
     public boolean deletar(Object o) {
 
         Boolean r = false;
@@ -110,7 +110,7 @@ public class GenericDAO<Object> {
         }
         return r;
     }
-
+    
     public Object consultarPorId(int id, String className) {
         Object o = null;
         Session sessao = null;
@@ -156,26 +156,21 @@ public class GenericDAO<Object> {
             sessao.beginTransaction();
 
             String sql = "from " + className;
-
+                    
             // Verifica se o critério é um numero, se for, não usa o upper
-            if (Validacao.isNumeric(valor)) {
-                sql = sql + " where " + criterio + " = :criterio";
+            if (Validacao.isNumeric(criterio)) {
+                sql = sql + " where " + criterio + ") like :criterio";
             } else {
                 sql = sql + " where upper(" + criterio + ") like upper(:criterio)";
             }
 
             org.hibernate.Query q = sessao.createQuery(sql);
 
-            if (Validacao.isNumeric(valor)) {
-                q.setInteger("criterio", Integer.parseInt(valor));
+            if (valorExato) {
+                q.setString("criterio", valor);
             } else {
-                if (valorExato) {
-                    q.setString("criterio", valor);
-                } else {
-                    q.setString("criterio", "%" + valor + "%");
-                }
+                q.setString("criterio", "%" + valor + "%");
             }
-
             resultado = (ArrayList) q.list();
 
         } catch (HibernateException he) {
@@ -194,5 +189,7 @@ public class GenericDAO<Object> {
         return (resultado.size() > 0);
 
     }
+    
+    
 
 }

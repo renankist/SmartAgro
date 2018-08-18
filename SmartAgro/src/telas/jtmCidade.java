@@ -16,7 +16,7 @@ import javax.swing.table.AbstractTableModel;
 public class jtmCidade extends AbstractTableModel {
     
     private ArrayList<Cidade> cidade;
-    private String[] colunas = {"Cidade", "UF"};
+    private String[] colunas = {"Nome", "UF"};
 
     public jtmCidade(ArrayList<Cidade> cidade) {
         this.cidade = cidade;
