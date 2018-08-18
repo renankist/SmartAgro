@@ -5,7 +5,6 @@
  */
 package apoio;
 
-import java.util.ArrayList;
 import javax.swing.InputVerifier;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
@@ -20,25 +19,25 @@ import javax.swing.JTextField;
 public class VerificadorCampos extends InputVerifier {
 
     private JComponent[] components;
-    private ArrayList<String> mensagens;
 
     public VerificadorCampos(JComponent[] components) {
         this.components = components;
     }
 
     public boolean validaCampos() {
-        boolean inputOK = false;
+        boolean inputOK = true;
         String mensagem = "";
         JComponent campoFoco = null;
 
-        // Método da própria classe InputVerifier que chama a função que para validar os campos
-        // Se este método retornar false, o foco permanece no campo que não foi validado
         if (this.components != null) {
             for (JComponent campo : components) {
 
-                inputOK = shouldYieldFocus(campo);
+                // Método da própria classe InputVerifier que chama a função que para validar os campos
+                boolean validou = shouldYieldFocus(campo);
 
-                if (!inputOK) {
+                if (!validou) {
+                    // Se não validou algum campo, sinaliza que tem problema nos dados
+                    inputOK = false;
 
                     if (mensagem.trim().isEmpty()) {
                         mensagem = retornaMensagem(campo);
@@ -69,19 +68,20 @@ public class VerificadorCampos extends InputVerifier {
 
         return inputOK;
     }
-
+    
     private boolean validaCampo(JComponent input) {
 
         boolean campoOK = false;
-
-        if (input instanceof JTextField) {
+        
+        if (input instanceof JFormattedTextField) {
+            String campo = ((JFormattedTextField) input).getText().trim();
+            campoOK = !(Formatacao.removerFormatacao(campo).trim().isEmpty());
+        } else if (input instanceof JTextField) {
             campoOK = !(((JTextField) input).getText().trim().isEmpty());
-        } else if (input instanceof JFormattedTextField) {
-            campoOK = !(((JFormattedTextField) input).getText().trim().isEmpty());
-        } else if (input instanceof JComboBox) {
-            campoOK = !(((JComboBox) input).getSelectedIndex() == 0);
+        } else  if (input instanceof JComboBox) {
+            campoOK = ((JComboBox) input).getSelectedIndex() != 0;
         } else if (input instanceof JRadioButton) {
-            campoOK = !(((JRadioButton) input).getSelectedObjects() == null);
+            campoOK = ((JRadioButton) input).getSelectedObjects() != null;
         } else {
             campoOK = true;
         }

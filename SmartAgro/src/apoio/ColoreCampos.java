@@ -8,6 +8,7 @@ package apoio;
 import com.toedter.calendar.JDateChooser;
 import java.awt.Color;
 import java.awt.Component;
+import javax.swing.BorderFactory;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
@@ -61,10 +62,11 @@ public class ColoreCampos {
             }
         } else if (c instanceof JRadioButton) {
             JRadioButton field = (JRadioButton) c;
+            field.setBorder(BorderFactory.createLineBorder(amarelinho));
             if (pintar) {
-                field.setBackground(amarelinho);
+                field.setBorderPainted(true);
             } else {
-                field.setBackground(null);
+                field.setBorderPainted(false);
             }
         } else if (c instanceof JDateChooser) {
             JDateChooser field = (JDateChooser) c;
