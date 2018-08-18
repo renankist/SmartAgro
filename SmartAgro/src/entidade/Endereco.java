@@ -32,6 +32,12 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 public class Endereco implements Serializable {
 
+    @Basic(optional = false)
+    @Column(name = "ativo")
+    private boolean ativo;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "endereco")
+
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -154,5 +160,14 @@ public class Endereco implements Serializable {
     public String toString() {
         return "entidade.Endereco[ id=" + id + " ]";
     }
-    
+
+    public boolean getAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(boolean ativo) {
+        this.ativo = ativo;
+    }
+
+       
 }
