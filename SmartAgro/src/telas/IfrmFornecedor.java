@@ -13,6 +13,12 @@ import entidade.Cidade;
 import entidade.Endereco;
 import java.util.ArrayList;
 import javax.swing.JComponent;
+<<<<<<< HEAD
+=======
+import javax.swing.JTabbedPane;
+import javax.swing.JPanel;
+import java.awt.event.ItemEvent;
+>>>>>>> parent of bce151b... Merge branch 'master' of https://github.com/renankist/SmartAgro
 
 /**
  *
