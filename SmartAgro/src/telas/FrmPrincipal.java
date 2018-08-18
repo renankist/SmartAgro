@@ -320,11 +320,11 @@ public class FrmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_itmRelatorioFornecedorActionPerformed
 
     private void itmCadastroColaboradorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmCadastroColaboradorActionPerformed
-        // TODO add your handling code here:
+        cadastroColaborador(0);
     }//GEN-LAST:event_itmCadastroColaboradorActionPerformed
 
     private void itmConsultaColaboradorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmConsultaColaboradorActionPerformed
-        // TODO add your handling code here:
+        cadastroColaborador(1);
     }//GEN-LAST:event_itmConsultaColaboradorActionPerformed
 
     private void itmRelatorioColaboradorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmRelatorioColaboradorActionPerformed
@@ -338,7 +338,14 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private void itmFormasPagamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmFormasPagamentoActionPerformed
         cadastroFormaPagamento(); 
     }//GEN-LAST:event_itmFormasPagamentoActionPerformed
-
+    
+    private void cadastroColaborador(int aba) {
+        IfrmColaborador janelaColab = new IfrmColaborador(aba);
+        dskArea.add(janelaColab);
+        janelaColab.setVisible(true);
+    }
+    
+    
     private void cadastroCliente(int aba) {
         IfrmCliente janelaClientes = new IfrmCliente(aba);
         dskArea.add(janelaClientes);
