@@ -16,5 +16,6 @@
     <mapping class="entidade.Formapagamento"/>
     <mapping class="entidade.Unidademedida"/>
     <mapping class="entidade.Produto"/>
+    <mapping class="entidade.Colaborador"/>
   </session-factory>
 </hibernate-configuration>

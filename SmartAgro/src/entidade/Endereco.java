@@ -34,8 +34,7 @@ import javax.xml.bind.annotation.XmlTransient;
 public class Endereco implements Serializable {
 
     @Basic(optional = false)
-    @Column(name = "ativo")
-    private boolean ativo;
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "endereco")
   
 
@@ -162,13 +161,7 @@ public class Endereco implements Serializable {
         return "entidade.Endereco[ id=" + id + " ]";
     }
 
-    public boolean getAtivo() {
-        return ativo;
-    }
-
-    public void setAtivo(boolean ativo) {
-        this.ativo = ativo;
-    }
+ 
 
    
     

@@ -7,14 +7,12 @@ package telas;
 
 import apoio.*;
 import dao.GenericDAO;
-import entidade.Fornecedor;
+import entidade.Colaborador;
 import entidade.Estado;
 import entidade.Endereco;
 import java.util.ArrayList;
 import javax.swing.JComponent;
-import javax.swing.JTabbedPane;
-import javax.swing.JPanel;
-import java.awt.event.ItemEvent;
+
 
 /**
  *
@@ -22,10 +20,10 @@ import java.awt.event.ItemEvent;
  */
 public class IfrmColaborador extends javax.swing.JInternalFrame {
 
-    private Fornecedor fornecedor;
+    private Colaborador colab;
     private Endereco endereco;
-    private GenericDAO<Fornecedor> dao;
-    private ArrayList<Fornecedor> fornecedores;
+    private GenericDAO<Colaborador> dao;
+    private ArrayList<Colaborador> colabs;
     private ArrayList<Estado> ufs;
     private DlgCidades dlgCidades;
     private boolean editando = false;
@@ -40,8 +38,8 @@ public class IfrmColaborador extends javax.swing.JInternalFrame {
         tabAbas.setSelectedIndex(aba);
 
         // Preenche a tabela de consulta com as colunas corretas
-        fornecedores = new ArrayList();
-        tblFornecedores.setModel(new jtmFornecedor(fornecedores));
+        colabs = new ArrayList();
+       // tblFornecedores.setModel(new jtmFornecedor(fornecedores));
 
         //Deixar o focus no campo de descrição
         focus();
@@ -50,7 +48,7 @@ public class IfrmColaborador extends javax.swing.JInternalFrame {
     private void focus() {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                rbtAdministrador.requestFocusInWindow();
+                tfdNome.requestFocusInWindow();
             }
         });
     }
@@ -494,11 +492,91 @@ public class IfrmColaborador extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private boolean validaCampos() {
-        return false;
+          ArrayList<JComponent> components = new ArrayList();
+
+      
+
+        components.add(tfdNome);
+        components.add(tfdLogradouro);
+        components.add(tfdBairro);
+        components.add(tfdCidade);
+        components.add(ffdCEP);
+        components.add(tfdEmail);
+        components.add(tfdCelular);
+        components.add(tfdFuncao);
+
+        JComponent[] simpleArray = new JComponent[components.size()];
+        components.toArray(simpleArray);
+        VerificadorCampos verifier = new VerificadorCampos(simpleArray);
+
+        if (!verifier.validaCampos()) {
+            return false;
+        }
+        
+        return true;
     }
-
+    
+   
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
+          if (!validaCampos()) {
+            return;
+        }
+          
+        this.dao = new GenericDAO<>();
+        if (!editando) {
+            colab = new Colaborador();
+            endereco = new Endereco();
+        }
+        
+        endereco.setRua(tfdLogradouro.getText());
+        endereco.setNumero(tfdNumero.getText());
+        endereco.setBairro(tfdBairro.getText());
+        endereco.setComplemento(tfdComplemento.getText());
+        endereco.setCep(ffdCEP.getText());
+        endereco.setCidade(dlgCidades.getCidade());
 
+        colab.setEndereco(endereco);
+        colab.setNomecompleto(tfdNome.getText());
+        colab.setFuncao(tfdFuncao.getText());
+        colab.setEmail(tfdEmail.getText());
+        colab.setCelular(tfdCelular.getText());
+        
+         if (editando) {
+            try {
+                if (!new GenericDAO<>().atualizar(endereco)) {
+                    throw new Exception("Erro ao atualizar endereco - colaborador");
+                }
+
+                if (!dao.atualizar(colab)) {
+                    throw new Exception("Erro ao atualizar colaborador");
+                }
+
+                Mensagem.mostraInformacao("Sucesso", "Colaborador " + colab.getNomecompleto()+ " atualizado com sucesso");
+
+            } catch (Exception e) {
+                Mensagem.mostraInformacao("Problema", "Problema ao atualizar colaborador");
+            }
+            editando = false;
+
+        } else {
+
+            try {
+                if (!new GenericDAO<>().salvar(endereco)) {
+                    throw new Exception("Erro ao salvar endereco - colaborador");
+                }
+
+                if (!dao.salvar(colab)) {
+                    throw new Exception("Erro ao salvar colaborador");
+                }
+
+                Mensagem.mostraInformacao("Sucesso", "Colaborador " + colab.getNomecompleto()+ " inserido com sucesso");
+
+            } catch (Exception e) {
+                Mensagem.mostraInformacao("Problema", "Problema para inserir colaborador");
+            }
+        }
+          
+          
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
@@ -506,11 +584,7 @@ public class IfrmColaborador extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnExcluirActionPerformed
 
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
-        this.dao = new GenericDAO<>();
-        this.fornecedores = new ArrayList();
-
-        this.fornecedores = dao.consultarComCriterio("Fornecedor", "nome", tfdCriterio.getText());
-        tblFornecedores.setModel(new jtmFornecedor(fornecedores));
+        
     }//GEN-LAST:event_btnPesquisarActionPerformed
 
     private void btnZoomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnZoomActionPerformed

@@ -24,6 +24,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "colaborador")
+
 public class Colaborador implements Serializable {
 
     private static final long serialVersionUID = 1L;
