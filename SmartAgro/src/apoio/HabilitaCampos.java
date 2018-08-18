@@ -83,11 +83,8 @@ public class HabilitaCampos {
 
         JTabbedPane abas = (JTabbedPane) evt.getSource();
         JPanel painel = (JPanel) abas.getSelectedComponent();
-        
+
         if (painel.getName() == "pnlCadastro") {
-            LimpaCampos.limparCampos(painel);
-            
-            // Se existir outros paineis dentro do principal, limpa os mesmos
             for (Component component : painel.getComponents()) {
                 if (component instanceof JPanel) {
                     LimpaCampos.limparCampos((JPanel) component);

@@ -1,7 +1,6 @@
 package telas;
 
 import apoio.Formatacao;
-import apoio.HabilitaCampos;
 import apoio.LimpaCampos;
 import apoio.Mensagem;
 import apoio.VerificadorCampos;
@@ -113,19 +112,6 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
                 btnExcluirActionPerformed(evt);
             }
         });
-
-        tabAbas.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                tabAbasStateChanged(evt);
-            }
-        });
-        tabAbas.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                tabAbasFocusLost(evt);
-            }
-        });
-
-        pnlCadastro.setName("pnlCadastro"); // NOI18N
 
         pnlIdentificacao.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Identificação", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
@@ -245,7 +231,7 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
         pnlCadastroLayout.setHorizontalGroup(
             pnlCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(pnlIdentificacao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(pnlValoresEstoque, javax.swing.GroupLayout.PREFERRED_SIZE, 994, Short.MAX_VALUE)
+            .addComponent(pnlValoresEstoque, javax.swing.GroupLayout.PREFERRED_SIZE, 991, Short.MAX_VALUE)
         );
         pnlCadastroLayout.setVerticalGroup(
             pnlCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -257,8 +243,6 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
         );
 
         tabAbas.addTab("Cadastro", pnlCadastro);
-
-        pnlConsulta.setName("pnlConsulta"); // NOI18N
 
         tblProdutos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -401,11 +385,13 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
 
         JComponent[] components = new JComponent[]{tfdCodigo, tfdDescricao, tfdQuantidadeEstoque, jComboUnidadeMedida};
         VerificadorCampos verifier = new VerificadorCampos(components);
-
+        
         if (!verifier.validaCampos()) {
             return;
         }
-
+        
+        
+        
         this.dao = new GenericDAO<>();
 
         if (editando) {
@@ -417,7 +403,7 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
             p.setQuantidadeestoque(new BigDecimal(tfdQuantidadeEstoque.getText()));
             p.setUnidademedida((Unidademedida) jComboUnidadeMedida.getSelectedItem());
             p.setCodigo(tfdCodigo.getText());
-
+            
             if (dao.atualizar(p)) {
                 Mensagem.mostraInformacao("Sucesso", "Produto " + this.p.getDescricao() + " atualizado com sucesso");
                 LimpaCampos.limparCampos(pnlIdentificacao);
@@ -438,7 +424,7 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
             p.setQuantidadeestoque(new BigDecimal(tfdQuantidadeEstoque.getText()));
             p.setUnidademedida((Unidademedida) jComboUnidadeMedida.getSelectedItem());
             p.setCodigo(tfdCodigo.getText());
-
+            
             if (dao.salvar(p)) {
                 Mensagem.mostraInformacao("Sucesso", "Produto " + p.getDescricao() + " inserido com sucesso");
                 LimpaCampos.limparCampos(pnlIdentificacao);
@@ -456,9 +442,6 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
         int id = Integer.parseInt(tblProdutos.getValueAt(tblProdutos.getSelectedRow(), 0).toString());
         this.p = dao.consultarPorId(id, "Produto");
 
-        LimpaCampos.limparCampos(pnlIdentificacao);
-        LimpaCampos.limparCampos(pnlValoresEstoque);
-
         //Se o objeto buscado no método do ServidoDao for diferente de null
         if (this.p != null) {
             tfdDescricao.setText(this.p.getDescricao());
@@ -474,14 +457,6 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
         }
 
     }//GEN-LAST:event_btnEditarActionPerformed
-
-    private void tabAbasFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tabAbasFocusLost
-        HabilitaCampos.controlaPainelCadastro(evt, editando);
-    }//GEN-LAST:event_tabAbasFocusLost
-
-    private void tabAbasStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tabAbasStateChanged
-        HabilitaCampos.controlaBotoes(evt, btnSalvar, btnEditar, btnExcluir);
-    }//GEN-LAST:event_tabAbasStateChanged
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
