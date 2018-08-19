@@ -32,10 +32,7 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
-              <Component id="jScrollPane2" max="32767" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-          </Group>
+          <Component id="jScrollPane2" min="-2" max="-2" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
@@ -344,7 +341,7 @@
                                   <EmptySpace min="-2" pref="68" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Group type="102" alignment="0" attributes="0">
-                                          <Component id="tfdID" min="-2" pref="70" max="-2" attributes="0"/>
+                                          <Component id="tfdCodigo" min="-2" pref="70" max="-2" attributes="0"/>
                                           <EmptySpace type="separate" max="-2" attributes="0"/>
                                           <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -366,7 +363,7 @@
                                       </Group>
                                       <Group type="103" groupAlignment="3" attributes="0">
                                           <Component id="jLabel25" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          <Component id="tfdID" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="tfdCodigo" alignment="3" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
@@ -406,7 +403,7 @@
                             <Property name="text" type="java.lang.String" value="C&#xf3;digo"/>
                           </Properties>
                         </Component>
-                        <Component class="javax.swing.JTextField" name="tfdID">
+                        <Component class="javax.swing.JTextField" name="tfdCodigo">
                           <Properties>
                             <Property name="editable" type="boolean" value="false"/>
                             <Property name="focusable" type="boolean" value="false"/>
@@ -475,7 +472,7 @@
                         <Component class="javax.swing.JFormattedTextField" name="ffdCelular">
                           <Properties>
                             <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor" preCode="try {" postCode="} catch (java.text.ParseException ex) {&#xa;ex.printStackTrace();&#xa;}">
-                              <Format format="(##)####-####" subtype="-1" type="5"/>
+                              <Format format="(##) #####-####" subtype="-1" type="5"/>
                             </Property>
                           </Properties>
                         </Component>
@@ -742,7 +739,7 @@
 
                       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
                       <SubComponents>
-                        <Component class="javax.swing.JTable" name="tblFornecedores">
+                        <Component class="javax.swing.JTable" name="tblClientes">
                           <Properties>
                             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                               <Table columnCount="3" rowCount="4">

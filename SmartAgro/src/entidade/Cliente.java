@@ -51,7 +51,6 @@ public class Cliente implements Serializable {
     @Basic(optional = false)
     @Column(name = "nome")
     private String nome;
-    @Basic(optional = false)
     @Column(name = "cnpj")
     private String cnpj;
     @Column(name = "cpf")

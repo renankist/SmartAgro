@@ -454,6 +454,9 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
 
         // Pega os dados se existir objeto
         if (this.fornecedor != null) {
+            this.endereco = this.fornecedor.getEndereco();
+            
+            
             if (this.fornecedor.getCnpj() != null) {
                 rbtJuridica.setSelected(true);
                 ffdCNPJ.setText(this.fornecedor.getCnpj());

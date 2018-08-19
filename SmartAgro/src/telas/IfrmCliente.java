@@ -41,6 +41,13 @@ public class IfrmCliente extends javax.swing.JInternalFrame {
         // Abre na aba passada por parametro
         tabAbas.setSelectedIndex(aba);
 
+        // Preenche a tabela de consulta com as colunas corretas
+        clientes = new ArrayList();
+        tblClientes.setModel(new jtmCliente(clientes));
+        
+        // Janela cidades
+        dlgCidades = new DlgCidades(null, true);
+
         focus();
     }
 
@@ -92,7 +99,7 @@ public class IfrmCliente extends javax.swing.JInternalFrame {
         tfdNome = new javax.swing.JTextField();
         ffdDataCadastro = new javax.swing.JFormattedTextField();
         jLabel25 = new javax.swing.JLabel();
-        tfdID = new javax.swing.JTextField();
+        tfdCodigo = new javax.swing.JTextField();
         pnlContato = new javax.swing.JPanel();
         jLabel19 = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
@@ -119,7 +126,7 @@ public class IfrmCliente extends javax.swing.JInternalFrame {
         jLabel5 = new javax.swing.JLabel();
         tfdCriterio = new javax.swing.JTextField();
         jScrollPane3 = new javax.swing.JScrollPane();
-        tblFornecedores = new javax.swing.JTable();
+        tblClientes = new javax.swing.JTable();
         btnPesquisar = new javax.swing.JButton();
         btnEditar = new javax.swing.JButton();
         btnSalvar = new javax.swing.JButton();
@@ -246,8 +253,8 @@ public class IfrmCliente extends javax.swing.JInternalFrame {
 
         jLabel25.setText("Código");
 
-        tfdID.setEditable(false);
-        tfdID.setFocusable(false);
+        tfdCodigo.setEditable(false);
+        tfdCodigo.setFocusable(false);
 
         javax.swing.GroupLayout pnlGeralLayout = new javax.swing.GroupLayout(pnlGeral);
         pnlGeral.setLayout(pnlGeralLayout);
@@ -261,7 +268,7 @@ public class IfrmCliente extends javax.swing.JInternalFrame {
                 .addGap(68, 68, 68)
                 .addGroup(pnlGeralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlGeralLayout.createSequentialGroup()
-                        .addComponent(tfdID, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(tfdCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -278,7 +285,7 @@ public class IfrmCliente extends javax.swing.JInternalFrame {
                         .addComponent(ffdDataCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(pnlGeralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel25)
-                        .addComponent(tfdID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(tfdCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlGeralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblNome)
@@ -293,7 +300,7 @@ public class IfrmCliente extends javax.swing.JInternalFrame {
         jLabel20.setText("E-mail");
 
         try {
-            ffdCelular.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("(##)####-####")));
+            ffdCelular.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("(##) #####-####")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
@@ -502,7 +509,7 @@ public class IfrmCliente extends javax.swing.JInternalFrame {
 
         jLabel5.setText("Nome:");
 
-        tblFornecedores.setModel(new javax.swing.table.DefaultTableModel(
+        tblClientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
                 {null, null, null},
@@ -513,7 +520,7 @@ public class IfrmCliente extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3"
             }
         ));
-        jScrollPane3.setViewportView(tblFornecedores);
+        jScrollPane3.setViewportView(tblClientes);
 
         btnPesquisar.setText("Pesquisar");
         btnPesquisar.addActionListener(new java.awt.event.ActionListener() {
@@ -606,9 +613,7 @@ public class IfrmCliente extends javax.swing.JInternalFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jScrollPane2)
-                .addContainerGap())
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -632,11 +637,70 @@ public class IfrmCliente extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_rbtFisicaStateChanged
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
+        // Pega o código do registro para consultar o objeto
+        int id = Integer.parseInt(tblClientes.getValueAt(tblClientes.getSelectedRow(), 0).toString());
 
+        this.cliente = dao.consultarPorId(id, "Cliente");
+        this.endereco = this.cliente.getEndereco();
+
+        //Abre uma mensagem pedindo se o usuário realmente quer excluír o registro
+        boolean resposta = Mensagem.confirmaMensagem("Atenção", "Deseja realmente excluir o cliente: " + this.cliente.getNome() + "?");
+
+        if (resposta) {
+            // Exclui o registro
+            if (dao.deletar(cliente)) {
+                Mensagem.mostraInformacao("Confirmação de exclusão", "Cliente excluído");
+
+                this.clientes = dao.consultarComCriterio("Cliente", "nome", tfdCriterio.getText());
+                this.tblClientes.setModel(new jtmCliente(this.clientes));
+            } else {
+                Mensagem.mostraErro("Problema", "Problema para excluir cliente");
+            }
+        }
     }//GEN-LAST:event_btnExcluirActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        // Pega o código do registro para consultar o objeto
+        int id = Integer.parseInt(tblClientes.getValueAt(tblClientes.getSelectedRow(), 0).toString());
+        this.cliente = dao.consultarPorId(id, "Cliente");
 
+        limparPainelCadastro();
+
+        // Pega os dados se existir objeto
+        if (this.cliente != null) {
+            this.endereco = this.cliente.getEndereco();
+
+            if (this.cliente.getCnpj() != null) {
+                rbtJuridica.setSelected(true);
+                ffdCNPJ.setText(this.cliente.getCnpj());
+            } else {
+                rbtFisica.setSelected(true);
+                dchDataNascimento.setDate(Formatacao.converteStringParaDate(this.cliente.getDatanascimento().toString()));
+                ffdCPF.setText(this.cliente.getCpf());
+
+                if (this.cliente.getSexo() == 'F') {
+                    rbtFemino.setSelected(true);
+                } else if (this.cliente.getSexo() == 'M') {
+                    rbtMasculino.setSelected(true);
+                }
+            }
+
+            tfdCodigo.setText(String.valueOf(this.cliente.getId()));
+            ffdDataCadastro.setText(Formatacao.ajustaDataDMA(this.cliente.getDatacadastro().toString()));
+            tfdNome.setText(this.cliente.getNome());
+            tfdLogradouro.setText(this.cliente.getEndereco().getRua());
+            tfdNumero.setText(this.cliente.getEndereco().getNumero());
+            tfdBairro.setText(this.cliente.getEndereco().getBairro());
+            tfdComplemento.setText(this.cliente.getEndereco().getComplemento());
+            tfdCidade.setText(this.cliente.getEndereco().getCidade().getNome() + " - " + this.cliente.getEndereco().getCidade().getEstado().getSigla());
+            ffdCEP.setText(this.cliente.getEndereco().getCep());
+            ffdCelular.setText(this.cliente.getCelular());
+            tfdEmail.setText(this.cliente.getEmail());
+
+            tabAbas.setSelectedIndex(0);
+            editando = true;
+            focus();
+        }
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private boolean validaCampos() {
@@ -655,7 +719,7 @@ public class IfrmCliente extends javax.swing.JInternalFrame {
 
         if (rbtFisica.isSelected()) {
             components.add(ffdCPF);
-        } else if (rbtJuridica.isSelected()){
+        } else if (rbtJuridica.isSelected()) {
             components.add(ffdCNPJ);
         }
 
@@ -708,7 +772,10 @@ public class IfrmCliente extends javax.swing.JInternalFrame {
         endereco.setBairro(tfdBairro.getText());
         endereco.setComplemento(tfdComplemento.getText());
         endereco.setCep(ffdCEP.getText());
-        endereco.setCidade(dlgCidades.getCidade());
+
+        if (dlgCidades.getCidade() != null) {
+            endereco.setCidade(dlgCidades.getCidade());
+        }
 
         cliente.setEndereco(endereco);
         cliente.setNome(tfdNome.getText());
@@ -721,7 +788,7 @@ public class IfrmCliente extends javax.swing.JInternalFrame {
 
             if (rbtFemino.isSelected()) {
                 cliente.setSexo('F');
-            } else if (rbtMasculino.isSelected()){
+            } else if (rbtMasculino.isSelected()) {
                 cliente.setSexo('M');
             }
         } else {
@@ -729,7 +796,7 @@ public class IfrmCliente extends javax.swing.JInternalFrame {
         }
 
         if (editando) {
-            cliente.setDatacadastro(Formatacao.converteStringParaDate(ffdDataCadastro.getText()));
+            cliente.setDatacadastro(Formatacao.converteStringParaDate(Formatacao.ajustaDataAMD(ffdDataCadastro.getText())));
 
             try {
                 if (!new GenericDAO<>().atualizar(endereco)) {
@@ -771,7 +838,6 @@ public class IfrmCliente extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void btnZoomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnZoomActionPerformed
-        dlgCidades = new DlgCidades(null, true);
         dlgCidades.setVisible(true);
         if (dlgCidades.seleciou() && dlgCidades.getCidade() != null) {
             String cidade = dlgCidades.getCidade().getNome() + " - " + dlgCidades.getCidade().getEstado().getSigla();
@@ -807,10 +873,10 @@ public class IfrmCliente extends javax.swing.JInternalFrame {
 
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
         this.dao = new GenericDAO<>();
-        this.fornecedores = new ArrayList();
+        this.clientes = new ArrayList();
 
-        this.fornecedores = dao.consultarComCriterio("Fornecedor", "nome", tfdCriterio.getText());
-        tblFornecedores.setModel(new jtmFornecedor(fornecedores));
+        this.clientes = dao.consultarComCriterio("Cliente", "nome", tfdCriterio.getText());
+        tblClientes.setModel(new jtmCliente(clientes));
     }//GEN-LAST:event_btnPesquisarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -859,13 +925,13 @@ public class IfrmCliente extends javax.swing.JInternalFrame {
     private javax.swing.JRadioButton rbtJuridica;
     private javax.swing.JRadioButton rbtMasculino;
     private javax.swing.JTabbedPane tabAbas;
-    private javax.swing.JTable tblFornecedores;
+    private javax.swing.JTable tblClientes;
     private javax.swing.JTextField tfdBairro;
     private javax.swing.JTextField tfdCidade;
+    private javax.swing.JTextField tfdCodigo;
     private javax.swing.JTextField tfdComplemento;
     private javax.swing.JTextField tfdCriterio;
     private javax.swing.JTextField tfdEmail;
-    private javax.swing.JTextField tfdID;
     private javax.swing.JTextField tfdLogradouro;
     private javax.swing.JTextField tfdNome;
     private javax.swing.JTextField tfdNumero;
