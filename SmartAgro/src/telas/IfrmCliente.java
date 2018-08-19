@@ -815,7 +815,8 @@ public class IfrmCliente extends javax.swing.JInternalFrame {
             editando = false;
 
         } else {
-            cliente.setDatacadastro(Formatacao.converteStringParaDate(Formatacao.getDataAtual()));
+            String hoje = Formatacao.ajustaDataAMD(Formatacao.getDataAtual());
+            cliente.setDatacadastro(Formatacao.converteStringParaDate(hoje));
 
             try {
                 if (!new GenericDAO<>().salvar(endereco)) {

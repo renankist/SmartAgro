@@ -7,7 +7,6 @@ package telas;
 
 import apoio.VerificadorCampos;
 import dao.GenericDAO;
-import dao.GenericDAO;
 import entidade.Formapagamento;
 import java.util.ArrayList;
 import javax.swing.JComponent;

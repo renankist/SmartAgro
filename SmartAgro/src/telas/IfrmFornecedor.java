@@ -38,6 +38,9 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
         // Preenche a tabela de consulta com as colunas corretas
         fornecedores = new ArrayList();
         tblFornecedores.setModel(new jtmFornecedor(fornecedores));
+        
+        // Janela cidades
+        dlgCidades = new DlgCidades(null, true);
 
         //Deixar o focus no campo de descrição
         focus();
@@ -454,8 +457,7 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
 
         // Pega os dados se existir objeto
         if (this.fornecedor != null) {
-            this.endereco = this.fornecedor.getEndereco();
-            
+            this.endereco = this.fornecedor.getEndereco();            
             
             if (this.fornecedor.getCnpj() != null) {
                 rbtJuridica.setSelected(true);
@@ -471,7 +473,7 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
             tfdNumero.setText(this.fornecedor.getEndereco().getNumero());
             tfdBairro.setText(this.fornecedor.getEndereco().getBairro());
             tfdComplemento.setText(this.fornecedor.getEndereco().getComplemento());
-            tfdCidade.setText(this.fornecedor.getEndereco().getCidade().getNome());
+            tfdCidade.setText(this.fornecedor.getEndereco().getCidade().getNome() + " - " + this.fornecedor.getEndereco().getCidade().getEstado().getSigla());
             ffdCEP.setText(this.fornecedor.getEndereco().getCep());
             tabAbas.setSelectedIndex(0);
             editando = true;
@@ -540,7 +542,10 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
         endereco.setBairro(tfdBairro.getText());
         endereco.setComplemento(tfdComplemento.getText());
         endereco.setCep(ffdCEP.getText());
-        endereco.setCidade(dlgCidades.getCidade());
+        
+        if (dlgCidades.getCidade() != null) {
+            endereco.setCidade(dlgCidades.getCidade());
+        }
 
         fornecedor.setEndereco(endereco);
         fornecedor.setNome(tfdNome.getText());
@@ -624,7 +629,6 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnPesquisarActionPerformed
 
     private void btnZoomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnZoomActionPerformed
-        dlgCidades = new DlgCidades(null, true);
         dlgCidades.setVisible(true);
         if (dlgCidades.seleciou() && dlgCidades.getCidade() != null) {
             String cidade = dlgCidades.getCidade().getNome() + " - " + dlgCidades.getCidade().getEstado().getSigla();
