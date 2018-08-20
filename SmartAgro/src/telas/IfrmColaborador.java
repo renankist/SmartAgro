@@ -32,7 +32,7 @@ public class IfrmColaborador extends javax.swing.JInternalFrame {
      */
     public IfrmColaborador(int aba) {
         initComponents();
-
+       
         dlgCidades = new DlgCidades(null, true);
         // Abre na aba passada por parametro
         tabAbas.setSelectedIndex(aba);
@@ -620,11 +620,11 @@ public class IfrmColaborador extends javax.swing.JInternalFrame {
                 }
 
                 Mensagem.mostraInformacao("Sucesso", "Colaborador " + colab.getNomecompleto() + " atualizado com sucesso");
-
+              
                 LimpaCampos.limparCampos(pnlEndereco);
                 LimpaCampos.limparCampos(pnlGeral);
                 LimpaCampos.limparCampos(pnlContato);
-
+                btgPessoa.clearSelection();
                 focus();
 
             } catch (Exception e) {
@@ -645,13 +645,14 @@ public class IfrmColaborador extends javax.swing.JInternalFrame {
                 }
 
                 Mensagem.mostraInformacao("Sucesso", "Colaborador " + colab.getNomecompleto() + " inserido com sucesso");
-
+               
                 LimpaCampos.limparCampos(pnlEndereco);
                 LimpaCampos.limparCampos(pnlGeral);
                 LimpaCampos.limparCampos(pnlContato);
-
+                btgPessoa.clearSelection();
+                
                 focus();
-
+           
             } catch (Exception e) {
                 Mensagem.mostraInformacao("Problema", "Problema para inserir colaborador");
             }
