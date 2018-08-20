@@ -820,6 +820,7 @@ public class IfrmCliente extends javax.swing.JInternalFrame {
         }
 
         limparPainelCadastro();
+        btgPessoa.clearSelection();
         focus();
     }//GEN-LAST:event_btnSalvarActionPerformed
 

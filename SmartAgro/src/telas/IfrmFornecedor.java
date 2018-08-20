@@ -566,14 +566,17 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
                 if (!dao.atualizar(fornecedor)) {
                     throw new Exception("Erro ao atualizar fornecedor");
                 }
-
+                
                 Mensagem.mostraInformacao("Sucesso", "Fornecedor " + fornecedor.getNome() + " atualizado com sucesso");
-
+                
+                  btgPessoa.clearSelection();
             } catch (Exception e) {
                 Mensagem.mostraInformacao("Problema", "Problema ao atualizar fornecedor");
             }
+            
+            
             editando = false;
-
+            
         } else {
 
             try {
@@ -594,6 +597,7 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
 
         LimpaCampos.limparCampos(pnlGeral);
         LimpaCampos.limparCampos(pnlEndereco);
+        btgPessoa.clearSelection();
         focus();
     }//GEN-LAST:event_btnSalvarActionPerformed
 
