@@ -13,7 +13,6 @@ import entidade.Endereco;
 import java.util.ArrayList;
 import javax.swing.JComponent;
 
-
 /**
  *
  * @author Morgana
@@ -34,12 +33,13 @@ public class IfrmColaborador extends javax.swing.JInternalFrame {
     public IfrmColaborador(int aba) {
         initComponents();
 
+        dlgCidades = new DlgCidades(null, true);
         // Abre na aba passada por parametro
         tabAbas.setSelectedIndex(aba);
 
         // Preenche a tabela de consulta com as colunas corretas
         colabs = new ArrayList();
-       // tblFornecedores.setModel(new jtmFornecedor(fornecedores));
+        // tblFornecedores.setModel(new jtmFornecedor(fornecedores));
 
         //Deixar o focus no campo de descrição
         focus();
@@ -188,10 +188,10 @@ public class IfrmColaborador extends javax.swing.JInternalFrame {
                             .addComponent(lblUsuario)
                             .addComponent(lblNome))
                         .addGap(42, 42, 42)
-                        .addGroup(pnlGeralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(tfdNome, javax.swing.GroupLayout.PREFERRED_SIZE, 337, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(tfdFuncao, javax.swing.GroupLayout.PREFERRED_SIZE, 337, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(tfdUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(pnlGeralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(tfdNome, javax.swing.GroupLayout.DEFAULT_SIZE, 337, Short.MAX_VALUE)
+                            .addComponent(tfdFuncao, javax.swing.GroupLayout.DEFAULT_SIZE, 337, Short.MAX_VALUE)
+                            .addComponent(tfdUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(pnlGeralLayout.createSequentialGroup()
                         .addComponent(lblTipoUsuario)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -347,8 +347,8 @@ public class IfrmColaborador extends javax.swing.JInternalFrame {
                     .addComponent(lblCelular))
                 .addGap(44, 44, 44)
                 .addGroup(pnlContatoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(tfdCelular, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tfdEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tfdEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tfdCelular, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pnlContatoLayout.setVerticalGroup(
@@ -394,10 +394,7 @@ public class IfrmColaborador extends javax.swing.JInternalFrame {
 
         tblColaboradores.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null}
+
             },
             new String [] {
                 "Código", "Nome", "Celular", "E-mail", "Função", "Usuário", "Tipo Usuário", "Cidade/Estado"
@@ -495,24 +492,24 @@ public class IfrmColaborador extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
-         // Pega o código do registro para consultar o objeto
+        // Pega o código do registro para consultar o objeto
         int id = Integer.parseInt(tblColaboradores.getValueAt(tblColaboradores.getSelectedRow(), 0).toString());
         this.colab = dao.consultarPorId(id, "Colaborador");
-        
-        System.out.println(this.colab.getEndereco().getRua());
-        
+
+        this.endereco = this.colab.getEndereco();
+
         LimpaCampos.limparCampos(pnlGeral);
         LimpaCampos.limparCampos(pnlEndereco);
         LimpaCampos.limparCampos(pnlContato);
-        
+
         // Pega os dados se existir objeto
-        if (this.colab != null) {   
-            String tmp = this.colab.getTipousuario()+""; 
-            if(tmp.equals("a")){
+        if (this.colab != null) {
+            String tmp = this.colab.getTipousuario() + "";
+            if (tmp.equals("a")) {
                 rbtAdministrador.setSelected(true);
-               
-            }else{
-                
+
+            } else {
+
                 rbtOperador.setSelected(true);
             }
             tfdFuncao.setText(this.colab.getFuncao());
@@ -522,7 +519,7 @@ public class IfrmColaborador extends javax.swing.JInternalFrame {
             tfdNumero.setText(this.colab.getEndereco().getNumero());
             tfdBairro.setText(this.colab.getEndereco().getBairro());
             tfdComplemento.setText(this.colab.getEndereco().getComplemento());
-            tfdCidade.setText(this.colab.getEndereco().getCidade().getNome()+" - "+this.colab.getEndereco().getCidade().getEstado().getSigla());
+            tfdCidade.setText(this.colab.getEndereco().getCidade().getNome() + " - " + this.colab.getEndereco().getCidade().getEstado().getSigla());
             ffdCEP.setText(this.colab.getEndereco().getCep());
             tfdEmail.setText(this.colab.getEmail());
             tfdCelular.setText(this.colab.getCelular());
@@ -533,9 +530,7 @@ public class IfrmColaborador extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private boolean validaCampos() {
-          ArrayList<JComponent> components = new ArrayList();
-
-      
+        ArrayList<JComponent> components = new ArrayList();
 
         components.add(tfdNome);
         components.add(tfdLogradouro);
@@ -546,7 +541,7 @@ public class IfrmColaborador extends javax.swing.JInternalFrame {
         components.add(tfdCelular);
         components.add(tfdFuncao);
         components.add(tfdUsuario);
-        
+
         // Verifica se um radio foi selecionado, se não foi valida os dois
         if (btgPessoa.getSelection() == null) {
             components.add(rbtAdministrador);
@@ -563,28 +558,36 @@ public class IfrmColaborador extends javax.swing.JInternalFrame {
         if (!verifier.validaCampos()) {
             return false;
         }
-        
+
         return true;
     }
-    
-   
+
+
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
-          if (!validaCampos()) {
+        if (!validaCampos()) {
             return;
         }
-          
+
         this.dao = new GenericDAO<>();
+
         if (!editando) {
             colab = new Colaborador();
             endereco = new Endereco();
         }
-        
+
         endereco.setRua(tfdLogradouro.getText());
         endereco.setNumero(tfdNumero.getText());
         endereco.setBairro(tfdBairro.getText());
         endereco.setComplemento(tfdComplemento.getText());
         endereco.setCep(ffdCEP.getText());
-        endereco.setCidade(dlgCidades.getCidade());
+
+        if (dlgCidades.getCidade() != null) {
+
+            endereco.setCidade(dlgCidades.getCidade());
+        } else {
+            endereco.setCidade(this.colab.getEndereco().getCidade());
+
+        }
 
         colab.setEndereco(endereco);
         colab.setNomecompleto(tfdNome.getText());
@@ -592,15 +595,9 @@ public class IfrmColaborador extends javax.swing.JInternalFrame {
         colab.setEmail(tfdEmail.getText());
         colab.setCelular(tfdCelular.getText());
         colab.setUsuario(tfdUsuario.getText());
-        
-        if(rbtAdministrador.isSelected()){
-            
-            colab.setTipousuario('a');
-        }else{
-            colab.setTipousuario('o');
-        }
-       
-         if (editando) {
+
+        if (editando) {
+
             try {
                 if (!new GenericDAO<>().atualizar(endereco)) {
                     throw new Exception("Erro ao atualizar endereco - colaborador");
@@ -610,7 +607,13 @@ public class IfrmColaborador extends javax.swing.JInternalFrame {
                     throw new Exception("Erro ao atualizar colaborador");
                 }
 
-                Mensagem.mostraInformacao("Sucesso", "Colaborador " + colab.getNomecompleto()+ " atualizado com sucesso");
+                Mensagem.mostraInformacao("Sucesso", "Colaborador " + colab.getNomecompleto() + " atualizado com sucesso");
+
+                LimpaCampos.limparCampos(pnlEndereco);
+                LimpaCampos.limparCampos(pnlGeral);
+                LimpaCampos.limparCampos(pnlContato);
+
+                focus();
 
             } catch (Exception e) {
                 Mensagem.mostraInformacao("Problema", "Problema ao atualizar colaborador");
@@ -618,7 +621,8 @@ public class IfrmColaborador extends javax.swing.JInternalFrame {
             editando = false;
 
         } else {
-             colab.setSenhausuario("12345");
+
+            colab.setSenhausuario("12345");
             try {
                 if (!new GenericDAO<>().salvar(endereco)) {
                     throw new Exception("Erro ao salvar endereco - colaborador");
@@ -628,33 +632,31 @@ public class IfrmColaborador extends javax.swing.JInternalFrame {
                     throw new Exception("Erro ao salvar colaborador");
                 }
 
-                Mensagem.mostraInformacao("Sucesso", "Colaborador " + colab.getNomecompleto()+ " inserido com sucesso");
+                Mensagem.mostraInformacao("Sucesso", "Colaborador " + colab.getNomecompleto() + " inserido com sucesso");
+
+                LimpaCampos.limparCampos(pnlEndereco);
+                LimpaCampos.limparCampos(pnlGeral);
+                LimpaCampos.limparCampos(pnlContato);
+
+                focus();
 
             } catch (Exception e) {
                 Mensagem.mostraInformacao("Problema", "Problema para inserir colaborador");
             }
         }
-         
-      
-        LimpaCampos.limparCampos(pnlEndereco);
-        LimpaCampos.limparCampos(pnlGeral);
-        LimpaCampos.limparCampos(pnlContato);
-        
-        
-     
-        focus(); 
-          
+
+
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
-         // Pega o código do registro para consultar o objeto
+        // Pega o código do registro para consultar o objeto
         int id = Integer.parseInt(tblColaboradores.getValueAt(tblColaboradores.getSelectedRow(), 0).toString());
 
         this.colab = dao.consultarPorId(id, "Colaborador");
         this.endereco = this.colab.getEndereco();
 
         //Abre uma mensagem pedindo se o usuário realmente quer excluír o registro
-        boolean resposta = Mensagem.confirmaMensagem("Atenção", "Deseja realmente excluir o colaborador: " + this.colab.getNomecompleto()+ "?");
+        boolean resposta = Mensagem.confirmaMensagem("Atenção", "Deseja realmente excluir o colaborador: " + this.colab.getNomecompleto() + "?");
 
         if (resposta) {
             // Exclui o registro
@@ -670,7 +672,7 @@ public class IfrmColaborador extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnExcluirActionPerformed
 
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
-         this.dao = new GenericDAO<>();
+        this.dao = new GenericDAO<>();
         this.colabs = new ArrayList();
 
         this.colabs = dao.consultarComCriterio("Colaborador", "nomecompleto", tfdCriterio.getText());
@@ -678,7 +680,7 @@ public class IfrmColaborador extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnPesquisarActionPerformed
 
     private void btnZoomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnZoomActionPerformed
-        dlgCidades = new DlgCidades(null, true);
+
         dlgCidades.setVisible(true);
         if (dlgCidades.seleciou() && dlgCidades.getCidade() != null) {
             String cidade = dlgCidades.getCidade().getNome() + " - " + dlgCidades.getCidade().getEstado().getSigla();
@@ -687,11 +689,11 @@ public class IfrmColaborador extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnZoomActionPerformed
 
     private void rbtOperadorItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_rbtOperadorItemStateChanged
-      
+
     }//GEN-LAST:event_rbtOperadorItemStateChanged
 
     private void rbtAdministradorItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_rbtAdministradorItemStateChanged
-        
+
     }//GEN-LAST:event_rbtAdministradorItemStateChanged
 
     private void tabAbasStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tabAbasStateChanged

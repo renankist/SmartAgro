@@ -73,7 +73,7 @@ public class DlgCidades extends javax.swing.JDialog {
     }
 
     public Cidade getCidade() {
-        Cidade cid;
+        Cidade cid = new Cidade();
 
         if (selecionou) {
             cid = modelCidade.get(tblCidades.getSelectedRow());
