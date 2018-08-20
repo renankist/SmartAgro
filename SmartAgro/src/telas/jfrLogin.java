@@ -6,6 +6,7 @@
 package telas;
 
 
+import apoio.Criptografia;
 import dao.ColaboradorDAO;
 import entidade.Colaborador;
 import static java.awt.Color.white;
@@ -125,7 +126,6 @@ public class jfrLogin extends javax.swing.JFrame {
         colab = dao.autenticarColaborador(jtfLogin.getText(), jpfSenha.getText());
 
         if (colab != null) {
-
             /* Set the Synthetica Plain look and feel */
             try {
                 javax.swing.UIManager.setLookAndFeel("de.javasoft.plaf.synthetica.SyntheticaPlainLookAndFeel");
