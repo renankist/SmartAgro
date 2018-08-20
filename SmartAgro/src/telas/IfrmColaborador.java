@@ -244,7 +244,7 @@ public class IfrmColaborador extends javax.swing.JInternalFrame {
 
         lblComplemento.setText("Complemento");
 
-        btnZoom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/zoom.png"))); // NOI18N
+        btnZoom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/zoom.png"))); // NOI18N
         btnZoom.setToolTipText("Pesquisar");
         btnZoom.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         btnZoom.addActionListener(new java.awt.event.ActionListener() {
