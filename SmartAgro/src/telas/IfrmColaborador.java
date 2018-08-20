@@ -96,9 +96,9 @@ public class IfrmColaborador extends javax.swing.JInternalFrame {
         btnZoom = new javax.swing.JButton();
         pnlContato = new javax.swing.JPanel();
         lblCelular = new javax.swing.JLabel();
-        tfdCelular = new javax.swing.JTextField();
         lblEmail = new javax.swing.JLabel();
         tfdEmail = new javax.swing.JTextField();
+        ffdCelular = new javax.swing.JFormattedTextField();
         pnlConsulta = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblColaboradores = new javax.swing.JTable();
@@ -336,6 +336,12 @@ public class IfrmColaborador extends javax.swing.JInternalFrame {
             }
         });
 
+        try {
+            ffdCelular.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("(##)#####-####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+
         javax.swing.GroupLayout pnlContatoLayout = new javax.swing.GroupLayout(pnlContato);
         pnlContato.setLayout(pnlContatoLayout);
         pnlContatoLayout.setHorizontalGroup(
@@ -348,7 +354,7 @@ public class IfrmColaborador extends javax.swing.JInternalFrame {
                 .addGap(44, 44, 44)
                 .addGroup(pnlContatoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(tfdEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tfdCelular, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(ffdCelular, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pnlContatoLayout.setVerticalGroup(
@@ -356,12 +362,12 @@ public class IfrmColaborador extends javax.swing.JInternalFrame {
             .addGroup(pnlContatoLayout.createSequentialGroup()
                 .addGroup(pnlContatoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblCelular)
-                    .addComponent(tfdCelular, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(ffdCelular, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlContatoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblEmail)
                     .addComponent(tfdEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addContainerGap(14, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout pnlCadastroLayout = new javax.swing.GroupLayout(pnlCadastro);
@@ -385,7 +391,7 @@ public class IfrmColaborador extends javax.swing.JInternalFrame {
                 .addComponent(pnlContato, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pnlEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(30, Short.MAX_VALUE))
+                .addContainerGap(34, Short.MAX_VALUE))
         );
 
         tabAbas.addTab("Cadastro", pnlCadastro);
@@ -522,7 +528,7 @@ public class IfrmColaborador extends javax.swing.JInternalFrame {
             tfdCidade.setText(this.colab.getEndereco().getCidade().getNome() + " - " + this.colab.getEndereco().getCidade().getEstado().getSigla());
             ffdCEP.setText(this.colab.getEndereco().getCep());
             tfdEmail.setText(this.colab.getEmail());
-            tfdCelular.setText(this.colab.getCelular());
+            ffdCelular.setText(this.colab.getCelular());
             tabAbas.setSelectedIndex(0);
             editando = true;
             focus();
@@ -538,7 +544,7 @@ public class IfrmColaborador extends javax.swing.JInternalFrame {
         components.add(tfdCidade);
         components.add(ffdCEP);
         components.add(tfdEmail);
-        components.add(tfdCelular);
+        components.add(ffdCelular);
         components.add(tfdFuncao);
         components.add(tfdUsuario);
 
@@ -588,12 +594,18 @@ public class IfrmColaborador extends javax.swing.JInternalFrame {
             endereco.setCidade(this.colab.getEndereco().getCidade());
 
         }
+        
+        if(rbtOperador.isSelected()){
+            colab.setTipousuario('o');
+        }else{
+           colab.setTipousuario('a'); 
+        }
 
         colab.setEndereco(endereco);
         colab.setNomecompleto(tfdNome.getText());
         colab.setFuncao(tfdFuncao.getText());
         colab.setEmail(tfdEmail.getText());
-        colab.setCelular(tfdCelular.getText());
+        colab.setCelular(ffdCelular.getText());
         colab.setUsuario(tfdUsuario.getText());
 
         if (editando) {
@@ -720,6 +732,7 @@ public class IfrmColaborador extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnSalvar;
     private javax.swing.JButton btnZoom;
     private javax.swing.JFormattedTextField ffdCEP;
+    private javax.swing.JFormattedTextField ffdCelular;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
@@ -746,7 +759,6 @@ public class IfrmColaborador extends javax.swing.JInternalFrame {
     private javax.swing.JTabbedPane tabAbas;
     private javax.swing.JTable tblColaboradores;
     private javax.swing.JTextField tfdBairro;
-    private javax.swing.JTextField tfdCelular;
     private javax.swing.JTextField tfdCidade;
     private javax.swing.JTextField tfdComplemento;
     private javax.swing.JTextField tfdCriterio;
