@@ -37,7 +37,7 @@ public class Formatacao {
     }
 
     public static JFormattedTextField getTelefone() {
-        return getFormatado("(##) ####-####");
+        return getFormatado("(##) #####-####");
     }
 
     public static JFormattedTextField getCNPJ() {
@@ -103,7 +103,7 @@ public class Formatacao {
         try {
             MaskFormatter m = new MaskFormatter();
             m.setPlaceholderCharacter(' ');
-            m.setMask("(##)####-####");
+            m.setMask("(##) #####-####");
             campo.setFormatterFactory(null);
             campo.setFormatterFactory(new DefaultFormatterFactory(m));
             campo.setValue(null);
