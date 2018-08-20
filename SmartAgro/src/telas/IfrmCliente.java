@@ -44,7 +44,7 @@ public class IfrmCliente extends javax.swing.JInternalFrame {
         // Preenche a tabela de consulta com as colunas corretas
         clientes = new ArrayList();
         tblClientes.setModel(new jtmCliente(clientes));
-        
+
         // Janela cidades
         dlgCidades = new DlgCidades(null, true);
 
@@ -794,6 +794,9 @@ public class IfrmCliente extends javax.swing.JInternalFrame {
 
                 Mensagem.mostraInformacao("Sucesso", "Cliente " + cliente.getNome() + " atualizado com sucesso");
 
+                limparPainelCadastro();
+                btgPessoa.clearSelection();
+                btgSexo.clearSelection();
             } catch (Exception e) {
                 Mensagem.mostraInformacao("Problema", "Problema ao atualizar cliente");
             }
@@ -813,14 +816,14 @@ public class IfrmCliente extends javax.swing.JInternalFrame {
                 }
 
                 Mensagem.mostraInformacao("Sucesso", "Cliente " + cliente.getNome() + " inserido com sucesso");
-
+                limparPainelCadastro();
+                btgPessoa.clearSelection();
+                btgSexo.clearSelection();
             } catch (Exception e) {
                 Mensagem.mostraInformacao("Problema", "Problema ao inserir cliente");
             }
         }
 
-        limparPainelCadastro();
-        btgPessoa.clearSelection();
         focus();
     }//GEN-LAST:event_btnSalvarActionPerformed
 
