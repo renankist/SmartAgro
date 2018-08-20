@@ -94,14 +94,14 @@ public class IfrmColaborador extends javax.swing.JInternalFrame {
         lblComplemento = new javax.swing.JLabel();
         tfdComplemento = new javax.swing.JTextField();
         btnZoom = new javax.swing.JButton();
-        pnlEndereco1 = new javax.swing.JPanel();
+        pnlContato = new javax.swing.JPanel();
         lblCelular = new javax.swing.JLabel();
         tfdCelular = new javax.swing.JTextField();
         lblEmail = new javax.swing.JLabel();
         tfdEmail = new javax.swing.JTextField();
         pnlConsulta = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        tblFornecedores = new javax.swing.JTable();
+        tblColaboradores = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         tfdCriterio = new javax.swing.JTextField();
         btnPesquisar = new javax.swing.JButton();
@@ -148,11 +148,11 @@ public class IfrmColaborador extends javax.swing.JInternalFrame {
 
         lblFuncao.setText("Função *");
 
-        lblUsuario.setText("Usuário");
+        lblUsuario.setText("Usuário *");
 
         lblNome.setText("Nome *");
 
-        lblTipoUsuario.setText("Tipo Usuário ");
+        lblTipoUsuario.setText("Tipo Usuário * ");
 
         btgPessoa.add(rbtOperador);
         rbtOperador.setText("Operador");
@@ -198,7 +198,7 @@ public class IfrmColaborador extends javax.swing.JInternalFrame {
                         .addComponent(rbtOperador)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(rbtAdministrador)))
-                .addContainerGap(560, Short.MAX_VALUE))
+                .addContainerGap(559, Short.MAX_VALUE))
         );
         pnlGeralLayout.setVerticalGroup(
             pnlGeralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -324,7 +324,7 @@ public class IfrmColaborador extends javax.swing.JInternalFrame {
                 .addContainerGap(22, Short.MAX_VALUE))
         );
 
-        pnlEndereco1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Contato", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
+        pnlContato.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Contato", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
         lblCelular.setText("Celular *");
 
@@ -336,29 +336,29 @@ public class IfrmColaborador extends javax.swing.JInternalFrame {
             }
         });
 
-        javax.swing.GroupLayout pnlEndereco1Layout = new javax.swing.GroupLayout(pnlEndereco1);
-        pnlEndereco1.setLayout(pnlEndereco1Layout);
-        pnlEndereco1Layout.setHorizontalGroup(
-            pnlEndereco1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlEndereco1Layout.createSequentialGroup()
+        javax.swing.GroupLayout pnlContatoLayout = new javax.swing.GroupLayout(pnlContato);
+        pnlContato.setLayout(pnlContatoLayout);
+        pnlContatoLayout.setHorizontalGroup(
+            pnlContatoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlContatoLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(pnlEndereco1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(pnlContatoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblEmail)
                     .addComponent(lblCelular))
                 .addGap(44, 44, 44)
-                .addGroup(pnlEndereco1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(pnlContatoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(tfdCelular, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(tfdEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        pnlEndereco1Layout.setVerticalGroup(
-            pnlEndereco1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlEndereco1Layout.createSequentialGroup()
-                .addGroup(pnlEndereco1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+        pnlContatoLayout.setVerticalGroup(
+            pnlContatoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlContatoLayout.createSequentialGroup()
+                .addGroup(pnlContatoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblCelular)
                     .addComponent(tfdCelular, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(pnlEndereco1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(pnlContatoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblEmail)
                     .addComponent(tfdEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(18, Short.MAX_VALUE))
@@ -373,7 +373,7 @@ public class IfrmColaborador extends javax.swing.JInternalFrame {
                 .addGroup(pnlCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(pnlGeral, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(pnlEndereco, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(pnlEndereco1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(pnlContato, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         pnlCadastroLayout.setVerticalGroup(
@@ -382,7 +382,7 @@ public class IfrmColaborador extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(pnlGeral, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pnlEndereco1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(pnlContato, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pnlEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(30, Short.MAX_VALUE))
@@ -392,18 +392,26 @@ public class IfrmColaborador extends javax.swing.JInternalFrame {
 
         pnlConsulta.setName("pnlConsulta"); // NOI18N
 
-        tblFornecedores.setModel(new javax.swing.table.DefaultTableModel(
+        tblColaboradores.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3"
+                "Código", "Nome", "Celular", "E-mail", "Função", "Usuário", "Tipo Usuário", "Cidade/Estado"
             }
-        ));
-        jScrollPane2.setViewportView(tblFornecedores);
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, true, true, true, true, true
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane2.setViewportView(tblColaboradores);
 
         jLabel1.setText("Nome:");
 
@@ -435,8 +443,7 @@ public class IfrmColaborador extends javax.swing.JInternalFrame {
                     .addComponent(tfdCriterio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnPesquisar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(145, Short.MAX_VALUE))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 340, Short.MAX_VALUE))
         );
 
         tabAbas.addTab("Consulta", pnlConsulta);
@@ -488,7 +495,29 @@ public class IfrmColaborador extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+         // Pega o código do registro para consultar o objeto
+        int id = Integer.parseInt(tblColaboradores.getValueAt(tblColaboradores.getSelectedRow(), 0).toString());
+        this.colab = dao.consultarPorId(id, "Colaborador");
         
+        LimpaCampos.limparCampos(pnlGeral);
+        LimpaCampos.limparCampos(pnlEndereco);
+
+        // Pega os dados se existir objeto
+        if (this.colab != null) {           
+            tfdNome.setText(this.colab.getNomecompleto());
+            tfdUsuario.setText(this.colab.getUsuario());
+            tfdLogradouro.setText(this.colab.getEndereco().getRua());
+            tfdNumero.setText(this.colab.getEndereco().getNumero());
+            tfdBairro.setText(this.colab.getEndereco().getBairro());
+            tfdComplemento.setText(this.colab.getEndereco().getComplemento());
+            tfdCidade.setText(this.colab.getEndereco().getCidade().getNome()+" - "+this.colab.getEndereco().getCidade().getEstado().getSigla());
+            ffdCEP.setText(this.colab.getEndereco().getCep());
+            tfdEmail.setText(this.colab.getEmail());
+            tfdCelular.setText(this.colab.getCelular());
+            tabAbas.setSelectedIndex(0);
+            editando = true;
+            focus();
+        }
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private boolean validaCampos() {
@@ -504,6 +533,16 @@ public class IfrmColaborador extends javax.swing.JInternalFrame {
         components.add(tfdEmail);
         components.add(tfdCelular);
         components.add(tfdFuncao);
+        components.add(tfdUsuario);
+        
+        // Verifica se um radio foi selecionado, se não foi valida os dois
+        if (btgPessoa.getSelection() == null) {
+            components.add(rbtAdministrador);
+            components.add(rbtOperador);
+        } else {
+            ColoreCampos.pintarCampo(rbtOperador, false);
+            ColoreCampos.pintarCampo(rbtAdministrador, false);
+        }
 
         JComponent[] simpleArray = new JComponent[components.size()];
         components.toArray(simpleArray);
@@ -540,7 +579,15 @@ public class IfrmColaborador extends javax.swing.JInternalFrame {
         colab.setFuncao(tfdFuncao.getText());
         colab.setEmail(tfdEmail.getText());
         colab.setCelular(tfdCelular.getText());
+        colab.setUsuario(tfdUsuario.getText());
         
+        if(rbtAdministrador.isSelected()){
+            
+            colab.setTipousuario('a');
+        }else{
+            colab.setTipousuario('o');
+        }
+       
          if (editando) {
             try {
                 if (!new GenericDAO<>().atualizar(endereco)) {
@@ -559,7 +606,7 @@ public class IfrmColaborador extends javax.swing.JInternalFrame {
             editando = false;
 
         } else {
-
+             colab.setSenhausuario("12345");
             try {
                 if (!new GenericDAO<>().salvar(endereco)) {
                     throw new Exception("Erro ao salvar endereco - colaborador");
@@ -575,16 +622,47 @@ public class IfrmColaborador extends javax.swing.JInternalFrame {
                 Mensagem.mostraInformacao("Problema", "Problema para inserir colaborador");
             }
         }
-          
+         
+      
+        LimpaCampos.limparCampos(pnlEndereco);
+        LimpaCampos.limparCampos(pnlGeral);
+        LimpaCampos.limparCampos(pnlContato);
+        
+        
+     
+        focus(); 
           
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
-       
+         // Pega o código do registro para consultar o objeto
+        int id = Integer.parseInt(tblColaboradores.getValueAt(tblColaboradores.getSelectedRow(), 0).toString());
+
+        this.colab = dao.consultarPorId(id, "Colaborador");
+        this.endereco = this.colab.getEndereco();
+
+        //Abre uma mensagem pedindo se o usuário realmente quer excluír o registro
+        boolean resposta = Mensagem.confirmaMensagem("Atenção", "Deseja realmente excluir o colaborador: " + this.colab.getNomecompleto()+ "?");
+
+        if (resposta) {
+            // Exclui o registro
+            if (dao.deletar(colab)) {
+                Mensagem.mostraInformacao("Confirmação de exclusão", "Colaborador excluído");
+
+                this.colabs = dao.consultarComCriterio("Colaborador", "nomecompleto", tfdCriterio.getText());
+                this.tblColaboradores.setModel(new jtmColaborador(this.colabs));
+            } else {
+                Mensagem.mostraErro("Problema", "Problema para excluir colaborador");
+            }
+        }
     }//GEN-LAST:event_btnExcluirActionPerformed
 
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
-        
+         this.dao = new GenericDAO<>();
+        this.colabs = new ArrayList();
+
+        this.colabs = dao.consultarComCriterio("Colaborador", "nomecompleto", tfdCriterio.getText());
+        tblColaboradores.setModel(new jtmColaborador(colabs));
     }//GEN-LAST:event_btnPesquisarActionPerformed
 
     private void btnZoomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnZoomActionPerformed
@@ -646,13 +724,13 @@ public class IfrmColaborador extends javax.swing.JInternalFrame {
     private javax.swing.JLabel lblUsuario;
     private javax.swing.JPanel pnlCadastro;
     private javax.swing.JPanel pnlConsulta;
+    private javax.swing.JPanel pnlContato;
     private javax.swing.JPanel pnlEndereco;
-    private javax.swing.JPanel pnlEndereco1;
     private javax.swing.JPanel pnlGeral;
     private javax.swing.JRadioButton rbtAdministrador;
     private javax.swing.JRadioButton rbtOperador;
     private javax.swing.JTabbedPane tabAbas;
-    private javax.swing.JTable tblFornecedores;
+    private javax.swing.JTable tblColaboradores;
     private javax.swing.JTextField tfdBairro;
     private javax.swing.JTextField tfdCelular;
     private javax.swing.JTextField tfdCidade;
