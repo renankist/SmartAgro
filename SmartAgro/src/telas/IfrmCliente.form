@@ -153,7 +153,7 @@
                                   <Component id="pnlFisica" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="pnlEndereco" min="-2" pref="110" max="-2" attributes="0"/>
+                              <Component id="pnlEndereco" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="pnlContato" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="32767" attributes="0"/>
@@ -662,7 +662,6 @@
                       </Properties>
                       <Events>
                         <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="rbtFisicaItemStateChanged"/>
-                        <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="rbtFisicaStateChanged"/>
                       </Events>
                     </Component>
                     <Component class="javax.swing.JRadioButton" name="rbtJuridica">

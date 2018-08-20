@@ -442,11 +442,6 @@ public class IfrmCliente extends javax.swing.JInternalFrame {
                 rbtFisicaItemStateChanged(evt);
             }
         });
-        rbtFisica.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                rbtFisicaStateChanged(evt);
-            }
-        });
 
         btgPessoa.add(rbtJuridica);
         rbtJuridica.setText("Pessoa Jurídica");
@@ -497,7 +492,7 @@ public class IfrmCliente extends javax.swing.JInternalFrame {
                     .addComponent(pnlJuridica, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(pnlFisica, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pnlEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(pnlEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pnlContato, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -625,16 +620,6 @@ public class IfrmCliente extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void rbtFisicaStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_rbtFisicaStateChanged
-        if (rbtFisica.isSelected()) {
-            pnlJuridica.setVisible(false);
-            pnlFisica.setVisible(true);
-        } else {
-            pnlJuridica.setVisible(true);
-            pnlFisica.setVisible(false);
-        }
-    }//GEN-LAST:event_rbtFisicaStateChanged
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
         // Pega o código do registro para consultar o objeto
