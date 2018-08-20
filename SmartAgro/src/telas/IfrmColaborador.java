@@ -499,11 +499,23 @@ public class IfrmColaborador extends javax.swing.JInternalFrame {
         int id = Integer.parseInt(tblColaboradores.getValueAt(tblColaboradores.getSelectedRow(), 0).toString());
         this.colab = dao.consultarPorId(id, "Colaborador");
         
+        System.out.println(this.colab.getEndereco().getRua());
+        
         LimpaCampos.limparCampos(pnlGeral);
         LimpaCampos.limparCampos(pnlEndereco);
-
+        LimpaCampos.limparCampos(pnlContato);
+        
         // Pega os dados se existir objeto
-        if (this.colab != null) {           
+        if (this.colab != null) {   
+            String tmp = this.colab.getTipousuario()+""; 
+            if(tmp.equals("a")){
+                rbtAdministrador.setSelected(true);
+               
+            }else{
+                
+                rbtOperador.setSelected(true);
+            }
+            tfdFuncao.setText(this.colab.getFuncao());
             tfdNome.setText(this.colab.getNomecompleto());
             tfdUsuario.setText(this.colab.getUsuario());
             tfdLogradouro.setText(this.colab.getEndereco().getRua());
