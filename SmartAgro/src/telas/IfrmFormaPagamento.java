@@ -5,6 +5,7 @@
  */
 package telas;
 
+import apoio.HabilitaCampos;
 import apoio.VerificadorCampos;
 import dao.GenericDAO;
 import entidade.Formapagamento;
@@ -89,6 +90,17 @@ public class IfrmFormaPagamento extends javax.swing.JInternalFrame {
             }
         });
 
+        tabAbas.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                tabAbasStateChanged(evt);
+            }
+        });
+        tabAbas.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                tabAbasFocusLost(evt);
+            }
+        });
+
         lblDescricao.setText("Descrição *");
 
         javax.swing.GroupLayout pnlCadastroLayout = new javax.swing.GroupLayout(pnlCadastro);
@@ -146,16 +158,13 @@ public class IfrmFormaPagamento extends javax.swing.JInternalFrame {
         pnlConsultaLayout.setHorizontalGroup(
             pnlConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlConsultaLayout.createSequentialGroup()
-                .addGroup(pnlConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnlConsultaLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(lblDescricaoConsulta, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tfdDescricaoConsulta)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnPesquisar))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 764, Short.MAX_VALUE))
-                .addContainerGap())
+                .addContainerGap()
+                .addComponent(lblDescricaoConsulta, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(tfdDescricaoConsulta)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnPesquisar))
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 774, Short.MAX_VALUE)
         );
         pnlConsultaLayout.setVerticalGroup(
             pnlConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -165,9 +174,8 @@ public class IfrmFormaPagamento extends javax.swing.JInternalFrame {
                     .addComponent(lblDescricaoConsulta)
                     .addComponent(tfdDescricaoConsulta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnPesquisar))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE))
         );
 
         tabAbas.addTab("Consulta", pnlConsulta);
@@ -309,6 +317,14 @@ public class IfrmFormaPagamento extends javax.swing.JInternalFrame {
         //this.jTableFormasPagamento.setDefaultRenderer(Object.class, new RenderizadorTabelas());
 
     }//GEN-LAST:event_btnPesquisarActionPerformed
+
+    private void tabAbasStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tabAbasStateChanged
+        //
+    }//GEN-LAST:event_tabAbasStateChanged
+
+    private void tabAbasFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tabAbasFocusLost
+       
+    }//GEN-LAST:event_tabAbasFocusLost
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

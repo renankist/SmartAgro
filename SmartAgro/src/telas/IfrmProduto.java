@@ -1,6 +1,7 @@
 package telas;
 
 import apoio.Formatacao;
+import apoio.HabilitaCampos;
 import apoio.LimpaCampos;
 import apoio.Mensagem;
 import apoio.VerificadorCampos;
@@ -110,6 +111,17 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
         btnExcluir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnExcluirActionPerformed(evt);
+            }
+        });
+
+        tabAbas.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                tabAbasStateChanged(evt);
+            }
+        });
+        tabAbas.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                tabAbasFocusLost(evt);
             }
         });
 
@@ -457,6 +469,14 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
         }
 
     }//GEN-LAST:event_btnEditarActionPerformed
+
+    private void tabAbasFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tabAbasFocusLost
+     
+    }//GEN-LAST:event_tabAbasFocusLost
+
+    private void tabAbasStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tabAbasStateChanged
+       
+    }//GEN-LAST:event_tabAbasStateChanged
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

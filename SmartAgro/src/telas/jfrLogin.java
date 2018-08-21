@@ -65,7 +65,7 @@ public class jfrLogin extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setBackground(new java.awt.Color(102, 102, 102));
+        jButton1.setBackground(new java.awt.Color(153, 153, 153));
         jButton1.setForeground(java.awt.Color.white);
         jButton1.setText("Entrar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
