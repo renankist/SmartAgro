@@ -6,8 +6,12 @@ import java.util.ArrayList;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class GenericDAO<Object> {
+    
+    final static Logger LOGGER = LoggerFactory.getLogger(GenericDAO.class);
 
     public boolean salvar(Object o) {
 
