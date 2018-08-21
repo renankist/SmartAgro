@@ -169,7 +169,7 @@ public class IfrmCliente extends javax.swing.JInternalFrame {
             ex.printStackTrace();
         }
 
-        dchDataNascimento.setIcon(null);
+        dchDataNascimento.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/calendar.png")));
         dchDataNascimento.setInheritsPopupMenu(true);
 
         javax.swing.GroupLayout pnlFisicaLayout = new javax.swing.GroupLayout(pnlFisica);
@@ -184,12 +184,12 @@ public class IfrmCliente extends javax.swing.JInternalFrame {
                     .addComponent(jLabel4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(pnlFisicaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(dchDataNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(pnlFisicaLayout.createSequentialGroup()
                         .addComponent(rbtFemino)
                         .addGap(3, 3, 3)
                         .addComponent(rbtMasculino))
-                    .addComponent(ffdCPF, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(ffdCPF, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(dchDataNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(97, Short.MAX_VALUE))
         );
         pnlFisicaLayout.setVerticalGroup(
