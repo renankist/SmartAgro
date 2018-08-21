@@ -21,7 +21,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         //setExtendedState(MAXIMIZED_BOTH);
 
         /* Define o icone da aplicação */
-        setIconImage(java.awt.Toolkit.getDefaultToolkit().getImage(getClass().getResource("/imagens/32/stack.png")));
+        setIconImage(java.awt.Toolkit.getDefaultToolkit().getImage(getClass().getResource("/imagens/stack.png")));
     }
 
     /**
@@ -85,7 +85,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         mnuCliente.setMnemonic('C');
         mnuCliente.setText("Clientes");
 
-        itmCadastroCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/24/register.png"))); // NOI18N
+        itmCadastroCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/register.png"))); // NOI18N
         itmCadastroCliente.setText("Cadastro");
         itmCadastroCliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -94,7 +94,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         });
         mnuCliente.add(itmCadastroCliente);
 
-        itmConsultaCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/24/browser.png"))); // NOI18N
+        itmConsultaCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/browser.png"))); // NOI18N
         itmConsultaCliente.setText("Consulta");
         itmConsultaCliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -103,7 +103,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         });
         mnuCliente.add(itmConsultaCliente);
 
-        itmRelatorioCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/24/report.png"))); // NOI18N
+        itmRelatorioCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/report.png"))); // NOI18N
         itmRelatorioCliente.setText("Relatório");
         itmRelatorioCliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -117,7 +117,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         mnuProduto.setMnemonic('P');
         mnuProduto.setText("Produtos");
 
-        itmCadastroProduto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/24/register.png"))); // NOI18N
+        itmCadastroProduto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/register.png"))); // NOI18N
         itmCadastroProduto.setText("Cadastro");
         itmCadastroProduto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -126,7 +126,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         });
         mnuProduto.add(itmCadastroProduto);
 
-        itmConsultaProduto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/24/browser.png"))); // NOI18N
+        itmConsultaProduto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/browser.png"))); // NOI18N
         itmConsultaProduto.setText("Consulta");
         itmConsultaProduto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -135,7 +135,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         });
         mnuProduto.add(itmConsultaProduto);
 
-        itmRelatorioProduto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/24/report.png"))); // NOI18N
+        itmRelatorioProduto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/report.png"))); // NOI18N
         itmRelatorioProduto.setText("Relatório");
         itmRelatorioProduto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -145,7 +145,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         mnuProduto.add(itmRelatorioProduto);
         mnuProduto.add(jSeparator1);
 
-        itmUnidadeMedida.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/24/compass.png"))); // NOI18N
+        itmUnidadeMedida.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/compass.png"))); // NOI18N
         itmUnidadeMedida.setText("Unidades de Medida");
         itmUnidadeMedida.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -163,7 +163,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         mnuFornecedor.setMnemonic('F');
         mnuFornecedor.setText("Fornecedores");
 
-        itmCadastroFornecedor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/24/register.png"))); // NOI18N
+        itmCadastroFornecedor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/register.png"))); // NOI18N
         itmCadastroFornecedor.setText("Cadastro");
         itmCadastroFornecedor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -172,7 +172,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         });
         mnuFornecedor.add(itmCadastroFornecedor);
 
-        itmConsultaFornecedor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/24/browser.png"))); // NOI18N
+        itmConsultaFornecedor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/browser.png"))); // NOI18N
         itmConsultaFornecedor.setText("Consulta");
         itmConsultaFornecedor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -181,7 +181,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         });
         mnuFornecedor.add(itmConsultaFornecedor);
 
-        itmRelatorioFornecedor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/24/report.png"))); // NOI18N
+        itmRelatorioFornecedor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/report.png"))); // NOI18N
         itmRelatorioFornecedor.setText("Relatório");
         itmRelatorioFornecedor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -206,7 +206,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         mnuFinanceiro.add(itmContasPagar);
         mnuFinanceiro.add(jSeparator2);
 
-        itmFormasPagamento.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/24/money.png"))); // NOI18N
+        itmFormasPagamento.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/money.png"))); // NOI18N
         itmFormasPagamento.setText("Formas de Pagamento");
         itmFormasPagamento.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -219,7 +219,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
         mnuColaborador.setText("Colaboradores");
 
-        itmCadastroColaborador.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/24/register.png"))); // NOI18N
+        itmCadastroColaborador.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/register.png"))); // NOI18N
         itmCadastroColaborador.setText("Cadastro");
         itmCadastroColaborador.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -228,7 +228,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         });
         mnuColaborador.add(itmCadastroColaborador);
 
-        itmConsultaColaborador.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/24/browser.png"))); // NOI18N
+        itmConsultaColaborador.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/browser.png"))); // NOI18N
         itmConsultaColaborador.setText("Consulta");
         itmConsultaColaborador.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -237,7 +237,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         });
         mnuColaborador.add(itmConsultaColaborador);
 
-        itmRelatorioColaborador.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/24/report.png"))); // NOI18N
+        itmRelatorioColaborador.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/report.png"))); // NOI18N
         itmRelatorioColaborador.setText("Relatório");
         itmRelatorioColaborador.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -251,7 +251,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         mnuSistema.setMnemonic('S');
         mnuSistema.setText("Sistema");
 
-        itmSair.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/24/power.png"))); // NOI18N
+        itmSair.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/power.png"))); // NOI18N
         itmSair.setText("Sair");
         itmSair.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

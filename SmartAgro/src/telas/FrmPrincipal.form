@@ -19,7 +19,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="itmCadastroCliente">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/imagens/24/register.png"/>
+                  <Image iconType="3" name="/imagens/register.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Cadastro"/>
               </Properties>
@@ -30,7 +30,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="itmConsultaCliente">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/imagens/24/browser.png"/>
+                  <Image iconType="3" name="/imagens/browser.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Consulta"/>
               </Properties>
@@ -41,7 +41,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="itmRelatorioCliente">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/imagens/24/report.png"/>
+                  <Image iconType="3" name="/imagens/report.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Relat&#xf3;rio"/>
               </Properties>
@@ -60,7 +60,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="itmCadastroProduto">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/imagens/24/register.png"/>
+                  <Image iconType="3" name="/imagens/register.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Cadastro"/>
               </Properties>
@@ -71,7 +71,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="itmConsultaProduto">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/imagens/24/browser.png"/>
+                  <Image iconType="3" name="/imagens/browser.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Consulta"/>
               </Properties>
@@ -82,7 +82,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="itmRelatorioProduto">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/imagens/24/report.png"/>
+                  <Image iconType="3" name="/imagens/report.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Relat&#xf3;rio"/>
               </Properties>
@@ -95,7 +95,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="itmUnidadeMedida">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/imagens/24/compass.png"/>
+                  <Image iconType="3" name="/imagens/compass.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Unidades de Medida"/>
               </Properties>
@@ -120,7 +120,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="itmCadastroFornecedor">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/imagens/24/register.png"/>
+                  <Image iconType="3" name="/imagens/register.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Cadastro"/>
               </Properties>
@@ -131,7 +131,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="itmConsultaFornecedor">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/imagens/24/browser.png"/>
+                  <Image iconType="3" name="/imagens/browser.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Consulta"/>
               </Properties>
@@ -142,7 +142,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="itmRelatorioFornecedor">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/imagens/24/report.png"/>
+                  <Image iconType="3" name="/imagens/report.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Relat&#xf3;rio"/>
               </Properties>
@@ -179,7 +179,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="itmFormasPagamento">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/imagens/24/money.png"/>
+                  <Image iconType="3" name="/imagens/money.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Formas de Pagamento"/>
               </Properties>
@@ -197,7 +197,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="itmCadastroColaborador">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/imagens/24/register.png"/>
+                  <Image iconType="3" name="/imagens/register.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Cadastro"/>
               </Properties>
@@ -208,7 +208,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="itmConsultaColaborador">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/imagens/24/browser.png"/>
+                  <Image iconType="3" name="/imagens/browser.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Consulta"/>
               </Properties>
@@ -219,7 +219,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="itmRelatorioColaborador">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/imagens/24/report.png"/>
+                  <Image iconType="3" name="/imagens/report.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Relat&#xf3;rio"/>
               </Properties>
@@ -238,7 +238,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="itmSair">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/imagens/24/power.png"/>
+                  <Image iconType="3" name="/imagens/power.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Sair"/>
               </Properties>

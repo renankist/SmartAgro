@@ -170,6 +170,7 @@ public class IfrmCliente extends javax.swing.JInternalFrame {
         }
 
         dchDataNascimento.setIcon(null);
+        dchDataNascimento.setInheritsPopupMenu(true);
 
         javax.swing.GroupLayout pnlFisicaLayout = new javax.swing.GroupLayout(pnlFisica);
         pnlFisica.setLayout(pnlFisicaLayout);
@@ -351,7 +352,7 @@ public class IfrmCliente extends javax.swing.JInternalFrame {
 
         tfdCidade.setEditable(false);
 
-        btnZoom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/zoom.png"))); // NOI18N
+        btnZoom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/zoom.png"))); // NOI18N
         btnZoom.setToolTipText("Pesquisar");
         btnZoom.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         btnZoom.addActionListener(new java.awt.event.ActionListener() {
