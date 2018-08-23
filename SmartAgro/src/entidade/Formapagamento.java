@@ -15,12 +15,14 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import org.hibernate.envers.Audited;
 
 /**
  *
  * @author rlkist
  */
 @Entity
+@Audited
 @Table(name = "formapagamento")
 public class Formapagamento implements Serializable {
 
