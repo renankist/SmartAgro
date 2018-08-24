@@ -40,7 +40,7 @@ public class IfrmCliente extends javax.swing.JInternalFrame {
 
         // Abre na aba passada por parametro
         tabAbas.setSelectedIndex(aba);
-
+        
         // Preenche a tabela de consulta com as colunas corretas
         clientes = new ArrayList();
         tblClientes.setModel(new jtmCliente(clientes));

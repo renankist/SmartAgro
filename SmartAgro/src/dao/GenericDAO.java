@@ -3,16 +3,15 @@ package dao;
 import apoio.HibernateUtil;
 import apoio.Validacao;
 import java.util.ArrayList;
+import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class GenericDAO<Object> {
     
-    final static Logger LOGGER = LoggerFactory.getLogger(GenericDAO.class);
-
+    private static final Logger logger = Logger.getLogger(GenericDAO.class);
+    
     public boolean salvar(Object o) {
 
         Boolean r = false;
@@ -33,7 +32,6 @@ public class GenericDAO<Object> {
         } catch (HibernateException he) {
             he.printStackTrace();
         } finally {
-
             sessao.close();
         }
 
@@ -57,6 +55,7 @@ public class GenericDAO<Object> {
 
         } catch (HibernateException he) {
             he.printStackTrace();
+            logger.error("Erro ao consultar todos registros: " + he.getMessage());
         } finally {
             sessao.close();
         }
