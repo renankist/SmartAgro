@@ -5,6 +5,10 @@
  */
 package testDao;
 
+
+import entidade.Formapagamento;
+import org.hibernate.envers.RevisionEntity;
+
 /**
  *
  * @author rlkist
@@ -12,6 +16,8 @@ package testDao;
 public class TestRevisao {
     public static void main(String args[]){
         
+       
+       
         
     
         
