@@ -5,25 +5,33 @@
  */
 package telas;
 
+import entidade.Colaborador;
+import javax.swing.JMenu;
+
 /**
  *
  * @author Morgana
  */
 public class FrmPrincipal extends javax.swing.JFrame {
-
+   
+    public static String usuario; 
+ 
     /**
      * Creates new form FrmPrincipal
      */
-    public FrmPrincipal() {
+    public FrmPrincipal(String usuario ) {
         initComponents();
-
+        this.usuario = usuario;
         /* Abrir a tela maximizada */
         //setExtendedState(MAXIMIZED_BOTH);
 
         /* Define o icone da aplicação */
         setIconImage(java.awt.Toolkit.getDefaultToolkit().getImage(getClass().getResource("/imagens/stack.png")));
     }
+    
+   
 
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -383,7 +391,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new FrmPrincipal().setVisible(true);
+                new FrmPrincipal(usuario).setVisible(true);
             }
         });
     }

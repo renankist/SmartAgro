@@ -8,6 +8,7 @@ package auditoria;
 import java.net.InetAddress;
 import java.util.Date;
 import org.hibernate.envers.RevisionListener;
+import telas.FrmPrincipal;
 
 /**
  *
@@ -19,7 +20,7 @@ public  class CustomRevisionEntityListener implements RevisionListener {
         CustomRevisionEntity customRevisionEntity
                 = (CustomRevisionEntity) revisionEntity;
 
-        customRevisionEntity.setUsername("teste");
+        customRevisionEntity.setUsername(FrmPrincipal.usuario);
         customRevisionEntity.setHora(new Date());
         try{
         customRevisionEntity.setIp(InetAddress.getLocalHost().getHostAddress());
