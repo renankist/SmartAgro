@@ -1,6 +1,5 @@
 package telas;
 
-import apoio.Formatacao;
 import apoio.LimpaCampos;
 import apoio.Mensagem;
 import apoio.VerificadorCampos;
@@ -8,9 +7,7 @@ import dao.GenericDAO;
 import entidade.Produto;
 import entidade.Unidademedida;
 import java.math.BigDecimal;
-import java.text.NumberFormat;
 import java.util.ArrayList;
-import java.util.Locale;
 import javax.swing.JComponent;
 
 public class IfrmProduto extends javax.swing.JInternalFrame {

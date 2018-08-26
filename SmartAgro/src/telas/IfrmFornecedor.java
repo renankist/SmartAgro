@@ -5,6 +5,7 @@
  */
 package telas;
 
+import org.apache.log4j.Logger;
 import apoio.*;
 import dao.GenericDAO;
 import entidade.Fornecedor;
@@ -25,6 +26,8 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
     private ArrayList<Fornecedor> fornecedores;
     private DlgCidades dlgCidades;
     private boolean editando = false;
+    
+    private static final Logger logger = Logger.getLogger(IfrmFornecedor.class);
 
     /**
      * Creates new form IfrmUnidadeMedida
@@ -571,6 +574,7 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
 
             } catch (Exception e) {
                 Mensagem.mostraInformacao("Problema", "Problema ao atualizar fornecedor");
+                logger.error("Erro ao atualizar tabelas", e);
             }
             editando = false;
 
@@ -589,6 +593,7 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
 
             } catch (Exception e) {
                 Mensagem.mostraInformacao("Problema", "Problema para inserir fornecedor");
+                logger.error("Erro ao salvar tabelas", e);
             }
         }
 
