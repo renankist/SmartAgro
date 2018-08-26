@@ -23,7 +23,7 @@ public class IfrmFormaPagamento extends javax.swing.JInternalFrame {
     private GenericDAO<Formapagamento> dao;
     private ArrayList<Formapagamento> formas;
     private boolean editando = false;
-
+    
     public IfrmFormaPagamento() {
 
         initComponents();

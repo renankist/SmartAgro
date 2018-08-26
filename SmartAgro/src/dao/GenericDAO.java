@@ -3,12 +3,15 @@ package dao;
 import apoio.HibernateUtil;
 import apoio.Validacao;
 import java.util.ArrayList;
+import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 public class GenericDAO<Object> {
-
+    
+    private static final Logger logger = Logger.getLogger(GenericDAO.class);
+    
     public boolean salvar(Object o) {
 
         Boolean r = false;
@@ -28,8 +31,8 @@ public class GenericDAO<Object> {
 
         } catch (HibernateException he) {
             he.printStackTrace();
+            logger.error("Erro ao salvar registro", he);
         } finally {
-
             sessao.close();
         }
 
@@ -53,6 +56,7 @@ public class GenericDAO<Object> {
 
         } catch (HibernateException he) {
             he.printStackTrace();
+            logger.error("Erro ao consultar registros", he);
         } finally {
             sessao.close();
         }
@@ -80,6 +84,7 @@ public class GenericDAO<Object> {
 
         } catch (HibernateException he) {
             he.printStackTrace();
+            logger.error("Erro ao atualizar registro", he);
         } finally {
             sessao.close();
         }
@@ -105,6 +110,7 @@ public class GenericDAO<Object> {
 
         } catch (HibernateException he) {
             he.printStackTrace();
+            logger.error("Erro ao deletar registro", he);
         } finally {
             sessao.close();
         }
@@ -129,6 +135,7 @@ public class GenericDAO<Object> {
 
         } catch (HibernateException he) {
             he.printStackTrace();
+            logger.error("Erro ao consultar registro", he);
         } finally {
             sessao.close();
         }
@@ -180,6 +187,7 @@ public class GenericDAO<Object> {
 
         } catch (HibernateException he) {
             he.printStackTrace();
+            logger.error("Erro ao consultar registro", he);
         } finally {
             sessao.close();
         }
