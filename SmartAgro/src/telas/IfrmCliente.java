@@ -5,6 +5,7 @@
  */
 package telas;
 
+import org.apache.log4j.Logger;
 import apoio.ColoreCampos;
 import apoio.Formatacao;
 import dao.GenericDAO;
@@ -31,6 +32,8 @@ public class IfrmCliente extends javax.swing.JInternalFrame {
     private ArrayList<Cliente> clientes;
     private DlgCidades dlgCidades;
     private boolean editando = false;
+    
+    private static final Logger logger = Logger.getLogger(IfrmCliente.class);
 
     /**
      * Creates new form IfrmCliente
@@ -796,6 +799,7 @@ public class IfrmCliente extends javax.swing.JInternalFrame {
 
             } catch (Exception e) {
                 Mensagem.mostraInformacao("Problema", "Problema ao atualizar cliente");
+                logger.error("Erro ao atualizar tabelas", e);
             }
             editando = false;
 
@@ -816,6 +820,7 @@ public class IfrmCliente extends javax.swing.JInternalFrame {
 
             } catch (Exception e) {
                 Mensagem.mostraInformacao("Problema", "Problema ao inserir cliente");
+                logger.error("Erro ao salvar tabelas", e);
             }
         }
 

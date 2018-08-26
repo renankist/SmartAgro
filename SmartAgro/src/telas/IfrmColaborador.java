@@ -5,6 +5,7 @@
  */
 package telas;
 
+import org.apache.log4j.Logger;
 import apoio.*;
 import dao.GenericDAO;
 import entidade.Colaborador;
@@ -26,6 +27,8 @@ public class IfrmColaborador extends javax.swing.JInternalFrame {
     private ArrayList<Estado> ufs;
     private DlgCidades dlgCidades;
     private boolean editando = false;
+    
+    private static final Logger logger = Logger.getLogger(IfrmColaborador.class);
 
     /**
      * Creates new form IfrmUnidadeMedida
@@ -617,6 +620,7 @@ public class IfrmColaborador extends javax.swing.JInternalFrame {
 
             } catch (Exception e) {
                 Mensagem.mostraInformacao("Problema", "Problema ao atualizar colaborador");
+                logger.error("Erro ao atualizar tabelas", e);
             }
             editando = false;
 
@@ -642,6 +646,7 @@ public class IfrmColaborador extends javax.swing.JInternalFrame {
 
             } catch (Exception e) {
                 Mensagem.mostraInformacao("Problema", "Problema para inserir colaborador");
+                logger.error("Erro ao salvar tabelas", e);
             }
         }
 

@@ -31,6 +31,7 @@ public class GenericDAO<Object> {
 
         } catch (HibernateException he) {
             he.printStackTrace();
+            logger.error("Erro ao salvar registro", he);
         } finally {
             sessao.close();
         }
@@ -55,7 +56,7 @@ public class GenericDAO<Object> {
 
         } catch (HibernateException he) {
             he.printStackTrace();
-            logger.error("Erro ao consultar todos registros: " + he.getMessage());
+            logger.error("Erro ao consultar registros", he);
         } finally {
             sessao.close();
         }
@@ -83,6 +84,7 @@ public class GenericDAO<Object> {
 
         } catch (HibernateException he) {
             he.printStackTrace();
+            logger.error("Erro ao atualizar registro", he);
         } finally {
             sessao.close();
         }
@@ -108,6 +110,7 @@ public class GenericDAO<Object> {
 
         } catch (HibernateException he) {
             he.printStackTrace();
+            logger.error("Erro ao deletar registro", he);
         } finally {
             sessao.close();
         }
@@ -132,6 +135,7 @@ public class GenericDAO<Object> {
 
         } catch (HibernateException he) {
             he.printStackTrace();
+            logger.error("Erro ao consultar registro", he);
         } finally {
             sessao.close();
         }
@@ -183,6 +187,7 @@ public class GenericDAO<Object> {
 
         } catch (HibernateException he) {
             he.printStackTrace();
+            logger.error("Erro ao consultar registro", he);
         } finally {
             sessao.close();
         }
