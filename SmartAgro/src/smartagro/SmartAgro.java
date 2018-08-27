@@ -24,7 +24,7 @@ public class SmartAgro {
 //                java.util.logging.Logger.getLogger(FrmPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 //            }
 //
-//            new FrmPrincipal("renankist").setVisible(true);
+//           new FrmPrincipal("renankist").setVisible(true);
        
     }
 

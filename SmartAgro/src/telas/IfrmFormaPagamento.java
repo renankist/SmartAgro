@@ -418,7 +418,16 @@ public class IfrmFormaPagamento extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_tabAbasFocusLost
 
     private void btnPesquisarAuditoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarAuditoriaActionPerformed
-     
+        
+      
+        JComponent[] components = new JComponent[]{dchDataInicio, dchDataFim};
+        VerificadorCampos verifier = new VerificadorCampos(components);
+        
+        if (!verifier.validaCampos()) {
+            return;
+        }
+        
+        
         AuditoriaDAO<FormapagamentoAud> dao2 = new AuditoriaDAO<>();
         
      

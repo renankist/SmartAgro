@@ -60,9 +60,12 @@ public class AuditoriaDAO<Object> extends GenericDAO<Object>{
             sessao = HibernateUtil.getSessionFactory().openSession();
             sessao.beginTransaction();
 
-            Criteria cr = sessao.createCriteria(CustomRevInfo.class);
+            Criteria cr = sessao.createCriteria(FormapagamentoAud.class);
             
-            cr.add(Restrictions.eq("username", "renankist"));
+            Criteria crCrit = cr.createCriteria("customRevInfo");
+            
+           crCrit.add(Restrictions.ge("hora",ini));
+           crCrit.add(Restrictions.le("hora",fim));
          
    
             resultado = (ArrayList) cr.list();

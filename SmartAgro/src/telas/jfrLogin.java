@@ -122,7 +122,9 @@ public class jfrLogin extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
      ColaboradorDAO dao = new ColaboradorDAO();
-        Colaborador colab = new Colaborador();
+
+       Colaborador colab = new Colaborador();
+
         colab = dao.autenticarColaborador(jtfLogin.getText(), Criptografia.criptografar(jpfSenha.getText()));
 
         if (colab != null) {
