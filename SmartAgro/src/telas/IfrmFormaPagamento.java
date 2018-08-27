@@ -6,12 +6,13 @@
 package telas;
 
 import apoio.HabilitaCampos;
+import apoio.LimpaCampos;
+import apoio.Mensagem;
 import apoio.VerificadorCampos;
 import dao.GenericDAO;
 import entidade.Formapagamento;
 import java.util.ArrayList;
 import javax.swing.JComponent;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -23,7 +24,7 @@ public class IfrmFormaPagamento extends javax.swing.JInternalFrame {
     private GenericDAO<Formapagamento> dao;
     private ArrayList<Formapagamento> formas;
     private boolean editando = false;
-    
+
     public IfrmFormaPagamento() {
 
         initComponents();
@@ -101,6 +102,8 @@ public class IfrmFormaPagamento extends javax.swing.JInternalFrame {
             }
         });
 
+        pnlCadastro.setName("pnlCadastro"); // NOI18N
+
         lblDescricao.setText("Descrição *");
 
         javax.swing.GroupLayout pnlCadastroLayout = new javax.swing.GroupLayout(pnlCadastro);
@@ -125,6 +128,8 @@ public class IfrmFormaPagamento extends javax.swing.JInternalFrame {
         );
 
         tabAbas.addTab("Cadastro", pnlCadastro);
+
+        pnlConsulta.setName("pnlConsulta"); // NOI18N
 
         jTableFormasPagamento.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -230,7 +235,8 @@ public class IfrmFormaPagamento extends javax.swing.JInternalFrame {
         int id = Integer.parseInt(jTableFormasPagamento.getValueAt(jTableFormasPagamento.getSelectedRow(), 0).toString());
         //Busca um servico com o codigo/id pego anteriomente
         forma = dao.consultarPorId(id, "Formapagamento");
-        //Defini o editando como true(o registro está sendo editado...)
+        
+        LimpaCampos.limparCampos(pnlCadastro);
 
         if (forma != null) { //Se o objeto buscado no método do ServidoDao for diferente de null
             tfdDescricao.setText(forma.getDescricao());//Seta no campo Descrição do formulário de serviços o valor da Descrição do obejto do tipo Servico
@@ -239,14 +245,13 @@ public class IfrmFormaPagamento extends javax.swing.JInternalFrame {
             editando = true;
         }
 
-
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         // Aplica o validador
         JComponent[] components = new JComponent[]{tfdDescricao};
         VerificadorCampos verifier = new VerificadorCampos(components);
-        
+
         if (!verifier.validaCampos()) {
             return;
         }
@@ -257,26 +262,26 @@ public class IfrmFormaPagamento extends javax.swing.JInternalFrame {
         if (editando) {
             forma.setDescricao(tfdDescricao.getText());
             if (this.dao.atualizar(forma)) {
-                JOptionPane.showMessageDialog(rootPane, "Forma de pagamento " + forma.getDescricao() + " atualizada com sucesso", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                Mensagem.mostraInformacao("Sucesso", "Forma de pagamento " + forma.getDescricao() + " atualizada com sucesso");
+                LimpaCampos.limparCampos(pnlCadastro);
             } else {
-                JOptionPane.showMessageDialog(rootPane, "Problema para atualizar forma de pagamento.", "Problemas", JOptionPane.ERROR_MESSAGE);
+                Mensagem.mostraErro("Problema", "Problema para atualizar forma de pagamento");
             }
             editando = false;
-            
+
             //Modo inserção
         } else {
             this.forma = new Formapagamento();
             forma.setDescricao(tfdDescricao.getText());
             if (this.dao.salvar(forma)) {
-                JOptionPane.showMessageDialog(rootPane, "Forma de pagamento " + forma.getDescricao() + " inserida com sucesso", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                Mensagem.mostraInformacao("Sucesso", "Forma de pagamento " + forma.getDescricao() + " inserida com sucesso");
+                LimpaCampos.limparCampos(pnlCadastro);
             } else {
-                JOptionPane.showMessageDialog(rootPane, "Problema para inserir forma de pagamento.", "Problemas", JOptionPane.ERROR_MESSAGE);
+                Mensagem.mostraErro("Problema", "Problema para inserir forma de pagamento");
             }
 
         }
 
-        tfdDescricao.setText(null);
-        
         focus();
 
     }//GEN-LAST:event_btnSalvarActionPerformed
@@ -287,20 +292,19 @@ public class IfrmFormaPagamento extends javax.swing.JInternalFrame {
         forma = dao.consultarPorId(id, "Formapagamento");
 
         //Abre uma mensagem pedindo se o usuário realmente quer excluír o registro
-        int resposta = JOptionPane.showConfirmDialog(null, "Deseja realmente excluir a forma de pagamento: " + forma.getDescricao() + " ?", "Atenção", JOptionPane.YES_NO_OPTION);
+        boolean resposta = Mensagem.confirmaMensagem("Atenção", "Deseja realmente excluir a forma de pagamento: " + forma.getDescricao() + "?");
         //Se a respota for sim
-        if (resposta == JOptionPane.YES_OPTION) {
+        if (resposta) {
 
             if (dao.deletar(forma)) {//Chamado o método do ServicoDao de excluir um registro, e caso o retorno é true, retorna uma mensagem de sucesso
-                JOptionPane.showMessageDialog(rootPane, "Forma de pagamento excluída", "Confirmação de exclusão", JOptionPane.PLAIN_MESSAGE);
+                Mensagem.mostraInformacao("Confirmação de exclusão", "Forma de pagamento excluída");
                 this.formas = dao.consultarComCriterio("Formapagamento", "descricao", tfdDescricaoConsulta.getText());
                 this.jTableFormasPagamento.setModel(new jtmFormasPagamento(formas));
                 //this.tblServicos.setDefaultRenderer(Object.class, new RenderizadorTabelas());
             } else {
-                JOptionPane.showMessageDialog(rootPane, "Problema para excluir forma de pagamento", "Problema", JOptionPane.PLAIN_MESSAGE);
+                Mensagem.mostraErro("Problema", "Problema para excluir forma de pagamento");
             }
         }
-    
 
     }//GEN-LAST:event_btnExcluirActionPerformed
 
@@ -313,17 +317,14 @@ public class IfrmFormaPagamento extends javax.swing.JInternalFrame {
         this.formas = dao.consultarComCriterio("Formapagamento", "descricao", tfdDescricaoConsulta.getText());
 
         this.jTableFormasPagamento.setModel(new jtmFormasPagamento(formas));
-
-        //this.jTableFormasPagamento.setDefaultRenderer(Object.class, new RenderizadorTabelas());
-
     }//GEN-LAST:event_btnPesquisarActionPerformed
 
     private void tabAbasStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tabAbasStateChanged
-        //
+        HabilitaCampos.controlaBotoes(evt, btnSalvar, btnEditar, btnExcluir);
     }//GEN-LAST:event_tabAbasStateChanged
 
     private void tabAbasFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tabAbasFocusLost
-       
+        HabilitaCampos.controlaPainelCadastro(evt, editando);
     }//GEN-LAST:event_tabAbasFocusLost
 
 

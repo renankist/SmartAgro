@@ -516,9 +516,7 @@ public class IfrmColaborador extends javax.swing.JInternalFrame {
             String tmp = this.colab.getTipousuario() + "";
             if (tmp.equals("a")) {
                 rbtAdministrador.setSelected(true);
-
             } else {
-
                 rbtOperador.setSelected(true);
             }
             tfdFuncao.setText(this.colab.getFuncao());
@@ -628,10 +626,9 @@ public class IfrmColaborador extends javax.swing.JInternalFrame {
                 LimpaCampos.limparCampos(pnlGeral);
                 LimpaCampos.limparCampos(pnlContato);
                 btgPessoa.clearSelection();
-                focus();
 
             } catch (Exception e) {
-                Mensagem.mostraInformacao("Problema", "Problema ao atualizar colaborador");
+                Mensagem.mostraErro("Problema", "Problema ao atualizar colaborador");
                 logger.error("Erro ao atualizar tabelas", e);
             }
             editando = false;
@@ -655,14 +652,13 @@ public class IfrmColaborador extends javax.swing.JInternalFrame {
                 LimpaCampos.limparCampos(pnlContato);
                 btgPessoa.clearSelection();
                 
-                focus();
-           
             } catch (Exception e) {
-                Mensagem.mostraInformacao("Problema", "Problema para inserir colaborador");
+                Mensagem.mostraErro("Problema", "Problema para inserir colaborador");
                 logger.error("Erro ao salvar tabelas", e);
             }
         }
 
+        focus();
 
     }//GEN-LAST:event_btnSalvarActionPerformed
 

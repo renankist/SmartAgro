@@ -26,7 +26,7 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
     private ArrayList<Fornecedor> fornecedores;
     private DlgCidades dlgCidades;
     private boolean editando = false;
-    
+
     private static final Logger logger = Logger.getLogger(IfrmFornecedor.class);
 
     /**
@@ -41,7 +41,7 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
         // Preenche a tabela de consulta com as colunas corretas
         fornecedores = new ArrayList();
         tblFornecedores.setModel(new jtmFornecedor(fornecedores));
-        
+
         // Janela cidades
         dlgCidades = new DlgCidades(null, true);
 
@@ -448,14 +448,14 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
         // Pega o código do registro para consultar o objeto
         int id = Integer.parseInt(tblFornecedores.getValueAt(tblFornecedores.getSelectedRow(), 0).toString());
         this.fornecedor = dao.consultarPorId(id, "Fornecedor");
-        
+
         LimpaCampos.limparCampos(pnlGeral);
         LimpaCampos.limparCampos(pnlEndereco);
 
         // Pega os dados se existir objeto
         if (this.fornecedor != null) {
-            this.endereco = this.fornecedor.getEndereco();            
-            
+            this.endereco = this.fornecedor.getEndereco();
+
             if (this.fornecedor.getCnpj() != null) {
                 rbtJuridica.setSelected(true);
                 ffdCNPJ.setText(this.fornecedor.getCnpj());
@@ -539,7 +539,7 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
         endereco.setBairro(tfdBairro.getText());
         endereco.setComplemento(tfdComplemento.getText());
         endereco.setCep(ffdCEP.getText());
-        
+
         if (dlgCidades.getCidade() != null) {
             endereco.setCidade(dlgCidades.getCidade());
         }
@@ -563,18 +563,21 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
                 if (!dao.atualizar(fornecedor)) {
                     throw new Exception("Erro ao atualizar fornecedor");
                 }
-                
+
                 Mensagem.mostraInformacao("Sucesso", "Fornecedor " + fornecedor.getNome() + " atualizado com sucesso");
-                
-                  btgPessoa.clearSelection();
+
+                LimpaCampos.limparCampos(pnlGeral);
+                LimpaCampos.limparCampos(pnlEndereco);
+                btgPessoa.clearSelection();
+
+                btgPessoa.clearSelection();
             } catch (Exception e) {
-                Mensagem.mostraInformacao("Problema", "Problema ao atualizar fornecedor");
+                Mensagem.mostraErro("Problema", "Problema ao atualizar fornecedor");
                 logger.error("Erro ao atualizar tabelas", e);
             }
-            
-            
+
             editando = false;
-            
+
         } else {
 
             try {
@@ -588,15 +591,16 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
 
                 Mensagem.mostraInformacao("Sucesso", "Fornecedor " + fornecedor.getNome() + " inserido com sucesso");
 
+                LimpaCampos.limparCampos(pnlGeral);
+                LimpaCampos.limparCampos(pnlEndereco);
+                btgPessoa.clearSelection();
+
             } catch (Exception e) {
-                Mensagem.mostraInformacao("Problema", "Problema para inserir fornecedor");
+                Mensagem.mostraErro("Problema", "Problema para inserir fornecedor");
                 logger.error("Erro ao salvar tabelas", e);
             }
         }
 
-        LimpaCampos.limparCampos(pnlGeral);
-        LimpaCampos.limparCampos(pnlEndereco);
-        btgPessoa.clearSelection();
         focus();
     }//GEN-LAST:event_btnSalvarActionPerformed
 

@@ -96,11 +96,18 @@ public class IfrmUnidadeMedida extends javax.swing.JInternalFrame {
             }
         });
 
-        tabAbas.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tabAbasMouseClicked(evt);
+        tabAbas.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                tabAbasStateChanged(evt);
             }
         });
+        tabAbas.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                tabAbasFocusLost(evt);
+            }
+        });
+
+        pnlCadastro.setName("pnlCadastro"); // NOI18N
 
         lblUnidade.setText("Unidade *");
 
@@ -136,6 +143,8 @@ public class IfrmUnidadeMedida extends javax.swing.JInternalFrame {
         );
 
         tabAbas.addTab("Cadastro", pnlCadastro);
+
+        pnlConsulta.setName("pnlConsulta"); // NOI18N
 
         tblUnidades.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -231,6 +240,8 @@ public class IfrmUnidadeMedida extends javax.swing.JInternalFrame {
         int id = Integer.parseInt(tblUnidades.getValueAt(tblUnidades.getSelectedRow(), 0).toString());
 
         unidade = dao.consultarPorId(id, "Unidademedida");
+        
+        LimpaCampos.limparCampos(pnlCadastro);
 
         //Se o objeto buscado no método do ServidoDao for diferente de null
         if (unidade != null) {
@@ -256,8 +267,9 @@ public class IfrmUnidadeMedida extends javax.swing.JInternalFrame {
             unidade.setDescricao(tfdDescricao.getText());
             if (dao.atualizar(unidade)) {
                 Mensagem.mostraInformacao("Sucesso", "Unidade de medida " + unidade.getDescricao() + " atualizada com sucesso");
+                LimpaCampos.limparCampos(pnlCadastro);
             } else {
-                Mensagem.mostraInformacao("Problema", "Problema ao atualizar unidade de medida");
+                Mensagem.mostraErro("Problema", "Problema ao atualizar unidade de medida");
             }
             editando = false;
         } else {
@@ -267,12 +279,12 @@ public class IfrmUnidadeMedida extends javax.swing.JInternalFrame {
 
             if (dao.salvar(unidade)) {
                 Mensagem.mostraInformacao("Sucesso", "Unidade de medida " + unidade.getDescricao() + " inserida com sucesso");
+                LimpaCampos.limparCampos(pnlCadastro);
             } else {
-                Mensagem.mostraInformacao("Problema", "Problema para inserir unidade de medida");
+                Mensagem.mostraErro("Problema", "Problema para inserir unidade de medida");
             }
         }
 
-        LimpaCampos.limparCampos(pnlCadastro);
         focus();
     }//GEN-LAST:event_btnSalvarActionPerformed
 
@@ -303,9 +315,13 @@ public class IfrmUnidadeMedida extends javax.swing.JInternalFrame {
         tblUnidades.setModel(new jtmUnidadeMedida(unidades));
     }//GEN-LAST:event_btnPesquisarActionPerformed
 
-    private void tabAbasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabAbasMouseClicked
+    private void tabAbasFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tabAbasFocusLost
+        HabilitaCampos.controlaPainelCadastro(evt, editando);
+    }//GEN-LAST:event_tabAbasFocusLost
 
-    }//GEN-LAST:event_tabAbasMouseClicked
+    private void tabAbasStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tabAbasStateChanged
+        HabilitaCampos.controlaBotoes(evt, btnSalvar, btnEditar, btnExcluir);
+    }//GEN-LAST:event_tabAbasStateChanged
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

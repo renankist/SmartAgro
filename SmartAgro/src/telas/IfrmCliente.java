@@ -795,8 +795,9 @@ public class IfrmCliente extends javax.swing.JInternalFrame {
                 limparPainelCadastro();
                 btgPessoa.clearSelection();
                 btgSexo.clearSelection();
+                
             } catch (Exception e) {
-                Mensagem.mostraInformacao("Problema", "Problema ao atualizar cliente");
+                Mensagem.mostraErro("Problema", "Problema ao atualizar cliente");
                 logger.error("Erro ao atualizar tabelas", e);
             }
             editando = false;
@@ -818,8 +819,9 @@ public class IfrmCliente extends javax.swing.JInternalFrame {
                 limparPainelCadastro();
                 btgPessoa.clearSelection();
                 btgSexo.clearSelection();
+                
             } catch (Exception e) {
-                Mensagem.mostraInformacao("Problema", "Problema ao inserir cliente");
+                Mensagem.mostraErro("Problema", "Problema ao inserir cliente");
                 logger.error("Erro ao salvar tabelas", e);
             }
         }
