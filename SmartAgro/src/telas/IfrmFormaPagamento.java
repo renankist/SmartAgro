@@ -76,6 +76,8 @@ public class IfrmFormaPagamento extends javax.swing.JInternalFrame {
         lblDescricaoConsulta1 = new javax.swing.JLabel();
         lblDescricaoConsulta2 = new javax.swing.JLabel();
         dchDataFim = new com.toedter.calendar.JDateChooser();
+        jcbAcao = new javax.swing.JComboBox<>();
+        lblDescricaoConsulta3 = new javax.swing.JLabel();
 
         setClosable(true);
         setIconifiable(true);
@@ -224,12 +226,16 @@ public class IfrmFormaPagamento extends javax.swing.JInternalFrame {
         dchDataInicio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/calendar.png")));
         dchDataInicio.setInheritsPopupMenu(true);
 
-        lblDescricaoConsulta1.setText("De:");
+        lblDescricaoConsulta1.setText("De *");
 
-        lblDescricaoConsulta2.setText("Até:");
+        lblDescricaoConsulta2.setText("Ação");
 
         dchDataFim.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/calendar.png")));
         dchDataFim.setInheritsPopupMenu(true);
+
+        jcbAcao.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Todas", "Inserção", "Alteração", "Remoção" }));
+
+        lblDescricaoConsulta3.setText("Até *");
 
         javax.swing.GroupLayout pnlAuditoriaLayout = new javax.swing.GroupLayout(pnlAuditoria);
         pnlAuditoria.setLayout(pnlAuditoriaLayout);
@@ -243,10 +249,14 @@ public class IfrmFormaPagamento extends javax.swing.JInternalFrame {
                         .addComponent(lblDescricaoConsulta1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(dchDataInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblDescricaoConsulta3)
                         .addGap(3, 3, 3)
+                        .addComponent(dchDataFim, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(lblDescricaoConsulta2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(dchDataFim, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jcbAcao, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnPesquisarAuditoria)))
                 .addGap(0, 5, Short.MAX_VALUE))
@@ -256,16 +266,19 @@ public class IfrmFormaPagamento extends javax.swing.JInternalFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlAuditoriaLayout.createSequentialGroup()
                 .addGroup(pnlAuditoriaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlAuditoriaLayout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(pnlAuditoriaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(lblDescricaoConsulta2, javax.swing.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE)
-                            .addComponent(lblDescricaoConsulta1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(dchDataInicio, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE)
-                            .addComponent(dchDataFim, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(pnlAuditoriaLayout.createSequentialGroup()
                         .addGap(12, 12, 12)
-                        .addComponent(btnPesquisarAuditoria)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnPesquisarAuditoria))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlAuditoriaLayout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(pnlAuditoriaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jcbAcao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(pnlAuditoriaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(lblDescricaoConsulta1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(dchDataInicio, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE)
+                                .addComponent(dchDataFim, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(lblDescricaoConsulta3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE)
+                                .addComponent(lblDescricaoConsulta2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -428,11 +441,9 @@ public class IfrmFormaPagamento extends javax.swing.JInternalFrame {
         }
         
         
-        AuditoriaDAO<FormapagamentoAud> dao2 = new AuditoriaDAO<>();
-        
-     
+        AuditoriaDAO<FormapagamentoAud> dao2 = new AuditoriaDAO<>(); 
 
-        this.formasAud = dao2.consultarPorData(dchDataInicio.getDate(),dchDataFim.getDate(),FormapagamentoAud.class);
+        this.formasAud = dao2.consultarPorData(dchDataInicio.getDate(),dchDataFim.getDate(),FormapagamentoAud.class,(String) jcbAcao.getSelectedItem().toString());
 
         this.jTableAuditoria.setModel(new jtmFormaPagamentoAud(formasAud));
     }//GEN-LAST:event_btnPesquisarAuditoriaActionPerformed
@@ -452,10 +463,12 @@ public class IfrmFormaPagamento extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable jTableAuditoria;
     private javax.swing.JTable jTableFormasPagamento;
+    private javax.swing.JComboBox<String> jcbAcao;
     private javax.swing.JLabel lblDescricao;
     private javax.swing.JLabel lblDescricaoConsulta;
     private javax.swing.JLabel lblDescricaoConsulta1;
     private javax.swing.JLabel lblDescricaoConsulta2;
+    private javax.swing.JLabel lblDescricaoConsulta3;
     private javax.swing.JPanel pnlAuditoria;
     private javax.swing.JPanel pnlCadastro;
     private javax.swing.JPanel pnlConsulta;

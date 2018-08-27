@@ -262,10 +262,14 @@
                                       <Component id="lblDescricaoConsulta1" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Component id="dchDataInicio" min="-2" pref="138" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="lblDescricaoConsulta3" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
+                                      <Component id="dchDataFim" min="-2" pref="141" max="-2" attributes="0"/>
+                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                       <Component id="lblDescricaoConsulta2" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="dchDataFim" min="-2" pref="141" max="-2" attributes="0"/>
+                                      <Component id="jcbAcao" min="-2" pref="166" max="-2" attributes="0"/>
                                       <EmptySpace max="32767" attributes="0"/>
                                       <Component id="btnPesquisarAuditoria" min="-2" max="-2" attributes="0"/>
                                   </Group>
@@ -278,21 +282,25 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="1" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <EmptySpace max="32767" attributes="0"/>
-                                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                          <Component id="lblDescricaoConsulta2" pref="23" max="32767" attributes="0"/>
-                                          <Component id="lblDescricaoConsulta1" alignment="0" max="32767" attributes="0"/>
-                                          <Component id="dchDataInicio" alignment="0" pref="23" max="32767" attributes="0"/>
-                                          <Component id="dchDataFim" alignment="1" max="32767" attributes="0"/>
-                                      </Group>
-                                  </Group>
                                   <Group type="102" attributes="0">
                                       <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                                       <Component id="btnPesquisarAuditoria" min="-2" max="-2" attributes="0"/>
                                   </Group>
+                                  <Group type="102" alignment="1" attributes="0">
+                                      <EmptySpace max="32767" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="jcbAcao" min="-2" max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                              <Component id="lblDescricaoConsulta1" alignment="0" max="32767" attributes="0"/>
+                                              <Component id="dchDataInicio" alignment="0" pref="23" max="32767" attributes="0"/>
+                                              <Component id="dchDataFim" alignment="1" max="32767" attributes="0"/>
+                                              <Component id="lblDescricaoConsulta3" alignment="0" pref="23" max="32767" attributes="0"/>
+                                              <Component id="lblDescricaoConsulta2" alignment="1" max="32767" attributes="0"/>
+                                          </Group>
+                                      </Group>
+                                  </Group>
                               </Group>
-                              <EmptySpace max="32767" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
                               <Component id="jScrollPane3" min="-2" pref="261" max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -377,12 +385,12 @@
                     </Component>
                     <Component class="javax.swing.JLabel" name="lblDescricaoConsulta1">
                       <Properties>
-                        <Property name="text" type="java.lang.String" value="De:"/>
+                        <Property name="text" type="java.lang.String" value="De *"/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JLabel" name="lblDescricaoConsulta2">
                       <Properties>
-                        <Property name="text" type="java.lang.String" value="At&#xe9;:"/>
+                        <Property name="text" type="java.lang.String" value="A&#xe7;&#xe3;o"/>
                       </Properties>
                     </Component>
                     <Component class="com.toedter.calendar.JDateChooser" name="dchDataFim">
@@ -391,6 +399,26 @@
                           <Connection code="new javax.swing.ImageIcon(getClass().getResource(&quot;/imagens/calendar.png&quot;))" type="code"/>
                         </Property>
                         <Property name="inheritsPopupMenu" type="boolean" value="true"/>
+                      </Properties>
+                    </Component>
+                    <Component class="javax.swing.JComboBox" name="jcbAcao">
+                      <Properties>
+                        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                          <StringArray count="4">
+                            <StringItem index="0" value="Todas"/>
+                            <StringItem index="1" value="Inser&#xe7;&#xe3;o"/>
+                            <StringItem index="2" value="Altera&#xe7;&#xe3;o"/>
+                            <StringItem index="3" value="Remo&#xe7;&#xe3;o"/>
+                          </StringArray>
+                        </Property>
+                      </Properties>
+                      <AuxValues>
+                        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+                      </AuxValues>
+                    </Component>
+                    <Component class="javax.swing.JLabel" name="lblDescricaoConsulta3">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="At&#xe9; *"/>
                       </Properties>
                     </Component>
                   </SubComponents>

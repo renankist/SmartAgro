@@ -14,16 +14,16 @@ import java.util.Date;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
 /**
  *
  * @author Renan Luis Kist
  */
-public class AuditoriaDAO<Object> extends GenericDAO<Object>{
-    
-    
-       public ArrayList<Object> consultarPorIdVarios(String className, int id) {
+public class AuditoriaDAO<Object> extends GenericDAO<Object> {
+
+    public ArrayList<Object> consultarPorIdVarios(String className, int id) {
         ArrayList resultado = new ArrayList();
 
         Session sessao = null;
@@ -32,42 +32,52 @@ public class AuditoriaDAO<Object> extends GenericDAO<Object>{
             sessao = HibernateUtil.getSessionFactory().openSession();
             sessao.beginTransaction();
 
-            org.hibernate.Query q = sessao.createQuery("from " +className+ " where id = :idParam");
-            
+            org.hibernate.Query q = sessao.createQuery("from " + className + " where id = :idParam");
+
             q.setInteger("idParam", id);
-           
-            resultado =  (ArrayList) q.list();
+
+            resultado = (ArrayList) q.list();
 
         } catch (HibernateException he) {
             he.printStackTrace();
         } finally {
-           
+
             sessao.close();
         }
 
         return resultado;
     }
-       
-       
-       public ArrayList<Object> consultarPorData(Date ini, Date fim, Class className){
-           
-           ArrayList resultado = null;
 
-          Session sessao = null;
-        
-          try {
+    public ArrayList<Object> consultarPorData(Date ini, Date fim, Class className, String acao) {
+
+        ArrayList resultado = null;
+
+        Session sessao = null;
+
+        try {
 
             sessao = HibernateUtil.getSessionFactory().openSession();
             sessao.beginTransaction();
 
-            Criteria cr = sessao.createCriteria(FormapagamentoAud.class);
-            
+            Criteria cr = sessao.createCriteria(className);
+
             Criteria crCrit = cr.createCriteria("customRevInfo");
+
+            crCrit.add(Restrictions.ge("hora", ini));
+            crCrit.add(Restrictions.le("hora", fim));
+            crCrit.addOrder(Order.desc("hora"));
+
+        
             
-           crCrit.add(Restrictions.ge("hora",ini));
-           crCrit.add(Restrictions.le("hora",fim));
-         
-   
+            if(acao.equals("Inserção")){
+                cr.add(Restrictions.eq("revtype", new Short("0")));
+            }else if(acao.equals("Alteração")){
+                cr.add(Restrictions.eq("revtype", new Short("1")));
+            }else if(acao.equals("Remoção")){
+                cr.add(Restrictions.eq("revtype", new Short("2")));
+            }
+            
+            
             resultado = (ArrayList) cr.list();
 
         } catch (HibernateException he) {
@@ -77,12 +87,7 @@ public class AuditoriaDAO<Object> extends GenericDAO<Object>{
         }
 
         return resultado;
-           
-           
-           
-       }
-    
-    
-    
-    
+
+    }
+
 }

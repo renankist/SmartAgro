@@ -11,6 +11,7 @@ import dao.AuditoriaDAO;
 import entidade.Formapagamento;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import javax.swing.table.AbstractTableModel;
 
 /**
@@ -18,12 +19,12 @@ import javax.swing.table.AbstractTableModel;
  * @author Morgana
  */
 public class jtmFormaPagamentoAud extends AbstractTableModel {
+
     private ArrayList<FormapagamentoAud> formas;
     private AuditoriaDAO<FormapagamentoAud> dao;
     private ArrayList<FormapagamentoAud> deletada;
-    
-    
-    private String[] colunas = {"Código", "Data", "Usuário","IP","Ação","Forma de Pagamento"};
+
+    private String[] colunas = {"Código", "Data", "Usuário", "IP", "Ação", "Forma de Pagamento"};
 
     public jtmFormaPagamentoAud(ArrayList<FormapagamentoAud> fornecedores) {
         this.formas = fornecedores;
@@ -66,35 +67,37 @@ public class jtmFormaPagamentoAud extends AbstractTableModel {
             case 0:
                 return formas.get(linha).getCustomRevInfo().getId();
             case 1:
-                
-                return  formas.get(linha).getCustomRevInfo().getHora();
-                
+                SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+              
+               
+                return fmt.format(formas.get(linha).getCustomRevInfo().getHora());
+
             case 2:
                 return formas.get(linha).getCustomRevInfo().getUsername();
             case 3:
-                 return formas.get(linha).getCustomRevInfo().getIp();
+                return formas.get(linha).getCustomRevInfo().getIp();
             case 4:
-                
-                if(formas.get(linha).getRevtype() == 0){
+
+                if (formas.get(linha).getRevtype() == 0) {
                     return "Inseriu";
-                }else if(formas.get(linha).getRevtype() == 1){
-                     return "Alterou";       
-                }else if(formas.get(linha).getRevtype() == 2){
+                } else if (formas.get(linha).getRevtype() == 1) {
+                    return "Alterou";
+                } else if (formas.get(linha).getRevtype() == 2) {
                     return "Removeu";
-                    
-                 }
-            case 5: 
-                  if(formas.get(linha).getRevtype() == 2){
-                      dao = new AuditoriaDAO<>();
-                      deletada = new ArrayList(); 
-                      deletada = dao.consultarPorIdVarios("FormapagamentoAud",formas.get(linha).getId());
-                      
-                      return deletada.get(deletada.size()-2).getDescricao();
-                    
-                  }else{
-                    return formas.get(linha).getDescricao(); 
-                  }
-                
+
+                }
+            case 5:
+                if (formas.get(linha).getRevtype() == 2) {
+                    dao = new AuditoriaDAO<>();
+                    deletada = new ArrayList();
+                    deletada = dao.consultarPorIdVarios("FormapagamentoAud", formas.get(linha).getId());
+
+                    return deletada.get(deletada.size() - 2).getDescricao();
+
+                } else {
+                    return formas.get(linha).getDescricao();
+                }
+
         }
 
         return null;
@@ -103,15 +106,14 @@ public class jtmFormaPagamentoAud extends AbstractTableModel {
     public String getColumnName(int columnIndex) {
         return this.colunas[columnIndex];
     }
-    
-    public FormapagamentoAud get(int linha){
+
+    public FormapagamentoAud get(int linha) {
         return this.formas.get(linha);
     }
-    
-    public void removeRow(int linha){
+
+    public void removeRow(int linha) {
         this.formas.remove(linha);
         this.fireTableRowsUpdated(linha, linha);
     }
 
 }
-
