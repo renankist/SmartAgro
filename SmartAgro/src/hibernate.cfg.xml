@@ -19,6 +19,9 @@
         <mapping class="entidade.Colaborador"/>
         <mapping class="entidade.Cliente"/>
         <mapping class="auditoria.CustomRevisionEntity"/>
+        <mapping class="auditoria.FormapagamentoAud"/>
+          <mapping class="auditoria.CustomRevInfo"/>
+   
     
         <listener class="org.hibernate.envers.event.AuditEventListener" type="post-insert" /> 
         <listener class="org.hibernate.envers.event.AuditEventListener" type="post-update" />

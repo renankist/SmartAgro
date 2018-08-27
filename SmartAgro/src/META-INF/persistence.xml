@@ -11,7 +11,9 @@
     <class>entidade.Fornecedor</class>
     <class>entidade.Cliente</class>
     <class>auditoria.CustomRevisionEntityy</class>
-    
+    <class>auditoria.FormapagamentoAud</class>
+    <class>auditoria.CustomRevInfo</class>
+
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/smartagro"/>
       <property name="javax.persistence.jdbc.user" value="postgres"/>
