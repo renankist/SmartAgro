@@ -48,7 +48,7 @@ public class AuditoriaDAO<Object> extends GenericDAO<Object> {
         return resultado;
     }
 
-    public ArrayList<Object> consultarPorData(Date ini, Date fim, Class className, String acao) {
+    public ArrayList<Object> consultarPorData(Date ini, Date fim, Class className, String acao, int reg) {
 
         ArrayList resultado = null;
 
@@ -66,8 +66,14 @@ public class AuditoriaDAO<Object> extends GenericDAO<Object> {
             crCrit.add(Restrictions.ge("hora", ini));
             crCrit.add(Restrictions.le("hora", fim));
             crCrit.addOrder(Order.desc("hora"));
-
-        
+            
+            if(reg != 0){
+                 cr.add(Restrictions.eq("id", reg));
+            }
+            
+           
+            
+           
             
             if(acao.equals("Inserção")){
                 cr.add(Restrictions.eq("revtype", new Short("0")));

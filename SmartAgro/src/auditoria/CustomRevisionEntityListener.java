@@ -22,6 +22,7 @@ public  class CustomRevisionEntityListener implements RevisionListener {
 
         customRevisionEntity.setUsername(FrmPrincipal.usuario);
         customRevisionEntity.setHora(new Date());
+        
         try{
         customRevisionEntity.setIp(InetAddress.getLocalHost().getHostAddress());
         }catch(Exception e){

@@ -5,9 +5,8 @@
  */
 package telas;
 
-import apoio.HabilitaCampos;
+
 import apoio.VerificadorCampos;
-import auditoria.CustomRevInfo;
 import auditoria.FormapagamentoAud;
 import dao.AuditoriaDAO;
 import dao.GenericDAO;
@@ -26,11 +25,13 @@ public class IfrmFormaPagamento extends javax.swing.JInternalFrame {
     private GenericDAO<Formapagamento> dao;
     private ArrayList<Formapagamento> formas;
     private boolean editando = false;
-    private ArrayList<FormapagamentoAud> formasAud; 
+    private ArrayList<FormapagamentoAud> formasAud;
+    private DlgFormasPagamento dlgFormasPagamento;
 
     public IfrmFormaPagamento() {
 
         initComponents();
+        dlgFormasPagamento = new DlgFormasPagamento(null, true);
         //Deixar o focus no campo de descrição
         focus();
 
@@ -78,6 +79,9 @@ public class IfrmFormaPagamento extends javax.swing.JInternalFrame {
         dchDataFim = new com.toedter.calendar.JDateChooser();
         jcbAcao = new javax.swing.JComboBox<>();
         lblDescricaoConsulta3 = new javax.swing.JLabel();
+        btnZoom = new javax.swing.JButton();
+        tfdFormaPagamento = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
 
         setClosable(true);
         setIconifiable(true);
@@ -126,7 +130,7 @@ public class IfrmFormaPagamento extends javax.swing.JInternalFrame {
                 .addComponent(lblDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(tfdDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(631, Short.MAX_VALUE))
+                .addContainerGap(779, Short.MAX_VALUE))
         );
         pnlCadastroLayout.setVerticalGroup(
             pnlCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -135,7 +139,7 @@ public class IfrmFormaPagamento extends javax.swing.JInternalFrame {
                 .addGroup(pnlCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblDescricao)
                     .addComponent(tfdDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(267, Short.MAX_VALUE))
+                .addContainerGap(268, Short.MAX_VALUE))
         );
 
         tabAbas.addTab("Cadastro", pnlCadastro);
@@ -178,7 +182,7 @@ public class IfrmFormaPagamento extends javax.swing.JInternalFrame {
                 .addComponent(tfdDescricaoConsulta)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnPesquisar))
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 966, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 1104, Short.MAX_VALUE)
         );
         pnlConsultaLayout.setVerticalGroup(
             pnlConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -189,7 +193,7 @@ public class IfrmFormaPagamento extends javax.swing.JInternalFrame {
                     .addComponent(tfdDescricaoConsulta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnPesquisar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 256, Short.MAX_VALUE))
         );
 
         tabAbas.addTab("Consulta", pnlConsulta);
@@ -199,11 +203,11 @@ public class IfrmFormaPagamento extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "Id", "Data", "Usuário", "IP", "Ação", "Forma Pagamento"
+                "Id", "Data", "Usuário", "IP", "Ação", "ID Forma de pagamento", "Forma de Pagamento"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false, false, false, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -237,15 +241,28 @@ public class IfrmFormaPagamento extends javax.swing.JInternalFrame {
 
         lblDescricaoConsulta3.setText("Até *");
 
+        btnZoom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/zoom.png"))); // NOI18N
+        btnZoom.setToolTipText("Pesquisar");
+        btnZoom.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        btnZoom.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnZoomActionPerformed(evt);
+            }
+        });
+
+        tfdFormaPagamento.setEditable(false);
+
+        jLabel1.setText("Forma de pagamento");
+
         javax.swing.GroupLayout pnlAuditoriaLayout = new javax.swing.GroupLayout(pnlAuditoria);
         pnlAuditoria.setLayout(pnlAuditoriaLayout);
         pnlAuditoriaLayout.setHorizontalGroup(
             pnlAuditoriaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlAuditoriaLayout.createSequentialGroup()
-                .addGroup(pnlAuditoriaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 961, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .addGroup(pnlAuditoriaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane3)
                     .addGroup(pnlAuditoriaLayout.createSequentialGroup()
-                        .addContainerGap()
                         .addComponent(lblDescricaoConsulta1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(dchDataInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -257,27 +274,36 @@ public class IfrmFormaPagamento extends javax.swing.JInternalFrame {
                         .addComponent(lblDescricaoConsulta2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jcbAcao, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnPesquisarAuditoria)))
-                .addGap(0, 5, Short.MAX_VALUE))
+                        .addGap(20, 20, 20)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(tfdFormaPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnZoom, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 136, Short.MAX_VALUE)
+                        .addComponent(btnPesquisarAuditoria, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
         pnlAuditoriaLayout.setVerticalGroup(
             pnlAuditoriaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlAuditoriaLayout.createSequentialGroup()
-                .addGroup(pnlAuditoriaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addContainerGap(15, Short.MAX_VALUE)
+                .addGroup(pnlAuditoriaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(pnlAuditoriaLayout.createSequentialGroup()
-                        .addGap(12, 12, 12)
-                        .addComponent(btnPesquisarAuditoria))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlAuditoriaLayout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(pnlAuditoriaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jcbAcao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnPesquisarAuditoria)
                             .addGroup(pnlAuditoriaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(jcbAcao, javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(lblDescricaoConsulta1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(dchDataInicio, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE)
                                 .addComponent(dchDataFim, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(lblDescricaoConsulta3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE)
-                                .addComponent(lblDescricaoConsulta2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                                .addComponent(lblDescricaoConsulta2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGap(1, 1, 1))
+                    .addGroup(pnlAuditoriaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(tfdFormaPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel1))
+                    .addComponent(btnZoom, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -350,7 +376,7 @@ public class IfrmFormaPagamento extends javax.swing.JInternalFrame {
         // Aplica o validador
         JComponent[] components = new JComponent[]{tfdDescricao};
         VerificadorCampos verifier = new VerificadorCampos(components);
-        
+
         if (!verifier.validaCampos()) {
             return;
         }
@@ -366,7 +392,7 @@ public class IfrmFormaPagamento extends javax.swing.JInternalFrame {
                 JOptionPane.showMessageDialog(rootPane, "Problema para atualizar forma de pagamento.", "Problemas", JOptionPane.ERROR_MESSAGE);
             }
             editando = false;
-            
+
             //Modo inserção
         } else {
             this.forma = new Formapagamento();
@@ -380,7 +406,7 @@ public class IfrmFormaPagamento extends javax.swing.JInternalFrame {
         }
 
         tfdDescricao.setText(null);
-        
+
         focus();
 
     }//GEN-LAST:event_btnSalvarActionPerformed
@@ -404,7 +430,7 @@ public class IfrmFormaPagamento extends javax.swing.JInternalFrame {
                 JOptionPane.showMessageDialog(rootPane, "Problema para excluir forma de pagamento", "Problema", JOptionPane.PLAIN_MESSAGE);
             }
         }
-    
+
 
     }//GEN-LAST:event_btnExcluirActionPerformed
 
@@ -427,26 +453,43 @@ public class IfrmFormaPagamento extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_tabAbasStateChanged
 
     private void tabAbasFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tabAbasFocusLost
-       
+
     }//GEN-LAST:event_tabAbasFocusLost
 
     private void btnPesquisarAuditoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarAuditoriaActionPerformed
-        
-      
+
         JComponent[] components = new JComponent[]{dchDataInicio, dchDataFim};
         VerificadorCampos verifier = new VerificadorCampos(components);
-        
+
         if (!verifier.validaCampos()) {
             return;
         }
         
         
-        AuditoriaDAO<FormapagamentoAud> dao2 = new AuditoriaDAO<>(); 
+        int reg = 0;
 
-        this.formasAud = dao2.consultarPorData(dchDataInicio.getDate(),dchDataFim.getDate(),FormapagamentoAud.class,(String) jcbAcao.getSelectedItem().toString());
+        if (dlgFormasPagamento.getForma() != null) {
+            reg = dlgFormasPagamento.getForma().getId();
+        }
+        AuditoriaDAO<FormapagamentoAud> dao2 = new AuditoriaDAO<>();
+
+        this.formasAud = dao2.consultarPorData(dchDataInicio.getDate(), dchDataFim.getDate(), FormapagamentoAud.class, (String) jcbAcao.getSelectedItem().toString(), reg);
 
         this.jTableAuditoria.setModel(new jtmFormaPagamentoAud(formasAud));
+
+
     }//GEN-LAST:event_btnPesquisarAuditoriaActionPerformed
+
+    private void btnZoomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnZoomActionPerformed
+
+        dlgFormasPagamento.setVisible(true);
+
+        if (dlgFormasPagamento.seleciou() && dlgFormasPagamento.getForma() != null) {
+            String forma = dlgFormasPagamento.getForma().getId() + " - " + dlgFormasPagamento.getForma().getDescricao();
+            tfdFormaPagamento.setText(forma);
+        }
+
+    }//GEN-LAST:event_btnZoomActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -455,8 +498,10 @@ public class IfrmFormaPagamento extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnPesquisar;
     private javax.swing.JButton btnPesquisarAuditoria;
     private javax.swing.JButton btnSalvar;
+    private javax.swing.JButton btnZoom;
     private com.toedter.calendar.JDateChooser dchDataFim;
     private com.toedter.calendar.JDateChooser dchDataInicio;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
@@ -475,5 +520,6 @@ public class IfrmFormaPagamento extends javax.swing.JInternalFrame {
     private javax.swing.JTabbedPane tabAbas;
     private javax.swing.JTextField tfdDescricao;
     private javax.swing.JTextField tfdDescricaoConsulta;
+    private javax.swing.JTextField tfdFormaPagamento;
     // End of variables declaration//GEN-END:variables
 }

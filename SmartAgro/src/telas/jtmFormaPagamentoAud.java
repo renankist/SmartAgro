@@ -24,7 +24,7 @@ public class jtmFormaPagamentoAud extends AbstractTableModel {
     private AuditoriaDAO<FormapagamentoAud> dao;
     private ArrayList<FormapagamentoAud> deletada;
 
-    private String[] colunas = {"Código", "Data", "Usuário", "IP", "Ação", "Forma de Pagamento"};
+    private String[] colunas = {"Código", "Data", "Usuário", "IP", "Ação", "ID Forma de Pagamento", "Forma de Pagamento"};
 
     public jtmFormaPagamentoAud(ArrayList<FormapagamentoAud> fornecedores) {
         this.formas = fornecedores;
@@ -68,8 +68,7 @@ public class jtmFormaPagamentoAud extends AbstractTableModel {
                 return formas.get(linha).getCustomRevInfo().getId();
             case 1:
                 SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-              
-               
+
                 return fmt.format(formas.get(linha).getCustomRevInfo().getHora());
 
             case 2:
@@ -86,18 +85,25 @@ public class jtmFormaPagamentoAud extends AbstractTableModel {
                     return "Removeu";
 
                 }
+
             case 5:
+
+                return formas.get(linha).getId();
+
+            case 6:
                 if (formas.get(linha).getRevtype() == 2) {
                     dao = new AuditoriaDAO<>();
                     deletada = new ArrayList();
                     deletada = dao.consultarPorIdVarios("FormapagamentoAud", formas.get(linha).getId());
-
-                    return deletada.get(deletada.size() - 2).getDescricao();
+                    if (deletada.size() > 1) {
+                        return deletada.get(deletada.size() - 2).getDescricao();
+                    } else {
+                        return "Sem registro anterior";
+                    }
 
                 } else {
                     return formas.get(linha).getDescricao();
                 }
-
         }
 
         return null;

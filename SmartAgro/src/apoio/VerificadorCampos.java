@@ -11,7 +11,7 @@ import javax.swing.JComponent;
 import javax.swing.JFormattedTextField;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
-
+import com.toedter.calendar.JDateChooser;
 /**
  *
  * @author Morgana
@@ -82,7 +82,9 @@ public class VerificadorCampos extends InputVerifier {
             campoOK = ((JComboBox) input).getSelectedIndex() != 0;
         } else if (input instanceof JRadioButton) {
             campoOK = ((JRadioButton) input).getSelectedObjects() != null;
-        } else {
+        }else if(input instanceof JDateChooser){
+            campoOK = ((JDateChooser) input).getDate() != null;
+        }else {
             campoOK = true;
         }
 
