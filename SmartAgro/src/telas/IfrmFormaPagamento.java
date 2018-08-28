@@ -313,14 +313,6 @@ public class IfrmFormaPagamento extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_btnExcluirActionPerformed
 
-    private void tabAbasFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tabAbasFocusLost
-
-    }//GEN-LAST:event_tabAbasFocusLost
-
-    private void tabAbasStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tabAbasStateChanged
-        //
-    }//GEN-LAST:event_tabAbasStateChanged
-
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
 
         this.dao = new GenericDAO<>();
