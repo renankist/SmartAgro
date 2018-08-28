@@ -18,12 +18,14 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.hibernate.envers.Audited;
 
 /**
  *
  * @author Morgana
  */
 @Entity
+@Audited
 @Table(name = "fornecedor")
 @XmlRootElement
 public class Fornecedor implements Serializable {
