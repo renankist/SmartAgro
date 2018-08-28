@@ -69,19 +69,6 @@ public class IfrmFormaPagamento extends javax.swing.JInternalFrame {
         lblDescricaoConsulta = new javax.swing.JLabel();
         tfdDescricaoConsulta = new javax.swing.JTextField();
         btnPesquisar = new javax.swing.JButton();
-        pnlAuditoria = new javax.swing.JPanel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        jTableAuditoria = new javax.swing.JTable();
-        btnPesquisarAuditoria = new javax.swing.JButton();
-        dchDataInicio = new com.toedter.calendar.JDateChooser();
-        lblDescricaoConsulta1 = new javax.swing.JLabel();
-        lblDescricaoConsulta2 = new javax.swing.JLabel();
-        dchDataFim = new com.toedter.calendar.JDateChooser();
-        jcbAcao = new javax.swing.JComboBox<>();
-        lblDescricaoConsulta3 = new javax.swing.JLabel();
-        btnZoom = new javax.swing.JButton();
-        tfdFormaPagamento = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
 
         setClosable(true);
         setIconifiable(true);
@@ -197,118 +184,6 @@ public class IfrmFormaPagamento extends javax.swing.JInternalFrame {
         );
 
         tabAbas.addTab("Consulta", pnlConsulta);
-
-        jTableAuditoria.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Id", "Data", "Usuário", "IP", "Ação", "ID Forma de pagamento", "Forma de Pagamento"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, true
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jScrollPane3.setViewportView(jTableAuditoria);
-        if (jTableAuditoria.getColumnModel().getColumnCount() > 0) {
-            jTableAuditoria.getColumnModel().getColumn(0).setPreferredWidth(3);
-            jTableAuditoria.getColumnModel().getColumn(1).setPreferredWidth(5);
-        }
-
-        btnPesquisarAuditoria.setText("Pesquisar");
-        btnPesquisarAuditoria.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPesquisarAuditoriaActionPerformed(evt);
-            }
-        });
-
-        dchDataInicio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/calendar.png")));
-        dchDataInicio.setInheritsPopupMenu(true);
-
-        lblDescricaoConsulta1.setText("De *");
-
-        lblDescricaoConsulta2.setText("Ação");
-
-        dchDataFim.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/calendar.png")));
-        dchDataFim.setInheritsPopupMenu(true);
-
-        jcbAcao.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Todas", "Inserção", "Alteração", "Remoção" }));
-
-        lblDescricaoConsulta3.setText("Até *");
-
-        btnZoom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/zoom.png"))); // NOI18N
-        btnZoom.setToolTipText("Pesquisar");
-        btnZoom.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        btnZoom.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnZoomActionPerformed(evt);
-            }
-        });
-
-        tfdFormaPagamento.setEditable(false);
-
-        jLabel1.setText("Forma de pagamento");
-
-        javax.swing.GroupLayout pnlAuditoriaLayout = new javax.swing.GroupLayout(pnlAuditoria);
-        pnlAuditoria.setLayout(pnlAuditoriaLayout);
-        pnlAuditoriaLayout.setHorizontalGroup(
-            pnlAuditoriaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlAuditoriaLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(pnlAuditoriaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3)
-                    .addGroup(pnlAuditoriaLayout.createSequentialGroup()
-                        .addComponent(lblDescricaoConsulta1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(dchDataInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblDescricaoConsulta3)
-                        .addGap(3, 3, 3)
-                        .addComponent(dchDataFim, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(lblDescricaoConsulta2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jcbAcao, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(20, 20, 20)
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(tfdFormaPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnZoom, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 136, Short.MAX_VALUE)
-                        .addComponent(btnPesquisarAuditoria, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
-        );
-        pnlAuditoriaLayout.setVerticalGroup(
-            pnlAuditoriaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlAuditoriaLayout.createSequentialGroup()
-                .addContainerGap(15, Short.MAX_VALUE)
-                .addGroup(pnlAuditoriaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(pnlAuditoriaLayout.createSequentialGroup()
-                        .addGroup(pnlAuditoriaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnPesquisarAuditoria)
-                            .addGroup(pnlAuditoriaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(jcbAcao, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(lblDescricaoConsulta1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(dchDataInicio, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE)
-                                .addComponent(dchDataFim, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(lblDescricaoConsulta3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE)
-                                .addComponent(lblDescricaoConsulta2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addGap(1, 1, 1))
-                    .addGroup(pnlAuditoriaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(tfdFormaPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel1))
-                    .addComponent(btnZoom, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-
-        tabAbas.addTab("Auditoria", pnlAuditoria);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -434,6 +309,14 @@ public class IfrmFormaPagamento extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_btnExcluirActionPerformed
 
+    private void tabAbasFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tabAbasFocusLost
+
+    }//GEN-LAST:event_tabAbasFocusLost
+
+    private void tabAbasStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tabAbasStateChanged
+        //
+    }//GEN-LAST:event_tabAbasStateChanged
+
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
 
         this.dao = new GenericDAO<>();
@@ -445,81 +328,24 @@ public class IfrmFormaPagamento extends javax.swing.JInternalFrame {
         this.jTableFormasPagamento.setModel(new jtmFormasPagamento(formas));
 
         //this.jTableFormasPagamento.setDefaultRenderer(Object.class, new RenderizadorTabelas());
-
     }//GEN-LAST:event_btnPesquisarActionPerformed
-
-    private void tabAbasStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tabAbasStateChanged
-        //
-    }//GEN-LAST:event_tabAbasStateChanged
-
-    private void tabAbasFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tabAbasFocusLost
-
-    }//GEN-LAST:event_tabAbasFocusLost
-
-    private void btnPesquisarAuditoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarAuditoriaActionPerformed
-
-        JComponent[] components = new JComponent[]{dchDataInicio, dchDataFim};
-        VerificadorCampos verifier = new VerificadorCampos(components);
-
-        if (!verifier.validaCampos()) {
-            return;
-        }
-        
-        
-        int reg = 0;
-
-        if (dlgFormasPagamento.getForma() != null) {
-            reg = dlgFormasPagamento.getForma().getId();
-        }
-        AuditoriaDAO<FormapagamentoAud> dao2 = new AuditoriaDAO<>();
-
-        this.formasAud = dao2.consultarPorData(dchDataInicio.getDate(), dchDataFim.getDate(), FormapagamentoAud.class, (String) jcbAcao.getSelectedItem().toString(), reg);
-
-        this.jTableAuditoria.setModel(new jtmFormaPagamentoAud(formasAud));
-
-
-    }//GEN-LAST:event_btnPesquisarAuditoriaActionPerformed
-
-    private void btnZoomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnZoomActionPerformed
-
-        dlgFormasPagamento.setVisible(true);
-
-        if (dlgFormasPagamento.seleciou() && dlgFormasPagamento.getForma() != null) {
-            String forma = dlgFormasPagamento.getForma().getId() + " - " + dlgFormasPagamento.getForma().getDescricao();
-            tfdFormaPagamento.setText(forma);
-        }
-
-    }//GEN-LAST:event_btnZoomActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnExcluir;
     private javax.swing.JButton btnPesquisar;
-    private javax.swing.JButton btnPesquisarAuditoria;
     private javax.swing.JButton btnSalvar;
-    private javax.swing.JButton btnZoom;
-    private com.toedter.calendar.JDateChooser dchDataFim;
-    private com.toedter.calendar.JDateChooser dchDataInicio;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTable jTableAuditoria;
     private javax.swing.JTable jTableFormasPagamento;
-    private javax.swing.JComboBox<String> jcbAcao;
     private javax.swing.JLabel lblDescricao;
     private javax.swing.JLabel lblDescricaoConsulta;
-    private javax.swing.JLabel lblDescricaoConsulta1;
-    private javax.swing.JLabel lblDescricaoConsulta2;
-    private javax.swing.JLabel lblDescricaoConsulta3;
-    private javax.swing.JPanel pnlAuditoria;
     private javax.swing.JPanel pnlCadastro;
     private javax.swing.JPanel pnlConsulta;
     private javax.swing.JTabbedPane tabAbas;
     private javax.swing.JTextField tfdDescricao;
     private javax.swing.JTextField tfdDescricaoConsulta;
-    private javax.swing.JTextField tfdFormaPagamento;
     // End of variables declaration//GEN-END:variables
 }

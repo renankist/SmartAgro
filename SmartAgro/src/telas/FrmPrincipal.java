@@ -14,12 +14,12 @@ import javax.swing.JMenu;
  */
 public class FrmPrincipal extends javax.swing.JFrame {
    
-    public static String usuario; 
+    public static Colaborador usuario; 
  
     /**
      * Creates new form FrmPrincipal
      */
-    public FrmPrincipal(String usuario ) {
+    public FrmPrincipal(Colaborador usuario ) {
         initComponents();
         this.usuario = usuario;
         /* Abrir a tela maximizada */
@@ -27,11 +27,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
         /* Define o icone da aplicação */
         setIconImage(java.awt.Toolkit.getDefaultToolkit().getImage(getClass().getResource("/imagens/stack.png")));
-    }
-    
-   
-
-    
+    }       
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

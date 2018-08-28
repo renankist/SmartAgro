@@ -141,7 +141,7 @@ public class jfrLogin extends javax.swing.JFrame {
                 java.util.logging.Logger.getLogger(FrmPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
             }
 
-            new FrmPrincipal(colab.getUsuario()).setVisible(true);
+            new FrmPrincipal(colab).setVisible(true);
             
             this.dispose();
 
