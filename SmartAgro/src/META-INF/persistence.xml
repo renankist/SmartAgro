@@ -13,10 +13,7 @@
     <class>auditoria.CustomRevisionEntityy</class>
     <class>auditoria.FormapagamentoAud</class>
     <class>auditoria.CustomRevInfo</class>
-    <class> auditoria.MyEnversIntegrator</class>
-    <class>auditoria.MyEnversPostUpdateEventListenerImpl</class>
-    <class>auditoria.MyEnversPostUpdateEventListenerImpl"</class>
-    <class>entidade.Config</class>
+
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/smartagro"/>
       <property name="javax.persistence.jdbc.user" value="postgres"/>

@@ -8,11 +8,8 @@ package telas;
 
 import apoio.Criptografia;
 import dao.ColaboradorDAO;
-import dao.GenericDAO;
 import entidade.Colaborador;
-import entidade.Config;
 import static java.awt.Color.white;
-import net.bytebuddy.description.type.TypeDescription;
 import sun.security.provider.MD5;
 
 /**
@@ -154,15 +151,8 @@ public class jfrLogin extends javax.swing.JFrame {
             } catch (javax.swing.UnsupportedLookAndFeelException ex) {
                 java.util.logging.Logger.getLogger(FrmPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
             }
-            
-            Config c = new Config(); 
-            
-            GenericDAO<Config> daoConf = new GenericDAO(); 
-            
-            c = daoConf.consultarPorId(1, "Config");
-            
-            
-            new FrmPrincipal(colab, c).setVisible(true);
+
+            new FrmPrincipal(colab).setVisible(true);
             
             this.dispose();
 
