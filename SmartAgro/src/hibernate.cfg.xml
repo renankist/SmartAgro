@@ -18,17 +18,13 @@
         <mapping class="entidade.Produto"/>
         <mapping class="entidade.Colaborador"/>
         <mapping class="entidade.Cliente"/>
+            <mapping class="entidade.Config"/>
         <mapping class="auditoria.CustomRevisionEntity"/>
         <mapping class="auditoria.FormapagamentoAud"/>
         <mapping class="auditoria.CustomRevInfo"/>
-   
-    
-        <listener class="org.hibernate.envers.event.AuditEventListener" type="post-insert" /> 
-        <listener class="org.hibernate.envers.event.AuditEventListener" type="post-update" />
-        <listener class="org.hibernate.envers.event.AuditEventListener" type="post-delete" /> 
-        <listener class="org.hibernate.envers.event.AuditEventListener" type="pre-collection-update" /> 
-        <listener class="org.hibernate.envers.event.AuditEventListener" type="pre-collection-remove" /> 
-        <listener class="org.hibernate.envers.event.AuditEventListener" type="post-collection-recreate" /> 
+         <mapping class="auditoria.MyEnversIntegrator"/>
+           <mapping class="auditoria.MyEnversPostUpdateEventListenerImpl"/>
+            <mapping class="auditoria.MyEnversPostUpdateEventListenerImpl"/>
     
     </session-factory>
 </hibernate-configuration>

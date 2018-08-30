@@ -7,6 +7,8 @@ package auditoria;
 
 import org.hibernate.envers.boot.internal.EnversService;
 import org.hibernate.envers.event.spi.EnversPreUpdateEventListenerImpl;
+import org.hibernate.event.spi.PreUpdateEvent;
+import telas.FrmPrincipal;
 
 /**
  *
@@ -14,8 +16,20 @@ import org.hibernate.envers.event.spi.EnversPreUpdateEventListenerImpl;
  */
 public class MyEnversPreUpdateEventListenerImpl extends EnversPreUpdateEventListenerImpl {
     
+   
+    
     public MyEnversPreUpdateEventListenerImpl(EnversService enversService) {
         super(enversService);
+    }
+    
+   
+     public boolean onPreUpdate(PreUpdateEvent event) {
+         
+        if (FrmPrincipal.config.getAuditorialigada() == false){
+            return false;
+        }
+         
+        return super.onPreUpdate(event);
     }
     
 }
