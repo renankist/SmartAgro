@@ -6,6 +6,7 @@
 package telas;
 
 import entidade.Colaborador;
+import entidade.Config;
 import javax.swing.JMenu;
 
 /**
@@ -15,13 +16,15 @@ import javax.swing.JMenu;
 public class FrmPrincipal extends javax.swing.JFrame {
    
     public static Colaborador usuario; 
+    public static Config config; 
  
     /**
      * Creates new form FrmPrincipal
      */
-    public FrmPrincipal(Colaborador usuario ) {
+    public FrmPrincipal(Colaborador usuario, Config config ) {
         initComponents();
         this.usuario = usuario;
+        this.config = config; 
         /* Abrir a tela maximizada */
         //setExtendedState(MAXIMIZED_BOTH);
 
@@ -65,6 +68,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         itmConsultaColaborador = new javax.swing.JMenuItem();
         itmRelatorioColaborador = new javax.swing.JMenuItem();
         mnuSistema = new javax.swing.JMenu();
+        itmCadastroColaborador1 = new javax.swing.JMenuItem();
         itmSair = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -255,6 +259,15 @@ public class FrmPrincipal extends javax.swing.JFrame {
         mnuSistema.setMnemonic('S');
         mnuSistema.setText("Sistema");
 
+        itmCadastroColaborador1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/register.png"))); // NOI18N
+        itmCadastroColaborador1.setText("Configurações");
+        itmCadastroColaborador1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itmCadastroColaborador1ActionPerformed(evt);
+            }
+        });
+        mnuSistema.add(itmCadastroColaborador1);
+
         itmSair.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/power.png"))); // NOI18N
         itmSair.setText("Sair");
         itmSair.addActionListener(new java.awt.event.ActionListener() {
@@ -342,11 +355,21 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private void itmFormasPagamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmFormasPagamentoActionPerformed
         cadastroFormaPagamento(); 
     }//GEN-LAST:event_itmFormasPagamentoActionPerformed
+
+    private void itmCadastroColaborador1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmCadastroColaborador1ActionPerformed
+        configuracoes();
+    }//GEN-LAST:event_itmCadastroColaborador1ActionPerformed
     
     private void cadastroColaborador(int aba) {
         IfrmColaborador janelaColab = new IfrmColaborador(aba);
         dskArea.add(janelaColab);
         janelaColab.setVisible(true);
+    }
+    
+    private void configuracoes() {
+        IfrmConfiguracoes janelaConfiguracoes = new IfrmConfiguracoes(this.config);
+        dskArea.add(janelaConfiguracoes);
+        janelaConfiguracoes.setVisible(true);
     }
     
     
@@ -387,7 +410,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new FrmPrincipal(usuario).setVisible(true);
+                new FrmPrincipal(usuario, config).setVisible(true);
             }
         });
     }
@@ -397,6 +420,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private javax.swing.JDesktopPane dskArea;
     private javax.swing.JMenuItem itmCadastroCliente;
     private javax.swing.JMenuItem itmCadastroColaborador;
+    private javax.swing.JMenuItem itmCadastroColaborador1;
     private javax.swing.JMenuItem itmCadastroFornecedor;
     private javax.swing.JMenuItem itmCadastroProduto;
     private javax.swing.JMenuItem itmConsultaCliente;
