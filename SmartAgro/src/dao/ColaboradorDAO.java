@@ -29,7 +29,7 @@ public class ColaboradorDAO extends GenericDAO<Colaborador> {
 
             sessao.beginTransaction();
 
-             org.hibernate.Query q = sessao.createQuery("from Colaborador where usuario = :usuarioParam and senhausuario = :senhaParam");
+            org.hibernate.Query q = sessao.createQuery("from Colaborador where usuario = :usuarioParam and senhausuario = :senhaParam");
 
             q.setString("usuarioParam", usuario);
             q.setString("senhaParam", senha);

@@ -1,7 +1,7 @@
 package apoio;
 
-import org.hibernate.*;
-import org.hibernate.cfg.*;
+import org.hibernate.cfg.AnnotationConfiguration;
+import org.hibernate.SessionFactory;
 
 public class HibernateUtil {
 
@@ -9,11 +9,12 @@ public class HibernateUtil {
 
     static {
         try {
-// Create the SessionFactory from hibernate.cfg.xml
-            sessionFactory = new Configuration().configure().buildSessionFactory();
-        } catch (HibernateException ex) {
-// Make sure you log the exception, as it might be swallowed
-            //System.err.println("Initial SessionFactory creation failed." + ex);
+            // Create the SessionFactory from standard (hibernate.cfg.xml) 
+            // config file.
+            sessionFactory = new AnnotationConfiguration().configure().buildSessionFactory();
+        } catch (Throwable ex) {
+            // Log the exception. 
+            System.err.println("Initial SessionFactory creation failed." + ex);
             throw new ExceptionInInitializerError(ex);
         }
     }

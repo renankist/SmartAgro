@@ -16,11 +16,7 @@ import telas.FrmPrincipal;
  */
 public  class CustomRevisionEntityListener implements RevisionListener {
 
-    
-    
     public void newRevision(Object revisionEntity) {
-        
-        
         CustomRevisionEntity customRevisionEntity
                 = (CustomRevisionEntity) revisionEntity;
 
@@ -32,7 +28,5 @@ public  class CustomRevisionEntityListener implements RevisionListener {
         }catch(Exception e){
             
         }
-    
-    
     }
 }
