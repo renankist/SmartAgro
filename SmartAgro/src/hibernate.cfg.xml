@@ -24,7 +24,9 @@
         <mapping class="auditoria.CustomRevInfo"/>
         <mapping class="auditoria.MyEnversIntegrator"/>
         <mapping class="auditoria.MyEnversPostUpdateEventListenerImpl"/>
-        <mapping class="auditoria.MyEnversPostUpdateEventListenerImpl"/>
-    
+        <mapping class="auditoria.MyEnversPreUpdateEventListenerImpl"/>
+        <mapping class="auditoria.MyEnversPostInsertEventListenerImpl"/>
+        <mapping class="auditoria.MyEnversPostDeleteEventListenerImpl"/>
+        
     </session-factory>
 </hibernate-configuration>
