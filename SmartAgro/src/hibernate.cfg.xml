@@ -20,7 +20,9 @@
         <mapping class="entidade.Cliente"/>
         <mapping class="auditoria.CustomRevisionEntity"/>
         <mapping class="auditoria.FormapagamentoAud"/>
-          <mapping class="auditoria.CustomRevInfo"/>
+        <mapping class="auditoria.CustomRevInfo"/>
+		<mapping class="entidade.Venda"/>
+		<mapping class="entidade.Itemvenda"/>
    
     
         <listener class="org.hibernate.envers.event.AuditEventListener" type="post-insert" /> 
