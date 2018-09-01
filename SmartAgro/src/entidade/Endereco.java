@@ -6,8 +6,6 @@
 package entidade;
 
 import java.io.Serializable;
-import java.util.Collection;
-import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -17,22 +15,18 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 import org.hibernate.envers.Audited;
-
+import javax.xml.bind.annotation.XmlRootElement;
 /**
  *
  * @author Morgana
  */
 @Entity
 @Audited
-@Table(name = "endereco")
 @XmlRootElement
+@Table(name = "endereco")
 public class Endereco implements Serializable {
 
     @Basic(optional = false)

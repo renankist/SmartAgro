@@ -14,16 +14,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-
+import org.hibernate.envers.Audited;
 
 /**
  *
  * @author Renan Luis Kist
  */
 @Entity
+@Audited
 @Table(name = "colaborador")
 
 public class Colaborador implements Serializable {
