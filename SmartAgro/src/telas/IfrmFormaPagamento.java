@@ -9,8 +9,6 @@ import apoio.HabilitaCampos;
 import apoio.LimpaCampos;
 import apoio.Mensagem;
 import apoio.VerificadorCampos;
-import auditoria.FormapagamentoAud;
-import dao.AuditoriaDAO;
 import dao.GenericDAO;
 import entidade.Formapagamento;
 import java.util.ArrayList;
@@ -26,13 +24,10 @@ public class IfrmFormaPagamento extends javax.swing.JInternalFrame {
     private GenericDAO<Formapagamento> dao;
     private ArrayList<Formapagamento> formas;
     private boolean editando = false;
-    private ArrayList<FormapagamentoAud> formasAud;
-    private DlgFormasPagamento dlgFormasPagamento;
 
     public IfrmFormaPagamento() {
 
         initComponents();
-        dlgFormasPagamento = new DlgFormasPagamento(null, true);
         //Deixar o focus no campo de descrição
         focus();
 
