@@ -8,6 +8,7 @@ package telas;
 import apoio.*;
 import java.util.ArrayList;
 import dao.GenericDAO;
+import entidade.Formapagamento;
 import entidade.Venda;
 import entidade.Itemvenda;
 import entidade.ItemvendaPK;
@@ -15,6 +16,7 @@ import entidade.Produto;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import javax.swing.JComponent;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -30,9 +32,11 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
 
     private DlgClientes dlgClientes;
     private DlgColaboradores dlgColaboradores;
-    
+
     private boolean editando = false;
     private boolean editandoItem = false;
+
+    private static final Logger logger = Logger.getLogger(IfrmVenda.class);
 
     /**
      * Creates new form IfrmVenda
@@ -50,28 +54,28 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
 
         dlgClientes = new DlgClientes(null, true);
         dlgColaboradores = new DlgColaboradores(null, true);
-        
+
         popularComboStatus();
-        
+
         focus();
     }
-    
-    private void focus(){
+
+    private void focus() {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 tfdCliente.requestFocusInWindow();
             }
         });
     }
-    
-    private void popularComboStatus(){
+
+    private void popularComboStatus() {
         cbmStatus.removeAllItems();
         cbmStatus.addItem("Selecione");
-        
+
         for (Object st : new Venda().getTodosStatus()) {
             cbmStatus.addItem(st.toString());
         }
-        
+
         cbmStatus.setSelectedIndex(0);
     }
 
@@ -80,12 +84,12 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
         LimpaCampos.limparCampos(pnlItens);
         LimpaCampos.limparCampos(pnlComplemento);
     }
-    
-    private boolean getEditandoVenda(){
+
+    private boolean getEditandoVenda() {
         return editando;
     }
-    
-    private void setEditandoVenda(boolean editando){
+
+    private void setEditandoVenda(boolean editando) {
         this.editando = editando;
     }
 
@@ -145,8 +149,8 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         tfdDesconto = new apoio.MoedaFormatada();
-        ffdDescrDesc = new javax.swing.JTextField();
-        ffdObs = new javax.swing.JTextField();
+        tfdDescrDesc = new javax.swing.JTextField();
+        tfdObservacao = new javax.swing.JTextField();
         brnPagamento = new javax.swing.JButton();
         lblTotal = new javax.swing.JLabel();
         lblTotalLiquido = new javax.swing.JLabel();
@@ -498,8 +502,8 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel13)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(ffdDescrDesc, javax.swing.GroupLayout.PREFERRED_SIZE, 409, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(ffdObs))
+                        .addComponent(tfdDescrDesc, javax.swing.GroupLayout.PREFERRED_SIZE, 409, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tfdObservacao))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(brnPagamento)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -521,11 +525,11 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
                                     .addComponent(jLabel12)
                                     .addComponent(jLabel13)
                                     .addComponent(tfdDesconto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(ffdDescrDesc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(tfdDescrDesc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(pnlComplementoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel14)
-                                    .addComponent(ffdObs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(tfdObservacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlComplementoLayout.createSequentialGroup()
                                 .addComponent(lblTotal)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -678,7 +682,7 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
         venda = new Venda();
         Itemvenda item = new Itemvenda();
         ItemvendaPK pk = new ItemvendaPK();
-        
+
         if (getEditandoItem()) {
             item = retornaItemSelecionado();
             pk = item.getItemvendaPK();
@@ -701,26 +705,26 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
             modelItens.addRow(item);
         }
         atualizaTabelaItens();
-        
+
         setEditandoItem(false);
         limparDadosItem();
     }//GEN-LAST:event_btnAdicionarActionPerformed
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
         setEditandoItem(false);
-        
+
         if (tblItens.getSelectedRow() >= 0) {
             Itemvenda item = retornaItemSelecionado();
-            
+
             tfdCodigoPro.setText(item.getItemvendaPK().getProduto().getCodigo());
             tfdProduto.setText(item.getItemvendaPK().getProduto().getDescricao());
             tfdPrecoUn.setText(item.getValor().setScale(2).toString());
             ffdQuantidade.setText(item.getQuantidade().toString());
             tfdDescontoUn.setText(item.getDesconto().setScale(2).toString());
             tfdSubtotal.setText(item.getValortotal().setScale(2).toString());
-            
+
             setEditandoItem(true);
-            
+
             tfdCodigoPro.requestFocus();
         }
     }//GEN-LAST:event_btnEditActionPerformed
@@ -731,20 +735,20 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
             atualizaTabelaItens();
             tblItens.requestFocus();
         }
-        
+
         setEditandoItem(false);
         limparDadosItem();
     }//GEN-LAST:event_btnRemoverActionPerformed
 
     private void tfdCodigoProFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfdCodigoProFocusLost
         if (!tfdCodigoPro.getText().trim().isEmpty()) {
-            
+
             // Se esta editando o item, não carrega os dados do cadsatro
-            if (editandoItem && 
-                tfdCodigoPro.getText().equals(retornaItemSelecionado().getItemvendaPK().getProduto().getCodigo())) {
+            if (editandoItem
+                    && tfdCodigoPro.getText().equals(retornaItemSelecionado().getItemvendaPK().getProduto().getCodigo())) {
                 return;
             }
-            
+
             ArrayList<Produto> produtos = new GenericDAO().consultarComCriterio("Produto", "codigo", tfdCodigoPro.getText());
 
             if (produtos.size() > 0) {
@@ -757,15 +761,15 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_tfdCodigoProFocusLost
 
-    private void setEditandoItem(boolean editando){
+    private void setEditandoItem(boolean editando) {
         editandoItem = editando;
     }
-    
-    private boolean getEditandoItem(){
+
+    private boolean getEditandoItem() {
         return editandoItem;
     }
-    
-    private void limparDadosItem(){
+
+    private void limparDadosItem() {
         tfdCodigoPro.setText("");
         tfdProduto.setText("");
         tfdPrecoUn.setText("");
@@ -773,22 +777,22 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
         tfdDescontoUn.setText("");
         tfdSubtotal.setText("");
     }
-    
-    private Itemvenda retornaItemSelecionado(){
+
+    private Itemvenda retornaItemSelecionado() {
         Itemvenda item = new Itemvenda();
-        
+
         if (tblItens.getSelectedRow() >= 0) {
             item = modelItens.get(tblItens.getSelectedRow());
         }
-        
+
         return item;
     }
-    
-     private void atualizaTabelaItens() {
+
+    private void atualizaTabelaItens() {
         tblItens.setModel(modelItens);
         atualizaTotal();
     }
-    
+
     private void atualizaSubtotal() {
         try {
             BigDecimal qtd = Formatacao.converteStringParaBigDecimal(ffdQuantidade.getText());
@@ -807,24 +811,38 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
         }
     }
 
-    private void atualizaTotal(){
+    private void atualizaTotal() {
         BigDecimal total = BigDecimal.ZERO;
-       
+
+        total = getTotal();
+        lblTotal.setText("Total R$ " + total.setScale(2, RoundingMode.HALF_DOWN));
+
+        total = getTotalLiquido();
+        lblTotalLiquido.setText("Total Líquido R$ " + total.setScale(2, RoundingMode.HALF_DOWN));
+    }
+    
+    private BigDecimal getTotal(){
+        BigDecimal total = BigDecimal.ZERO;
+        
         if (modelItens.getRowCount() > 0) {
             for (int i = 0; i < modelItens.getRowCount(); i++) {
                 total = total.add(modelItens.get(i).getValortotal());
             }
         }
         
-        lblTotal.setText("Total R$ " + total.setScale(2, RoundingMode.HALF_DOWN));
+        return total;
+    }
+    
+    private BigDecimal getTotalLiquido(){
+        BigDecimal total = getTotal();
         
         if (tfdDesconto.getValue().intValue() > 0) {
             total = total.subtract(tfdDesconto.getValue());
         }
         
-        lblTotalLiquido.setText("Total Líquido R$ " + total.setScale(2, RoundingMode.HALF_DOWN));
+        return total;
     }
-    
+
     private void ffdQuantidadeFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_ffdQuantidadeFocusLost
         atualizaSubtotal();
     }//GEN-LAST:event_ffdQuantidadeFocusLost
@@ -833,31 +851,73 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
         atualizaSubtotal();
     }//GEN-LAST:event_tfdDescontoUnFocusLost
 
-    private boolean validaPedido(){
+    private boolean validaPedido() {
         return true;
     }
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         JComponent[] components = new JComponent[]{cbmStatus, tfdCliente, tfdVendedor};
         VerificadorCampos verifier = new VerificadorCampos(components);
-        
+
         if (!verifier.validaCampos()) {
             return;
         }
-        
+
         if (!validaPedido()) {
             return;
         }
-        
+
         this.dao = new GenericDAO<>();
-        
+
         if (getEditandoVenda()) {
-            
+            venda.setStatus(Venda.STATUS_ORCAMENTO);
+            venda.setPago(false);
         } else {
             this.venda = new Venda();
-            
+            venda.setDia(new java.util.Date());
+            venda.setHora(new java.util.Date());
+            venda.setStatus(Venda.STATUS_ORCAMENTO);
+            venda.setPago(false);
         }
-        
+
+        venda.setCliente(dlgClientes.getCliente());
+        venda.setVendedor(dlgColaboradores.getColaborador());
+        venda.setFormapagamento(new Formapagamento(1));
+        venda.setValor(getTotal());
+        venda.setValortotal(getTotalLiquido());
+        venda.setDesconto(tfdDesconto.getValue().setScale(2));
+        venda.setDescricaodesconto(tfdDescrDesc.getText());
+        venda.setObservacao(tfdObservacao.getText());
+
+        if (getEditandoVenda()) {
+            try {
+                if (!dao.atualizar(venda)) {
+                    throw new Exception("Erro ao atualizar venda");
+                }
+
+                Mensagem.mostraInformacao("Sucesso", "Venda atualizada com sucesso");
+                limparPainelCadastro();
+                
+            } catch (Exception e) {
+                Mensagem.mostraErro("Problema", "Problema ao atualizar venda");
+                logger.error("Erro ao atualizar tabelas", e);
+            }
+
+            setEditandoVenda(false);
+        } else {
+            try {
+                if (!dao.salvar(venda)) {
+                    throw new Exception("Erro ao inserir venda");
+                }
+                
+                Mensagem.mostraInformacao("Sucesso", "Venda inserida com sucesso");
+                limparPainelCadastro();
+            } catch (Exception e) {
+                Mensagem.mostraErro("Problema", "Problema ao inserir venda");
+                logger.error("Erro ao atualizar tabelas", e);
+            }
+        }
+
         focus();
     }//GEN-LAST:event_btnSalvarActionPerformed
 
@@ -884,8 +944,6 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnZoomVendedor;
     private javax.swing.JComboBox<String> cbmStatus;
     private javax.swing.JFormattedTextField ffdData;
-    private javax.swing.JTextField ffdDescrDesc;
-    private javax.swing.JTextField ffdObs;
     private javax.swing.JFormattedTextField ffdQuantidade;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -923,6 +981,8 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
     private javax.swing.JTextField tfdCriterio;
     private apoio.MoedaFormatada tfdDesconto;
     private apoio.MoedaFormatada tfdDescontoUn;
+    private javax.swing.JTextField tfdDescrDesc;
+    private javax.swing.JTextField tfdObservacao;
     private apoio.MoedaFormatada tfdPrecoUn;
     private javax.swing.JTextField tfdProduto;
     private apoio.MoedaFormatada tfdSubtotal;

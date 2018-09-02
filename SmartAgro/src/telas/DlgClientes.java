@@ -67,6 +67,11 @@ public class DlgClientes extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Clientes");
+        addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                formMouseClicked(evt);
+            }
+        });
 
         jLabel2.setText("Nome");
 
@@ -181,6 +186,13 @@ public class DlgClientes extends javax.swing.JDialog {
         
         popularTabela(nome);
     }//GEN-LAST:event_btnPesquisarActionPerformed
+
+    private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
+        if (evt.getClickCount() == 2) {
+            selecionou = true;
+            this.dispose();
+        }
+    }//GEN-LAST:event_formMouseClicked
 
     public boolean seleciou() {
         return selecionou;

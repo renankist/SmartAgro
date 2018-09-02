@@ -26,6 +26,8 @@ import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import java.util.ArrayList;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 /**
  *
@@ -74,22 +76,31 @@ public class Venda implements Serializable {
     @Column(name = "valortotal")
     private BigDecimal valortotal;
     @Column(name = "observacao")
-    private BigInteger observacao;
+    private String observacao;
     @Basic(optional = false)
     @Column(name = "status")
     private Character status;
     @Basic(optional = false)
     @Column(name = "pago")
     private boolean pago;
+    @JoinColumn(name = "cliente", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Cliente cliente;
+    @JoinColumn(name = "vendedor", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Colaborador vendedor;
+    @JoinColumn(name = "formapagamento", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Formapagamento formapagamento;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "venda")
     private Collection<Itemvenda> itemvendaCollection;
-    
+
     // Status de uma venda
-    public static final char STATUS_ORCAMENTO  = 'O'; 
-    public static final char STATUS_CANCELADA  = 'C'; 
-    public static final char STATUS_FINALIZADA = 'F'; 
-    public static final char STATUS_PENDENTE   = 'P'; 
-    
+    public static final char STATUS_ORCAMENTO = 'O';
+    public static final char STATUS_CANCELADA = 'C';
+    public static final char STATUS_FINALIZADA = 'F';
+    public static final char STATUS_PENDENTE = 'P';
 
     public Venda() {
     }
@@ -164,11 +175,11 @@ public class Venda implements Serializable {
         this.valortotal = valortotal;
     }
 
-    public BigInteger getObservacao() {
+    public String getObservacao() {
         return observacao;
     }
 
-    public void setObservacao(BigInteger observacao) {
+    public void setObservacao(String observacao) {
         this.observacao = observacao;
     }
 
@@ -186,6 +197,30 @@ public class Venda implements Serializable {
 
     public void setPago(boolean pago) {
         this.pago = pago;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+
+    public Colaborador getVendedor() {
+        return vendedor;
+    }
+
+    public void setVendedor(Colaborador vendedor) {
+        this.vendedor = vendedor;
+    }
+
+    public Formapagamento getFormapagamento() {
+        return formapagamento;
+    }
+
+    public void setFormapagamento(Formapagamento formapagamento) {
+        this.formapagamento = formapagamento;
     }
 
     @XmlTransient
@@ -221,40 +256,40 @@ public class Venda implements Serializable {
     public String toString() {
         return "entidade.Venda[ id=" + id + " ]";
     }
-    
-    public String getDescricaoStatus(char status){
+
+    public String getDescricaoStatus(char status) {
         String descr = "";
-        
-        switch (status){
+
+        switch (status) {
             case STATUS_CANCELADA:
                 descr = "Cancelada";
                 break;
-                
+
             case STATUS_FINALIZADA:
                 descr = "Finalizada";
                 break;
-                
+
             case STATUS_PENDENTE:
                 descr = "Pendente";
                 break;
-             
+
             case STATUS_ORCAMENTO:
                 descr = "Orçamento";
                 break;
         }
-        
+
         return descr;
     }
-    
-    public ArrayList getTodosStatus(){
+
+    public ArrayList getTodosStatus() {
         ArrayList status = new ArrayList();
-        
+
         status.add(getDescricaoStatus(STATUS_ORCAMENTO));
         status.add(getDescricaoStatus(STATUS_PENDENTE));
         status.add(getDescricaoStatus(STATUS_CANCELADA));
         status.add(getDescricaoStatus(STATUS_FINALIZADA));
-        
+
         return status;
     }
-    
+
 }
