@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.Locale;
 import javax.swing.*;
 import javax.swing.text.*;
+import java.math.BigDecimal;
 
 public class Formatacao {
 
@@ -134,6 +135,27 @@ public class Formatacao {
             System.err.println(e);
         }
         return (dataFormatada);
+    }
+
+    public static BigDecimal converteStringParaBigDecimal(String valor) {
+        // Create a DecimalFormat that fits your requirements
+        DecimalFormatSymbols symbols = new DecimalFormatSymbols();
+        symbols.setGroupingSeparator(',');
+        symbols.setDecimalSeparator('.');
+        String pattern = "#,##0.0#";
+        
+        DecimalFormat decimalFormat = new DecimalFormat(pattern, symbols);
+        decimalFormat.setParseBigDecimal(true);
+
+        // Parse the string
+        BigDecimal bigDecimal = null;
+        try {
+            bigDecimal = (BigDecimal) decimalFormat.parse(valor);
+        } catch (Exception e) {
+            System.err.println(e);
+        }
+        
+        return bigDecimal;
     }
 
     public static Date converteStringParaDate(String data) {

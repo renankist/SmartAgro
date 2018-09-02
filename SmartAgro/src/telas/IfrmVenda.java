@@ -6,14 +6,28 @@
 package telas;
 
 import apoio.*;
+import java.util.ArrayList;
+import dao.GenericDAO;
+import entidade.Venda;
+import entidade.Itemvenda;
+import entidade.ItemvendaPK;
+import entidade.Produto;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 /**
  *
  * @author Morgana
  */
 public class IfrmVenda extends javax.swing.JInternalFrame {
-    
+
+    private Venda venda;
+    private Produto produto;
+    private ArrayList<Itemvenda> itens;
+    private jtmItensVenda modelItens;
+
     private DlgClientes dlgClientes;
+    private DlgColaboradores dlgColaboradores;
     private boolean editando = false;
 
     /**
@@ -21,11 +35,23 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
      */
     public IfrmVenda(int aba) {
         initComponents();
-        
+
         // Abre na aba passada por parametro
         tabAbas.setSelectedIndex(aba);
-        
+
+        // Preenche a tabela de consulta com as colunas corretas
+        itens = new ArrayList();
+        modelItens = new jtmItensVenda(itens);
+        tblItens.setModel(modelItens);
+
         dlgClientes = new DlgClientes(null, true);
+        dlgColaboradores = new DlgColaboradores(null, true);
+    }
+
+    private void limparPainelCadastro() {
+        LimpaCampos.limparCampos(pnlCabecalho);
+        LimpaCampos.limparCampos(pnlItens);
+        LimpaCampos.limparCampos(pnlComplemento);
     }
 
     /**
@@ -68,27 +94,28 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
         tfdProduto = new javax.swing.JTextField();
         btnZoom = new javax.swing.JButton();
         tfdPrecoUn = new apoio.MoedaFormatada();
-        ffdDescontoUn = new apoio.MoedaFormatada();
+        tfdDescontoUn = new apoio.MoedaFormatada();
         tfdSubtotal = new apoio.MoedaFormatada();
         ffdQtd = new javax.swing.JFormattedTextField();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblItens = new javax.swing.JTable();
         btnAdicionar = new javax.swing.JButton();
         btnRemover = new javax.swing.JButton();
         btnEdit = new javax.swing.JButton();
+        tfdCodigoPro = new javax.swing.JTextField();
         pnlComplemento = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
-        ffdDesconto = new apoio.MoedaFormatada();
+        tfdDesconto = new apoio.MoedaFormatada();
         ffdDescrDesc = new javax.swing.JTextField();
         ffdObs = new javax.swing.JTextField();
         brnPagamento = new javax.swing.JButton();
-        tfdTotal = new javax.swing.JLabel();
-        tfdTotalLiquido = new javax.swing.JLabel();
+        lblTotal = new javax.swing.JLabel();
+        lblTotalLiquido = new javax.swing.JLabel();
         pnlConsulta = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        tblUnidades = new javax.swing.JTable();
+        tblVendas = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         tfdCriterio = new javax.swing.JTextField();
         btnPesquisar = new javax.swing.JButton();
@@ -130,6 +157,8 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
 
         tfdVenda.setEditable(false);
 
+        tfdCliente.setEditable(false);
+
         btnZoomCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/zoom.png"))); // NOI18N
         btnZoomCliente.setToolTipText("Pesquisar");
         btnZoomCliente.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -142,6 +171,13 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
         btnZoomVendedor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/zoom.png"))); // NOI18N
         btnZoomVendedor.setToolTipText("Pesquisar");
         btnZoomVendedor.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        btnZoomVendedor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnZoomVendedorActionPerformed(evt);
+            }
+        });
+
+        tfdVendedor.setEditable(false);
 
         ffdData.setEditable(false);
 
@@ -226,19 +262,37 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
 
         jLabel11.setText("Preço *");
 
+        tfdProduto.setEditable(false);
+
         btnZoom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/zoom.png"))); // NOI18N
         btnZoom.setToolTipText("Pesquisar");
         btnZoom.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        btnZoom.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnZoomActionPerformed(evt);
+            }
+        });
 
         tfdPrecoUn.setEditable(false);
         tfdPrecoUn.setHorizontalAlignment(javax.swing.JTextField.LEFT);
 
-        ffdDescontoUn.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        tfdDescontoUn.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        tfdDescontoUn.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                tfdDescontoUnFocusLost(evt);
+            }
+        });
 
         tfdSubtotal.setEditable(false);
         tfdSubtotal.setHorizontalAlignment(javax.swing.JTextField.LEFT);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        ffdQtd.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                ffdQtdFocusLost(evt);
+            }
+        });
+
+        tblItens.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -249,13 +303,34 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane3.setViewportView(jTable1);
+        jScrollPane3.setViewportView(tblItens);
 
         btnAdicionar.setText("Adicionar");
+        btnAdicionar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAdicionarActionPerformed(evt);
+            }
+        });
 
         btnRemover.setText("Remover");
+        btnRemover.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRemoverActionPerformed(evt);
+            }
+        });
 
         btnEdit.setText("Editar");
+        btnEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditActionPerformed(evt);
+            }
+        });
+
+        tfdCodigoPro.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                tfdCodigoProFocusLost(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnlItensLayout = new javax.swing.GroupLayout(pnlItens);
         pnlItens.setLayout(pnlItensLayout);
@@ -270,16 +345,18 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
                             .addComponent(jLabel11))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(pnlItensLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(tfdPrecoUn, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(tfdCodigoPro, javax.swing.GroupLayout.DEFAULT_SIZE, 85, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(pnlItensLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(pnlItensLayout.createSequentialGroup()
-                                .addComponent(tfdPrecoUn, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
                                 .addComponent(jLabel9)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(ffdQtd, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jLabel8)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(ffdDescontoUn, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(tfdDescontoUn, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jLabel10)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -288,7 +365,7 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
                                 .addComponent(tfdProduto)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnZoom, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 225, Short.MAX_VALUE)
                         .addComponent(btnAdicionar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -303,7 +380,8 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
                 .addGroup(pnlItensLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlItensLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel7)
-                        .addComponent(tfdProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(tfdProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(tfdCodigoPro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(btnZoom, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlItensLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -311,7 +389,7 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
                     .addComponent(tfdPrecoUn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel9)
                     .addComponent(jLabel8)
-                    .addComponent(ffdDescontoUn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tfdDescontoUn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(ffdQtd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel10)
                     .addComponent(tfdSubtotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -331,17 +409,17 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
 
         jLabel14.setText("Observação");
 
-        ffdDesconto.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        tfdDesconto.setHorizontalAlignment(javax.swing.JTextField.LEFT);
 
         brnPagamento.setText("Condição de pagamento");
 
-        tfdTotal.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        tfdTotal.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        tfdTotal.setText("Total");
+        lblTotal.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lblTotal.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblTotal.setText("Total");
 
-        tfdTotalLiquido.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        tfdTotalLiquido.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        tfdTotalLiquido.setText("Total Líquido");
+        lblTotalLiquido.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
+        lblTotalLiquido.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblTotalLiquido.setText("Total Líquido");
 
         javax.swing.GroupLayout pnlComplementoLayout = new javax.swing.GroupLayout(pnlComplemento);
         pnlComplemento.setLayout(pnlComplementoLayout);
@@ -355,18 +433,18 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlComplementoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(pnlComplementoLayout.createSequentialGroup()
-                        .addComponent(ffdDesconto, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(tfdDesconto, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel13)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(ffdDescrDesc, javax.swing.GroupLayout.PREFERRED_SIZE, 409, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(ffdObs))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(brnPagamento, javax.swing.GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE)
+                .addComponent(brnPagamento)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlComplementoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(tfdTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tfdTotalLiquido, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblTotal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblTotalLiquido, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         pnlComplementoLayout.setVerticalGroup(
@@ -381,16 +459,16 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
                                 .addGroup(pnlComplementoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel12)
                                     .addComponent(jLabel13)
-                                    .addComponent(ffdDesconto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(tfdDesconto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(ffdDescrDesc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(pnlComplementoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel14)
                                     .addComponent(ffdObs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlComplementoLayout.createSequentialGroup()
-                                .addComponent(tfdTotal)
+                                .addComponent(lblTotal)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(tfdTotalLiquido)))))
+                                .addComponent(lblTotalLiquido)))))
                 .addContainerGap(42, Short.MAX_VALUE))
         );
 
@@ -426,7 +504,7 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
 
         pnlConsulta.setName("pnlConsulta"); // NOI18N
 
-        tblUnidades.setModel(new javax.swing.table.DefaultTableModel(
+        tblVendas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -434,7 +512,7 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3"
             }
         ));
-        jScrollPane2.setViewportView(tblUnidades);
+        jScrollPane2.setViewportView(tblVendas);
 
         jLabel1.setText("Descrição:");
 
@@ -528,7 +606,112 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btnZoomClienteActionPerformed
 
+    private void btnZoomVendedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnZoomVendedorActionPerformed
+        dlgColaboradores.setVisible(true);
+        if (dlgColaboradores.getColaborador() != null) {
+            tfdVendedor.setText(dlgColaboradores.getColaboradorToString());
+        }
+    }//GEN-LAST:event_btnZoomVendedorActionPerformed
 
+    private void btnZoomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnZoomActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnZoomActionPerformed
+
+    private void btnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarActionPerformed
+        venda = new Venda();
+        Itemvenda item = new Itemvenda();
+        ItemvendaPK pk = new ItemvendaPK();
+
+        pk.setProduto(produto);
+        pk.setVenda(venda);
+
+        BigDecimal qtd = Formatacao.converteStringParaBigDecimal(ffdQtd.getText());
+        item.setDesconto(tfdPrecoUn.getValue());
+        item.setQuantidade(qtd);
+        item.setValor(tfdPrecoUn.getValue());
+        item.setValortotal(tfdSubtotal.getValue());
+        item.setVenda(venda);
+        item.setItemvendaPK(pk);
+
+        modelItens.addRow(item);
+        atualizaTabelaItens();
+    }//GEN-LAST:event_btnAdicionarActionPerformed
+
+    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnEditActionPerformed
+
+    private void btnRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoverActionPerformed
+        if (tblItens.getSelectedRow() >= 0) {
+            modelItens.removeRow(tblItens.getSelectedRow());
+            atualizaTabelaItens();
+            tblItens.requestFocus();
+        }
+    }//GEN-LAST:event_btnRemoverActionPerformed
+
+    private void tfdCodigoProFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfdCodigoProFocusLost
+        if (!tfdCodigoPro.getText().trim().isEmpty()) {
+            ArrayList<Produto> produtos = new GenericDAO().consultarComCriterio("Produto", "codigo", tfdCodigoPro.getText());
+
+            if (produtos.size() > 0) {
+                // Considera o primeiro produto encontrado
+                produto = produtos.get(0);
+                tfdProduto.setText(produto.getDescricao());
+                tfdPrecoUn.setText(produto.getValorvenda().toString());
+                atualizaSubtotal();
+            }
+        }
+    }//GEN-LAST:event_tfdCodigoProFocusLost
+
+    private void ffdQtdFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_ffdQtdFocusLost
+        atualizaSubtotal();
+    }//GEN-LAST:event_ffdQtdFocusLost
+
+    private void tfdDescontoUnFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfdDescontoUnFocusLost
+        atualizaSubtotal();
+    }//GEN-LAST:event_tfdDescontoUnFocusLost
+
+    private void atualizaTabelaItens() {
+        tblItens.setModel(modelItens);
+        atualizaTotal();
+    }
+    
+    private void atualizaSubtotal() {
+        try {
+            BigDecimal qtd = Formatacao.converteStringParaBigDecimal(ffdQtd.getText());
+            BigDecimal desc = tfdDescontoUn.getValue();
+            BigDecimal preco = tfdPrecoUn.getValue();
+
+            BigDecimal sub = BigDecimal.ZERO;
+
+            if (qtd.intValue() > 0) {
+                preco = preco.subtract(desc);
+                sub = preco.multiply(qtd);
+            }
+
+            tfdSubtotal.setText(sub.toString());
+        } catch (Exception e) {
+        }
+    }
+
+    private void atualizaTotal(){
+        BigDecimal total = BigDecimal.ZERO;
+       
+        if (modelItens.getRowCount() > 0) {
+            for (int i = 0; i < modelItens.getRowCount(); i++) {
+                total = total.add(modelItens.get(i).getValortotal());
+            }
+        }
+        
+        lblTotal.setText("Total R$ " + total.setScale(2, RoundingMode.HALF_DOWN));
+        
+        if (tfdDesconto.getValue().intValue() > 0) {
+            total = total.subtract(tfdDesconto.getValue());
+        }
+        
+        lblTotalLiquido.setText("Total Líquido R$ " + total.setScale(2, RoundingMode.HALF_DOWN));
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton brnPagamento;
     private javax.swing.JButton btnAdicionar;
@@ -544,8 +727,6 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
     private javax.swing.JComboBox<String> cbmStatus;
     private javax.swing.JComboBox<String> cbmStatus1;
     private javax.swing.JFormattedTextField ffdData;
-    private apoio.MoedaFormatada ffdDesconto;
-    private apoio.MoedaFormatada ffdDescontoUn;
     private javax.swing.JTextField ffdDescrDesc;
     private javax.swing.JTextField ffdObs;
     private javax.swing.JFormattedTextField ffdQtd;
@@ -568,21 +749,24 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JLabel lblTotal;
+    private javax.swing.JLabel lblTotalLiquido;
     private javax.swing.JPanel pnlCabecalho;
     private javax.swing.JPanel pnlCadastro;
     private javax.swing.JPanel pnlComplemento;
     private javax.swing.JPanel pnlConsulta;
     private javax.swing.JPanel pnlItens;
     private javax.swing.JTabbedPane tabAbas;
-    private javax.swing.JTable tblUnidades;
+    private javax.swing.JTable tblItens;
+    private javax.swing.JTable tblVendas;
     private javax.swing.JTextField tfdCliente;
+    private javax.swing.JTextField tfdCodigoPro;
     private javax.swing.JTextField tfdCriterio;
+    private apoio.MoedaFormatada tfdDesconto;
+    private apoio.MoedaFormatada tfdDescontoUn;
     private apoio.MoedaFormatada tfdPrecoUn;
     private javax.swing.JTextField tfdProduto;
     private apoio.MoedaFormatada tfdSubtotal;
-    private javax.swing.JLabel tfdTotal;
-    private javax.swing.JLabel tfdTotalLiquido;
     private javax.swing.JTextField tfdVenda;
     private javax.swing.JTextField tfdVendedor;
     // End of variables declaration//GEN-END:variables

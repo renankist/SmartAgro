@@ -81,7 +81,7 @@ public class Venda implements Serializable {
     @Basic(optional = false)
     @Column(name = "pago")
     private boolean pago;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "venda1")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "venda")
     private Collection<Itemvenda> itemvendaCollection;
     
     // Status de uma venda

@@ -52,7 +52,7 @@ public class Itemvenda implements Serializable {
     private BigDecimal valortotal;
     @JoinColumn(name = "venda", referencedColumnName = "id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
-    private Venda venda1;
+    private Venda venda;
 
     public Itemvenda() {
     }
@@ -68,7 +68,7 @@ public class Itemvenda implements Serializable {
         this.valortotal = valortotal;
     }
 
-    public Itemvenda(int produto, int venda) {
+    public Itemvenda(Produto produto, Venda venda) {
         this.itemvendaPK = new ItemvendaPK(produto, venda);
     }
 
@@ -112,12 +112,12 @@ public class Itemvenda implements Serializable {
         this.valortotal = valortotal;
     }
 
-    public Venda getVenda1() {
-        return venda1;
+    public Venda getVenda() {
+        return venda;
     }
 
-    public void setVenda1(Venda venda1) {
-        this.venda1 = venda1;
+    public void setVenda(Venda venda) {
+        this.venda = venda;
     }
 
     @Override
