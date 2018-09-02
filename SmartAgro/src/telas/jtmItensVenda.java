@@ -6,7 +6,6 @@
 package telas;
 
 import entidade.Itemvenda;
-import entidade.Produto;
 import java.util.ArrayList;
 import javax.swing.table.AbstractTableModel;
 
@@ -17,7 +16,7 @@ import javax.swing.table.AbstractTableModel;
 public class jtmItensVenda extends AbstractTableModel {
 	
     private ArrayList<Itemvenda> itens;
-    private String[] colunas = {"Código", "Referência", "Descrição", "Quantidade", "Preço", "Subtotal"};
+    private String[] colunas = {"ID", "Código", "Descrição", "Quantidade", "Valor", "Desconto", "Subtotal"};
 
     public jtmItensVenda(ArrayList<Itemvenda> itens) {
         this.itens = itens;
@@ -43,6 +42,11 @@ public class jtmItensVenda extends AbstractTableModel {
         this.itens.add(produto);
         this.fireTableDataChanged();
     }
+    
+    public void setRow(Itemvenda produto, int linha) {
+        this.itens.set(linha, produto);
+        this.fireTableDataChanged();
+    }
 
     @Override
     public int getRowCount() {
@@ -62,12 +66,14 @@ public class jtmItensVenda extends AbstractTableModel {
             case 1:
                 return itens.get(linha).getItemvendaPK().getProduto().getCodigo(); 
             case 2:
-                return itens.get(linha).getItemvendaPK().getProduto().getValorvenda(); 
+                return itens.get(linha).getItemvendaPK().getProduto().getDescricao(); 
             case 3: 
                 return itens.get(linha).getQuantidade();
             case 4:
                 return itens.get(linha).getValor(); 
-            case 5: 
+            case 5:
+                return itens.get(linha).getDesconto(); 
+            case 6: 
                 return itens.get(linha).getValortotal();
         }
 

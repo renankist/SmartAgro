@@ -28,7 +28,9 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
 
     private DlgClientes dlgClientes;
     private DlgColaboradores dlgColaboradores;
+    
     private boolean editando = false;
+    private boolean editandoItem = false;
 
     /**
      * Creates new form IfrmVenda
@@ -96,7 +98,7 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
         tfdPrecoUn = new apoio.MoedaFormatada();
         tfdDescontoUn = new apoio.MoedaFormatada();
         tfdSubtotal = new apoio.MoedaFormatada();
-        ffdQtd = new javax.swing.JFormattedTextField();
+        ffdQuantidade = new javax.swing.JFormattedTextField();
         jScrollPane3 = new javax.swing.JScrollPane();
         tblItens = new javax.swing.JTable();
         btnAdicionar = new javax.swing.JButton();
@@ -286,9 +288,9 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
         tfdSubtotal.setEditable(false);
         tfdSubtotal.setHorizontalAlignment(javax.swing.JTextField.LEFT);
 
-        ffdQtd.addFocusListener(new java.awt.event.FocusAdapter() {
+        ffdQuantidade.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
-                ffdQtdFocusLost(evt);
+                ffdQuantidadeFocusLost(evt);
             }
         });
 
@@ -352,7 +354,7 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
                             .addGroup(pnlItensLayout.createSequentialGroup()
                                 .addComponent(jLabel9)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(ffdQtd, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(ffdQuantidade, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jLabel8)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -390,7 +392,7 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
                     .addComponent(jLabel9)
                     .addComponent(jLabel8)
                     .addComponent(tfdDescontoUn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ffdQtd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ffdQuantidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel10)
                     .addComponent(tfdSubtotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnAdicionar)
@@ -621,24 +623,51 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
         venda = new Venda();
         Itemvenda item = new Itemvenda();
         ItemvendaPK pk = new ItemvendaPK();
+        
+        if (getEditandoItem()) {
+            item = retornaItemSelecionado();
+            pk = item.getItemvendaPK();
+        }
 
         pk.setProduto(produto);
         pk.setVenda(venda);
 
-        BigDecimal qtd = Formatacao.converteStringParaBigDecimal(ffdQtd.getText());
-        item.setDesconto(tfdPrecoUn.getValue());
+        BigDecimal qtd = Formatacao.converteStringParaBigDecimal(ffdQuantidade.getText());
+        item.setDesconto(tfdDescontoUn.getValue().setScale(2));
         item.setQuantidade(qtd);
-        item.setValor(tfdPrecoUn.getValue());
-        item.setValortotal(tfdSubtotal.getValue());
+        item.setValor(tfdPrecoUn.getValue().setScale(2));
+        item.setValortotal(tfdSubtotal.getValue().setScale(2));
         item.setVenda(venda);
         item.setItemvendaPK(pk);
 
-        modelItens.addRow(item);
+        if (getEditandoItem()) {
+            modelItens.setRow(item, tblItens.getSelectedRow());
+        } else {
+            modelItens.addRow(item);
+        }
         atualizaTabelaItens();
+        
+        setEditandoItem(false);
+        limparDadosItem();
     }//GEN-LAST:event_btnAdicionarActionPerformed
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
-        // TODO add your handling code here:
+        setEditandoItem(false);
+        
+        if (tblItens.getSelectedRow() >= 0) {
+            Itemvenda item = retornaItemSelecionado();
+            
+            tfdCodigoPro.setText(item.getItemvendaPK().getProduto().getCodigo());
+            tfdProduto.setText(item.getItemvendaPK().getProduto().getDescricao());
+            tfdPrecoUn.setText(item.getValor().setScale(2).toString());
+            ffdQuantidade.setText(item.getQuantidade().toString());
+            tfdDescontoUn.setText(item.getDesconto().setScale(2).toString());
+            tfdSubtotal.setText(item.getValortotal().setScale(2).toString());
+            
+            setEditandoItem(true);
+            
+            tfdCodigoPro.requestFocus();
+        }
     }//GEN-LAST:event_btnEditActionPerformed
 
     private void btnRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoverActionPerformed
@@ -647,25 +676,62 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
             atualizaTabelaItens();
             tblItens.requestFocus();
         }
+        
+        setEditandoItem(false);
+        limparDadosItem();
     }//GEN-LAST:event_btnRemoverActionPerformed
 
     private void tfdCodigoProFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfdCodigoProFocusLost
         if (!tfdCodigoPro.getText().trim().isEmpty()) {
+            
+            // Se esta editando o item, não carrega os dados do cadsatro
+            if (editandoItem && 
+                tfdCodigoPro.getText().equals(retornaItemSelecionado().getItemvendaPK().getProduto().getCodigo())) {
+                return;
+            }
+            
             ArrayList<Produto> produtos = new GenericDAO().consultarComCriterio("Produto", "codigo", tfdCodigoPro.getText());
 
             if (produtos.size() > 0) {
                 // Considera o primeiro produto encontrado
                 produto = produtos.get(0);
                 tfdProduto.setText(produto.getDescricao());
-                tfdPrecoUn.setText(produto.getValorvenda().toString());
+                tfdPrecoUn.setText(produto.getValorvenda().setScale(2).toString());
                 atualizaSubtotal();
             }
         }
     }//GEN-LAST:event_tfdCodigoProFocusLost
 
-    private void ffdQtdFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_ffdQtdFocusLost
+    private void setEditandoItem(boolean editando){
+        editandoItem = editando;
+    }
+    
+    private boolean getEditandoItem(){
+        return editandoItem;
+    }
+    
+    private void limparDadosItem(){
+        tfdCodigoPro.setText("");
+        tfdProduto.setText("");
+        tfdPrecoUn.setText("");
+        ffdQuantidade.setText("");
+        tfdDescontoUn.setText("");
+        tfdSubtotal.setText("");
+    }
+    
+    private Itemvenda retornaItemSelecionado(){
+        Itemvenda item = new Itemvenda();
+        
+        if (tblItens.getSelectedRow() >= 0) {
+            item = modelItens.get(tblItens.getSelectedRow());
+        }
+        
+        return item;
+    }
+    
+    private void ffdQuantidadeFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_ffdQuantidadeFocusLost
         atualizaSubtotal();
-    }//GEN-LAST:event_ffdQtdFocusLost
+    }//GEN-LAST:event_ffdQuantidadeFocusLost
 
     private void tfdDescontoUnFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfdDescontoUnFocusLost
         atualizaSubtotal();
@@ -678,7 +744,7 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
     
     private void atualizaSubtotal() {
         try {
-            BigDecimal qtd = Formatacao.converteStringParaBigDecimal(ffdQtd.getText());
+            BigDecimal qtd = Formatacao.converteStringParaBigDecimal(ffdQuantidade.getText());
             BigDecimal desc = tfdDescontoUn.getValue();
             BigDecimal preco = tfdPrecoUn.getValue();
 
@@ -689,7 +755,7 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
                 sub = preco.multiply(qtd);
             }
 
-            tfdSubtotal.setText(sub.toString());
+            tfdSubtotal.setText(sub.setScale(2).toString());
         } catch (Exception e) {
         }
     }
@@ -729,7 +795,7 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
     private javax.swing.JFormattedTextField ffdData;
     private javax.swing.JTextField ffdDescrDesc;
     private javax.swing.JTextField ffdObs;
-    private javax.swing.JFormattedTextField ffdQtd;
+    private javax.swing.JFormattedTextField ffdQuantidade;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

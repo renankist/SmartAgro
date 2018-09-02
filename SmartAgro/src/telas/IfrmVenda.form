@@ -374,7 +374,7 @@
                                               <Group type="102" attributes="0">
                                                   <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
                                                   <EmptySpace max="-2" attributes="0"/>
-                                                  <Component id="ffdQtd" min="-2" pref="69" max="-2" attributes="0"/>
+                                                  <Component id="ffdQuantidade" min="-2" pref="69" max="-2" attributes="0"/>
                                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                                   <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
                                                   <EmptySpace max="-2" attributes="0"/>
@@ -421,7 +421,7 @@
                                       <Component id="jLabel9" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="jLabel8" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="tfdDescontoUn" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="ffdQtd" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="ffdQuantidade" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="jLabel10" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="tfdSubtotal" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="btnAdicionar" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -502,9 +502,9 @@
                             <Property name="horizontalAlignment" type="int" value="2"/>
                           </Properties>
                         </Component>
-                        <Component class="javax.swing.JFormattedTextField" name="ffdQtd">
+                        <Component class="javax.swing.JFormattedTextField" name="ffdQuantidade">
                           <Events>
-                            <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="ffdQtdFocusLost"/>
+                            <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="ffdQuantidadeFocusLost"/>
                           </Events>
                         </Component>
                         <Container class="javax.swing.JScrollPane" name="jScrollPane3">
