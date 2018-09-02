@@ -13,6 +13,7 @@ import apoio.*;
  */
 public class IfrmVenda extends javax.swing.JInternalFrame {
     
+    private DlgClientes dlgClientes;
     private boolean editando = false;
 
     /**
@@ -23,6 +24,8 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
         
         // Abre na aba passada por parametro
         tabAbas.setSelectedIndex(aba);
+        
+        dlgClientes = new DlgClientes(null, true);
     }
 
     /**
@@ -130,6 +133,11 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
         btnZoomCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/zoom.png"))); // NOI18N
         btnZoomCliente.setToolTipText("Pesquisar");
         btnZoomCliente.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        btnZoomCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnZoomClienteActionPerformed(evt);
+            }
+        });
 
         btnZoomVendedor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/zoom.png"))); // NOI18N
         btnZoomVendedor.setToolTipText("Pesquisar");
@@ -512,6 +520,13 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
     private void tabAbasFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tabAbasFocusLost
         HabilitaCampos.controlaPainelCadastro(evt, editando);
     }//GEN-LAST:event_tabAbasFocusLost
+
+    private void btnZoomClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnZoomClienteActionPerformed
+        dlgClientes.setVisible(true);
+        if (dlgClientes.getCliente() != null) {
+            tfdCliente.setText(dlgClientes.getClienteToString());
+        }
+    }//GEN-LAST:event_btnZoomClienteActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
