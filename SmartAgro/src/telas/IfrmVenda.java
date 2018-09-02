@@ -14,6 +14,7 @@ import entidade.ItemvendaPK;
 import entidade.Produto;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import javax.swing.JComponent;
 
 /**
  *
@@ -21,6 +22,7 @@ import java.math.RoundingMode;
  */
 public class IfrmVenda extends javax.swing.JInternalFrame {
 
+    private GenericDAO dao;
     private Venda venda;
     private Produto produto;
     private ArrayList<Itemvenda> itens;
@@ -48,12 +50,43 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
 
         dlgClientes = new DlgClientes(null, true);
         dlgColaboradores = new DlgColaboradores(null, true);
+        
+        popularComboStatus();
+        
+        focus();
+    }
+    
+    private void focus(){
+        javax.swing.SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                tfdCliente.requestFocusInWindow();
+            }
+        });
+    }
+    
+    private void popularComboStatus(){
+        cbmStatus.removeAllItems();
+        cbmStatus.addItem("Selecione");
+        
+        for (Object st : new Venda().getTodosStatus()) {
+            cbmStatus.addItem(st.toString());
+        }
+        
+        cbmStatus.setSelectedIndex(0);
     }
 
     private void limparPainelCadastro() {
         LimpaCampos.limparCampos(pnlCabecalho);
         LimpaCampos.limparCampos(pnlItens);
         LimpaCampos.limparCampos(pnlComplemento);
+    }
+    
+    private boolean getEditandoVenda(){
+        return editando;
+    }
+    
+    private void setEditandoVenda(boolean editando){
+        this.editando = editando;
     }
 
     /**
@@ -65,6 +98,7 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        btgPaga = new javax.swing.ButtonGroup();
         jScrollPane1 = new javax.swing.JScrollPane();
         jPanel1 = new javax.swing.JPanel();
         btnEditar = new javax.swing.JButton();
@@ -86,7 +120,8 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
         ffdData = new javax.swing.JFormattedTextField();
         cbmStatus = new javax.swing.JComboBox<>();
         jLabel15 = new javax.swing.JLabel();
-        cbmStatus1 = new javax.swing.JComboBox<>();
+        rbtPagaSim = new javax.swing.JRadioButton();
+        rbtPagaNao = new javax.swing.JRadioButton();
         pnlItens = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
@@ -127,10 +162,25 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
         setTitle("Venda");
 
         btnEditar.setText("Editar");
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
 
         btnSalvar.setText("Salvar");
+        btnSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalvarActionPerformed(evt);
+            }
+        });
 
         btnExcluir.setText("Excluir");
+        btnExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExcluirActionPerformed(evt);
+            }
+        });
 
         tabAbas.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
@@ -187,7 +237,13 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
 
         jLabel15.setText("Paga");
 
-        cbmStatus1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sim", "Não" }));
+        btgPaga.add(rbtPagaSim);
+        rbtPagaSim.setText("Sim");
+        rbtPagaSim.setEnabled(false);
+
+        btgPaga.add(rbtPagaNao);
+        rbtPagaNao.setText("Não");
+        rbtPagaNao.setEnabled(false);
 
         javax.swing.GroupLayout pnlCabecalhoLayout = new javax.swing.GroupLayout(pnlCabecalho);
         pnlCabecalho.setLayout(pnlCabecalhoLayout);
@@ -203,7 +259,14 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
                     .addGroup(pnlCabecalhoLayout.createSequentialGroup()
                         .addComponent(tfdCliente)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnZoomCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnZoomCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(tfdVendedor, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnZoomVendedor, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(pnlCabecalhoLayout.createSequentialGroup()
                         .addComponent(tfdVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
@@ -213,19 +276,14 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
                         .addGap(18, 18, 18)
                         .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cbmStatus, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addGap(18, 18, 18)
-                .addGroup(pnlCabecalhoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel15))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(pnlCabecalhoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnlCabecalhoLayout.createSequentialGroup()
-                        .addComponent(tfdVendedor, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cbmStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel15)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnZoomVendedor, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(cbmStatus1, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(rbtPagaSim)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(rbtPagaNao)
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         pnlCabecalhoLayout.setVerticalGroup(
             pnlCabecalhoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -239,7 +297,8 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
                     .addComponent(ffdData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cbmStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel15)
-                    .addComponent(cbmStatus1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(rbtPagaSim)
+                    .addComponent(rbtPagaNao))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlCabecalhoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3)
@@ -367,7 +426,7 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
                                 .addComponent(tfdProduto)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnZoom, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 225, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnAdicionar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -446,7 +505,7 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlComplementoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblTotal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblTotalLiquido, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(lblTotalLiquido, javax.swing.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE))
                 .addContainerGap())
         );
         pnlComplementoLayout.setVerticalGroup(
@@ -478,17 +537,13 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
         pnlCadastro.setLayout(pnlCadastroLayout);
         pnlCadastroLayout.setHorizontalGroup(
             pnlCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlCadastroLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlCadastroLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(pnlCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnlCadastroLayout.createSequentialGroup()
-                        .addGroup(pnlCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(pnlCabecalho, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(pnlComplemento, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addContainerGap())
-                    .addGroup(pnlCadastroLayout.createSequentialGroup()
-                        .addComponent(pnlItens, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(26, 26, 26))))
+                .addGroup(pnlCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(pnlItens, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(pnlCabecalho, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(pnlComplemento, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         pnlCadastroLayout.setVerticalGroup(
             pnlCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -499,7 +554,7 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
                 .addComponent(pnlItens, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pnlComplemento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(12, Short.MAX_VALUE))
+                .addContainerGap(10, Short.MAX_VALUE))
         );
 
         tabAbas.addTab("Cadastro", pnlCadastro);
@@ -729,15 +784,7 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
         return item;
     }
     
-    private void ffdQuantidadeFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_ffdQuantidadeFocusLost
-        atualizaSubtotal();
-    }//GEN-LAST:event_ffdQuantidadeFocusLost
-
-    private void tfdDescontoUnFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfdDescontoUnFocusLost
-        atualizaSubtotal();
-    }//GEN-LAST:event_tfdDescontoUnFocusLost
-
-    private void atualizaTabelaItens() {
+     private void atualizaTabelaItens() {
         tblItens.setModel(modelItens);
         atualizaTotal();
     }
@@ -778,8 +825,53 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
         lblTotalLiquido.setText("Total Líquido R$ " + total.setScale(2, RoundingMode.HALF_DOWN));
     }
     
+    private void ffdQuantidadeFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_ffdQuantidadeFocusLost
+        atualizaSubtotal();
+    }//GEN-LAST:event_ffdQuantidadeFocusLost
+
+    private void tfdDescontoUnFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfdDescontoUnFocusLost
+        atualizaSubtotal();
+    }//GEN-LAST:event_tfdDescontoUnFocusLost
+
+    private boolean validaPedido(){
+        return true;
+    }
+
+    private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
+        JComponent[] components = new JComponent[]{cbmStatus, tfdCliente, tfdVendedor};
+        VerificadorCampos verifier = new VerificadorCampos(components);
+        
+        if (!verifier.validaCampos()) {
+            return;
+        }
+        
+        if (!validaPedido()) {
+            return;
+        }
+        
+        this.dao = new GenericDAO<>();
+        
+        if (getEditandoVenda()) {
+            
+        } else {
+            this.venda = new Venda();
+            
+        }
+        
+        focus();
+    }//GEN-LAST:event_btnSalvarActionPerformed
+
+    private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnExcluirActionPerformed
+
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnEditarActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton brnPagamento;
+    private javax.swing.ButtonGroup btgPaga;
     private javax.swing.JButton btnAdicionar;
     private javax.swing.JButton btnEdit;
     private javax.swing.JButton btnEditar;
@@ -791,7 +883,6 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnZoomCliente;
     private javax.swing.JButton btnZoomVendedor;
     private javax.swing.JComboBox<String> cbmStatus;
-    private javax.swing.JComboBox<String> cbmStatus1;
     private javax.swing.JFormattedTextField ffdData;
     private javax.swing.JTextField ffdDescrDesc;
     private javax.swing.JTextField ffdObs;
@@ -822,6 +913,8 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
     private javax.swing.JPanel pnlComplemento;
     private javax.swing.JPanel pnlConsulta;
     private javax.swing.JPanel pnlItens;
+    private javax.swing.JRadioButton rbtPagaNao;
+    private javax.swing.JRadioButton rbtPagaSim;
     private javax.swing.JTabbedPane tabAbas;
     private javax.swing.JTable tblItens;
     private javax.swing.JTable tblVendas;

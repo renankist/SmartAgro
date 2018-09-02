@@ -249,10 +249,10 @@ public class Venda implements Serializable {
     public ArrayList getTodosStatus(){
         ArrayList status = new ArrayList();
         
-        status.add(STATUS_ORCAMENTO);
-        status.add(STATUS_PENDENTE);
-        status.add(STATUS_CANCELADA);
-        status.add(STATUS_FINALIZADA);
+        status.add(getDescricaoStatus(STATUS_ORCAMENTO));
+        status.add(getDescricaoStatus(STATUS_PENDENTE));
+        status.add(getDescricaoStatus(STATUS_CANCELADA));
+        status.add(getDescricaoStatus(STATUS_FINALIZADA));
         
         return status;
     }
