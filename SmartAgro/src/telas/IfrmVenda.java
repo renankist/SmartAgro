@@ -558,7 +558,7 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
                 .addComponent(pnlItens, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pnlComplemento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(10, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         tabAbas.addTab("Cadastro", pnlCadastro);
@@ -698,12 +698,19 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
         item.setValortotal(tfdSubtotal.getValue().setScale(2));
         item.setVenda(venda);
         item.setItemvendaPK(pk);
+        
+        // Valida o produto
+       if (!validaItem(item) || !validaItens()) {
+            tfdCodigoPro.requestFocus();
+            return;
+        }
 
         if (getEditandoItem()) {
             modelItens.setRow(item, tblItens.getSelectedRow());
         } else {
             modelItens.addRow(item);
         }
+
         atualizaTabelaItens();
 
         setEditandoItem(false);
@@ -820,26 +827,26 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
         total = getTotalLiquido();
         lblTotalLiquido.setText("Total Líquido R$ " + total.setScale(2, RoundingMode.HALF_DOWN));
     }
-    
-    private BigDecimal getTotal(){
+
+    private BigDecimal getTotal() {
         BigDecimal total = BigDecimal.ZERO;
-        
+
         if (modelItens.getRowCount() > 0) {
             for (int i = 0; i < modelItens.getRowCount(); i++) {
                 total = total.add(modelItens.get(i).getValortotal());
             }
         }
-        
+
         return total;
     }
-    
-    private BigDecimal getTotalLiquido(){
+
+    private BigDecimal getTotalLiquido() {
         BigDecimal total = getTotal();
-        
+
         if (tfdDesconto.getValue().intValue() > 0) {
             total = total.subtract(tfdDesconto.getValue());
         }
-        
+
         return total;
     }
 
@@ -851,8 +858,93 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
         atualizaSubtotal();
     }//GEN-LAST:event_tfdDescontoUnFocusLost
 
+    private boolean validaItens() {
+        boolean inputOK = true;
+
+        for (int i = 0; i < modelItens.getRowCount(); i++) {
+            
+            if (!validaItem(modelItens.get(i))) {
+                inputOK = false;
+                break;
+            }
+
+            // Valida produtos duplicados
+            for (int j = 0; j < modelItens.getRowCount(); j++) {
+                if (i != j) {
+                    if (modelItens.get(i).getItemvendaPK().getProduto().getId() == modelItens.get(j).getItemvendaPK().getProduto().getId()) {
+                        Mensagem.mostraAletra("Atenção", "Produto informado mais de uma vez \n Produto: " + modelItens.get(i).getItemvendaPK().getProduto().getCodigo());
+                        inputOK = false;
+                        break;
+                    }
+                }
+            }
+
+            if (!inputOK) {
+                break;
+            }
+        }
+
+        return inputOK;
+    }
+    
+    private boolean validaItem(Itemvenda item) {
+        boolean inputOK = true;
+
+        while (inputOK) {
+            // Valida quantidade
+            if (item.getQuantidade() == null || item.getQuantidade().doubleValue() <= 0) {
+                Mensagem.mostraAletra("Atenção", "Informe uma quantidade válida \n Produto: " + item.getItemvendaPK().getProduto().getCodigo());
+                inputOK = false;
+                break;
+            }
+
+            // Valida o desconto
+            if (item.getDesconto().doubleValue() > item.getValor().doubleValue()) {
+                Mensagem.mostraAletra("Atenção", "Desconto do produto inválido \n Produto: " + item.getItemvendaPK().getProduto().getCodigo());
+                inputOK = false;
+                break;
+            }
+
+            // Valida valor
+            if (item.getValortotal().doubleValue() < 0) {
+                Mensagem.mostraAletra("Atenção", "Valor do produto inválido \n Produto: " + item.getItemvendaPK().getProduto().getCodigo());
+                inputOK = false;
+                break;
+            }
+            
+            break;
+        }
+        
+        return inputOK;
+    }
+
     private boolean validaPedido() {
-        return true;
+        boolean inputOK = true;
+
+        while (inputOK) {
+            if (modelItens.getRowCount() == 0) {
+                Mensagem.mostraAletra("Atenção", "Informe os itens da venda");
+                inputOK = false;
+                break;
+            }
+
+            if (getTotalLiquido().doubleValue() < 0) {
+                Mensagem.mostraAletra("Atenção", "Valor do pedido inválido");
+                inputOK = false;
+                break;
+            }
+
+            boolean itensValidos = validaItens();
+
+            if (!itensValidos) {
+                inputOK = false;
+                break;
+            }
+
+            break;
+        }
+
+        return inputOK;
     }
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
@@ -870,8 +962,8 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
         this.dao = new GenericDAO<>();
 
         if (getEditandoVenda()) {
-            venda.setStatus(Venda.STATUS_ORCAMENTO);
-            venda.setPago(false);
+            venda.setStatus(venda.getStatus());
+            venda.setPago(venda.getPago());
         } else {
             this.venda = new Venda();
             venda.setDia(new java.util.Date());
@@ -897,7 +989,7 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
 
                 Mensagem.mostraInformacao("Sucesso", "Venda atualizada com sucesso");
                 limparPainelCadastro();
-                
+
             } catch (Exception e) {
                 Mensagem.mostraErro("Problema", "Problema ao atualizar venda");
                 logger.error("Erro ao atualizar tabelas", e);
@@ -909,7 +1001,7 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
                 if (!dao.salvar(venda)) {
                     throw new Exception("Erro ao inserir venda");
                 }
-                
+
                 Mensagem.mostraInformacao("Sucesso", "Venda inserida com sucesso");
                 limparPainelCadastro();
             } catch (Exception e) {
