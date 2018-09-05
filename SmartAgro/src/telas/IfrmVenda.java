@@ -860,7 +860,7 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
 
     private boolean validaItens() {
         boolean inputOK = true;
-
+        
         for (int i = 0; i < modelItens.getRowCount(); i++) {
             
             if (!validaItem(modelItens.get(i))) {
@@ -961,6 +961,8 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
 
         this.dao = new GenericDAO<>();
 
+        // Dados da venda
+        
         if (getEditandoVenda()) {
             venda.setStatus(venda.getStatus());
             venda.setPago(venda.getPago());
@@ -980,6 +982,17 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
         venda.setDesconto(tfdDesconto.getValue().setScale(2));
         venda.setDescricaodesconto(tfdDescrDesc.getText());
         venda.setObservacao(tfdObservacao.getText());
+        
+        // Itens da venda
+        itens = new ArrayList();
+        
+        for (Itemvenda item : modelItens.getItens()) {
+            // Atualiza a venda
+            ItemvendaPK pk = new ItemvendaPK(item.getItemvendaPK().getProduto(), venda);
+            item.setItemvendaPK(pk);
+            // Adiciona aos itens
+            itens.add(item);
+        }
 
         if (getEditandoVenda()) {
             try {
