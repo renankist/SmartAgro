@@ -13,7 +13,7 @@ import java.util.ArrayList;
  *
  * @author Morgana
  */
-public class DlgClientes extends javax.swing.JDialog {
+public class DlgFornecedores extends javax.swing.JDialog {
 
     private GenericDAO<Cliente> dao;
     private ArrayList<Cliente> clientes;
@@ -23,7 +23,7 @@ public class DlgClientes extends javax.swing.JDialog {
     /**
      * Creates new form DlgClientes
      */
-    public DlgClientes(java.awt.Frame parent, boolean modal) {
+    public DlgFornecedores(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
 
