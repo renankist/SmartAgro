@@ -1,29 +1,20 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package telas;
 
 import dao.GenericDAO;
-import entidade.Cliente;
+import entidade.Fornecedor;
 import java.util.ArrayList;
 
-/**
- *
- * @author Morgana
- */
-public class DlgClientes extends javax.swing.JDialog {
+public class DlgFornecedores extends javax.swing.JDialog {
 
-    private GenericDAO<Cliente> dao;
-    private ArrayList<Cliente> clientes;
-    private jtmCliente modelCliente;
+    private GenericDAO<Fornecedor> dao;
+    private ArrayList<Fornecedor> fornecedores;
+    private jtmFornecedor modelFornecedor;
     private boolean selecionou = false;
 
     /**
-     * Creates new form DlgClientes
+     * Creates new form DlgFornecedor
      */
-    public DlgClientes(java.awt.Frame parent, boolean modal) {
+    public DlgFornecedores(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
 
@@ -34,17 +25,17 @@ public class DlgClientes extends javax.swing.JDialog {
     }
 
     private void popularTabela(String nome) {
-        clientes = null;
+
+        fornecedores = null;
 
         if (nome.isEmpty()) {
-            clientes = dao.consultarTodos("Cliente");
+            fornecedores = dao.consultarTodos("Fornecedor");
         } else {
-            clientes = dao.consultarComCriterio("Cliente", "nome", nome);
+            fornecedores = dao.consultarComCriterio("Fornecedor", "nome", nome);
         }
 
-        modelCliente = new jtmCliente(clientes);
-
-        tblClientes.setModel(modelCliente);
+         modelFornecedor = new jtmFornecedor(fornecedores);
+         tblFornecedores.setModel(modelFornecedor);
     }
 
     /**
@@ -63,7 +54,7 @@ public class DlgClientes extends javax.swing.JDialog {
         btnCancelar = new javax.swing.JButton();
         btnSelecionar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblClientes = new javax.swing.JTable();
+        tblFornecedores = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Clientes");
@@ -91,18 +82,15 @@ public class DlgClientes extends javax.swing.JDialog {
             }
         });
 
-        tblClientes.setModel(new javax.swing.table.DefaultTableModel(
+        tblFornecedores.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(tblClientes);
+        jScrollPane1.setViewportView(tblFornecedores);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -174,44 +162,34 @@ public class DlgClientes extends javax.swing.JDialog {
 
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
         String nome = "";
-        
+
         if (!tfdNome.getText().trim().isEmpty()) {
             nome = tfdNome.getText().trim();
         }
-        
+
         popularTabela(nome);
     }//GEN-LAST:event_btnPesquisarActionPerformed
 
     public boolean seleciou() {
         return selecionou;
     }
-    
-    public Cliente getCliente(){
-        Cliente cli = null;
-        
+
+    public Fornecedor getFornecedor() {
+        Fornecedor forne = null;
+
         if (selecionou) {
-            cli = modelCliente.get(tblClientes.getSelectedRow());
+            //forne = modelCliente.get(tblClientes.getSelectedRow());
         }
-        
-        return cli;
+
+        return forne;
     }
-    
-    public String getClienteToString(){
-        Cliente cli = modelCliente.get(tblClientes.getSelectedRow());
-        
-        String descr = "";
-        
-        if (cli.getCnpj().isEmpty()) {
-            descr = cli.getCpf();
-        } else {
-            descr = cli.getCnpj();
-        }
-        
-        descr = descr + " - " + cli.getNome();
-        
-        return descr;
+
+    public String getFornecedorToString() {
+        Fornecedor forne = modelFornecedor.get(tblFornecedores.getSelectedRow());
+
+        return forne.getNome() + " - " + forne.getCnpj();
     }
-    
+
     /**
      * @param args the command line arguments
      */
@@ -229,20 +207,21 @@ public class DlgClientes extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(DlgClientes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DlgFornecedores.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(DlgClientes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DlgFornecedores.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(DlgClientes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DlgFornecedores.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(DlgClientes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DlgFornecedores.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                DlgClientes dialog = new DlgClientes(new javax.swing.JFrame(), true);
+                DlgFornecedores dialog = new DlgFornecedores(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -261,7 +240,7 @@ public class DlgClientes extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable tblClientes;
+    private javax.swing.JTable tblFornecedores;
     private javax.swing.JTextField tfdNome;
     // End of variables declaration//GEN-END:variables
 }
