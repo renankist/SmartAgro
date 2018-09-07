@@ -11,8 +11,6 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -55,7 +53,7 @@ public class Itemcompra implements Serializable {
         this.valortotal = valortotal;
     }
 
-    public Itemcompra(int produto, int compra) {
+    public Itemcompra(Produto produto, Compra compra) {
         this.itemcompraPK = new ItemcompraPK(produto, compra);
     }
 

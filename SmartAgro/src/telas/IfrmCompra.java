@@ -20,7 +20,7 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
     private GenericDAO dao;
     private Compra compra;
     private Produto produto;
-    private ArrayList<ItemCompra> itens;
+    private ArrayList<Itemcompra> itens;
     private jtmItensCompra modelItens;
 
     private DlgFornecedores dlgFornecedores;
@@ -654,9 +654,9 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_tabAbasFocusLost
 
     private void btnZoomFornecedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnZoomFornecedorActionPerformed
-        dlgClientes.setVisible(true);
-        if (dlgClientes.getCliente() != null) {
-            tfdFornecedor.setText(dlgClientes.getClienteToString());
+        dlgFornecedores.setVisible(true);
+        if (dlgFornecedores.getFornecedor()!= null) {
+            tfdFornecedor.setText(dlgFornecedores.getFornecedorToString());
         }
     }//GEN-LAST:event_btnZoomFornecedorActionPerformed
 
@@ -672,17 +672,17 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnZoomProdutoActionPerformed
 
     private void btnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarActionPerformed
-        venda = new Venda();
-        Itemvenda item = new Itemvenda();
-        ItemvendaPK pk = new ItemvendaPK();
+        compra = new Compra();
+        Itemcompra item = new Itemcompra();
+        ItemcompraPK pk = new ItemcompraPK();
 
         if (getEditandoItem()) {
             item = retornaItemSelecionado();
-            pk = item.getItemvendaPK();
+            pk = item.getItemcompraPK();
         }
 
         pk.setProduto(produto);
-        pk.setVenda(venda);
+        pk.setCompra(compra);
 
         BigDecimal qtd = Formatacao.converteStringParaBigDecimal(ffdQuantidade.getText());
         item.setDesconto(tfdDescontoUn.getValue().setScale(2));
@@ -986,7 +986,7 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
             // Adiciona aos itens
             itens.add(item);
         }
-
+        
         if (getEditandoVenda()) {
             try {
                 if (!dao.atualizar(venda)) {
