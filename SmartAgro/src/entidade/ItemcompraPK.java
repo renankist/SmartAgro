@@ -12,7 +12,7 @@ import javax.persistence.Embeddable;
 
 /**
  *
- * @author rlkist
+ * @author renan
  */
 @Embeddable
 public class ItemcompraPK implements Serializable {

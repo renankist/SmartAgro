@@ -11,20 +11,26 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author rlkist
+ * @author renan
  */
 @Entity
 @Table(name = "itemcompra")
+@XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Itemcompra.findAll", query = "SELECT i FROM Itemcompra i")})
+    @NamedQuery(name = "Itemcompra.findAll", query = "SELECT i FROM Itemcompra i")
+    , @NamedQuery(name = "Itemcompra.findByProduto", query = "SELECT i FROM Itemcompra i WHERE i.itemcompraPK.produto = :produto")
+    , @NamedQuery(name = "Itemcompra.findByCompra", query = "SELECT i FROM Itemcompra i WHERE i.itemcompraPK.compra = :compra")
+    , @NamedQuery(name = "Itemcompra.findByValor", query = "SELECT i FROM Itemcompra i WHERE i.valor = :valor")
+    , @NamedQuery(name = "Itemcompra.findByDesconto", query = "SELECT i FROM Itemcompra i WHERE i.desconto = :desconto")
+    , @NamedQuery(name = "Itemcompra.findByQuantidade", query = "SELECT i FROM Itemcompra i WHERE i.quantidade = :quantidade")
+    , @NamedQuery(name = "Itemcompra.findByValortotal", query = "SELECT i FROM Itemcompra i WHERE i.valortotal = :valortotal")})
 public class Itemcompra implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -42,12 +48,6 @@ public class Itemcompra implements Serializable {
     @Basic(optional = false)
     @Column(name = "valortotal")
     private BigDecimal valortotal;
-    @Basic(optional = false)
-    @Column(name = "produto")
-    private int produto1;
-    @JoinColumn(name = "compra", referencedColumnName = "id", insertable = false, updatable = false)
-    @ManyToOne(optional = false)
-    private Compra compra1;
 
     public Itemcompra() {
     }
@@ -56,12 +56,11 @@ public class Itemcompra implements Serializable {
         this.itemcompraPK = itemcompraPK;
     }
 
-    public Itemcompra(ItemcompraPK itemcompraPK, BigDecimal valor, BigDecimal quantidade, BigDecimal valortotal, int produto1) {
+    public Itemcompra(ItemcompraPK itemcompraPK, BigDecimal valor, BigDecimal quantidade, BigDecimal valortotal) {
         this.itemcompraPK = itemcompraPK;
         this.valor = valor;
         this.quantidade = quantidade;
         this.valortotal = valortotal;
-        this.produto1 = produto1;
     }
 
     public Itemcompra(int produto, int compra) {
@@ -106,22 +105,6 @@ public class Itemcompra implements Serializable {
 
     public void setValortotal(BigDecimal valortotal) {
         this.valortotal = valortotal;
-    }
-
-    public int getProduto1() {
-        return produto1;
-    }
-
-    public void setProduto1(int produto1) {
-        this.produto1 = produto1;
-    }
-
-    public Compra getCompra1() {
-        return compra1;
-    }
-
-    public void setCompra1(Compra compra1) {
-        this.compra1 = compra1;
     }
 
     @Override
