@@ -1,47 +1,40 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package telas;
 
 import apoio.*;
 import java.util.ArrayList;
 import dao.GenericDAO;
 import entidade.Formapagamento;
-import entidade.Venda;
-import entidade.Itemvenda;
-import entidade.ItemvendaPK;
+import entidade.Compra;
+import entidade.Itemcompra;
+import entidade.ItemcompraPK;
 import entidade.Produto;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import javax.swing.JComponent;
 import org.apache.log4j.Logger;
 
-/**
- *
- * @author Morgana
- */
-public class IfrmVenda extends javax.swing.JInternalFrame {
+
+public class IfrmCompra extends javax.swing.JInternalFrame {
 
     private GenericDAO dao;
-    private Venda venda;
+    private Compra compra;
     private Produto produto;
-    private ArrayList<Itemvenda> itens;
+    private ArrayList<ItemCompra> itens;
     private jtmItensVenda modelItens;
 
-    private DlgClientes dlgClientes;
+    private DlgFornecedores dlgFornecedores;
     private DlgColaboradores dlgColaboradores;
 
     private boolean editando = false;
     private boolean editandoItem = false;
 
-    private static final Logger logger = Logger.getLogger(IfrmVenda.class);
+    private static final Logger logger = Logger.getLogger(IfrmCompra.class);
 
     /**
      * Creates new form IfrmVenda
      */
-    public IfrmVenda(int aba) {
+    public IfrmCompra(int aba) {
         initComponents();
 
         // Abre na aba passada por parametro
@@ -52,7 +45,7 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
         modelItens = new jtmItensVenda(itens);
         tblItens.setModel(modelItens);
 
-        dlgClientes = new DlgClientes(null, true);
+        dlgFornecedores = new DlgFornecedores(null, true);
         dlgColaboradores = new DlgColaboradores(null, true);
 
         popularComboStatus();
@@ -69,14 +62,14 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
     }
 
     private void popularComboStatus() {
-        cbmStatus.removeAllItems();
-        cbmStatus.addItem("Selecione");
-
-        for (Object st : new Venda().getTodosStatus()) {
-            cbmStatus.addItem(st.toString());
-        }
-
-        cbmStatus.setSelectedIndex(0);
+//        cbmStatus.removeAllItems();
+//        cbmStatus.addItem("Selecione");
+//
+//        for (Object st : new Compra().getTodosStatus()) {
+//            cbmStatus.addItem(st.toString());
+//        }
+//
+//        cbmStatus.setSelectedIndex(0);
     }
 
     private void limparPainelCadastro() {
