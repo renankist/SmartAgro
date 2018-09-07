@@ -156,7 +156,7 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
 
         setClosable(true);
         setIconifiable(true);
-        setTitle("Venda");
+        setTitle("Compra");
 
         btnEditar.setText("Editar");
         btnEditar.addActionListener(new java.awt.event.ActionListener() {
@@ -745,7 +745,7 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
 
             // Se esta editando o item, não carrega os dados do cadsatro
             if (editandoItem
-                    && tfdCodigoPro.getText().equals(retornaItemSelecionado().getItemvendaPK().getProduto().getCodigo())) {
+                    && tfdCodigoPro.getText().equals(retornaItemSelecionado().getItemcompraPK().getProduto().getCodigo())) {
                 return;
             }
 
@@ -963,55 +963,55 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
             this.compra = new Compra();
             compra.setData(new java.util.Date());
             compra.setHora(new java.util.Date());
-            compra.setStatus('f');
+            compra.setStatus(compra.STATUS_ORCAMENTO);
             compra.setPago(false);
         }
 
-        venda.setCliente(dlgClientes.getCliente());
-        venda.setVendedor(dlgColaboradores.getColaborador());
-        venda.setFormapagamento(new Formapagamento(1));
-        venda.setValor(getTotal());
-        venda.setValortotal(getTotalLiquido());
-        venda.setDesconto(tfdDesconto.getValue().setScale(2));
-        venda.setDescricaodesconto(tfdDescrDesc.getText());
-        venda.setObservacao(tfdObservacao.getText());
+        compra.setFornecedor(dlgFornecedores.getFornecedor());
+        compra.setColaborador(dlgColaboradores.getColaborador());
+        compra.setFormapagamento(new Formapagamento(1));
+        compra.setValor(getTotal());
+        compra.setValortotal(getTotalLiquido());
+        compra.setDesconto(tfdDesconto.getValue().setScale(2));
+        compra.setDescricaodesconto(tfdDescrDesc.getText());
+        compra.setObservacao(tfdObservacao.getText());
         
         // Itens da venda
         itens = new ArrayList();
         
-        for (Itemvenda item : modelItens.getItens()) {
+        for (Itemcompra item : modelItens.getItens()) {
             // Atualiza a venda
-            ItemvendaPK pk = new ItemvendaPK(item.getItemvendaPK().getProduto(), venda);
-            item.setItemvendaPK(pk);
+            ItemcompraPK pk = new ItemcompraPK(item.getItemcompraPK().getProduto(), compra);
+            item.setItemcompraPK(pk);
             // Adiciona aos itens
             itens.add(item);
         }
         
         if (getEditandoVenda()) {
             try {
-                if (!dao.atualizar(venda)) {
-                    throw new Exception("Erro ao atualizar venda");
+                if (!dao.atualizar(compra)) {
+                    throw new Exception("Erro ao atualizar compra");
                 }
 
-                Mensagem.mostraInformacao("Sucesso", "Venda atualizada com sucesso");
+                Mensagem.mostraInformacao("Sucesso", "Compra atualizada com sucesso");
                 limparPainelCadastro();
 
             } catch (Exception e) {
-                Mensagem.mostraErro("Problema", "Problema ao atualizar venda");
+                Mensagem.mostraErro("Problema", "Problema ao atualizar compra");
                 logger.error("Erro ao atualizar tabelas", e);
             }
 
             setEditandoVenda(false);
         } else {
             try {
-                if (!dao.salvar(venda)) {
-                    throw new Exception("Erro ao inserir venda");
+                if (!dao.salvar(compra)) {
+                    throw new Exception("Erro ao inserir compra");
                 }
 
-                Mensagem.mostraInformacao("Sucesso", "Venda inserida com sucesso");
+                Mensagem.mostraInformacao("Sucesso", "Compra inserida com sucesso");
                 limparPainelCadastro();
             } catch (Exception e) {
-                Mensagem.mostraErro("Problema", "Problema ao inserir venda");
+                Mensagem.mostraErro("Problema", "Problema ao inserir compra");
                 logger.error("Erro ao atualizar tabelas", e);
             }
         }

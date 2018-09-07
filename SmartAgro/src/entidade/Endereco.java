@@ -6,6 +6,7 @@
 package entidade;
 
 import java.io.Serializable;
+import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -19,6 +20,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import org.hibernate.envers.Audited;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 /**
  *
  * @author Morgana
@@ -28,6 +30,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @Table(name = "endereco")
 public class Endereco implements Serializable {
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "endereco")
+    private Collection<Colaborador> colaboradorCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "endereco")
+    private Collection<Fornecedor> fornecedorCollection;
 
     @Basic(optional = false)
     
@@ -155,6 +162,24 @@ public class Endereco implements Serializable {
     @Override
     public String toString() {
         return "entidade.Endereco[ id=" + id + " ]";
+    }
+
+    @XmlTransient
+    public Collection<Colaborador> getColaboradorCollection() {
+        return colaboradorCollection;
+    }
+
+    public void setColaboradorCollection(Collection<Colaborador> colaboradorCollection) {
+        this.colaboradorCollection = colaboradorCollection;
+    }
+
+    @XmlTransient
+    public Collection<Fornecedor> getFornecedorCollection() {
+        return fornecedorCollection;
+    }
+
+    public void setFornecedorCollection(Collection<Fornecedor> fornecedorCollection) {
+        this.fornecedorCollection = fornecedorCollection;
     }
 
  

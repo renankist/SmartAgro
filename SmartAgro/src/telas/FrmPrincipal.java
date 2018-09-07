@@ -55,6 +55,9 @@ public class FrmPrincipal extends javax.swing.JFrame {
         itmConsultaFornecedor = new javax.swing.JMenuItem();
         itmRelatorioFornecedor = new javax.swing.JMenuItem();
         mnuCompras = new javax.swing.JMenu();
+        itmCadastroCompra = new javax.swing.JMenuItem();
+        itmConsultaCompra = new javax.swing.JMenuItem();
+        itmRelatorioCompra = new javax.swing.JMenuItem();
         mnuFinanceiro = new javax.swing.JMenu();
         itmContasReceber = new javax.swing.JMenuItem();
         itmContasPagar = new javax.swing.JMenuItem();
@@ -198,6 +201,34 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
         mnuCompras.setMnemonic('M');
         mnuCompras.setText("Compras");
+
+        itmCadastroCompra.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/register.png"))); // NOI18N
+        itmCadastroCompra.setText("Cadastro");
+        itmCadastroCompra.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itmCadastroCompraActionPerformed(evt);
+            }
+        });
+        mnuCompras.add(itmCadastroCompra);
+
+        itmConsultaCompra.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/browser.png"))); // NOI18N
+        itmConsultaCompra.setText("Consulta");
+        itmConsultaCompra.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itmConsultaCompraActionPerformed(evt);
+            }
+        });
+        mnuCompras.add(itmConsultaCompra);
+
+        itmRelatorioCompra.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/report.png"))); // NOI18N
+        itmRelatorioCompra.setText("Relatório");
+        itmRelatorioCompra.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itmRelatorioCompraActionPerformed(evt);
+            }
+        });
+        mnuCompras.add(itmRelatorioCompra);
+
         barMenu.add(mnuCompras);
 
         mnuFinanceiro.setMnemonic('F');
@@ -332,7 +363,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_itmConsultaColaboradorActionPerformed
 
     private void itmRelatorioColaboradorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmRelatorioColaboradorActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_itmRelatorioColaboradorActionPerformed
 
     private void itmSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmSairActionPerformed
@@ -342,6 +373,18 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private void itmFormasPagamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmFormasPagamentoActionPerformed
         cadastroFormaPagamento(); 
     }//GEN-LAST:event_itmFormasPagamentoActionPerformed
+
+    private void itmCadastroCompraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmCadastroCompraActionPerformed
+        cadastroCompra(0);
+    }//GEN-LAST:event_itmCadastroCompraActionPerformed
+
+    private void itmConsultaCompraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmConsultaCompraActionPerformed
+         cadastroCompra(1);
+    }//GEN-LAST:event_itmConsultaCompraActionPerformed
+
+    private void itmRelatorioCompraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmRelatorioCompraActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_itmRelatorioCompraActionPerformed
     
     private void cadastroColaborador(int aba) {
         IfrmColaborador janelaColab = new IfrmColaborador(aba);
@@ -379,6 +422,12 @@ public class FrmPrincipal extends javax.swing.JFrame {
         dskArea.add(janelaFornecedores);
         janelaFornecedores.setVisible(true);
     }
+    
+     private void cadastroCompra(int aba){
+        IfrmCompra janelaCompra = new IfrmCompra(aba);
+        dskArea.add(janelaCompra);
+        janelaCompra.setVisible(true);
+    }
 
     /**
      * @param args the command line arguments
@@ -397,10 +446,12 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private javax.swing.JDesktopPane dskArea;
     private javax.swing.JMenuItem itmCadastroCliente;
     private javax.swing.JMenuItem itmCadastroColaborador;
+    private javax.swing.JMenuItem itmCadastroCompra;
     private javax.swing.JMenuItem itmCadastroFornecedor;
     private javax.swing.JMenuItem itmCadastroProduto;
     private javax.swing.JMenuItem itmConsultaCliente;
     private javax.swing.JMenuItem itmConsultaColaborador;
+    private javax.swing.JMenuItem itmConsultaCompra;
     private javax.swing.JMenuItem itmConsultaFornecedor;
     private javax.swing.JMenuItem itmConsultaProduto;
     private javax.swing.JMenuItem itmContasPagar;
@@ -408,6 +459,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem itmFormasPagamento;
     private javax.swing.JMenuItem itmRelatorioCliente;
     private javax.swing.JMenuItem itmRelatorioColaborador;
+    private javax.swing.JMenuItem itmRelatorioCompra;
     private javax.swing.JMenuItem itmRelatorioFornecedor;
     private javax.swing.JMenuItem itmRelatorioProduto;
     private javax.swing.JMenuItem itmSair;
