@@ -689,8 +689,8 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
         item.setQuantidade(qtd);
         item.setValor(tfdPrecoUn.getValue().setScale(2));
         item.setValortotal(tfdSubtotal.getValue().setScale(2));
-        item.setVenda(venda);
-        item.setItemvendaPK(pk);
+        item.setCompra(compra);
+        item.setItemcompraPK(pk);
         
         // Valida o produto
        if (!validaItem(item) || !validaItens()) {
@@ -714,10 +714,10 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
         setEditandoItem(false);
 
         if (tblItens.getSelectedRow() >= 0) {
-            Itemvenda item = retornaItemSelecionado();
+            Itemcompra item = retornaItemSelecionado();
 
-            tfdCodigoPro.setText(item.getItemvendaPK().getProduto().getCodigo());
-            tfdProduto.setText(item.getItemvendaPK().getProduto().getDescricao());
+            tfdCodigoPro.setText(item.getItemcompraPK().getProduto().getCodigo());
+            tfdProduto.setText(item.getItemcompraPK().getProduto().getDescricao());
             tfdPrecoUn.setText(item.getValor().setScale(2).toString());
             ffdQuantidade.setText(item.getQuantidade().toString());
             tfdDescontoUn.setText(item.getDesconto().setScale(2).toString());
@@ -778,8 +778,8 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
         tfdSubtotal.setText("");
     }
 
-    private Itemvenda retornaItemSelecionado() {
-        Itemvenda item = new Itemvenda();
+    private Itemcompra retornaItemSelecionado() {
+        Itemcompra item = new Itemcompra();
 
         if (tblItens.getSelectedRow() >= 0) {
             item = modelItens.get(tblItens.getSelectedRow());
@@ -864,8 +864,8 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
             // Valida produtos duplicados
             for (int j = 0; j < modelItens.getRowCount(); j++) {
                 if (i != j) {
-                    if (modelItens.get(i).getItemvendaPK().getProduto().getId() == modelItens.get(j).getItemvendaPK().getProduto().getId()) {
-                        Mensagem.mostraAletra("Atenção", "Produto informado mais de uma vez \n Produto: " + modelItens.get(i).getItemvendaPK().getProduto().getCodigo());
+                    if (modelItens.get(i).getItemcompraPK().getProduto().getId() == modelItens.get(j).getItemcompraPK().getProduto().getId()) {
+                        Mensagem.mostraAletra("Atenção", "Produto informado mais de uma vez \n Produto: " + modelItens.get(i).getItemcompraPK().getProduto().getCodigo());
                         inputOK = false;
                         break;
                     }
@@ -880,27 +880,27 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
         return inputOK;
     }
     
-    private boolean validaItem(Itemvenda item) {
+    private boolean validaItem(Itemcompra item) {
         boolean inputOK = true;
 
         while (inputOK) {
             // Valida quantidade
             if (item.getQuantidade() == null || item.getQuantidade().doubleValue() <= 0) {
-                Mensagem.mostraAletra("Atenção", "Informe uma quantidade válida \n Produto: " + item.getItemvendaPK().getProduto().getCodigo());
+                Mensagem.mostraAletra("Atenção", "Informe uma quantidade válida \n Produto: " + item.getItemcompraPK().getProduto().getCodigo());
                 inputOK = false;
                 break;
             }
 
             // Valida o desconto
             if (item.getDesconto().doubleValue() > item.getValor().doubleValue()) {
-                Mensagem.mostraAletra("Atenção", "Desconto do produto inválido \n Produto: " + item.getItemvendaPK().getProduto().getCodigo());
+                Mensagem.mostraAletra("Atenção", "Desconto do produto inválido \n Produto: " + item.getItemcompraPK().getProduto().getCodigo());
                 inputOK = false;
                 break;
             }
 
             // Valida valor
             if (item.getValortotal().doubleValue() < 0) {
-                Mensagem.mostraAletra("Atenção", "Valor do produto inválido \n Produto: " + item.getItemvendaPK().getProduto().getCodigo());
+                Mensagem.mostraAletra("Atenção", "Valor do produto inválido \n Produto: " + item.getItemcompraPK().getProduto().getCodigo());
                 inputOK = false;
                 break;
             }
@@ -957,14 +957,14 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
         // Dados da venda
         
         if (getEditandoVenda()) {
-            venda.setStatus(venda.getStatus());
-            venda.setPago(venda.getPago());
+            compra.setStatus(compra.getStatus());
+            compra.setPago(compra.getPago());
         } else {
-            this.venda = new Venda();
-            venda.setDia(new java.util.Date());
-            venda.setHora(new java.util.Date());
-            venda.setStatus(Venda.STATUS_ORCAMENTO);
-            venda.setPago(false);
+            this.compra = new Compra();
+            compra.setData(new java.util.Date());
+            compra.setHora(new java.util.Date());
+            compra.setStatus('f');
+            compra.setPago(false);
         }
 
         venda.setCliente(dlgClientes.getCliente());

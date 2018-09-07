@@ -62,11 +62,11 @@ public class jtmItensCompra extends AbstractTableModel {
     public Object getValueAt(int linha, int coluna) {
         switch (coluna) {
             case 0:
-                return itens.get(linha).getItemcompraPK().getProduto();
+                return itens.get(linha).getItemcompraPK().getProduto().getId();
             case 1:
-                return itens.get(linha).getItemvendaPK().getProduto().getCodigo(); 
+                return itens.get(linha).getItemcompraPK().getProduto().getCodigo(); 
             case 2:
-                return itens.get(linha).getItemvendaPK().getProduto().getDescricao(); 
+                return itens.get(linha).getItemcompraPK().getProduto().getDescricao(); 
             case 3: 
                 return itens.get(linha).getQuantidade();
             case 4:
@@ -84,7 +84,7 @@ public class jtmItensCompra extends AbstractTableModel {
         return this.colunas[columnIndex];
     }
     
-    public Itemvenda get(int linha){
+    public Itemcompra get(int linha){
         return this.itens.get(linha);
     }
     

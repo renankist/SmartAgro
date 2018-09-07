@@ -121,5 +121,9 @@ public class Itemcompra implements Serializable {
     public String toString() {
         return "entidade.Itemcompra[ itemcompraPK=" + itemcompraPK + " ]";
     }
+
+    public void setCompra(Compra compra) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }
