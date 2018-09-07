@@ -16,7 +16,7 @@ import javax.swing.table.AbstractTableModel;
 public class jtmItensVenda extends AbstractTableModel {
 	
     private ArrayList<Itemvenda> itens;
-    private String[] colunas = {"ID", "Código", "Descrição", "Quantidade", "Valor", "Desconto", "Subtotal"};
+    private String[] colunas = {"Código", "Referência", "Descrição", "Quantidade", "Valor", "Desconto", "Subtotal"};
 
     public jtmItensVenda(ArrayList<Itemvenda> itens) {
         this.itens = itens;

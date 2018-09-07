@@ -28,7 +28,9 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
     private Venda venda;
     private Produto produto;
     private jtmItensVenda modelItens;
-
+    private jtmVenda modelVenda;
+    private ArrayList<Venda> vendas;
+            
     private DlgClientes dlgClientes;
     private DlgColaboradores dlgColaboradores;
 
@@ -46,9 +48,14 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
         // Abre na aba passada por parametro
         tabAbas.setSelectedIndex(aba);
 
-        // Preenche a tabela de consulta com as colunas corretas
+        // Preenche a tabela de itens com as colunas corretas
         modelItens = new jtmItensVenda(new ArrayList<Itemvenda>());
         tblItens.setModel(modelItens);
+        
+        // Preenche a tabela de consulta com as colunas corretas
+        vendas = new ArrayList<Venda>();
+        modelVenda = new jtmVenda(vendas);
+        tblVendas.setModel(modelVenda);
 
         dlgClientes = new DlgClientes(null, true);
         dlgColaboradores = new DlgColaboradores(null, true);
@@ -576,6 +583,11 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
         jLabel1.setText("Descrição:");
 
         btnPesquisar.setText("Pesquisar");
+        btnPesquisar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPesquisarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnlConsultaLayout = new javax.swing.GroupLayout(pnlConsulta);
         pnlConsulta.setLayout(pnlConsultaLayout);
@@ -1018,6 +1030,14 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnEditarActionPerformed
+
+    private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
+        dao = new GenericDAO();
+        vendas = new ArrayList();
+        
+        vendas = dao.consultarTodos("Venda");
+        tblVendas.setModel(new jtmVenda(vendas));
+    }//GEN-LAST:event_btnPesquisarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton brnPagamento;

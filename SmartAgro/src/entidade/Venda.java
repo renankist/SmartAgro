@@ -262,7 +262,7 @@ public class Venda implements Serializable {
         return "entidade.Venda[ id=" + id + " ]";
     }
 
-    public String getDescricaoStatus(char status) {
+    public static String getDescricaoStatus(char status) {
         String descr = "";
 
         switch (status) {
@@ -286,7 +286,7 @@ public class Venda implements Serializable {
         return descr;
     }
 
-    public ArrayList getTodosStatus() {
+    public static ArrayList getTodosStatus() {
         ArrayList status = new ArrayList();
 
         status.add(getDescricaoStatus(STATUS_ORCAMENTO));
