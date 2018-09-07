@@ -6,53 +6,52 @@
 package entidade;
 
 import java.io.Serializable;
-import javax.persistence.Basic;
-import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 /**
  *
- * @author renan
+ * @author Morgana
  */
 @Embeddable
 public class ItemcompraPK implements Serializable {
 
-    @Basic(optional = false)
-    @Column(name = "produto")
-    private int produto;
-    @Basic(optional = false)
-    @Column(name = "compra")
-    private int compra;
+    @JoinColumn(name = "produto", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Produto produto;
+    
+    @JoinColumn(name = "venda", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Compra compra;
 
     public ItemcompraPK() {
     }
 
-    public ItemcompraPK(int produto, int compra) {
+    public ItemcompraPK(Produto produto, Compra compra) {
         this.produto = produto;
         this.compra = compra;
     }
 
-    public int getProduto() {
+    public Produto getProduto() {
         return produto;
     }
 
-    public void setProduto(int produto) {
+    public void setProduto(Produto produto) {
         this.produto = produto;
     }
 
-    public int getCompra() {
+    public Compra getCompra() {
         return compra;
     }
 
-    public void setCompra(int compra) {
+    public void setCompra(Compra compra) {
         this.compra = compra;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (int) produto;
-        hash += (int) compra;
         return hash;
     }
 
@@ -74,7 +73,7 @@ public class ItemcompraPK implements Serializable {
 
     @Override
     public String toString() {
-        return "entidade.ItemcompraPK[ produto=" + produto + ", compra=" + compra + " ]";
+        return "entidade.ItemvendaPK[ produto=" + produto.getDescricao() + ", venda=" + compra.getId() + " ]";
     }
     
 }

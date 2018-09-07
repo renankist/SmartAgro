@@ -23,14 +23,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "itemcompra")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Itemcompra.findAll", query = "SELECT i FROM Itemcompra i")
-    , @NamedQuery(name = "Itemcompra.findByProduto", query = "SELECT i FROM Itemcompra i WHERE i.itemcompraPK.produto = :produto")
-    , @NamedQuery(name = "Itemcompra.findByCompra", query = "SELECT i FROM Itemcompra i WHERE i.itemcompraPK.compra = :compra")
-    , @NamedQuery(name = "Itemcompra.findByValor", query = "SELECT i FROM Itemcompra i WHERE i.valor = :valor")
-    , @NamedQuery(name = "Itemcompra.findByDesconto", query = "SELECT i FROM Itemcompra i WHERE i.desconto = :desconto")
-    , @NamedQuery(name = "Itemcompra.findByQuantidade", query = "SELECT i FROM Itemcompra i WHERE i.quantidade = :quantidade")
-    , @NamedQuery(name = "Itemcompra.findByValortotal", query = "SELECT i FROM Itemcompra i WHERE i.valortotal = :valortotal")})
 public class Itemcompra implements Serializable {
 
     private static final long serialVersionUID = 1L;
