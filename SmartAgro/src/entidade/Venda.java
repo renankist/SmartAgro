@@ -7,11 +7,11 @@ package entidade;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
+import javax.persistence.FetchType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -93,8 +93,8 @@ public class Venda implements Serializable {
     @ManyToOne(optional = false)
     private Formapagamento formapagamento;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "venda")
-    private Collection<Itemvenda> itemvendaCollection;
+    @OneToMany(mappedBy = "venda", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    private Collection<Itemvenda> itemvendaCollection = new ArrayList<Itemvenda>();
 
     // Status de uma venda
     public static final char STATUS_ORCAMENTO = 'O';
@@ -230,6 +230,11 @@ public class Venda implements Serializable {
 
     public void setItemvendaCollection(Collection<Itemvenda> itemvendaCollection) {
         this.itemvendaCollection = itemvendaCollection;
+    }
+    
+    public void addItemvenda(Itemvenda item){
+        item.setVenda(this);
+        this.itemvendaCollection.add(item);
     }
 
     @Override

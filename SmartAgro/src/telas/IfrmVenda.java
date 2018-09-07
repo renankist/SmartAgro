@@ -27,7 +27,6 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
     private GenericDAO dao;
     private Venda venda;
     private Produto produto;
-    private ArrayList<Itemvenda> itens;
     private jtmItensVenda modelItens;
 
     private DlgClientes dlgClientes;
@@ -48,8 +47,7 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
         tabAbas.setSelectedIndex(aba);
 
         // Preenche a tabela de consulta com as colunas corretas
-        itens = new ArrayList();
-        modelItens = new jtmItensVenda(itens);
+        modelItens = new jtmItensVenda(new ArrayList<Itemvenda>());
         tblItens.setModel(modelItens);
 
         dlgClientes = new DlgClientes(null, true);
@@ -698,9 +696,9 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
         item.setValortotal(tfdSubtotal.getValue().setScale(2));
         item.setVenda(venda);
         item.setItemvendaPK(pk);
-        
+
         // Valida o produto
-       if (!validaItem(item) || !validaItens()) {
+        if (!validaItem(item) || !validaItens()) {
             tfdCodigoPro.requestFocus();
             return;
         }
@@ -860,9 +858,9 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
 
     private boolean validaItens() {
         boolean inputOK = true;
-        
+
         for (int i = 0; i < modelItens.getRowCount(); i++) {
-            
+
             if (!validaItem(modelItens.get(i))) {
                 inputOK = false;
                 break;
@@ -886,7 +884,7 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
 
         return inputOK;
     }
-    
+
     private boolean validaItem(Itemvenda item) {
         boolean inputOK = true;
 
@@ -911,10 +909,10 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
                 inputOK = false;
                 break;
             }
-            
+
             break;
         }
-        
+
         return inputOK;
     }
 
@@ -962,7 +960,6 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
         this.dao = new GenericDAO<>();
 
         // Dados da venda
-        
         if (getEditandoVenda()) {
             venda.setStatus(venda.getStatus());
             venda.setPago(venda.getPago());
@@ -982,45 +979,33 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
         venda.setDesconto(tfdDesconto.getValue().setScale(2));
         venda.setDescricaodesconto(tfdDescrDesc.getText());
         venda.setObservacao(tfdObservacao.getText());
-        
+
         // Itens da venda
-        itens = new ArrayList();
-        
         for (Itemvenda item : modelItens.getItens()) {
             // Atualiza a venda
             ItemvendaPK pk = new ItemvendaPK(item.getItemvendaPK().getProduto(), venda);
             item.setItemvendaPK(pk);
             // Adiciona aos itens
-            itens.add(item);
+            venda.addItemvenda(item);
         }
-
-        if (getEditandoVenda()) {
-            try {
-                if (!dao.atualizar(venda)) {
+        
+        try {
+            if (getEditandoVenda()) {
+                if (!dao.deletar(venda)) {
                     throw new Exception("Erro ao atualizar venda");
                 }
-
-                Mensagem.mostraInformacao("Sucesso", "Venda atualizada com sucesso");
-                limparPainelCadastro();
-
-            } catch (Exception e) {
-                Mensagem.mostraErro("Problema", "Problema ao atualizar venda");
-                logger.error("Erro ao atualizar tabelas", e);
             }
 
-            setEditandoVenda(false);
-        } else {
-            try {
-                if (!dao.salvar(venda)) {
-                    throw new Exception("Erro ao inserir venda");
-                }
-
-                Mensagem.mostraInformacao("Sucesso", "Venda inserida com sucesso");
-                limparPainelCadastro();
-            } catch (Exception e) {
-                Mensagem.mostraErro("Problema", "Problema ao inserir venda");
-                logger.error("Erro ao atualizar tabelas", e);
+            if (!dao.salvar(venda)) {
+                throw new Exception("Erro ao salvar venda");
             }
+
+            Mensagem.mostraInformacao("Sucesso", "Venda " + ((getEditandoVenda()) ? "atualizada" : "salva") + " com sucesso");
+            limparPainelCadastro();
+
+        } catch (Exception e) {
+            Mensagem.mostraErro("Problema", "Problema ao " + ((getEditandoVenda()) ? "atualizar" : "salvar") + " venda");
+            logger.error("Erro ao atualizar tabelas", e);
         }
 
         focus();
