@@ -21,7 +21,7 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
     private Compra compra;
     private Produto produto;
     private ArrayList<ItemCompra> itens;
-    private jtmItensVenda modelItens;
+    private jtmItensCompra modelItens;
 
     private DlgFornecedores dlgFornecedores;
     private DlgColaboradores dlgColaboradores;
@@ -42,7 +42,7 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
 
         // Preenche a tabela de consulta com as colunas corretas
         itens = new ArrayList();
-        modelItens = new jtmItensVenda(itens);
+        modelItens = new jtmItensCompra(itens);
         tblItens.setModel(modelItens);
 
         dlgFornecedores = new DlgFornecedores(null, true);
