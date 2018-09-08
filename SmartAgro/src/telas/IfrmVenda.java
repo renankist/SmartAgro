@@ -24,13 +24,13 @@ import org.apache.log4j.Logger;
  */
 public class IfrmVenda extends javax.swing.JInternalFrame {
 
-    private GenericDAO dao;
+    private GenericDAO<Venda> dao;
     private Venda venda;
     private Produto produto;
     private jtmItensVenda modelItens;
     private jtmVenda modelVenda;
     private ArrayList<Venda> vendas;
-            
+
     private DlgClientes dlgClientes;
     private DlgColaboradores dlgColaboradores;
 
@@ -51,7 +51,7 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
         // Preenche a tabela de itens com as colunas corretas
         modelItens = new jtmItensVenda(new ArrayList<Itemvenda>());
         tblItens.setModel(modelItens);
-        
+
         // Preenche a tabela de consulta com as colunas corretas
         vendas = new ArrayList<Venda>();
         modelVenda = new jtmVenda(vendas);
@@ -88,6 +88,12 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
         LimpaCampos.limparCampos(pnlCabecalho);
         LimpaCampos.limparCampos(pnlItens);
         LimpaCampos.limparCampos(pnlComplemento);
+
+        this.modelItens = new jtmItensVenda(new ArrayList<Itemvenda>());
+        tblItens.setModel(this.modelItens);
+
+        atualizaSubtotal();
+        atualizaTotal();
     }
 
     private boolean getEditandoVenda() {
@@ -689,7 +695,6 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnZoomActionPerformed
 
     private void btnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarActionPerformed
-        venda = new Venda();
         Itemvenda item = new Itemvenda();
         ItemvendaPK pk = new ItemvendaPK();
 
@@ -698,8 +703,7 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
             pk = item.getItemvendaPK();
         }
 
-        pk.setProduto(produto);
-        pk.setVenda(venda);
+        pk.setProduto(this.produto);
 
         BigDecimal qtd = Formatacao.converteStringParaBigDecimal(ffdQuantidade.getText());
         item.setDesconto(tfdDescontoUn.getValue().setScale(2));
@@ -732,6 +736,9 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
 
         if (tblItens.getSelectedRow() >= 0) {
             Itemvenda item = retornaItemSelecionado();
+            
+            // Atualiza objeto produto que será editado
+            this.produto = item.getItemvendaPK().getProduto();
 
             tfdCodigoPro.setText(item.getItemvendaPK().getProduto().getCodigo());
             tfdProduto.setText(item.getItemvendaPK().getProduto().getDescricao());
@@ -770,7 +777,7 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
 
             if (produtos.size() > 0) {
                 // Considera o primeiro produto encontrado
-                produto = produtos.get(0);
+                this.produto = produtos.get(0);
                 tfdProduto.setText(produto.getDescricao());
                 tfdPrecoUn.setText(produto.getValorvenda().setScale(2).toString());
                 atualizaSubtotal();
@@ -973,24 +980,33 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
 
         // Dados da venda
         if (getEditandoVenda()) {
-            venda.setStatus(venda.getStatus());
             venda.setPago(venda.getPago());
         } else {
             this.venda = new Venda();
             venda.setDia(new java.util.Date());
             venda.setHora(new java.util.Date());
-            venda.setStatus(Venda.STATUS_ORCAMENTO);
             venda.setPago(false);
         }
 
-        venda.setCliente(dlgClientes.getCliente());
-        venda.setVendedor(dlgColaboradores.getColaborador());
+        if (dlgClientes.getCliente() != null) {
+            venda.setCliente(dlgClientes.getCliente());
+        }
+
+        if (dlgColaboradores.getColaborador() != null) {
+            venda.setVendedor(dlgColaboradores.getColaborador());
+        }
+        
+        venda.setStatus(Venda.getStatusPelaDescricao(cbmStatus.getSelectedItem().toString()));
         venda.setFormapagamento(new Formapagamento(1));
         venda.setValor(getTotal());
         venda.setValortotal(getTotalLiquido());
         venda.setDesconto(tfdDesconto.getValue().setScale(2));
         venda.setDescricaodesconto(tfdDescrDesc.getText());
         venda.setObservacao(tfdObservacao.getText());
+
+        if (getEditandoVenda()) {
+            venda.removeAllItemvenda();
+        }
 
         // Itens da venda
         for (Itemvenda item : modelItens.getItens()) {
@@ -1000,16 +1016,16 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
             // Adiciona aos itens
             venda.addItemvenda(item);
         }
-        
+
         try {
             if (getEditandoVenda()) {
-                if (!dao.deletar(venda)) {
+                if (!dao.atualizar(venda)) {
                     throw new Exception("Erro ao atualizar venda");
                 }
-            }
-
-            if (!dao.salvar(venda)) {
-                throw new Exception("Erro ao salvar venda");
+            } else {
+                if (!dao.salvar(venda)) {
+                    throw new Exception("Erro ao salvar venda");
+                }
             }
 
             Mensagem.mostraInformacao("Sucesso", "Venda " + ((getEditandoVenda()) ? "atualizada" : "salva") + " com sucesso");
@@ -1028,13 +1044,56 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnExcluirActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
-        // TODO add your handling code here:
+        // Pega o código do registro para consultar o objeto
+        int id = Integer.parseInt(tblVendas.getValueAt(tblVendas.getSelectedRow(), 0).toString());
+        this.venda = dao.consultarPorId(id, "Venda");
+
+        limparPainelCadastro();
+
+        // Pega os dados se existir objeto
+        if (this.venda != null) {
+            tfdVenda.setText(venda.getId().toString());
+            ffdData.setValue(venda.getDia());
+            cbmStatus.setSelectedItem(Venda.getDescricaoStatus(venda.getStatus()));
+
+            rbtPagaSim.setSelected(venda.getPago());
+            rbtPagaNao.setSelected(!venda.getPago());
+
+            String cliente;
+            if (venda.getCliente().getCnpj() != null) {
+                cliente = venda.getCliente().getCnpj();
+            } else {
+                cliente = venda.getCliente().getCpf();
+            }
+            cliente = cliente + " - " + venda.getCliente().getNome();
+            tfdCliente.setText(cliente);
+
+            tfdVendedor.setText(venda.getVendedor().getNomecompleto());
+            tfdDesconto.setValue(venda.getDesconto());
+            tfdDescrDesc.setText(venda.getDescricaodesconto());
+            tfdObservacao.setText(venda.getObservacao());
+
+            // Itens
+            ArrayList<Itemvenda> itens = new ArrayList();
+            for (Itemvenda item : venda.getItemvendaCollection()) {
+                itens.add(item);
+            }
+            this.modelItens = new jtmItensVenda(itens);
+            tblItens.setModel(this.modelItens);
+
+            atualizaSubtotal();
+            atualizaTotal();
+
+            tabAbas.setSelectedIndex(0);
+            setEditandoVenda(true);
+            focus();
+        }
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
         dao = new GenericDAO();
         vendas = new ArrayList();
-        
+
         vendas = dao.consultarTodos("Venda");
         tblVendas.setModel(new jtmVenda(vendas));
     }//GEN-LAST:event_btnPesquisarActionPerformed

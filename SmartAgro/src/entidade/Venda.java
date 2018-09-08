@@ -97,10 +97,14 @@ public class Venda implements Serializable {
     private Collection<Itemvenda> itemvendaCollection = new ArrayList<Itemvenda>();
 
     // Status de uma venda
-    public static final char STATUS_ORCAMENTO = 'O';
-    public static final char STATUS_CANCELADA = 'C';
-    public static final char STATUS_FINALIZADA = 'F';
-    public static final char STATUS_PENDENTE = 'P';
+    public static final char   STATUS_ORCAMENTO = 'O';
+    public static final String STATUS_ORCAMENTO_DESCRICAO = "Orçamento";
+    public static final char   STATUS_CANCELADA = 'C';
+    public static final String STATUS_CANCELADA_DESCRICAO = "Cancelada";
+    public static final char   STATUS_FINALIZADA = 'F';
+    public static final String STATUS_FINALIZADA_DESCRICAO = "Finalizada";
+    public static final char   STATUS_PENDENTE = 'P';
+    public static final String STATUS_PENDENTE_DESCRICAO = "Pendente";
 
     public Venda() {
     }
@@ -236,6 +240,10 @@ public class Venda implements Serializable {
         item.setVenda(this);
         this.itemvendaCollection.add(item);
     }
+    
+    public void removeAllItemvenda(){
+        this.itemvendaCollection.clear();
+    }
 
     @Override
     public int hashCode() {
@@ -267,23 +275,47 @@ public class Venda implements Serializable {
 
         switch (status) {
             case STATUS_CANCELADA:
-                descr = "Cancelada";
+                descr = STATUS_CANCELADA_DESCRICAO;
                 break;
 
             case STATUS_FINALIZADA:
-                descr = "Finalizada";
+                descr = STATUS_FINALIZADA_DESCRICAO;
                 break;
 
             case STATUS_PENDENTE:
-                descr = "Pendente";
+                descr = STATUS_PENDENTE_DESCRICAO;
                 break;
 
             case STATUS_ORCAMENTO:
-                descr = "Orçamento";
+                descr = STATUS_ORCAMENTO_DESCRICAO;
                 break;
         }
 
         return descr;
+    }
+    
+    public static char getStatusPelaDescricao(String descr) {
+        char status = STATUS_PENDENTE;
+
+        switch (descr) {
+            case STATUS_CANCELADA_DESCRICAO:
+                status = STATUS_CANCELADA;
+                break;
+
+            case STATUS_FINALIZADA_DESCRICAO:
+                status = STATUS_FINALIZADA;
+                break;
+
+            case STATUS_PENDENTE_DESCRICAO:
+                status = STATUS_PENDENTE;
+                break;
+
+            case STATUS_ORCAMENTO_DESCRICAO:
+                status = STATUS_ORCAMENTO;
+                break;
+        }
+
+        return status;
     }
 
     public static ArrayList getTodosStatus() {
