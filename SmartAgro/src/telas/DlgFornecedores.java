@@ -181,16 +181,24 @@ public class DlgFornecedores extends javax.swing.JDialog {
         Fornecedor forne = null;
 
         if (selecionou) {
-            //forne = modelCliente.get(tblClientes.getSelectedRow());
+            forne = modelFornecedor.get(tblFornecedores.getSelectedRow());
         }
 
         return forne;
     }
 
     public String getFornecedorToString() {
+    
         Fornecedor forne = modelFornecedor.get(tblFornecedores.getSelectedRow());
 
-        return forne.getNome() + " - " + forne.getCnpj();
+        if(forne.getCnpj() != null){
+             return forne.getNome() + " - CNPJ:" + forne.getCnpj();
+        }else{
+             return forne.getNome() + " - CPF:" + forne.getCpf();
+        }
+        
+   
+    
     }
 
     /**
