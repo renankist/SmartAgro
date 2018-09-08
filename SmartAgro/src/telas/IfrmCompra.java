@@ -48,7 +48,7 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
 
         dlgFornecedores = new DlgFornecedores(null, true);
         dlgColaboradores = new DlgColaboradores(null, true);
-        dlgProdutos = new DlgProdutos(null, false);
+        dlgProdutos = new DlgProdutos(null, true);
         
         
         popularComboStatus();
@@ -387,6 +387,7 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
             }
         });
 
+        tfdCodigoPro.setEditable(false);
         tfdCodigoPro.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 tfdCodigoProFocusLost(evt);
@@ -676,6 +677,7 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
         
         if (dlgProdutos.getProduto() != null) {
             tfdProduto.setText(dlgProdutos.getProdutoToString());
+            tfdCodigoPro.setText(dlgProdutos.getProduto().getId()+"");
         }
         
     }//GEN-LAST:event_btnZoomProdutoActionPerformed

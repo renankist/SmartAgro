@@ -44,7 +44,7 @@ public class DlgProdutos extends javax.swing.JDialog {
 
         modelProdutos = new jtmProduto(produtos);
         
-        System.out.println("Entrouaqui");
+     
         tblProdutos.setModel(modelProdutos);
     }
 
@@ -196,9 +196,10 @@ public class DlgProdutos extends javax.swing.JDialog {
     }
     
     public String getProdutoToString(){
+        
+        
         Produto p = modelProdutos.get(tblProdutos.getSelectedRow());
         
-
         return p.getCodigo()+" - "+p.getDescricao();
     }
     
