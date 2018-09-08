@@ -678,15 +678,18 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
         if (dlgProdutos.getProduto() != null) {
             tfdProduto.setText(dlgProdutos.getProdutoToString());
             tfdCodigoPro.setText(dlgProdutos.getProduto().getId()+"");
+            produto = dlgProdutos.getProduto();
+            tfdPrecoUn.setText(produto.getValorcompra()+"");
         }
         
     }//GEN-LAST:event_btnZoomProdutoActionPerformed
 
     private void btnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarActionPerformed
-        compra = new Compra();
+
+        compra = new Compra();        
         Itemcompra item = new Itemcompra();
         ItemcompraPK pk = new ItemcompraPK();
-
+        
         if (getEditandoItem()) {
             item = retornaItemSelecionado();
             pk = item.getItemcompraPK();
@@ -700,7 +703,7 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
         item.setQuantidade(qtd);
         item.setValor(tfdPrecoUn.getValue().setScale(2));
         item.setValortotal(tfdSubtotal.getValue().setScale(2));
-        item.setCompra(compra);
+        //item.setCompra(compra);
         item.setItemcompraPK(pk);
         
         // Valida o produto
