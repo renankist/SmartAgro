@@ -7,6 +7,7 @@ package entidade;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -228,4 +229,39 @@ public class Compra implements Serializable {
         return "entidade.Compra[ id=" + id + " ]";
     }
     
+    
+    public static String getDescricaoStatus(char status) {
+        String descr = "";
+
+        switch (status) {
+            case STATUS_CANCELADA:
+                descr = "Cancelada";
+                break;
+
+            case STATUS_FINALIZADA:
+                descr = "Finalizada";
+                break;
+
+            case STATUS_PENDENTE:
+                descr = "Pendente";
+                break;
+
+            case STATUS_ORCAMENTO:
+                descr = "Orçamento";
+                break;
+        }
+
+        return descr;
+    }
+
+    public static ArrayList getTodosStatus() {
+        ArrayList status = new ArrayList();
+
+        status.add(getDescricaoStatus(STATUS_ORCAMENTO));
+        status.add(getDescricaoStatus(STATUS_PENDENTE));
+        status.add(getDescricaoStatus(STATUS_CANCELADA));
+        status.add(getDescricaoStatus(STATUS_FINALIZADA));
+
+        return status;
+    }
 }

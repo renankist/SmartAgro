@@ -22,6 +22,7 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
     private Produto produto;
     private ArrayList<Itemcompra> itens;
     private jtmItensCompra modelItens;
+    private DlgProdutos dlgProdutos; 
 
     private DlgFornecedores dlgFornecedores;
     private DlgColaboradores dlgColaboradores;
@@ -47,7 +48,9 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
 
         dlgFornecedores = new DlgFornecedores(null, true);
         dlgColaboradores = new DlgColaboradores(null, true);
-
+        dlgProdutos = new DlgProdutos(null, false);
+        
+        
         popularComboStatus();
 
         focus();
@@ -62,14 +65,14 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
     }
 
     private void popularComboStatus() {
-//        cbmStatus.removeAllItems();
-//        cbmStatus.addItem("Selecione");
-//
-//        for (Object st : new Compra().getTodosStatus()) {
-//            cbmStatus.addItem(st.toString());
-//        }
-//
-//        cbmStatus.setSelectedIndex(0);
+       cbmStatus.removeAllItems();
+        cbmStatus.addItem("Selecione");
+
+        for (Object st : new Compra().getTodosStatus()) {
+            cbmStatus.addItem(st.toString());
+        }
+
+        cbmStatus.setSelectedIndex(0);
     }
 
     private void limparPainelCadastro() {
@@ -149,7 +152,7 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
         lblTotalLiquido = new javax.swing.JLabel();
         pnlConsulta = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        tblVendas = new javax.swing.JTable();
+        tblCompras = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         tfdCriterio = new javax.swing.JTextField();
         btnPesquisar = new javax.swing.JButton();
@@ -558,7 +561,7 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
 
         pnlConsulta.setName("pnlConsulta"); // NOI18N
 
-        tblVendas.setModel(new javax.swing.table.DefaultTableModel(
+        tblCompras.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -566,7 +569,7 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3"
             }
         ));
-        jScrollPane2.setViewportView(tblVendas);
+        jScrollPane2.setViewportView(tblCompras);
 
         jLabel1.setText("Descrição:");
 
@@ -668,7 +671,13 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnZoomCompradorActionPerformed
 
     private void btnZoomProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnZoomProdutoActionPerformed
-        // TODO add your handling code here:
+         
+        dlgProdutos.setVisible(true);
+        
+        if (dlgProdutos.getProduto() != null) {
+            tfdProduto.setText(dlgProdutos.getProdutoToString());
+        }
+        
     }//GEN-LAST:event_btnZoomProdutoActionPerformed
 
     private void btnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarActionPerformed
@@ -1072,8 +1081,8 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
     private javax.swing.JRadioButton rbtPagaNao;
     private javax.swing.JRadioButton rbtPagaSim;
     private javax.swing.JTabbedPane tabAbas;
+    private javax.swing.JTable tblCompras;
     private javax.swing.JTable tblItens;
-    private javax.swing.JTable tblVendas;
     private javax.swing.JTextField tfdCodigoPro;
     private javax.swing.JTextField tfdCompra;
     private javax.swing.JTextField tfdComprador;
