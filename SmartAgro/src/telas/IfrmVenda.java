@@ -33,6 +33,7 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
 
     private DlgClientes dlgClientes;
     private DlgColaboradores dlgColaboradores;
+    private DlgProdutos dlgProdutos;
 
     private boolean editando = false;
     private boolean editandoItem = false;
@@ -59,6 +60,7 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
 
         dlgClientes = new DlgClientes(null, true);
         dlgColaboradores = new DlgColaboradores(null, true);
+        dlgProdutos = new DlgProdutos(null, true);
 
         popularComboStatus();
 
@@ -486,6 +488,11 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
         jLabel14.setText("Observação");
 
         tfdDesconto.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        tfdDesconto.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                tfdDescontoFocusLost(evt);
+            }
+        });
 
         brnPagamento.setText("Condição de pagamento");
 
@@ -691,7 +698,17 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnZoomVendedorActionPerformed
 
     private void btnZoomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnZoomActionPerformed
-        // TODO add your handling code here:
+        dlgProdutos.setVisible(true);
+        if (dlgProdutos.getProduto() != null) {
+            if (dlgProdutos.getProduto().getCodigo() != null) {
+                tfdCodigoPro.setText(dlgProdutos.getProduto().getCodigo());
+            }
+            tfdProduto.setText(dlgProdutos.getProduto().getDescricao());
+
+            // Atualiza o produto selecionado pelo usuário
+            this.produto = dlgProdutos.getProduto();
+            atualizaInputProduto(this.produto);
+        }
     }//GEN-LAST:event_btnZoomActionPerformed
 
     private void btnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarActionPerformed
@@ -736,7 +753,7 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
 
         if (tblItens.getSelectedRow() >= 0) {
             Itemvenda item = retornaItemSelecionado();
-            
+
             // Atualiza objeto produto que será editado
             this.produto = item.getItemvendaPK().getProduto();
 
@@ -778,12 +795,16 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
             if (produtos.size() > 0) {
                 // Considera o primeiro produto encontrado
                 this.produto = produtos.get(0);
-                tfdProduto.setText(produto.getDescricao());
-                tfdPrecoUn.setText(produto.getValorvenda().setScale(2).toString());
-                atualizaSubtotal();
+                atualizaInputProduto(this.produto);
             }
         }
     }//GEN-LAST:event_tfdCodigoProFocusLost
+
+    private void atualizaInputProduto(Produto produto) {
+        tfdProduto.setText(produto.getDescricao());
+        tfdPrecoUn.setText(produto.getValorvenda().setScale(2).toString());
+        atualizaSubtotal();
+    }
 
     private void setEditandoItem(boolean editando) {
         editandoItem = editando;
@@ -995,7 +1016,7 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
         if (dlgColaboradores.getColaborador() != null) {
             venda.setVendedor(dlgColaboradores.getColaborador());
         }
-        
+
         venda.setStatus(Venda.getStatusPelaDescricao(cbmStatus.getSelectedItem().toString()));
         venda.setFormapagamento(new Formapagamento(1));
         venda.setValor(getTotal());
@@ -1043,14 +1064,14 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
         // Pega o código do registro para consultar o objeto
         int id = Integer.parseInt(tblVendas.getValueAt(tblVendas.getSelectedRow(), 0).toString());
         this.venda = dao.consultarPorId(id, "Venda");
-        
+
         //Abre uma mensagem pedindo se o usuário realmente quer excluír o registro
         boolean resposta = Mensagem.confirmaMensagem("Atenção", "Deseja realmente cancelar a venda: " + venda.getId() + "?");
 
         if (resposta) {
             // Atualiza a venda para Cancelada
             venda.setStatus(Venda.STATUS_CANCELADA);
-            
+
             if (dao.atualizar(venda)) {
                 Mensagem.mostraInformacao("Confirmação de exclusão", "Venda cancelada");
 
@@ -1059,7 +1080,6 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
                 this.tblVendas.setModel(modelVenda);
             } else {
                 Mensagem.mostraErro("Problema", "Problema para cancelar venda");
-                logger.error("Erro ao atualizar tabelas", e);
             }
         }
     }//GEN-LAST:event_btnExcluirActionPerformed
@@ -1118,6 +1138,10 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
         vendas = dao.consultarTodos("Venda");
         tblVendas.setModel(new jtmVenda(vendas));
     }//GEN-LAST:event_btnPesquisarActionPerformed
+
+    private void tfdDescontoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfdDescontoFocusLost
+        atualizaTotal();
+    }//GEN-LAST:event_tfdDescontoFocusLost
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton brnPagamento;

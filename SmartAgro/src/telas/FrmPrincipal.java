@@ -165,8 +165,8 @@ public class FrmPrincipal extends javax.swing.JFrame {
         mnuVendas.setMnemonic('V');
         mnuVendas.setText("Vendas");
 
-        itmCadastroVenda.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/cart.png"))); // NOI18N
-        itmCadastroVenda.setText("Venda");
+        itmCadastroVenda.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/register.png"))); // NOI18N
+        itmCadastroVenda.setText("Cadastro");
         itmCadastroVenda.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 itmCadastroVendaActionPerformed(evt);
