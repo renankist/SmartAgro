@@ -1040,7 +1040,28 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
-        // TODO add your handling code here:
+        // Pega o código do registro para consultar o objeto
+        int id = Integer.parseInt(tblVendas.getValueAt(tblVendas.getSelectedRow(), 0).toString());
+        this.venda = dao.consultarPorId(id, "Venda");
+        
+        //Abre uma mensagem pedindo se o usuário realmente quer excluír o registro
+        boolean resposta = Mensagem.confirmaMensagem("Atenção", "Deseja realmente cancelar a venda: " + venda.getId() + "?");
+
+        if (resposta) {
+            // Atualiza a venda para Cancelada
+            venda.setStatus(Venda.STATUS_CANCELADA);
+            
+            if (dao.atualizar(venda)) {
+                Mensagem.mostraInformacao("Confirmação de exclusão", "Venda cancelada");
+
+                this.vendas = dao.consultarTodos("Venda");
+                this.modelVenda = new jtmVenda(vendas);
+                this.tblVendas.setModel(modelVenda);
+            } else {
+                Mensagem.mostraErro("Problema", "Problema para cancelar venda");
+                logger.error("Erro ao atualizar tabelas", e);
+            }
+        }
     }//GEN-LAST:event_btnExcluirActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
