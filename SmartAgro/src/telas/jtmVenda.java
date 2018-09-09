@@ -5,18 +5,21 @@
  */
 package telas;
 
-import apoio.Formatacao;
 import entidade.Venda;
 import java.util.ArrayList;
 import javax.swing.table.AbstractTableModel;
+import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  *
  * @author Morgana
  */
 public class jtmVenda extends AbstractTableModel {
+
     private ArrayList<Venda> vendas;
     private String[] colunas = {"Venda", "Data emissão", "CPF/CNPJ", "Cliente", "Valor", "Desconto", "Valor total", "Status", "Paga", "Vendedor"};
+    final Class<?>[] columnClasses = {Integer.class, Date.class, String.class, String.class, BigDecimal.class, BigDecimal.class, BigDecimal.class, String.class, Boolean.class, String.class};
 
     public jtmVenda(ArrayList<Venda> vendas) {
         this.vendas = vendas;
@@ -59,7 +62,7 @@ public class jtmVenda extends AbstractTableModel {
             case 0:
                 return vendas.get(linha).getId();
             case 1:
-                return Formatacao.ajustaDataDMA(vendas.get(linha).getDia().toString());
+                return vendas.get(linha).getDia();
             case 2:
                 String cpf_cnpj = "";
                 if (vendas.get(linha).getCliente().getCpf() != null) {
@@ -67,9 +70,9 @@ public class jtmVenda extends AbstractTableModel {
                 } else {
                     cpf_cnpj = vendas.get(linha).getCliente().getCnpj();
                 }
-                return cpf_cnpj; 
+                return cpf_cnpj;
             case 3:
-                return vendas.get(linha).getCliente().getNome();  
+                return vendas.get(linha).getCliente().getNome();
             case 4:
                 return vendas.get(linha).getValor();
             case 5:
@@ -77,11 +80,11 @@ public class jtmVenda extends AbstractTableModel {
             case 6:
                 return vendas.get(linha).getValortotal();
             case 7:
-                return Venda.getDescricaoStatus(vendas.get(linha).getStatus()); 
+                return Venda.getDescricaoStatus(vendas.get(linha).getStatus());
             case 8:
-                return (vendas.get(linha).getPago() ? "Sim" : "Não"); 
+                return (vendas.get(linha).getPago() ? true : false);
             case 9:
-                return vendas.get(linha).getVendedor().getNomecompleto();  
+                return vendas.get(linha).getVendedor().getNomecompleto();
         }
 
         return null;
@@ -90,14 +93,18 @@ public class jtmVenda extends AbstractTableModel {
     public String getColumnName(int columnIndex) {
         return this.colunas[columnIndex];
     }
-    
-    public Venda get(int linha){
+
+    public Venda get(int linha) {
         return this.vendas.get(linha);
     }
-    
-    public void removeRow(int linha){
+
+    public void removeRow(int linha) {
         this.vendas.remove(linha);
         this.fireTableRowsUpdated(linha, linha);
     }
 
+    @Override
+    public Class<?> getColumnClass(int columnIndex) {
+        return columnClasses[columnIndex];
+    }
 }
