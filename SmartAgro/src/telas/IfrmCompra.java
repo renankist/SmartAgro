@@ -998,6 +998,8 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
         if (getEditandoCompra()) {
             compra.removeAllItemcompra();
         }
+        
+        
 
         // Itens da venda
         for (Itemcompra item : modelItens.getItens()) {

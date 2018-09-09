@@ -123,7 +123,7 @@ public class Itemcompra implements Serializable {
     }
 
     public void setCompra(Compra compra) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //
     }
     
 }

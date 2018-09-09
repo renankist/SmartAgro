@@ -8,10 +8,13 @@ package entidade;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -19,6 +22,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -32,12 +36,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "compra")
 @XmlRootElement
 public class Compra implements Serializable {
-    
-    // Status de uma compra
-    public static final char STATUS_ORCAMENTO = 'O';
-    public static final char STATUS_CANCELADA = 'C';
-    public static final char STATUS_FINALIZADA = 'F';
-    public static final char STATUS_PENDENTE = 'P';
     
     
     private static final long serialVersionUID = 1L;
@@ -82,7 +80,25 @@ public class Compra implements Serializable {
     @JoinColumn(name = "fornecedor", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Fornecedor fornecedor;
+    
+    @OneToMany(mappedBy = "compra", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    private Collection<Itemcompra> itemvendaCollection = new ArrayList<Itemcompra>();
 
+    
+    
+       // Status de uma compra
+    public static final char   STATUS_ORCAMENTO = 'O';
+    public static final String STATUS_ORCAMENTO_DESCRICAO = "Orçamento";
+    public static final char   STATUS_CANCELADA = 'C';
+    public static final String STATUS_CANCELADA_DESCRICAO = "Cancelada";
+    public static final char   STATUS_FINALIZADA = 'F';
+    public static final String STATUS_FINALIZADA_DESCRICAO = "Finalizada";
+    public static final char   STATUS_PENDENTE = 'P';
+    public static final String STATUS_PENDENTE_DESCRICAO = "Pendente";
+    
+    
+    
+    
     public Compra() {
     }
 
@@ -254,6 +270,40 @@ public class Compra implements Serializable {
         return descr;
     }
 
+    
+     public void removeAllItemcompra(){
+        this.itemvendaCollection.clear();
+     }
+     
+      public void addItemcompra(Itemcompra item){
+        item.setCompra(this);
+        this.itemvendaCollection.add(item);
+    }
+    
+    public static char getStatusPelaDescricao(String descr) {
+        char status = STATUS_PENDENTE;
+
+        switch (descr) {
+            case STATUS_CANCELADA_DESCRICAO:
+                status = STATUS_CANCELADA;
+                break;
+
+            case STATUS_FINALIZADA_DESCRICAO:
+                status = STATUS_FINALIZADA;
+                break;
+
+            case STATUS_PENDENTE_DESCRICAO:
+                status = STATUS_PENDENTE;
+                break;
+
+            case STATUS_ORCAMENTO_DESCRICAO:
+                status = STATUS_ORCAMENTO;
+                break;
+        }
+
+        return status;
+    }
+    
     public static ArrayList getTodosStatus() {
         ArrayList status = new ArrayList();
 
