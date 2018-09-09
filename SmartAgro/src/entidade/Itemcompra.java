@@ -11,6 +11,8 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -38,7 +40,13 @@ public class Itemcompra implements Serializable {
     @Basic(optional = false)
     @Column(name = "valortotal")
     private BigDecimal valortotal;
-
+    @JoinColumn(name = "compra", referencedColumnName = "id", insertable = false, updatable = false)
+    @ManyToOne(optional = false)
+    private Compra compra;
+    
+    
+    
+    
     public Itemcompra() {
     }
 
@@ -123,7 +131,7 @@ public class Itemcompra implements Serializable {
     }
 
     public void setCompra(Compra compra) {
-        //
+        this.compra = compra; 
     }
     
 }
