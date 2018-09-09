@@ -686,28 +686,26 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
 
     private void btnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarActionPerformed
 
-        compra = new Compra();        
         Itemcompra item = new Itemcompra();
         ItemcompraPK pk = new ItemcompraPK();
-        
+
         if (getEditandoItem()) {
             item = retornaItemSelecionado();
             pk = item.getItemcompraPK();
         }
 
-        pk.setProduto(produto);
-        pk.setCompra(compra);
+        pk.setProduto(this.produto);
 
         BigDecimal qtd = Formatacao.converteStringParaBigDecimal(ffdQuantidade.getText());
         item.setDesconto(tfdDescontoUn.getValue().setScale(2));
         item.setQuantidade(qtd);
         item.setValor(tfdPrecoUn.getValue().setScale(2));
         item.setValortotal(tfdSubtotal.getValue().setScale(2));
-        //item.setCompra(compra);
+        item.setCompra(compra);
         item.setItemcompraPK(pk);
-        
+
         // Valida o produto
-       if (!validaItem(item) || !validaItens()) {
+        if (!validaItem(item) || !validaItens()) {
             tfdCodigoPro.requestFocus();
             return;
         }
@@ -968,7 +966,7 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
 
         this.dao = new GenericDAO<>();
 
-        // Dados da venda
+        // Dados da compra
 
         if (getEditandoCompra()) {
             compra.setPago(compra.getPago());

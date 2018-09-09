@@ -1,43 +1,34 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package entidade;
+ package entidade;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
+import javax.persistence.FetchType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+import java.util.ArrayList;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
-/**
- *
- * @author renan
- */
+
 @Entity
 @Table(name = "compra")
 @XmlRootElement
+
 public class Compra implements Serializable {
-    
-    
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -71,22 +62,24 @@ public class Compra implements Serializable {
     @Basic(optional = false)
     @Column(name = "pago")
     private boolean pago;
-    @JoinColumn(name = "colaborador", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private Colaborador colaborador;
-    @JoinColumn(name = "formapagamento", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private Formapagamento formapagamento;
+    
     @JoinColumn(name = "fornecedor", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Fornecedor fornecedor;
     
-    @OneToMany(mappedBy = "compra", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-    private Collection<Itemcompra> itemvendaCollection = new ArrayList<Itemcompra>();
+    @JoinColumn(name = "colaborador", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Colaborador colaborador;
+    
+    
+    @JoinColumn(name = "formapagamento", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Formapagamento formapagamento;
 
-    
-    
-       // Status de uma compra
+    @OneToMany(mappedBy = "compra", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    private Collection<Itemcompra> itemcompraCollection = new ArrayList<Itemcompra>();
+
+    // Status de uma compra
     public static final char   STATUS_ORCAMENTO = 'O';
     public static final String STATUS_ORCAMENTO_DESCRICAO = "Orçamento";
     public static final char   STATUS_CANCELADA = 'C';
@@ -95,10 +88,7 @@ public class Compra implements Serializable {
     public static final String STATUS_FINALIZADA_DESCRICAO = "Finalizada";
     public static final char   STATUS_PENDENTE = 'P';
     public static final String STATUS_PENDENTE_DESCRICAO = "Pendente";
-    
-    
-    
-    
+
     public Compra() {
     }
 
@@ -196,12 +186,20 @@ public class Compra implements Serializable {
         this.pago = pago;
     }
 
+    public Fornecedor getFornecedor() {
+        return fornecedor;
+    }
+
+    public void setFornecedor(Fornecedor fornecedor) {
+        this.fornecedor = fornecedor;
+    }
+
     public Colaborador getColaborador() {
         return colaborador;
     }
 
-    public void setColaborador(Colaborador colaborador) {
-        this.colaborador = colaborador;
+    public void setColaborador(Colaborador Colaborador) {
+        this.colaborador = Colaborador;
     }
 
     public Formapagamento getFormapagamento() {
@@ -212,12 +210,22 @@ public class Compra implements Serializable {
         this.formapagamento = formapagamento;
     }
 
-    public Fornecedor getFornecedor() {
-        return fornecedor;
+    @XmlTransient
+    public Collection<Itemcompra> getItemcompraCollection() {
+        return itemcompraCollection;
     }
 
-    public void setFornecedor(Fornecedor fornecedor) {
-        this.fornecedor = fornecedor;
+    public void setItemcompraCollection(Collection<Itemcompra> itemcompraCollection) {
+        this.itemcompraCollection = itemcompraCollection;
+    }
+    
+    public void addItemcompra(Itemcompra item){
+        item.setCompra(this);
+        this.itemcompraCollection.add(item);
+    }
+    
+    public void removeAllItemcompra(){
+        this.itemcompraCollection.clear();
     }
 
     @Override
@@ -242,42 +250,31 @@ public class Compra implements Serializable {
 
     @Override
     public String toString() {
-        return "entidade.Compra[ id=" + id + " ]";
+        return "entidade.Venda[ id=" + id + " ]";
     }
-    
-    
+
     public static String getDescricaoStatus(char status) {
         String descr = "";
 
         switch (status) {
             case STATUS_CANCELADA:
-                descr = "Cancelada";
+                descr = STATUS_CANCELADA_DESCRICAO;
                 break;
 
             case STATUS_FINALIZADA:
-                descr = "Finalizada";
+                descr = STATUS_FINALIZADA_DESCRICAO;
                 break;
 
             case STATUS_PENDENTE:
-                descr = "Pendente";
+                descr = STATUS_PENDENTE_DESCRICAO;
                 break;
 
             case STATUS_ORCAMENTO:
-                descr = "Orçamento";
+                descr = STATUS_ORCAMENTO_DESCRICAO;
                 break;
         }
 
         return descr;
-    }
-
-    
-     public void removeAllItemcompra(){
-        this.itemvendaCollection.clear();
-     }
-     
-      public void addItemcompra(Itemcompra item){
-        item.setCompra(this);
-        this.itemvendaCollection.add(item);
     }
     
     public static char getStatusPelaDescricao(String descr) {
@@ -303,7 +300,7 @@ public class Compra implements Serializable {
 
         return status;
     }
-    
+
     public static ArrayList getTodosStatus() {
         ArrayList status = new ArrayList();
 
@@ -314,4 +311,5 @@ public class Compra implements Serializable {
 
         return status;
     }
+
 }
