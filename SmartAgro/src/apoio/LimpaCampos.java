@@ -28,8 +28,10 @@ public class LimpaCampos {
                 field.setText("");
                 field.setBackground(Color.white);
             } else if (c[i] instanceof JScrollPane) {
-                 //((JTextArea((JScrollPane) c[i]).getViewport().getComponent(0)).setText("");
-                 //((JTextArea) ((JScrollPane) c[i]).getViewport().getComponent(0)).setBackground(Color.white);
+                if ((((JScrollPane) c[i]).getViewport().getComponent(0)) instanceof JTextArea) {
+                    ((JTextArea) ((JScrollPane) c[i]).getViewport().getComponent(0)).setText("");
+                    ((JTextArea) ((JScrollPane) c[i]).getViewport().getComponent(0)).setBackground(Color.white);
+                }
             } else if (c[i] instanceof JComboBox) {
                 JComboBox cb = (JComboBox) c[i];
                 cb.setSelectedIndex(-1);
@@ -49,4 +51,4 @@ public class LimpaCampos {
             }
         }
     }
-} 
+}
