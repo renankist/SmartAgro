@@ -81,7 +81,7 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
         LimpaCampos.limparCampos(pnlComplemento);
     }
 
-    private boolean getEditandoVenda() {
+    private boolean getEditandoCompra() {
         return editando;
     }
 
@@ -969,65 +969,62 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
         this.dao = new GenericDAO<>();
 
         // Dados da venda
-        
-        if (getEditandoVenda()) {
-            compra.setStatus(compra.getStatus());
+
+        if (getEditandoCompra()) {
             compra.setPago(compra.getPago());
         } else {
             this.compra = new Compra();
             compra.setData(new java.util.Date());
             compra.setHora(new java.util.Date());
-            compra.setStatus(compra.STATUS_ORCAMENTO);
             compra.setPago(false);
         }
 
-        compra.setFornecedor(dlgFornecedores.getFornecedor());
-        compra.setColaborador(dlgColaboradores.getColaborador());
+        if (dlgFornecedores.getFornecedor()!= null) {
+            compra.setFornecedor(dlgFornecedores.getFornecedor());
+        }
+
+        if (dlgColaboradores.getColaborador() != null) {
+            compra.setColaborador(dlgColaboradores.getColaborador());
+        }
+        
+        compra.setStatus(Compra.getStatusPelaDescricao(cbmStatus.getSelectedItem().toString()));
         compra.setFormapagamento(new Formapagamento(1));
         compra.setValor(getTotal());
         compra.setValortotal(getTotalLiquido());
         compra.setDesconto(tfdDesconto.getValue().setScale(2));
         compra.setDescricaodesconto(tfdDescrDesc.getText());
         compra.setObservacao(tfdObservacao.getText());
-        
+
+        if (getEditandoCompra()) {
+            compra.removeAllItemcompra();
+        }
+
         // Itens da venda
-        itens = new ArrayList();
-        
         for (Itemcompra item : modelItens.getItens()) {
             // Atualiza a venda
             ItemcompraPK pk = new ItemcompraPK(item.getItemcompraPK().getProduto(), compra);
             item.setItemcompraPK(pk);
             // Adiciona aos itens
-            itens.add(item);
+            compra.addItemcompra(item);
         }
-        
-        if (getEditandoVenda()) {
-            try {
+
+        try {
+            if (getEditandoCompra()) {
                 if (!dao.atualizar(compra)) {
                     throw new Exception("Erro ao atualizar compra");
                 }
-
-                Mensagem.mostraInformacao("Sucesso", "Compra atualizada com sucesso");
-                limparPainelCadastro();
-
-            } catch (Exception e) {
-                Mensagem.mostraErro("Problema", "Problema ao atualizar compra");
-                logger.error("Erro ao atualizar tabelas", e);
-            }
-
-            setEditandoVenda(false);
-        } else {
-            try {
+            } else {
                 if (!dao.salvar(compra)) {
-                    throw new Exception("Erro ao inserir compra");
+                    throw new Exception("Erro ao salvar compra");
                 }
-
-                Mensagem.mostraInformacao("Sucesso", "Compra inserida com sucesso");
-                limparPainelCadastro();
-            } catch (Exception e) {
-                Mensagem.mostraErro("Problema", "Problema ao inserir compra");
-                logger.error("Erro ao atualizar tabelas", e);
             }
+
+            Mensagem.mostraInformacao("Sucesso", "Compra " + ((getEditandoCompra()) ? "atualizada" : "salva") + " com sucesso");
+            limparPainelCadastro();
+
+        } catch (Exception e) {
+            Mensagem.mostraErro("Problema", "Problema ao " + ((getEditandoCompra()) ? "atualizar" : "salvar") + " venda");
+            logger.error("Erro ao atualizar tabelas", e);
         }
 
         focus();
