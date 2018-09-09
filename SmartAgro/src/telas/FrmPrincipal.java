@@ -427,6 +427,11 @@ public class FrmPrincipal extends javax.swing.JFrame {
         IfrmCompra janelaCompra = new IfrmCompra(aba);
         dskArea.add(janelaCompra);
         janelaCompra.setVisible(true);
+        // Abre a tela de venda maximizada
+        try {
+            janelaCompra.setMaximum(true);
+        } catch (Exception e) {
+        }
     }
 
     /**
