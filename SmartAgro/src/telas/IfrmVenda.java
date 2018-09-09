@@ -1070,7 +1070,7 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
         // Pega o código do registro para consultar o objeto
-        int id = Integer.parseInt(tblVendasE.getValueAt(tblVendasE.getSelectedRow(), 0).toString());
+        int id = Integer.parseInt(tblVendas.getValueAt(tblVendas.getSelectedRow(), 0).toString());
         this.venda = dao.consultarPorId(id, "Venda");
 
         //Abre uma mensagem pedindo se o usuário realmente quer excluír o registro
@@ -1085,7 +1085,7 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
 
                 this.vendas = dao.consultarTodos("Venda");
                 this.modelVenda = new jtmVenda(vendas);
-                this.tblVendasE.setModel(modelVenda);
+                this.tblVendas.setModel(modelVenda);
             } else {
                 Mensagem.mostraErro("Problema", "Problema para cancelar venda");
             }
@@ -1094,7 +1094,7 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         // Pega o código do registro para consultar o objeto
-        int id = Integer.parseInt(tblVendasE.getValueAt(tblVendasE.getSelectedRow(), 0).toString());
+        int id = Integer.parseInt(tblVendas.getValueAt(tblVendas.getSelectedRow(), 0).toString());
         this.venda = dao.consultarPorId(id, "Venda");
 
         limparPainelCadastro();
