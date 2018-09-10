@@ -159,7 +159,6 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
         lblTotalLiquido = new javax.swing.JLabel();
         pnlConsulta = new javax.swing.JPanel();
         btnPesquisar = new javax.swing.JButton();
-        tblCompras = new de.javasoft.swing.JYTable();
 
         setClosable(true);
         setIconifiable(true);
@@ -578,35 +577,20 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
             }
         });
 
-        tblCompras.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-
         javax.swing.GroupLayout pnlConsultaLayout = new javax.swing.GroupLayout(pnlConsulta);
         pnlConsulta.setLayout(pnlConsultaLayout);
         pnlConsultaLayout.setHorizontalGroup(
             pnlConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlConsultaLayout.createSequentialGroup()
                 .addComponent(btnPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addComponent(tblCompras, javax.swing.GroupLayout.DEFAULT_SIZE, 1145, Short.MAX_VALUE)
+                .addGap(0, 873, Short.MAX_VALUE))
         );
         pnlConsultaLayout.setVerticalGroup(
             pnlConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlConsultaLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(btnPesquisar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tblCompras, javax.swing.GroupLayout.DEFAULT_SIZE, 437, Short.MAX_VALUE)
-                .addContainerGap())
+                .addContainerGap(455, Short.MAX_VALUE))
         );
 
         tabAbas.addTab("Consulta", pnlConsulta);
@@ -1096,7 +1080,6 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
     private javax.swing.JRadioButton rbtPagaNao;
     private javax.swing.JRadioButton rbtPagaSim;
     private javax.swing.JTabbedPane tabAbas;
-    private de.javasoft.swing.JYTable tblCompras;
     private javax.swing.JTable tblItens;
     private javax.swing.JTextField tfdCodigoPro;
     private javax.swing.JTextField tfdCompra;
