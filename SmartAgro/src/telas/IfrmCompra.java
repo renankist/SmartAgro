@@ -582,7 +582,12 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
         ));
         jScrollPane2.setViewportView(tblCompras);
 
-        btnPesquisar.setText("Pesquisar");
+        btnPesquisar.setText("Carregar Dados");
+        btnPesquisar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPesquisarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnlConsultaLayout = new javax.swing.GroupLayout(pnlConsulta);
         pnlConsulta.setLayout(pnlConsultaLayout);
@@ -1041,6 +1046,10 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
     private void tfdDescontoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfdDescontoFocusLost
          atualizaTotal();
     }//GEN-LAST:event_tfdDescontoFocusLost
+
+    private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnPesquisarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton brnPagamento;
