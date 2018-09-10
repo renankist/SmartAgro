@@ -604,8 +604,8 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
             .addGroup(pnlConsultaLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(btnPesquisar)
-                .addGap(18, 18, 18)
-                .addComponent(tblCompras, javax.swing.GroupLayout.DEFAULT_SIZE, 425, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(tblCompras, javax.swing.GroupLayout.DEFAULT_SIZE, 437, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
