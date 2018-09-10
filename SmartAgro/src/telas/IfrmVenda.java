@@ -61,7 +61,7 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
         dlgClientes = new DlgClientes(null, true);
         dlgColaboradores = new DlgColaboradores(null, true);
         dlgProdutos = new DlgProdutos(null, true);
-
+        
         popularComboStatus();
 
         focus();
@@ -116,6 +116,8 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         btgPaga = new javax.swing.ButtonGroup();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tblVendasE = new javax.swing.JTable();
         jScrollPane1 = new javax.swing.JScrollPane();
         jPanel1 = new javax.swing.JPanel();
         btnEditar = new javax.swing.JButton();
@@ -168,11 +170,19 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
         lblTotal = new javax.swing.JLabel();
         lblTotalLiquido = new javax.swing.JLabel();
         pnlConsulta = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        tblVendas = new javax.swing.JTable();
-        jLabel1 = new javax.swing.JLabel();
-        tfdCriterio = new javax.swing.JTextField();
         btnPesquisar = new javax.swing.JButton();
+        jYTableScrollPane1 = new de.javasoft.swing.JYTableScrollPane();
+        tblVendas = new de.javasoft.swing.JYTable();
+
+        tblVendasE.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3"
+            }
+        ));
+        jScrollPane2.setViewportView(tblVendasE);
 
         setClosable(true);
         setIconifiable(true);
@@ -527,7 +537,7 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlComplementoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblTotal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblTotalLiquido, javax.swing.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE))
+                    .addComponent(lblTotalLiquido, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         pnlComplementoLayout.setVerticalGroup(
@@ -583,49 +593,47 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
 
         pnlConsulta.setName("pnlConsulta"); // NOI18N
 
-        tblVendas.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3"
-            }
-        ));
-        jScrollPane2.setViewportView(tblVendas);
-
-        jLabel1.setText("Descrição:");
-
-        btnPesquisar.setText("Pesquisar");
+        btnPesquisar.setText("Carregas dados");
         btnPesquisar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnPesquisarActionPerformed(evt);
             }
         });
 
+        tblVendas.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jYTableScrollPane1.setViewportView(tblVendas);
+
         javax.swing.GroupLayout pnlConsultaLayout = new javax.swing.GroupLayout(pnlConsulta);
         pnlConsulta.setLayout(pnlConsultaLayout);
         pnlConsultaLayout.setHorizontalGroup(
             pnlConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 1126, Short.MAX_VALUE)
             .addGroup(pnlConsultaLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tfdCriterio)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnPesquisar)
-                .addGap(14, 14, 14))
+                .addGroup(pnlConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlConsultaLayout.createSequentialGroup()
+                        .addComponent(btnPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jYTableScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1056, Short.MAX_VALUE))
+                .addContainerGap())
         );
         pnlConsultaLayout.setVerticalGroup(
             pnlConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlConsultaLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(pnlConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(tfdCriterio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnPesquisar))
+                .addComponent(btnPesquisar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 465, Short.MAX_VALUE))
+                .addComponent(jYTableScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 458, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         tabAbas.addTab("Consulta", pnlConsulta);
@@ -1159,7 +1167,6 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
     private javax.swing.JComboBox<String> cbmStatus;
     private javax.swing.JFormattedTextField ffdData;
     private javax.swing.JFormattedTextField ffdQuantidade;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -1178,6 +1185,7 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private de.javasoft.swing.JYTableScrollPane jYTableScrollPane1;
     private javax.swing.JLabel lblTotal;
     private javax.swing.JLabel lblTotalLiquido;
     private javax.swing.JPanel pnlCabecalho;
@@ -1189,10 +1197,10 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
     private javax.swing.JRadioButton rbtPagaSim;
     private javax.swing.JTabbedPane tabAbas;
     private javax.swing.JTable tblItens;
-    private javax.swing.JTable tblVendas;
+    private de.javasoft.swing.JYTable tblVendas;
+    private javax.swing.JTable tblVendasE;
     private javax.swing.JTextField tfdCliente;
     private javax.swing.JTextField tfdCodigoPro;
-    private javax.swing.JTextField tfdCriterio;
     private apoio.MoedaFormatada tfdDesconto;
     private apoio.MoedaFormatada tfdDescontoUn;
     private javax.swing.JTextField tfdDescrDesc;

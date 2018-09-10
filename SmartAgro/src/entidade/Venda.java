@@ -28,12 +28,14 @@ import javax.xml.bind.annotation.XmlTransient;
 import java.util.ArrayList;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import org.hibernate.envers.Audited;
 
 /**
  *
  * @author Morgana
  */
 @Entity
+@Audited
 @Table(name = "venda")
 @XmlRootElement
 @NamedQueries({
