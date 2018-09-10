@@ -101,6 +101,13 @@ public class DlgProdutos extends javax.swing.JDialog {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+
+        tblProdutos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblProdutosMouseClicked(evt);
+            }
+        });
+
         jScrollPane1.setViewportView(tblProdutos);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -180,6 +187,14 @@ public class DlgProdutos extends javax.swing.JDialog {
         
         popularTabela(nome);
     }//GEN-LAST:event_btnPesquisarActionPerformed
+
+
+    private void tblProdutosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProdutosMouseClicked
+        if (evt.getClickCount() == 2) {
+            selecionou = true;
+            this.dispose();
+        }
+    }//GEN-LAST:event_tblProdutosMouseClicked
 
     public boolean seleciou() {
         return selecionou;

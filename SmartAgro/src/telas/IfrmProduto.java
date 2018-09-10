@@ -33,7 +33,7 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
         this.unidades = new ArrayList();
         udao = new GenericDAO<>();
         this.unidades = udao.consultarComCriterio("Unidademedida", "descricao", "");
-        jComboUnidadeMedida.setModel(new UnidadesMedidasComboModel(this.unidades));
+        jComboUnidadeMedida.setModel(new jcmUnidadesMedidas(this.unidades));
 
         focus();
     }

@@ -102,6 +102,13 @@ public class DlgClientes extends javax.swing.JDialog {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+
+        tblClientes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblClientesMouseClicked(evt);
+            }
+        });
+
         jScrollPane1.setViewportView(tblClientes);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -182,6 +189,13 @@ public class DlgClientes extends javax.swing.JDialog {
         popularTabela(nome);
     }//GEN-LAST:event_btnPesquisarActionPerformed
 
+    private void tblClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblClientesMouseClicked
+        if (evt.getClickCount() == 2) {
+            selecionou = true;
+            this.dispose();
+        }
+    }//GEN-LAST:event_tblClientesMouseClicked
+
     public boolean seleciou() {
         return selecionou;
     }
@@ -201,10 +215,10 @@ public class DlgClientes extends javax.swing.JDialog {
         
         String descr = "";
         
-        if (cli.getCnpj().isEmpty()) {
-            descr = cli.getCpf();
-        } else {
+        if (cli.getCnpj() != null) {
             descr = cli.getCnpj();
+        } else {
+            descr = cli.getCpf();
         }
         
         descr = descr + " - " + cli.getNome();

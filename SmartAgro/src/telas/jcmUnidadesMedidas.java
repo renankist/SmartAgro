@@ -14,18 +14,17 @@ import javax.swing.ComboBoxModel;
  *
  * @author Renan Luis Kist
  */
-public class UnidadesMedidasComboModel  extends AbstractListModel<Object> implements ComboBoxModel<Object> {
+public class jcmUnidadesMedidas extends AbstractListModel<Object> implements ComboBoxModel<Object> {
     
     private ArrayList<Unidademedida> medidas;
     private Unidademedida selectMedida;
     private final static int FIRSTINDEX = 0;
  
-      public UnidadesMedidasComboModel() {
+      public jcmUnidadesMedidas() {
         this.medidas = new ArrayList<Unidademedida>();
     }
-    
-    
-    public UnidadesMedidasComboModel(ArrayList<Unidademedida> unidades) {
+     
+    public jcmUnidadesMedidas(ArrayList<Unidademedida> unidades) {
         this();
          //Cria uma unidade medida padrão para ir no "Selecione"
         Unidademedida u = new Unidademedida(); 
@@ -42,9 +41,6 @@ public class UnidadesMedidasComboModel  extends AbstractListModel<Object> implem
         
     }
 
-   
-    
- 
      public void addUnidade(Unidademedida m) {
         medidas.add(m);
         fireIntervalAdded(this, getSize() - 1, getSize() - 1);

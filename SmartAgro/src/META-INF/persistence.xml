@@ -4,6 +4,20 @@
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <class>entidade.Compra</class>
     <class>entidade.Itemcompra</class>
+    <class>entidade.Estado</class>
+    <class>entidade.Formapagamento</class>
+    <class>entidade.Produto</class>
+    <class>entidade.Unidademedida</class>
+    <class>entidade.Cidade</class>
+    <class>entidade.Endereco</class>
+    <class>entidade.Fornecedor</class>
+    <class>entidade.Cliente</class>
+    <class>auditoria.CustomRevisionEntityy</class>
+    <class>auditoria.FormapagamentoAud</class>
+    <class>auditoria.CustomRevInfo</class>
+    <class>entidade.Venda</class>
+    <class>entidade.Itemvenda</class>
+
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/smartagro"/>
       <property name="javax.persistence.jdbc.user" value="postgres"/>

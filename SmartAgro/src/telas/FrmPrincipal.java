@@ -6,7 +6,6 @@
 package telas;
 
 import entidade.Colaborador;
-import javax.swing.JMenu;
 
 /**
  *
@@ -50,6 +49,9 @@ public class FrmPrincipal extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         itmUnidadeMedida = new javax.swing.JMenuItem();
         mnuVendas = new javax.swing.JMenu();
+        itmCadastroVenda = new javax.swing.JMenuItem();
+        itmConsultaVenda = new javax.swing.JMenuItem();
+        itmRelatorioVenda = new javax.swing.JMenuItem();
         mnuFornecedor = new javax.swing.JMenu();
         itmCadastroFornecedor = new javax.swing.JMenuItem();
         itmConsultaFornecedor = new javax.swing.JMenuItem();
@@ -165,6 +167,34 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
         mnuVendas.setMnemonic('V');
         mnuVendas.setText("Vendas");
+
+        itmCadastroVenda.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/register.png"))); // NOI18N
+        itmCadastroVenda.setText("Cadastro");
+        itmCadastroVenda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itmCadastroVendaActionPerformed(evt);
+            }
+        });
+        mnuVendas.add(itmCadastroVenda);
+
+        itmConsultaVenda.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/browser.png"))); // NOI18N
+        itmConsultaVenda.setText("Consulta");
+        itmConsultaVenda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itmConsultaVendaActionPerformed(evt);
+            }
+        });
+        mnuVendas.add(itmConsultaVenda);
+
+        itmRelatorioVenda.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/report.png"))); // NOI18N
+        itmRelatorioVenda.setText("Relatório");
+        itmRelatorioVenda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itmRelatorioVendaActionPerformed(evt);
+            }
+        });
+        mnuVendas.add(itmRelatorioVenda);
+
         barMenu.add(mnuVendas);
 
         mnuFornecedor.setMnemonic('F');
@@ -374,6 +404,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         cadastroFormaPagamento(); 
     }//GEN-LAST:event_itmFormasPagamentoActionPerformed
 
+
     private void itmCadastroCompraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmCadastroCompraActionPerformed
         cadastroCompra(0);
     }//GEN-LAST:event_itmCadastroCompraActionPerformed
@@ -385,6 +416,30 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private void itmRelatorioCompraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmRelatorioCompraActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_itmRelatorioCompraActionPerformed
+
+    private void itmCadastroVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmCadastroVendaActionPerformed
+       cadastroVenda(0);
+    }//GEN-LAST:event_itmCadastroVendaActionPerformed
+
+    private void itmConsultaVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmConsultaVendaActionPerformed
+        cadastroVenda(1);
+    }//GEN-LAST:event_itmConsultaVendaActionPerformed
+
+    private void itmRelatorioVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmRelatorioVendaActionPerformed
+        cadastroVenda(2);
+    }//GEN-LAST:event_itmRelatorioVendaActionPerformed
+    
+    private void cadastroVenda(int aba){
+        IfrmVenda janelaVenda = new IfrmVenda(aba);
+        dskArea.add(janelaVenda);
+        janelaVenda.setVisible(true);
+        // Abre a tela de venda maximizada
+        try {
+            janelaVenda.setMaximum(true);
+        } catch (Exception e) {
+        }
+    }
+
     
     private void cadastroColaborador(int aba) {
         IfrmColaborador janelaColab = new IfrmColaborador(aba);
@@ -449,11 +504,13 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem itmCadastroCompra;
     private javax.swing.JMenuItem itmCadastroFornecedor;
     private javax.swing.JMenuItem itmCadastroProduto;
+    private javax.swing.JMenuItem itmCadastroVenda;
     private javax.swing.JMenuItem itmConsultaCliente;
     private javax.swing.JMenuItem itmConsultaColaborador;
     private javax.swing.JMenuItem itmConsultaCompra;
     private javax.swing.JMenuItem itmConsultaFornecedor;
     private javax.swing.JMenuItem itmConsultaProduto;
+    private javax.swing.JMenuItem itmConsultaVenda;
     private javax.swing.JMenuItem itmContasPagar;
     private javax.swing.JMenuItem itmContasReceber;
     private javax.swing.JMenuItem itmFormasPagamento;
@@ -462,6 +519,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem itmRelatorioCompra;
     private javax.swing.JMenuItem itmRelatorioFornecedor;
     private javax.swing.JMenuItem itmRelatorioProduto;
+    private javax.swing.JMenuItem itmRelatorioVenda;
     private javax.swing.JMenuItem itmSair;
     private javax.swing.JMenuItem itmUnidadeMedida;
     private javax.swing.JPopupMenu.Separator jSeparator1;
