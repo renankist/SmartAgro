@@ -11,6 +11,7 @@ import entidade.ItemcompraPK;
 import entidade.Produto;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.Date;
 import javax.swing.JComponent;
 import org.apache.log4j.Logger;
 
@@ -59,14 +60,14 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
     private void focus() {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                tfdFornecedor.requestFocusInWindow();
+                cbmStatus.requestFocusInWindow();
             }
         });
     }
 
     private void popularComboStatus() {
        cbmStatus.removeAllItems();
-        cbmStatus.addItem("Selecione");
+       cbmStatus.addItem("Selecione");
 
         for (Object st : new Compra().getTodosStatus()) {
             cbmStatus.addItem(st.toString());
@@ -233,7 +234,7 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
 
         ffdData.setEditable(false);
 
-        cbmStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbmStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione" }));
 
         jLabel15.setText("Paga");
 
@@ -272,8 +273,8 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
                         .addGap(18, 18, 18)
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(ffdData, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addComponent(ffdData, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(3, 3, 3)
                         .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cbmStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -283,7 +284,7 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
                         .addComponent(rbtPagaSim)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(rbtPagaNao)
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                        .addGap(0, 352, Short.MAX_VALUE))))
         );
         pnlCabecalhoLayout.setVerticalGroup(
             pnlCabecalhoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -472,6 +473,11 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
         jLabel14.setText("Observação");
 
         tfdDesconto.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        tfdDesconto.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                tfdDescontoFocusLost(evt);
+            }
+        });
 
         brnPagamento.setText("Condição de pagamento");
 
@@ -1037,6 +1043,10 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnEditarActionPerformed
+
+    private void tfdDescontoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfdDescontoFocusLost
+         atualizaTotal();
+    }//GEN-LAST:event_tfdDescontoFocusLost
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton brnPagamento;
