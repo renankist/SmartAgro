@@ -24,10 +24,11 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
     private ArrayList<Itemcompra> itens;
     private jtmItensCompra modelItens;
     private DlgProdutos dlgProdutos; 
-
+     private jtmCompra modelCompra;
+    
     private DlgFornecedores dlgFornecedores;
     private DlgColaboradores dlgColaboradores;
-
+      private ArrayList<Compra> compras;
     private boolean editando = false;
     private boolean editandoItem = false;
 
@@ -46,7 +47,12 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
         itens = new ArrayList();
         modelItens = new jtmItensCompra(itens);
         tblItens.setModel(modelItens);
-
+        
+        compras = new ArrayList();
+        
+        modelCompra = new jtmCompra(compras);
+        tblCompras.setModel(modelCompra);
+        
         dlgFornecedores = new DlgFornecedores(null, true);
         dlgColaboradores = new DlgColaboradores(null, true);
         dlgProdutos = new DlgProdutos(null, true);
@@ -154,8 +160,6 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
         pnlConsulta = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblCompras = new javax.swing.JTable();
-        jLabel1 = new javax.swing.JLabel();
-        tfdCriterio = new javax.swing.JTextField();
         btnPesquisar = new javax.swing.JButton();
 
         setClosable(true);
@@ -578,34 +582,24 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
         ));
         jScrollPane2.setViewportView(tblCompras);
 
-        jLabel1.setText("Descrição:");
-
         btnPesquisar.setText("Pesquisar");
 
         javax.swing.GroupLayout pnlConsultaLayout = new javax.swing.GroupLayout(pnlConsulta);
         pnlConsulta.setLayout(pnlConsultaLayout);
         pnlConsultaLayout.setHorizontalGroup(
             pnlConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 1126, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 1145, Short.MAX_VALUE)
             .addGroup(pnlConsultaLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tfdCriterio)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnPesquisar)
-                .addGap(14, 14, 14))
+                .addComponent(btnPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         pnlConsultaLayout.setVerticalGroup(
             pnlConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlConsultaLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(pnlConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(tfdCriterio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnPesquisar))
+                .addComponent(btnPesquisar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 465, Short.MAX_VALUE))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 449, Short.MAX_VALUE))
         );
 
         tabAbas.addTab("Consulta", pnlConsulta);
@@ -1064,7 +1058,6 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
     private javax.swing.JComboBox<String> cbmStatus;
     private javax.swing.JFormattedTextField ffdData;
     private javax.swing.JFormattedTextField ffdQuantidade;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -1098,7 +1091,6 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
     private javax.swing.JTextField tfdCodigoPro;
     private javax.swing.JTextField tfdCompra;
     private javax.swing.JTextField tfdComprador;
-    private javax.swing.JTextField tfdCriterio;
     private apoio.MoedaFormatada tfdDesconto;
     private apoio.MoedaFormatada tfdDescontoUn;
     private javax.swing.JTextField tfdDescrDesc;
