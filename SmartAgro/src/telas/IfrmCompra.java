@@ -180,7 +180,7 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
             }
         });
 
-        btnExcluir.setText("Excluir");
+        btnExcluir.setText("Cancelar");
         btnExcluir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnExcluirActionPerformed(evt);
@@ -1058,7 +1058,27 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
-        // TODO add your handling code here:
+         // Pega o código do registro para consultar o objeto
+        int id = Integer.parseInt(tblCompras.getValueAt(tblCompras.getSelectedRow(), 0).toString());
+        this.compra = (Compra) dao.consultarPorId(id, "Compra");
+
+        //Abre uma mensagem pedindo se o usuário realmente quer excluír o registro
+        boolean resposta = Mensagem.confirmaMensagem("Atenção", "Deseja realmente cancelar a compra: " + compra.getId() + "?");
+
+        if (resposta) {
+            // Atualiza a venda para Cancelada
+            compra.setStatus(Compra.STATUS_CANCELADA);
+
+            if (dao.atualizar(compra)) {
+                Mensagem.mostraInformacao("Confirmação de exclusão", "Compra cancelada");
+
+                this.compras = dao.consultarTodos("Compra");
+                this.modelCompra = new jtmCompra(compras);
+                this.tblCompras.setModel(modelCompra);
+            } else {
+                Mensagem.mostraErro("Problema", "Problema para cancelar compra");
+            }
+        }
     }//GEN-LAST:event_btnExcluirActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
