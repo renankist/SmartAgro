@@ -11,6 +11,7 @@ import entidade.ItemcompraPK;
 import entidade.Produto;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.Date;
 import javax.swing.JComponent;
 import org.apache.log4j.Logger;
 
@@ -23,10 +24,11 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
     private ArrayList<Itemcompra> itens;
     private jtmItensCompra modelItens;
     private DlgProdutos dlgProdutos; 
-
+     private jtmCompra modelCompra;
+    
     private DlgFornecedores dlgFornecedores;
     private DlgColaboradores dlgColaboradores;
-
+      private ArrayList<Compra> compras;
     private boolean editando = false;
     private boolean editandoItem = false;
 
@@ -45,12 +47,17 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
         itens = new ArrayList();
         modelItens = new jtmItensCompra(itens);
         tblItens.setModel(modelItens);
-
+        
+        compras = new ArrayList();
+        
+        modelCompra = new jtmCompra(compras);
+        tblCompras.setModel(modelCompra);
+        
         dlgFornecedores = new DlgFornecedores(null, true);
         dlgColaboradores = new DlgColaboradores(null, true);
         dlgProdutos = new DlgProdutos(null, true);
-        
-        
+        ffdData.setText(Formatacao.getDataAtual());
+        System.out.println(Formatacao.getDataAtual());
         popularComboStatus();
 
         focus();
@@ -59,14 +66,14 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
     private void focus() {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                tfdFornecedor.requestFocusInWindow();
+                cbmStatus.requestFocusInWindow();
             }
         });
     }
 
     private void popularComboStatus() {
        cbmStatus.removeAllItems();
-        cbmStatus.addItem("Selecione");
+       cbmStatus.addItem("Selecione");
 
         for (Object st : new Compra().getTodosStatus()) {
             cbmStatus.addItem(st.toString());
@@ -81,7 +88,7 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
         LimpaCampos.limparCampos(pnlComplemento);
     }
 
-    private boolean getEditandoVenda() {
+    private boolean getEditandoCompra() {
         return editando;
     }
 
@@ -117,7 +124,7 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
         btnZoomFornecedor = new javax.swing.JButton();
         btnZoomComprador = new javax.swing.JButton();
         tfdComprador = new javax.swing.JTextField();
-        ffdData = new javax.swing.JFormattedTextField();
+        ffdData = new javax.swing.JFormattedTextField(Formatacao.getDataAtual());
         cbmStatus = new javax.swing.JComboBox<>();
         jLabel15 = new javax.swing.JLabel();
         rbtPagaSim = new javax.swing.JRadioButton();
@@ -151,11 +158,9 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
         lblTotal = new javax.swing.JLabel();
         lblTotalLiquido = new javax.swing.JLabel();
         pnlConsulta = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        tblCompras = new javax.swing.JTable();
-        jLabel1 = new javax.swing.JLabel();
-        tfdCriterio = new javax.swing.JTextField();
         btnPesquisar = new javax.swing.JButton();
+        jYTableScrollPane1 = new de.javasoft.swing.JYTableScrollPane();
+        tblCompras = new de.javasoft.swing.JYTable();
 
         setClosable(true);
         setIconifiable(true);
@@ -175,7 +180,7 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
             }
         });
 
-        btnExcluir.setText("Excluir");
+        btnExcluir.setText("Cancelar");
         btnExcluir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnExcluirActionPerformed(evt);
@@ -233,7 +238,7 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
 
         ffdData.setEditable(false);
 
-        cbmStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbmStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione" }));
 
         jLabel15.setText("Paga");
 
@@ -272,8 +277,8 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
                         .addGap(18, 18, 18)
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(ffdData, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addComponent(ffdData, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(3, 3, 3)
                         .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cbmStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -283,7 +288,7 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
                         .addComponent(rbtPagaSim)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(rbtPagaNao)
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                        .addGap(0, 352, Short.MAX_VALUE))))
         );
         pnlCabecalhoLayout.setVerticalGroup(
             pnlCabecalhoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -472,6 +477,11 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
         jLabel14.setText("Observação");
 
         tfdDesconto.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        tfdDesconto.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                tfdDescontoFocusLost(evt);
+            }
+        });
 
         brnPagamento.setText("Condição de pagamento");
 
@@ -562,44 +572,43 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
 
         pnlConsulta.setName("pnlConsulta"); // NOI18N
 
+        btnPesquisar.setText("Carregar Dados");
+        btnPesquisar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPesquisarActionPerformed(evt);
+            }
+        });
+
         tblCompras.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3"
+                "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane2.setViewportView(tblCompras);
-
-        jLabel1.setText("Descrição:");
-
-        btnPesquisar.setText("Pesquisar");
+        jYTableScrollPane1.setViewportView(tblCompras);
 
         javax.swing.GroupLayout pnlConsultaLayout = new javax.swing.GroupLayout(pnlConsulta);
         pnlConsulta.setLayout(pnlConsultaLayout);
         pnlConsultaLayout.setHorizontalGroup(
             pnlConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 1126, Short.MAX_VALUE)
             .addGroup(pnlConsultaLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tfdCriterio)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnPesquisar)
-                .addGap(14, 14, 14))
+                .addComponent(btnPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 873, Short.MAX_VALUE))
+            .addComponent(jYTableScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1145, Short.MAX_VALUE)
         );
         pnlConsultaLayout.setVerticalGroup(
             pnlConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlConsultaLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(pnlConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(tfdCriterio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnPesquisar))
+                .addComponent(btnPesquisar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 465, Short.MAX_VALUE))
+                .addComponent(jYTableScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 437, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         tabAbas.addTab("Consulta", pnlConsulta);
@@ -678,12 +687,14 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
         if (dlgProdutos.getProduto() != null) {
             tfdProduto.setText(dlgProdutos.getProdutoToString());
             tfdCodigoPro.setText(dlgProdutos.getProduto().getId()+"");
+            produto = dlgProdutos.getProduto();
+            tfdPrecoUn.setText(produto.getValorcompra()+"");
         }
         
     }//GEN-LAST:event_btnZoomProdutoActionPerformed
 
     private void btnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarActionPerformed
-        compra = new Compra();
+
         Itemcompra item = new Itemcompra();
         ItemcompraPK pk = new ItemcompraPK();
 
@@ -692,8 +703,7 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
             pk = item.getItemcompraPK();
         }
 
-        pk.setProduto(produto);
-        pk.setCompra(compra);
+        pk.setProduto(this.produto);
 
         BigDecimal qtd = Formatacao.converteStringParaBigDecimal(ffdQuantidade.getText());
         item.setDesconto(tfdDescontoUn.getValue().setScale(2));
@@ -702,9 +712,9 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
         item.setValortotal(tfdSubtotal.getValue().setScale(2));
         item.setCompra(compra);
         item.setItemcompraPK(pk);
-        
+
         // Valida o produto
-       if (!validaItem(item) || !validaItens()) {
+        if (!validaItem(item) || !validaItens()) {
             tfdCodigoPro.requestFocus();
             return;
         }
@@ -787,6 +797,18 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
         ffdQuantidade.setText("");
         tfdDescontoUn.setText("");
         tfdSubtotal.setText("");
+        
+     
+        
+        
+        
+        
+    }
+    
+    private void limparDadosTabelaItens(){
+        for(int d = 1; d <= modelItens.getRowCount(); d++){
+            modelItens.removeRow(d);
+    }
     }
 
     private Itemcompra retornaItemSelecionado() {
@@ -848,7 +870,9 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
         BigDecimal total = getTotal();
 
         if (tfdDesconto.getValue().intValue() > 0) {
+            System.out.println("entrou aqui");
             total = total.subtract(tfdDesconto.getValue());
+            System.out.println("entrou aqui");
         }
 
         return total;
@@ -965,78 +989,156 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
 
         this.dao = new GenericDAO<>();
 
-        // Dados da venda
-        
-        if (getEditandoVenda()) {
-            compra.setStatus(compra.getStatus());
+        // Dados da compra
+
+        if (getEditandoCompra()) {
             compra.setPago(compra.getPago());
         } else {
             this.compra = new Compra();
             compra.setData(new java.util.Date());
             compra.setHora(new java.util.Date());
-            compra.setStatus(compra.STATUS_ORCAMENTO);
             compra.setPago(false);
         }
 
-        compra.setFornecedor(dlgFornecedores.getFornecedor());
-        compra.setColaborador(dlgColaboradores.getColaborador());
+        if (dlgFornecedores.getFornecedor()!= null) {
+            compra.setFornecedor(dlgFornecedores.getFornecedor());
+        }
+
+        if (dlgColaboradores.getColaborador() != null) {
+            compra.setColaborador(dlgColaboradores.getColaborador());
+        }
+        
+        compra.setStatus(Compra.getStatusPelaDescricao(cbmStatus.getSelectedItem().toString()));
         compra.setFormapagamento(new Formapagamento(1));
         compra.setValor(getTotal());
         compra.setValortotal(getTotalLiquido());
         compra.setDesconto(tfdDesconto.getValue().setScale(2));
         compra.setDescricaodesconto(tfdDescrDesc.getText());
         compra.setObservacao(tfdObservacao.getText());
+
+        if (getEditandoCompra()) {
+            compra.removeAllItemcompra();
+        }
         
+        
+
         // Itens da venda
-        itens = new ArrayList();
-        
         for (Itemcompra item : modelItens.getItens()) {
             // Atualiza a venda
             ItemcompraPK pk = new ItemcompraPK(item.getItemcompraPK().getProduto(), compra);
             item.setItemcompraPK(pk);
             // Adiciona aos itens
-            itens.add(item);
+            compra.addItemcompra(item);
         }
-        
-        if (getEditandoVenda()) {
-            try {
+
+        try {
+            if (getEditandoCompra()) {
                 if (!dao.atualizar(compra)) {
                     throw new Exception("Erro ao atualizar compra");
                 }
-
-                Mensagem.mostraInformacao("Sucesso", "Compra atualizada com sucesso");
-                limparPainelCadastro();
-
-            } catch (Exception e) {
-                Mensagem.mostraErro("Problema", "Problema ao atualizar compra");
-                logger.error("Erro ao atualizar tabelas", e);
-            }
-
-            setEditandoVenda(false);
-        } else {
-            try {
+            } else {
                 if (!dao.salvar(compra)) {
-                    throw new Exception("Erro ao inserir compra");
+                    throw new Exception("Erro ao salvar compra");
                 }
-
-                Mensagem.mostraInformacao("Sucesso", "Compra inserida com sucesso");
-                limparPainelCadastro();
-            } catch (Exception e) {
-                Mensagem.mostraErro("Problema", "Problema ao inserir compra");
-                logger.error("Erro ao atualizar tabelas", e);
             }
+
+            Mensagem.mostraInformacao("Sucesso", "Compra " + ((getEditandoCompra()) ? "atualizada" : "salva") + " com sucesso");
+            
+            limparPainelCadastro();
+           
+           modelItens.clean();
+          limparDadosTabelaItens();
+            
+        } catch (Exception e) {
+            Mensagem.mostraErro("Problema", "Problema ao " + ((getEditandoCompra()) ? "atualizar" : "salvar") + " compra");
+            logger.error("Erro ao atualizar tabelas", e);
         }
 
         focus();
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
-        // TODO add your handling code here:
+         // Pega o código do registro para consultar o objeto
+        int id = Integer.parseInt(tblCompras.getValueAt(tblCompras.getSelectedRow(), 0).toString());
+        this.compra = (Compra) dao.consultarPorId(id, "Compra");
+
+        //Abre uma mensagem pedindo se o usuário realmente quer excluír o registro
+        boolean resposta = Mensagem.confirmaMensagem("Atenção", "Deseja realmente cancelar a compra: " + compra.getId() + "?");
+
+        if (resposta) {
+            // Atualiza a venda para Cancelada
+            compra.setStatus(Compra.STATUS_CANCELADA);
+
+            if (dao.atualizar(compra)) {
+                Mensagem.mostraInformacao("Confirmação de exclusão", "Compra cancelada");
+
+                this.compras = dao.consultarTodos("Compra");
+                this.modelCompra = new jtmCompra(compras);
+                this.tblCompras.setModel(modelCompra);
+            } else {
+                Mensagem.mostraErro("Problema", "Problema para cancelar compra");
+            }
+        }
     }//GEN-LAST:event_btnExcluirActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
-        // TODO add your handling code here:
+         // Pega o código do registro para consultar o objeto
+        int id = Integer.parseInt(tblCompras.getValueAt(tblCompras.getSelectedRow(), 0).toString());
+        this.compra = (Compra) dao.consultarPorId(id, "Compra");
+
+        limparPainelCadastro();
+
+        // Pega os dados se existir objeto
+        if (this.compra != null) {
+            tfdCompra.setText(compra.getId().toString());
+            ffdData.setValue(compra.getData());
+            cbmStatus.setSelectedItem(Compra.getDescricaoStatus(compra.getStatus()));
+
+            rbtPagaSim.setSelected(compra.getPago());
+            rbtPagaNao.setSelected(!compra.getPago());
+
+            String colab;
+            if (compra.getFornecedor().getCnpj() != null) {
+                colab = compra.getFornecedor().getCnpj();
+            } else {
+                colab = compra.getFornecedor().getCpf();
+            }
+            colab = colab  + " - " + compra.getColaborador().getNomecompleto();
+            tfdFornecedor.setText(colab);
+
+            tfdComprador.setText(compra.getColaborador().getNomecompleto());
+            tfdDesconto.setValue(compra.getDesconto());
+            tfdDescrDesc.setText(compra.getDescricaodesconto());
+            tfdObservacao.setText(compra.getObservacao());
+
+            // Itens
+            ArrayList<Itemcompra> itens = new ArrayList();
+            for (Itemcompra item : compra.getItemcompraCollection()) {
+                itens.add(item);
+            }
+            this.modelItens = new jtmItensCompra(itens);
+            tblItens.setModel(this.modelItens);
+
+            atualizaSubtotal();
+            atualizaTotal();
+
+            tabAbas.setSelectedIndex(0);
+            setEditandoVenda(true);
+            focus();
+        }
     }//GEN-LAST:event_btnEditarActionPerformed
+
+    private void tfdDescontoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfdDescontoFocusLost
+         atualizaTotal();
+    }//GEN-LAST:event_tfdDescontoFocusLost
+
+    private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
+      dao = new GenericDAO();
+        compras = new ArrayList();
+
+        compras = dao.consultarTodos("Compra");
+        tblCompras.setModel(new jtmCompra(compras));
+    }//GEN-LAST:event_btnPesquisarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton brnPagamento;
@@ -1054,7 +1156,6 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
     private javax.swing.JComboBox<String> cbmStatus;
     private javax.swing.JFormattedTextField ffdData;
     private javax.swing.JFormattedTextField ffdQuantidade;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -1071,8 +1172,8 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private de.javasoft.swing.JYTableScrollPane jYTableScrollPane1;
     private javax.swing.JLabel lblTotal;
     private javax.swing.JLabel lblTotalLiquido;
     private javax.swing.JPanel pnlCabecalho;
@@ -1083,12 +1184,11 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
     private javax.swing.JRadioButton rbtPagaNao;
     private javax.swing.JRadioButton rbtPagaSim;
     private javax.swing.JTabbedPane tabAbas;
-    private javax.swing.JTable tblCompras;
+    private de.javasoft.swing.JYTable tblCompras;
     private javax.swing.JTable tblItens;
     private javax.swing.JTextField tfdCodigoPro;
     private javax.swing.JTextField tfdCompra;
     private javax.swing.JTextField tfdComprador;
-    private javax.swing.JTextField tfdCriterio;
     private apoio.MoedaFormatada tfdDesconto;
     private apoio.MoedaFormatada tfdDescontoUn;
     private javax.swing.JTextField tfdDescrDesc;

@@ -102,6 +102,7 @@ public class DlgColaboradores extends javax.swing.JDialog {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+
         tblColabordores.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblColabordoresMouseClicked(evt);
@@ -186,6 +187,8 @@ public class DlgColaboradores extends javax.swing.JDialog {
         selecionou = true;
         this.dispose();
     }//GEN-LAST:event_btnSelecionarActionPerformed
+
+
 
     private void tblColabordoresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblColabordoresMouseClicked
         if (evt.getClickCount() == 2) {

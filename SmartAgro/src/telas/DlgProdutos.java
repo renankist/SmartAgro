@@ -6,6 +6,7 @@
 package telas;
 
 import dao.GenericDAO;
+import dao.ProdutoDAO;
 import entidade.Produto;
 import java.util.ArrayList;
 
@@ -15,7 +16,7 @@ import java.util.ArrayList;
  */
 public class DlgProdutos extends javax.swing.JDialog {
 
-    private GenericDAO<Produto> dao;
+    private ProdutoDAO dao;
     private ArrayList<Produto> produtos;
     private jtmProduto modelProdutos;
     private boolean selecionou = false;
@@ -28,7 +29,7 @@ public class DlgProdutos extends javax.swing.JDialog {
         initComponents();
 
         // DAO
-        dao = new GenericDAO();
+        dao = new ProdutoDAO();
 
         popularTabela("");
     }
@@ -37,9 +38,9 @@ public class DlgProdutos extends javax.swing.JDialog {
         produtos = null;
 
         if (descricao.isEmpty()) {
-            produtos = dao.consultarTodos("Produto");
+            produtos = dao.consultarComEstoque("");
         } else {
-            produtos = dao.consultarComCriterio("Produto", "descricao", descricao);
+            produtos = dao.consultarComEstoque(descricao);
         }
 
         modelProdutos = new jtmProduto(produtos);
@@ -185,6 +186,7 @@ public class DlgProdutos extends javax.swing.JDialog {
         
         popularTabela(nome);
     }//GEN-LAST:event_btnPesquisarActionPerformed
+
 
     private void tblProdutosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProdutosMouseClicked
         if (evt.getClickCount() == 2) {

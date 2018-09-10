@@ -23,8 +23,7 @@ public class jcmUnidadesMedidas extends AbstractListModel<Object> implements Com
       public jcmUnidadesMedidas() {
         this.medidas = new ArrayList<Unidademedida>();
     }
-    
-    
+     
     public jcmUnidadesMedidas(ArrayList<Unidademedida> unidades) {
         this();
          //Cria uma unidade medida padrão para ir no "Selecione"
@@ -42,9 +41,6 @@ public class jcmUnidadesMedidas extends AbstractListModel<Object> implements Com
         
     }
 
-   
-    
- 
      public void addUnidade(Unidademedida m) {
         medidas.add(m);
         fireIntervalAdded(this, getSize() - 1, getSize() - 1);

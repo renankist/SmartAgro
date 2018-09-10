@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package entidade;
 
 import java.io.Serializable;
@@ -11,6 +6,8 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -38,7 +35,13 @@ public class Itemcompra implements Serializable {
     @Basic(optional = false)
     @Column(name = "valortotal")
     private BigDecimal valortotal;
-
+    @JoinColumn(name = "compra", referencedColumnName = "id", insertable = false, updatable = false)
+    @ManyToOne(optional = false)
+    private Compra compra;
+    
+    
+    
+    
     public Itemcompra() {
     }
 
@@ -123,7 +126,7 @@ public class Itemcompra implements Serializable {
     }
 
     public void setCompra(Compra compra) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.compra = compra; 
     }
     
 }

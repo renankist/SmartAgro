@@ -6,6 +6,7 @@
 package entidade;
 
 import java.io.Serializable;
+import javax.persistence.CascadeType;
 import javax.persistence.Embeddable;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -18,11 +19,11 @@ import javax.persistence.ManyToOne;
 public class ItemcompraPK implements Serializable {
 
     @JoinColumn(name = "produto", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, cascade=CascadeType.ALL)
     private Produto produto;
     
-    @JoinColumn(name = "venda", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @JoinColumn(name = "compra", referencedColumnName = "id")
+    @ManyToOne(optional = false, cascade=CascadeType.ALL)
     private Compra compra;
 
     public ItemcompraPK() {
