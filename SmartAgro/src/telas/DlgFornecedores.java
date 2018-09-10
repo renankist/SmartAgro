@@ -93,6 +93,11 @@ public class DlgFornecedores extends javax.swing.JDialog {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tblFornecedores.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblFornecedoresMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblFornecedores);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -172,6 +177,13 @@ public class DlgFornecedores extends javax.swing.JDialog {
 
         popularTabela(nome);
     }//GEN-LAST:event_btnPesquisarActionPerformed
+
+    private void tblFornecedoresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblFornecedoresMouseClicked
+        if (evt.getClickCount() == 2) {
+            selecionou = true;
+            this.dispose();
+        }
+    }//GEN-LAST:event_tblFornecedoresMouseClicked
 
     public boolean seleciou() {
         return selecionou;
