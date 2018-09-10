@@ -1,4 +1,3 @@
-
 package telas;
 
 import apoio.*;
@@ -15,7 +14,6 @@ import java.util.Date;
 import javax.swing.JComponent;
 import org.apache.log4j.Logger;
 
-
 public class IfrmCompra extends javax.swing.JInternalFrame {
 
     private GenericDAO dao;
@@ -23,12 +21,12 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
     private Produto produto;
     private ArrayList<Itemcompra> itens;
     private jtmItensCompra modelItens;
-    private DlgProdutos dlgProdutos; 
-     private jtmCompra modelCompra;
-    
+    private DlgProdutos dlgProdutos;
+    private jtmCompra modelCompra;
+
     private DlgFornecedores dlgFornecedores;
     private DlgColaboradores dlgColaboradores;
-      private ArrayList<Compra> compras;
+    private ArrayList<Compra> compras;
     private boolean editando = false;
     private boolean editandoItem = false;
 
@@ -47,17 +45,16 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
         itens = new ArrayList();
         modelItens = new jtmItensCompra(itens);
         tblItens.setModel(modelItens);
-        
+
         compras = new ArrayList();
-        
+
         modelCompra = new jtmCompra(compras);
         tblCompras.setModel(modelCompra);
-        
+
         dlgFornecedores = new DlgFornecedores(null, true);
         dlgColaboradores = new DlgColaboradores(null, true);
         dlgProdutos = new DlgProdutos(null, true);
         ffdData.setText(Formatacao.getDataAtual());
-        System.out.println(Formatacao.getDataAtual());
         popularComboStatus();
 
         focus();
@@ -72,8 +69,8 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
     }
 
     private void popularComboStatus() {
-       cbmStatus.removeAllItems();
-       cbmStatus.addItem("Selecione");
+        cbmStatus.removeAllItems();
+        cbmStatus.addItem("Selecione");
 
         for (Object st : new Compra().getTodosStatus()) {
             cbmStatus.addItem(st.toString());
@@ -86,6 +83,12 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
         LimpaCampos.limparCampos(pnlCabecalho);
         LimpaCampos.limparCampos(pnlItens);
         LimpaCampos.limparCampos(pnlComplemento);
+        
+        this.modelItens = new jtmItensCompra(new ArrayList<Itemcompra>());
+        tblItens.setModel(this.modelItens);
+
+        atualizaSubtotal();
+        atualizaTotal();
     }
 
     private boolean getEditandoCompra() {
@@ -668,7 +671,7 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
 
     private void btnZoomFornecedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnZoomFornecedorActionPerformed
         dlgFornecedores.setVisible(true);
-        if (dlgFornecedores.getFornecedor()!= null) {
+        if (dlgFornecedores.getFornecedor() != null) {
             tfdFornecedor.setText(dlgFornecedores.getFornecedorToString());
         }
     }//GEN-LAST:event_btnZoomFornecedorActionPerformed
@@ -681,16 +684,16 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnZoomCompradorActionPerformed
 
     private void btnZoomProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnZoomProdutoActionPerformed
-         
+
         dlgProdutos.setVisible(true);
-        
+
         if (dlgProdutos.getProduto() != null) {
             tfdProduto.setText(dlgProdutos.getProdutoToString());
-            tfdCodigoPro.setText(dlgProdutos.getProduto().getId()+"");
+            tfdCodigoPro.setText(dlgProdutos.getProduto().getId() + "");
             produto = dlgProdutos.getProduto();
-            tfdPrecoUn.setText(produto.getValorcompra()+"");
+            tfdPrecoUn.setText(produto.getValorcompra() + "");
         }
-        
+
     }//GEN-LAST:event_btnZoomProdutoActionPerformed
 
     private void btnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarActionPerformed
@@ -797,18 +800,6 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
         ffdQuantidade.setText("");
         tfdDescontoUn.setText("");
         tfdSubtotal.setText("");
-        
-     
-        
-        
-        
-        
-    }
-    
-    private void limparDadosTabelaItens(){
-        for(int d = 1; d <= modelItens.getRowCount(); d++){
-            modelItens.removeRow(d);
-    }
     }
 
     private Itemcompra retornaItemSelecionado() {
@@ -870,9 +861,7 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
         BigDecimal total = getTotal();
 
         if (tfdDesconto.getValue().intValue() > 0) {
-            System.out.println("entrou aqui");
             total = total.subtract(tfdDesconto.getValue());
-            System.out.println("entrou aqui");
         }
 
         return total;
@@ -888,9 +877,9 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
 
     private boolean validaItens() {
         boolean inputOK = true;
-        
+
         for (int i = 0; i < modelItens.getRowCount(); i++) {
-            
+
             if (!validaItem(modelItens.get(i))) {
                 inputOK = false;
                 break;
@@ -914,7 +903,7 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
 
         return inputOK;
     }
-    
+
     private boolean validaItem(Itemcompra item) {
         boolean inputOK = true;
 
@@ -939,10 +928,10 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
                 inputOK = false;
                 break;
             }
-            
+
             break;
         }
-        
+
         return inputOK;
     }
 
@@ -990,7 +979,6 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
         this.dao = new GenericDAO<>();
 
         // Dados da compra
-
         if (getEditandoCompra()) {
             compra.setPago(compra.getPago());
         } else {
@@ -1000,14 +988,14 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
             compra.setPago(false);
         }
 
-        if (dlgFornecedores.getFornecedor()!= null) {
+        if (dlgFornecedores.getFornecedor() != null) {
             compra.setFornecedor(dlgFornecedores.getFornecedor());
         }
 
         if (dlgColaboradores.getColaborador() != null) {
             compra.setColaborador(dlgColaboradores.getColaborador());
         }
-        
+
         compra.setStatus(Compra.getStatusPelaDescricao(cbmStatus.getSelectedItem().toString()));
         compra.setFormapagamento(new Formapagamento(1));
         compra.setValor(getTotal());
@@ -1019,8 +1007,6 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
         if (getEditandoCompra()) {
             compra.removeAllItemcompra();
         }
-        
-        
 
         // Itens da venda
         for (Itemcompra item : modelItens.getItens()) {
@@ -1043,12 +1029,9 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
             }
 
             Mensagem.mostraInformacao("Sucesso", "Compra " + ((getEditandoCompra()) ? "atualizada" : "salva") + " com sucesso");
-            
+
             limparPainelCadastro();
-           
-           modelItens.clean();
-          limparDadosTabelaItens();
-            
+
         } catch (Exception e) {
             Mensagem.mostraErro("Problema", "Problema ao " + ((getEditandoCompra()) ? "atualizar" : "salvar") + " compra");
             logger.error("Erro ao atualizar tabelas", e);
@@ -1058,7 +1041,7 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
-         // Pega o código do registro para consultar o objeto
+        // Pega o código do registro para consultar o objeto
         int id = Integer.parseInt(tblCompras.getValueAt(tblCompras.getSelectedRow(), 0).toString());
         this.compra = (Compra) dao.consultarPorId(id, "Compra");
 
@@ -1082,7 +1065,7 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnExcluirActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
-         // Pega o código do registro para consultar o objeto
+        // Pega o código do registro para consultar o objeto
         int id = Integer.parseInt(tblCompras.getValueAt(tblCompras.getSelectedRow(), 0).toString());
         this.compra = (Compra) dao.consultarPorId(id, "Compra");
 
@@ -1103,7 +1086,7 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
             } else {
                 colab = compra.getFornecedor().getCpf();
             }
-            colab = colab  + " - " + compra.getColaborador().getNomecompleto();
+            colab = colab + " - " + compra.getColaborador().getNomecompleto();
             tfdFornecedor.setText(colab);
 
             tfdComprador.setText(compra.getColaborador().getNomecompleto());
@@ -1129,11 +1112,11 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void tfdDescontoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfdDescontoFocusLost
-         atualizaTotal();
+        atualizaTotal();
     }//GEN-LAST:event_tfdDescontoFocusLost
 
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
-      dao = new GenericDAO();
+        dao = new GenericDAO();
         compras = new ArrayList();
 
         compras = dao.consultarTodos("Compra");
