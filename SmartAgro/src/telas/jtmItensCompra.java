@@ -93,10 +93,8 @@ public class jtmItensCompra extends AbstractTableModel {
         this.fireTableRowsUpdated(linha, linha);
     }
     
-    public void removeAllRows(){
-        for(int x = 1; x <= this.getColumnCount(); x++){
-            this.removeRow(x);
-        }
+    public void clean(){
+        this.itens.clear();
     }
 
 }

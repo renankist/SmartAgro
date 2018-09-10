@@ -1046,7 +1046,7 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
             
             limparPainelCadastro();
            
-            
+           modelItens.clean();
           limparDadosTabelaItens();
             
         } catch (Exception e) {
