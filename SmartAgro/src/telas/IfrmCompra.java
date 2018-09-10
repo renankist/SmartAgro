@@ -158,9 +158,8 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
         lblTotal = new javax.swing.JLabel();
         lblTotalLiquido = new javax.swing.JLabel();
         pnlConsulta = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        tblCompras = new javax.swing.JTable();
         btnPesquisar = new javax.swing.JButton();
+        tblCompras = new de.javasoft.swing.JYTable();
 
         setClosable(true);
         setIconifiable(true);
@@ -572,16 +571,6 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
 
         pnlConsulta.setName("pnlConsulta"); // NOI18N
 
-        tblCompras.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3"
-            }
-        ));
-        jScrollPane2.setViewportView(tblCompras);
-
         btnPesquisar.setText("Carregar Dados");
         btnPesquisar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -589,22 +578,35 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
             }
         });
 
+        tblCompras.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+
         javax.swing.GroupLayout pnlConsultaLayout = new javax.swing.GroupLayout(pnlConsulta);
         pnlConsulta.setLayout(pnlConsultaLayout);
         pnlConsultaLayout.setHorizontalGroup(
             pnlConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 1145, Short.MAX_VALUE)
             .addGroup(pnlConsultaLayout.createSequentialGroup()
                 .addComponent(btnPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(tblCompras, javax.swing.GroupLayout.DEFAULT_SIZE, 1145, Short.MAX_VALUE)
         );
         pnlConsultaLayout.setVerticalGroup(
             pnlConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlConsultaLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(btnPesquisar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 449, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(tblCompras, javax.swing.GroupLayout.DEFAULT_SIZE, 425, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         tabAbas.addTab("Consulta", pnlConsulta);
@@ -1083,7 +1085,6 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel lblTotal;
     private javax.swing.JLabel lblTotalLiquido;
@@ -1095,7 +1096,7 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
     private javax.swing.JRadioButton rbtPagaNao;
     private javax.swing.JRadioButton rbtPagaSim;
     private javax.swing.JTabbedPane tabAbas;
-    private javax.swing.JTable tblCompras;
+    private de.javasoft.swing.JYTable tblCompras;
     private javax.swing.JTable tblItens;
     private javax.swing.JTextField tfdCodigoPro;
     private javax.swing.JTextField tfdCompra;
