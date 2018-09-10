@@ -797,6 +797,18 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
         ffdQuantidade.setText("");
         tfdDescontoUn.setText("");
         tfdSubtotal.setText("");
+        
+     
+        
+        
+        
+        
+    }
+    
+    private void limparDadosTabelaItens(){
+        for(int d = 1; d <= modelItens.getRowCount(); d++){
+            modelItens.removeRow(d);
+    }
     }
 
     private Itemcompra retornaItemSelecionado() {
@@ -858,7 +870,9 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
         BigDecimal total = getTotal();
 
         if (tfdDesconto.getValue().intValue() > 0) {
+            System.out.println("entrou aqui");
             total = total.subtract(tfdDesconto.getValue());
+            System.out.println("entrou aqui");
         }
 
         return total;
@@ -1029,8 +1043,12 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
             }
 
             Mensagem.mostraInformacao("Sucesso", "Compra " + ((getEditandoCompra()) ? "atualizada" : "salva") + " com sucesso");
+            
             limparPainelCadastro();
-
+           
+            
+          limparDadosTabelaItens();
+            
         } catch (Exception e) {
             Mensagem.mostraErro("Problema", "Problema ao " + ((getEditandoCompra()) ? "atualizar" : "salvar") + " compra");
             logger.error("Erro ao atualizar tabelas", e);
