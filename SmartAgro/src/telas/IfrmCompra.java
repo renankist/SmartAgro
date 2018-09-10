@@ -56,8 +56,8 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
         dlgFornecedores = new DlgFornecedores(null, true);
         dlgColaboradores = new DlgColaboradores(null, true);
         dlgProdutos = new DlgProdutos(null, true);
-        
-        
+        ffdData.setText(Formatacao.getDataAtual());
+        System.out.println(Formatacao.getDataAtual());
         popularComboStatus();
 
         focus();
@@ -124,7 +124,7 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
         btnZoomFornecedor = new javax.swing.JButton();
         btnZoomComprador = new javax.swing.JButton();
         tfdComprador = new javax.swing.JTextField();
-        ffdData = new javax.swing.JFormattedTextField();
+        ffdData = new javax.swing.JFormattedTextField(Formatacao.getDataAtual());
         cbmStatus = new javax.swing.JComboBox<>();
         jLabel15 = new javax.swing.JLabel();
         rbtPagaSim = new javax.swing.JRadioButton();
