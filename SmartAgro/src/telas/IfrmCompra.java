@@ -1032,7 +1032,7 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
             limparPainelCadastro();
 
         } catch (Exception e) {
-            Mensagem.mostraErro("Problema", "Problema ao " + ((getEditandoCompra()) ? "atualizar" : "salvar") + " venda");
+            Mensagem.mostraErro("Problema", "Problema ao " + ((getEditandoCompra()) ? "atualizar" : "salvar") + " compra");
             logger.error("Erro ao atualizar tabelas", e);
         }
 
@@ -1044,7 +1044,50 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnExcluirActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
-        // TODO add your handling code here:
+         // Pega o código do registro para consultar o objeto
+        int id = Integer.parseInt(tblCompras.getValueAt(tblCompras.getSelectedRow(), 0).toString());
+        this.compra = (Compra) dao.consultarPorId(id, "Compra");
+
+        limparPainelCadastro();
+
+        // Pega os dados se existir objeto
+        if (this.compra != null) {
+            tfdCompra.setText(compra.getId().toString());
+            ffdData.setValue(compra.getData());
+            cbmStatus.setSelectedItem(Compra.getDescricaoStatus(compra.getStatus()));
+
+            rbtPagaSim.setSelected(compra.getPago());
+            rbtPagaNao.setSelected(!compra.getPago());
+
+            String colab;
+            if (compra.getFornecedor().getCnpj() != null) {
+                colab = compra.getFornecedor().getCnpj();
+            } else {
+                colab = compra.getFornecedor().getCpf();
+            }
+            colab = colab  + " - " + compra.getColaborador().getNomecompleto();
+            tfdFornecedor.setText(colab);
+
+            tfdComprador.setText(compra.getColaborador().getNomecompleto());
+            tfdDesconto.setValue(compra.getDesconto());
+            tfdDescrDesc.setText(compra.getDescricaodesconto());
+            tfdObservacao.setText(compra.getObservacao());
+
+            // Itens
+            ArrayList<Itemcompra> itens = new ArrayList();
+            for (Itemcompra item : compra.getItemcompraCollection()) {
+                itens.add(item);
+            }
+            this.modelItens = new jtmItensCompra(itens);
+            tblItens.setModel(this.modelItens);
+
+            atualizaSubtotal();
+            atualizaTotal();
+
+            tabAbas.setSelectedIndex(0);
+            setEditandoVenda(true);
+            focus();
+        }
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void tfdDescontoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfdDescontoFocusLost
