@@ -14,19 +14,20 @@ import telas.FrmPrincipal;
  *
  * @author Renan Luis Kist
  */
-public  class CustomRevisionEntityListener implements RevisionListener {
+public class CustomRevisionEntityListener implements RevisionListener {
 
     public void newRevision(Object revisionEntity) {
         CustomRevisionEntity customRevisionEntity
                 = (CustomRevisionEntity) revisionEntity;
 
-        customRevisionEntity.setUsername(FrmPrincipal.usuario.getUsuario());
+        customRevisionEntity.setUsername("login");
+
         customRevisionEntity.setHora(new Date());
-        
-        try{
-        customRevisionEntity.setIp(InetAddress.getLocalHost().getHostAddress());
-        }catch(Exception e){
-            
+
+        try {
+            customRevisionEntity.setIp(InetAddress.getLocalHost().getHostAddress());
+        } catch (Exception e) {
+
         }
     }
 }

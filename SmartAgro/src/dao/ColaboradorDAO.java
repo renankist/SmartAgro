@@ -45,6 +45,41 @@ public class ColaboradorDAO extends GenericDAO<Colaborador> {
         return c;
             
    }
+   
+   public boolean consultarSenha(String user, String senha){
+       
+       
+         boolean c = false;
+       
+        Session sessao = null;
+
+        try {
+
+            sessao = HibernateUtil.getSessionFactory().openSession();
+
+            sessao.beginTransaction();
+
+            org.hibernate.Query q = sessao.createQuery("from Colaborador where usuario = :usuarioParam and senhausuario = :senhaParam");
+
+            q.setString("usuarioParam", user);
+            q.setString("senhaParam", senha);
+
+            if(q.uniqueResult() != null){
+                c = true; 
+            }
+
+        } catch (HibernateException he) {
+            he.printStackTrace();
+        } finally {
+            sessao.close();
+        }
+
+        return c;
+       
+       
+       
+       
+   }
     
     
 }

@@ -636,6 +636,7 @@ public class IfrmColaborador extends javax.swing.JInternalFrame {
         } else {
 
             colab.setSenhausuario(Criptografia.criptografar("12345"));
+            
             try {
                 if (!new GenericDAO<>().salvar(endereco)) {
                     throw new Exception("Erro ao salvar endereco - colaborador");
