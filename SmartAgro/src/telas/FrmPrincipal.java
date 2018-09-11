@@ -70,6 +70,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         itmConsultaColaborador = new javax.swing.JMenuItem();
         itmRelatorioColaborador = new javax.swing.JMenuItem();
         mnuSistema = new javax.swing.JMenu();
+        itmPermissoes = new javax.swing.JMenuItem();
         itmSair = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -316,6 +317,15 @@ public class FrmPrincipal extends javax.swing.JFrame {
         mnuSistema.setMnemonic('S');
         mnuSistema.setText("Sistema");
 
+        itmPermissoes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/locked.png"))); // NOI18N
+        itmPermissoes.setText("Permissões");
+        itmPermissoes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itmPermissoesActionPerformed(evt);
+            }
+        });
+        mnuSistema.add(itmPermissoes);
+
         itmSair.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/power.png"))); // NOI18N
         itmSair.setText("Sair");
         itmSair.addActionListener(new java.awt.event.ActionListener() {
@@ -427,6 +437,10 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private void itmRelatorioVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmRelatorioVendaActionPerformed
         cadastroVenda(2);
     }//GEN-LAST:event_itmRelatorioVendaActionPerformed
+
+    private void itmPermissoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmPermissoesActionPerformed
+        cadastroPermissoes();
+    }//GEN-LAST:event_itmPermissoesActionPerformed
     
     private void cadastroVenda(int aba){
         IfrmVenda janelaVenda = new IfrmVenda(aba);
@@ -517,6 +531,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem itmContasPagar;
     private javax.swing.JMenuItem itmContasReceber;
     private javax.swing.JMenuItem itmFormasPagamento;
+    private javax.swing.JMenuItem itmPermissoes;
     private javax.swing.JMenuItem itmRelatorioCliente;
     private javax.swing.JMenuItem itmRelatorioColaborador;
     private javax.swing.JMenuItem itmRelatorioCompra;
