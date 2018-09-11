@@ -54,7 +54,6 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
         dlgFornecedores = new DlgFornecedores(null, true);
         dlgColaboradores = new DlgColaboradores(null, true);
         dlgProdutos = new DlgProdutos(null, true);
-        ffdData.setText(Formatacao.getDataAtual());
         popularComboStatus();
 
         focus();
@@ -1074,7 +1073,8 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
         // Pega os dados se existir objeto
         if (this.compra != null) {
             tfdCompra.setText(compra.getId().toString());
-            ffdData.setValue(Formatacao.converteStringParaDate(compra.getData().toString()));
+            ffdData.setValue(Formatacao.ajustaDataDMA(compra.getData().toString()));
+            System.out.println(compra.getData().toString());
             cbmStatus.setSelectedItem(Compra.getDescricaoStatus(compra.getStatus()));
 
             rbtPagaSim.setSelected(compra.getPago());
