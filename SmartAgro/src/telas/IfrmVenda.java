@@ -1102,7 +1102,7 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
         // Pega os dados se existir objeto
         if (this.venda != null) {
             tfdVenda.setText(venda.getId().toString());
-            ffdData.setValue(venda.getDia());
+            ffdData.setValue(Formatacao.converteStringParaDate(venda.getDia().toString()));
             cbmStatus.setSelectedItem(Venda.getDescricaoStatus(venda.getStatus()));
 
             rbtPagaSim.setSelected(venda.getPago());

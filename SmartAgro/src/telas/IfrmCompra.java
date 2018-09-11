@@ -1074,7 +1074,7 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
         // Pega os dados se existir objeto
         if (this.compra != null) {
             tfdCompra.setText(compra.getId().toString());
-            ffdData.setValue(compra.getData());
+            ffdData.setValue(Formatacao.converteStringParaDate(compra.getData().toString()));
             cbmStatus.setSelectedItem(Compra.getDescricaoStatus(compra.getStatus()));
 
             rbtPagaSim.setSelected(compra.getPago());
@@ -1086,7 +1086,7 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
             } else {
                 colab = compra.getFornecedor().getCpf();
             }
-            colab = colab + " - " + compra.getColaborador().getNomecompleto();
+            colab = colab + " - " + compra.getFornecedor().getNome();
             tfdFornecedor.setText(colab);
 
             tfdComprador.setText(compra.getColaborador().getNomecompleto());
