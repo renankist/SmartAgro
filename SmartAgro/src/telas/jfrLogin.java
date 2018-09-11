@@ -137,45 +137,47 @@ public class jfrLogin extends javax.swing.JFrame {
 
         colab = dao.autenticarColaborador(jtfLogin.getText(), Criptografia.criptografar(jpfSenha.getText()));
 
-        if (colab.getSenhausuario().equals(Criptografia.criptografar("12345"))) {
+        if (colab != null) {
 
-            /* Set the Synthetica Plain look and feel */
-            try {
-                javax.swing.UIManager.setLookAndFeel("de.javasoft.plaf.synthetica.SyntheticaPlainLookAndFeel");
-            } catch (ClassNotFoundException ex) {
-                java.util.logging.Logger.getLogger(FrmPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-            } catch (InstantiationException ex) {
-                java.util.logging.Logger.getLogger(FrmPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-            } catch (IllegalAccessException ex) {
-                java.util.logging.Logger.getLogger(FrmPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-            } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-                java.util.logging.Logger.getLogger(FrmPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            if (colab.getSenhausuario().equals(Criptografia.criptografar("12345"))) {
+
+                /* Set the Synthetica Plain look and feel */
+                try {
+                    javax.swing.UIManager.setLookAndFeel("de.javasoft.plaf.synthetica.SyntheticaPlainLookAndFeel");
+                } catch (ClassNotFoundException ex) {
+                    java.util.logging.Logger.getLogger(FrmPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                } catch (InstantiationException ex) {
+                    java.util.logging.Logger.getLogger(FrmPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                } catch (IllegalAccessException ex) {
+                    java.util.logging.Logger.getLogger(FrmPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+                    java.util.logging.Logger.getLogger(FrmPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                }
+
+                DlgAlterarSenhaPrimeiroAcesso dlgFP = new DlgAlterarSenhaPrimeiroAcesso(this, true, colab);
+                dlgFP.setLocationRelativeTo(this);
+                dlgFP.setVisible(true);
+                this.dispose();
+
+            } else {
+                /* Set the Synthetica Plain look and feel */
+                try {
+                    javax.swing.UIManager.setLookAndFeel("de.javasoft.plaf.synthetica.SyntheticaPlainLookAndFeel");
+                } catch (ClassNotFoundException ex) {
+                    java.util.logging.Logger.getLogger(FrmPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                } catch (InstantiationException ex) {
+                    java.util.logging.Logger.getLogger(FrmPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                } catch (IllegalAccessException ex) {
+                    java.util.logging.Logger.getLogger(FrmPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+                    java.util.logging.Logger.getLogger(FrmPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                }
+
+                new FrmPrincipal(colab).setVisible(true);
+
+                this.dispose();
+
             }
-
-            DlgAlterarSenhaPrimeiroAcesso dlgFP = new DlgAlterarSenhaPrimeiroAcesso(this, true, colab);
-            dlgFP.setLocationRelativeTo(this);
-            dlgFP.setVisible(true);
-            this.dispose();
-
-        } else if (colab != null) {
-
-            /* Set the Synthetica Plain look and feel */
-            try {
-                javax.swing.UIManager.setLookAndFeel("de.javasoft.plaf.synthetica.SyntheticaPlainLookAndFeel");
-            } catch (ClassNotFoundException ex) {
-                java.util.logging.Logger.getLogger(FrmPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-            } catch (InstantiationException ex) {
-                java.util.logging.Logger.getLogger(FrmPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-            } catch (IllegalAccessException ex) {
-                java.util.logging.Logger.getLogger(FrmPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-            } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-                java.util.logging.Logger.getLogger(FrmPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-            }
-
-            new FrmPrincipal(colab).setVisible(true);
-
-            this.dispose();
-
         } else {
             jlbMsgAutenticacao.setText("Usuário ou senha inválidos.");
         }

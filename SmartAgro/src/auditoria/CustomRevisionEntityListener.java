@@ -20,7 +20,11 @@ public class CustomRevisionEntityListener implements RevisionListener {
         CustomRevisionEntity customRevisionEntity
                 = (CustomRevisionEntity) revisionEntity;
 
-        customRevisionEntity.setUsername("login");
+        if (FrmPrincipal.usuario != null) {
+            customRevisionEntity.setUsername(FrmPrincipal.usuario.getUsuario());
+        } else {
+            customRevisionEntity.setUsername("login");
+        }
 
         customRevisionEntity.setHora(new Date());
 
