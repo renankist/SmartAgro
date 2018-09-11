@@ -86,14 +86,14 @@ public class HabilitaCampos {
         
         // Tenta limpar o campo, se não limpar, é porque tem mais panels dentro do panel principal
         try {
-            LimpaCampos.limparCampos(painel);
+           LimpaCampos.limparCampos(painel);
         } catch (Exception e) {
         }
 
         if (painel.getName() == "pnlCadastro") {
             for (Component component : painel.getComponents()) {
                 if (component instanceof JPanel) {
-                    LimpaCampos.limparCampos((JPanel) component);
+                  LimpaCampos.limparCampos((JPanel) component);
                 }
             }
         }

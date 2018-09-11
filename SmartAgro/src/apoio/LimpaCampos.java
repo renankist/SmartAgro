@@ -34,7 +34,7 @@ public class LimpaCampos {
                 }
             } else if (c[i] instanceof JComboBox) {
                 JComboBox cb = (JComboBox) c[i];
-                cb.setSelectedIndex(-1);
+                cb.setSelectedIndex(0);
                 cb.setBackground(null);
             } else if (c[i] instanceof JCheckBox) {
                 JCheckBox ckb = (JCheckBox) c[i];

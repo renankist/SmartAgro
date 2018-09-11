@@ -45,7 +45,6 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
      */
     public IfrmVenda(int aba) {
         initComponents();
-
         // Abre na aba passada por parametro
         tabAbas.setSelectedIndex(aba);
 
@@ -62,6 +61,9 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
         dlgColaboradores = new DlgColaboradores(null, true);
         dlgProdutos = new DlgProdutos(null, true);
         
+       //Definindo o Colaborador que está logado no campo vendedor
+        tfdVendedor.setText(FrmPrincipal.usuario.getNomecompleto());
+         
         popularComboStatus();
 
         focus();
@@ -82,7 +84,7 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
         for (Object st : new Venda().getTodosStatus()) {
             cbmStatus.addItem(st.toString());
         }
-
+       
         cbmStatus.setSelectedIndex(0);
     }
 
