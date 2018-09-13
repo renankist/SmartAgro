@@ -71,10 +71,10 @@ public class FrmPrincipal extends javax.swing.JFrame {
         itmRelatorioColaborador = new javax.swing.JMenuItem();
         mnuSistema = new javax.swing.JMenu();
         itmSair = new javax.swing.JMenuItem();
+        itmSair1 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("SmartAgro");
-        setPreferredSize(new java.awt.Dimension(1300, 1000));
         setSize(new java.awt.Dimension(0, 0));
 
         javax.swing.GroupLayout dskAreaLayout = new javax.swing.GroupLayout(dskArea);
@@ -316,14 +316,23 @@ public class FrmPrincipal extends javax.swing.JFrame {
         mnuSistema.setMnemonic('S');
         mnuSistema.setText("Sistema");
 
-        itmSair.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/power.png"))); // NOI18N
-        itmSair.setText("Sair");
+        itmSair.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/register.png"))); // NOI18N
+        itmSair.setText("Alterar Senha");
         itmSair.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 itmSairActionPerformed(evt);
             }
         });
         mnuSistema.add(itmSair);
+
+        itmSair1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/power.png"))); // NOI18N
+        itmSair1.setText("Sair");
+        itmSair1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itmSair1ActionPerformed(evt);
+            }
+        });
+        mnuSistema.add(itmSair1);
 
         barMenu.add(mnuSistema);
 
@@ -397,7 +406,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_itmRelatorioColaboradorActionPerformed
 
     private void itmSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmSairActionPerformed
-        System.exit(0);
+        alterarSenha();
     }//GEN-LAST:event_itmSairActionPerformed
 
     private void itmFormasPagamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmFormasPagamentoActionPerformed
@@ -427,6 +436,17 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private void itmRelatorioVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmRelatorioVendaActionPerformed
         cadastroVenda(2);
     }//GEN-LAST:event_itmRelatorioVendaActionPerformed
+
+    private void itmSair1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmSair1ActionPerformed
+       System.exit(0);
+    }//GEN-LAST:event_itmSair1ActionPerformed
+    
+    private void alterarSenha(){
+        DlgAlterarSenha dlgFP = new DlgAlterarSenha(this,true, this.usuario);
+        dlgFP.setLocationRelativeTo(this);
+        dlgFP.setVisible(true);
+    }
+    
     
     private void cadastroVenda(int aba){
         IfrmVenda janelaVenda = new IfrmVenda(aba);
@@ -524,6 +544,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem itmRelatorioProduto;
     private javax.swing.JMenuItem itmRelatorioVenda;
     private javax.swing.JMenuItem itmSair;
+    private javax.swing.JMenuItem itmSair1;
     private javax.swing.JMenuItem itmUnidadeMedida;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;

@@ -7,6 +7,7 @@ package telas;
 
 import apoio.Criptografia;
 import apoio.Formatacao;
+import apoio.LimitaNroCaracteres;
 import dao.ColaboradorDAO;
 import entidade.Colaborador;
 import java.util.Arrays;
@@ -25,7 +26,13 @@ public class DlgAlterarSenhaPrimeiroAcesso extends javax.swing.JDialog {
         super(parent, modal);
         this.colab = colab;
         dao = new ColaboradorDAO();
+        
         initComponents();
+        
+        jpsSenhaConfirmada.setDocument(new LimitaNroCaracteres(15));
+        jpfSenha.setDocument(new LimitaNroCaracteres(15));
+ 
+        
     }
 
     /**
@@ -45,7 +52,6 @@ public class DlgAlterarSenhaPrimeiroAcesso extends javax.swing.JDialog {
         jLabel3 = new javax.swing.JLabel();
         jlbMsnConfirma = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("SmartAgro | Primeiro Acesso");
@@ -58,7 +64,7 @@ public class DlgAlterarSenhaPrimeiroAcesso extends javax.swing.JDialog {
             }
         });
 
-        jLabel1.setText(" Senha:");
+        jLabel1.setText(" Senha *");
 
         jpfSenha.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -66,7 +72,7 @@ public class DlgAlterarSenhaPrimeiroAcesso extends javax.swing.JDialog {
             }
         });
 
-        jLabel2.setText("Confirme a senha:");
+        jLabel2.setText("Confirme a senha *");
 
         jpsSenhaConfirmada.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -83,10 +89,6 @@ public class DlgAlterarSenhaPrimeiroAcesso extends javax.swing.JDialog {
         jLabel4.setForeground(new java.awt.Color(255, 0, 16));
         jLabel4.setText("* A senha precisa conter no mínimo 6 caracteres e no máximo 15");
 
-        jLabel5.setFont(new java.awt.Font("Ubuntu", 0, 12)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(255, 0, 16));
-        jLabel5.setText("* A senha não pode ser a mesma que a anterior");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -98,8 +100,7 @@ public class DlgAlterarSenhaPrimeiroAcesso extends javax.swing.JDialog {
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(26, 26, 26)
                                 .addComponent(jLabel3))
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel5))
+                            .addComponent(jLabel4))
                         .addGap(0, 13, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
@@ -132,8 +133,6 @@ public class DlgAlterarSenhaPrimeiroAcesso extends javax.swing.JDialog {
                 .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel5)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -235,7 +234,6 @@ public class DlgAlterarSenhaPrimeiroAcesso extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JToggleButton jToggleButton1;
     private javax.swing.JLabel jlbMsnConfirma;
     private javax.swing.JPasswordField jpfSenha;

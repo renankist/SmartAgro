@@ -21,7 +21,7 @@ public class Criptografia {
   
         for (int i = 0; i < text.length; i++) {
             hexString = "00" + Integer.toHexString(text[i]);
-            hexString.toUpperCase().getChars(hexString.length() - 2,
+            hexString.getChars(hexString.length() - 2,
                                     hexString.length(), hexOutput, i * 2);
         }
         return hexOutput;
