@@ -277,7 +277,7 @@ public class IfrmFormaPagamento extends javax.swing.JInternalFrame {
                 Mensagem.mostraInformacao("Sucesso", "Forma de pagamento " + forma.getDescricao() + " inserida com sucesso");
                 LimpaCampos.limparCampos(pnlCadastro);
             } else {
-                Mensagem.mostraErro("Problema", "Problema para inserir forma de pagamento");
+                Mensagem.mostraErro("Problema", "Problema para inserir forma de pagamento.");
             }
 
         }
@@ -302,7 +302,7 @@ public class IfrmFormaPagamento extends javax.swing.JInternalFrame {
                 this.jTableFormasPagamento.setModel(new jtmFormasPagamento(formas));
                 //this.tblServicos.setDefaultRenderer(Object.class, new RenderizadorTabelas());
             } else {
-                Mensagem.mostraErro("Problema", "Problema para excluir forma de pagamento");
+                Mensagem.mostraErro("Problema", "Problema para excluir forma de pagamento.Verique se ela já não está vinculada a uma venda/compra.");
             }
         }
 

@@ -637,7 +637,7 @@ public class IfrmCliente extends javax.swing.JInternalFrame {
                 this.clientes = dao.consultarComCriterio("Cliente", "nome", tfdCriterio.getText());
                 this.tblClientes.setModel(new jtmCliente(this.clientes));
             } else {
-                Mensagem.mostraErro("Problema", "Problema para excluir cliente");
+                Mensagem.mostraErro("Problema", "Problema para excluir cliente. Verifique se ele não está vinculado a uma venda.");
             }
         }
     }//GEN-LAST:event_btnExcluirActionPerformed

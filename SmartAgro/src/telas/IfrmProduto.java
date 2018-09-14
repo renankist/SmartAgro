@@ -393,7 +393,7 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
                 this.produtos = dao.consultarComCriterio("Produto", "descricao", tfdCriterio.getText());
                 this.tblProdutos.setModel(new jtmProduto(this.produtos));
             } else {
-                Mensagem.mostraErro("Problema", "Problema para excluir produto");
+                Mensagem.mostraErro("Problema", "Problema para excluir produto. Verifique se ele não está vinculado a uma venda/compra.");
             }
         }
 

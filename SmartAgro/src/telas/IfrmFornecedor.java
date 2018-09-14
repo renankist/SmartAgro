@@ -622,7 +622,7 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
                 this.fornecedores = dao.consultarComCriterio("Fornecedor", "nome", tfdCriterio.getText());
                 this.tblFornecedores.setModel(new jtmFornecedor(this.fornecedores));
             } else {
-                Mensagem.mostraErro("Problema", "Problema para excluir fornecedor");
+                Mensagem.mostraErro("Problema", "Problema para excluir fornecedor. Verifique se ele não está vinculado a uma compra.");
             }
         }
     }//GEN-LAST:event_btnExcluirActionPerformed
