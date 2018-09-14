@@ -240,7 +240,7 @@ public class IfrmUnidadeMedida extends javax.swing.JInternalFrame {
         int id = Integer.parseInt(tblUnidades.getValueAt(tblUnidades.getSelectedRow(), 0).toString());
 
         unidade = dao.consultarPorId(id, "Unidademedida");
-        
+
         LimpaCampos.limparCampos(pnlCadastro);
 
         //Se o objeto buscado no método do ServidoDao for diferente de null
@@ -265,6 +265,7 @@ public class IfrmUnidadeMedida extends javax.swing.JInternalFrame {
 
         if (editando) {
             unidade.setDescricao(tfdDescricao.getText());
+            unidade.setUnidade(tfdUnidade.getText());
             if (dao.atualizar(unidade)) {
                 Mensagem.mostraInformacao("Sucesso", "Unidade de medida " + unidade.getDescricao() + " atualizada com sucesso");
                 LimpaCampos.limparCampos(pnlCadastro);
@@ -295,14 +296,13 @@ public class IfrmUnidadeMedida extends javax.swing.JInternalFrame {
         //Abre uma mensagem pedindo se o usuário realmente quer excluír o registro
         boolean resposta = Mensagem.confirmaMensagem("Atenção", "Deseja realmente excluir a unidade de medida: " + unidade.getUnidade() + "?");
         if (resposta) {
-
             // Exclui o registro
             if (dao.deletar(unidade)) {
                 Mensagem.mostraInformacao("Confirmação de exclusão", "Unidade excluída");
                 this.unidades = dao.consultarComCriterio("Unidademedida", "descricao", tfdCriterio.getText());
                 this.tblUnidades.setModel(new jtmUnidadeMedida(unidades));
             } else {
-                Mensagem.mostraErro("Problema", "Problema para excluir unidade de medida");
+                Mensagem.mostraErro("Problema", "Problema para excluir unidade de medida. Verifique se ela não está vinculada a algum produto");
             }
 
         }

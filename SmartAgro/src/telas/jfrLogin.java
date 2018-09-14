@@ -137,8 +137,7 @@ public class jfrLogin extends javax.swing.JFrame {
 
         colab = dao.autenticarColaborador(jtfLogin.getText(), Criptografia.criptografar(jpfSenha.getText()));
         
-        System.out.println(Criptografia.criptografar(jpfSenha.getText()));
-        
+       
         if (colab != null) {
 
             if (colab.getSenhausuario().equals(Criptografia.criptografar("12345"))) {

@@ -9,19 +9,19 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 public class GenericDAO<Object> {
-    
+
     private static final Logger logger = Logger.getLogger(GenericDAO.class);
-    
+
     public boolean salvar(Object o) {
 
         Boolean r = false;
 
         Session sessao = null;
 
-        try {
+        sessao = HibernateUtil.getSessionFactory().openSession();
+        Transaction t = sessao.beginTransaction();
 
-            sessao = HibernateUtil.getSessionFactory().openSession();
-            Transaction t = sessao.beginTransaction();
+        try {
 
             sessao.save(o);
 
@@ -33,6 +33,10 @@ public class GenericDAO<Object> {
             he.printStackTrace();
             logger.error("Erro ao salvar registro", he);
         } finally {
+            if (r == false) {
+                t.rollback();
+            }
+
             sessao.close();
         }
 
@@ -71,10 +75,10 @@ public class GenericDAO<Object> {
 
         Session sessao = null;
 
-        try {
+        sessao = HibernateUtil.getSessionFactory().openSession();
+        Transaction t = sessao.beginTransaction();
 
-            sessao = HibernateUtil.getSessionFactory().openSession();
-            Transaction t = sessao.beginTransaction();
+        try {
 
             sessao.update(o);
 
@@ -86,6 +90,11 @@ public class GenericDAO<Object> {
             he.printStackTrace();
             logger.error("Erro ao atualizar registro", he);
         } finally {
+
+            if (r == false) {
+                t.rollback();
+            }
+
             sessao.close();
         }
         return r;
@@ -97,23 +106,33 @@ public class GenericDAO<Object> {
 
         Session sessao = null;
 
+        sessao = HibernateUtil.getSessionFactory().openSession();
+
+        Transaction t = sessao.beginTransaction();
+
         try {
 
-            sessao = HibernateUtil.getSessionFactory().openSession();
-            Transaction t = sessao.beginTransaction();
-
             sessao.delete(o);
-
             t.commit();
-
             r = true;
-
         } catch (HibernateException he) {
+
             he.printStackTrace();
+
             logger.error("Erro ao deletar registro", he);
+
+            r = false;
+
         } finally {
+
+            if (r == false) {
+                t.rollback();
+            }
+
             sessao.close();
+
         }
+
         return r;
     }
 
@@ -135,6 +154,7 @@ public class GenericDAO<Object> {
 
         } catch (HibernateException he) {
             he.printStackTrace();
+
             logger.error("Erro ao consultar registro", he);
         } finally {
             sessao.close();

@@ -37,8 +37,8 @@ public class ProdutoDAO extends GenericDAO {
             resultado = (ArrayList) q.list();
 
         } catch (HibernateException he) {
-            he.printStackTrace();
-            logger.error("Erro ao consultar registros", he);
+            throw new HibernateException( "Erro ao tentar salvar o objeto." );
+           // logger.error("Erro ao consultar registros", he);
         } finally {
             sessao.close();
         }
