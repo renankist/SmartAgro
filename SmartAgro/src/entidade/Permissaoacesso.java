@@ -53,7 +53,7 @@ public class Permissaoacesso implements Serializable {
         this.acesso = acesso;
     }
 
-    public Permissaoacesso(int usuario, int operacao) {
+    public Permissaoacesso(Colaborador usuario, Operacao operacao) {
         this.permissaoacessoPK = new PermissaoacessoPK(usuario, operacao);
     }
 

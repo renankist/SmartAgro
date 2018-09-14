@@ -500,6 +500,12 @@ public class FrmPrincipal extends javax.swing.JFrame {
         } catch (Exception e) {
         }
     }
+     
+    private void cadastroPermissoes() {
+        IfrmPermissoes janelaPermissoes = new IfrmPermissoes();
+        dskArea.add(janelaPermissoes);
+        janelaPermissoes.setVisible(true);
+    }
 
     /**
      * @param args the command line arguments

@@ -10,7 +10,7 @@ import dao.GenericDAO;
 import entidade.Unidademedida;
 import java.util.ArrayList;
 import javax.swing.JComponent;
-import javafx.scene.control.*;
+
 /**
  *
  * @author Morgana
@@ -32,14 +32,24 @@ public class IfrmPermissoes extends javax.swing.JInternalFrame {
         unidades = new ArrayList();
         tblPermissoes.setModel(new jtmUnidadeMedida(unidades));
 
+        Object[][][] data = new Object[][][]
+        {
+            {
+                {"1. Violin"},
+                {"Guy", false},
+                {"Daniel", true},
+            },
+        };
+                
+        jtmPermissoes.addNodes(jtrPermissoes, data);
+
         //Deixar o focus no campo de descrição
         focus();
     }
-
+    
     private void focus() {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                tfdUnidade.requestFocusInWindow();
             }
         });
     }
@@ -62,6 +72,8 @@ public class IfrmPermissoes extends javax.swing.JInternalFrame {
         lblUnidade = new javax.swing.JLabel();
         tfdVendedor = new javax.swing.JTextField();
         btnZoomVendedor = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jtrPermissoes = new org.jdesktop.swingx.JXTreeTable();
         pnlConsulta = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblPermissoes = new javax.swing.JTable();
@@ -113,18 +125,24 @@ public class IfrmPermissoes extends javax.swing.JInternalFrame {
             }
         });
 
+        jScrollPane3.setViewportView(jtrPermissoes);
+
         javax.swing.GroupLayout pnlCadastroLayout = new javax.swing.GroupLayout(pnlCadastro);
         pnlCadastro.setLayout(pnlCadastroLayout);
         pnlCadastroLayout.setHorizontalGroup(
             pnlCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlCadastroLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblUnidade, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tfdVendedor, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnZoomVendedor, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(398, Short.MAX_VALUE))
+                .addGroup(pnlCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane3)
+                    .addGroup(pnlCadastroLayout.createSequentialGroup()
+                        .addComponent(lblUnidade, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(tfdVendedor, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnZoomVendedor, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 388, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         pnlCadastroLayout.setVerticalGroup(
             pnlCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -135,7 +153,9 @@ public class IfrmPermissoes extends javax.swing.JInternalFrame {
                         .addComponent(tfdVendedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(lblUnidade, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(btnZoomVendedor, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(221, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         tabAbas.addTab("Cadastro", pnlCadastro);
@@ -186,7 +206,7 @@ public class IfrmPermissoes extends javax.swing.JInternalFrame {
                     .addComponent(tfdCriterio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnPesquisar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 216, Short.MAX_VALUE))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 352, Short.MAX_VALUE))
         );
 
         tabAbas.addTab("Consulta", pnlConsulta);
@@ -220,9 +240,7 @@ public class IfrmPermissoes extends javax.swing.JInternalFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 734, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 734, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -237,13 +255,11 @@ public class IfrmPermissoes extends javax.swing.JInternalFrame {
         int id = Integer.parseInt(tblPermissoes.getValueAt(tblPermissoes.getSelectedRow(), 0).toString());
 
         unidade = dao.consultarPorId(id, "Unidademedida");
-        
+
         LimpaCampos.limparCampos(pnlCadastro);
 
         //Se o objeto buscado no método do ServidoDao for diferente de null
         if (unidade != null) {
-            tfdUnidade.setText(unidade.getUnidade());
-            tfdDescricao.setText(unidade.getDescricao());
             tabAbas.setSelectedIndex(0);
             editando = true;
             focus();
@@ -252,7 +268,7 @@ public class IfrmPermissoes extends javax.swing.JInternalFrame {
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         // Aplica o validador
-        JComponent[] components = new JComponent[]{tfdUnidade, tfdDescricao};
+        JComponent[] components = new JComponent[]{};
         VerificadorCampos verifier = new VerificadorCampos(components);
         if (!verifier.validaCampos()) {
             return;
@@ -261,7 +277,6 @@ public class IfrmPermissoes extends javax.swing.JInternalFrame {
         this.dao = new GenericDAO();
 
         if (editando) {
-            unidade.setDescricao(tfdDescricao.getText());
             if (dao.atualizar(unidade)) {
                 Mensagem.mostraInformacao("Sucesso", "Unidade de medida " + unidade.getDescricao() + " atualizada com sucesso");
                 LimpaCampos.limparCampos(pnlCadastro);
@@ -271,8 +286,6 @@ public class IfrmPermissoes extends javax.swing.JInternalFrame {
             editando = false;
         } else {
             unidade = new Unidademedida();
-            unidade.setUnidade(tfdUnidade.getText());
-            unidade.setDescricao(tfdDescricao.getText());
 
             if (dao.salvar(unidade)) {
                 Mensagem.mostraInformacao("Sucesso", "Unidade de medida " + unidade.getDescricao() + " inserida com sucesso");
@@ -297,14 +310,9 @@ public class IfrmPermissoes extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_tabAbasFocusLost
 
     private void tabAbasStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tabAbasStateChanged
-        HabilitaCampos.controlaBotoes(evt, btnSalvar, btnEditar, btnExcluir);
     }//GEN-LAST:event_tabAbasStateChanged
 
     private void btnZoomVendedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnZoomVendedorActionPerformed
-        dlgColaboradores.setVisible(true);
-        if (dlgColaboradores.getColaborador() != null) {
-            tfdVendedor.setText(dlgColaboradores.getColaboradorToString());
-        }
     }//GEN-LAST:event_btnZoomVendedorActionPerformed
 
 
@@ -317,6 +325,8 @@ public class IfrmPermissoes extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private org.jdesktop.swingx.JXTreeTable jtrPermissoes;
     private javax.swing.JLabel lblUnidade;
     private javax.swing.JPanel pnlCadastro;
     private javax.swing.JPanel pnlConsulta;
