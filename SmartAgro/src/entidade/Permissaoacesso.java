@@ -34,12 +34,14 @@ public class Permissaoacesso implements Serializable {
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected PermissaoacessoPK permissaoacessoPK;
+    
     @Basic(optional = false)
     @Column(name = "acesso")
     private boolean acesso;
+    
     @JoinColumn(name = "operacao", referencedColumnName = "id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
-    private Operacoesmodulo operacoesmodulo;
+    private Operacoesmodulo operacao;
 
     public Permissaoacesso() {
     }
@@ -53,7 +55,7 @@ public class Permissaoacesso implements Serializable {
         this.acesso = acesso;
     }
 
-    public Permissaoacesso(Colaborador usuario, Operacao operacao) {
+    public Permissaoacesso(Colaborador usuario, Operacoesmodulo operacao) {
         this.permissaoacessoPK = new PermissaoacessoPK(usuario, operacao);
     }
 
@@ -74,11 +76,11 @@ public class Permissaoacesso implements Serializable {
     }
 
     public Operacoesmodulo getOperacoesmodulo() {
-        return operacoesmodulo;
+        return operacao;
     }
 
-    public void setOperacoesmodulo(Operacoesmodulo operacoesmodulo) {
-        this.operacoesmodulo = operacoesmodulo;
+    public void setOperacoesmodulo(Operacoesmodulo operacao) {
+        this.operacao = operacao;
     }
 
     @Override

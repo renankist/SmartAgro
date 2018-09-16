@@ -5,18 +5,23 @@
  */
 package telas;
 
-
 import apoio.Criptografia;
 import dao.ColaboradorDAO;
 import entidade.Colaborador;
 import static java.awt.Color.white;
-import sun.security.provider.MD5;
 
 /**
  *
  * @author renan
  */
 public class jfrLogin extends javax.swing.JFrame {
+
+    private static Colaborador colab;
+    
+    // Função para retornar o usuário logado
+    public static Colaborador getUsuarioLogado(){
+        return colab;
+    }
 
     /**
      * Creates new form jfrLogin
@@ -26,7 +31,7 @@ public class jfrLogin extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         this.setResizable(false);
         getContentPane().setBackground(white);
-       
+
     }
 
     /**
@@ -132,9 +137,8 @@ public class jfrLogin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-     ColaboradorDAO dao = new ColaboradorDAO();
-
-       Colaborador colab = new Colaborador();
+        
+        ColaboradorDAO dao = new ColaboradorDAO();
 
         colab = dao.autenticarColaborador(jtfLogin.getText(), Criptografia.criptografar(jpfSenha.getText()));
 
@@ -153,13 +157,12 @@ public class jfrLogin extends javax.swing.JFrame {
             }
 
             new FrmPrincipal(colab).setVisible(true);
-            
+
             this.dispose();
 
         } else {
             jlbMsgAutenticacao.setText("Usuário ou senha inválidos.");
         }
-
 
 
     }//GEN-LAST:event_jButton1ActionPerformed

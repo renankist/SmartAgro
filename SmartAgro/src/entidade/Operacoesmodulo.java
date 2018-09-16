@@ -6,9 +6,7 @@
 package entidade;
 
 import java.io.Serializable;
-import java.util.Collection;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -16,10 +14,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -38,15 +34,15 @@ public class Operacoesmodulo implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
+    
     @JoinColumn(name = "modulo", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Modulo modulo;
+    
     @JoinColumn(name = "operacao", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Operacao operacao;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "operacoesmodulo")
-    private Collection<Permissaoacesso> permissaoacessoCollection;
-
+    
     public Operacoesmodulo() {
     }
 
@@ -76,15 +72,6 @@ public class Operacoesmodulo implements Serializable {
 
     public void setOperacao(Operacao operacao) {
         this.operacao = operacao;
-    }
-
-    @XmlTransient
-    public Collection<Permissaoacesso> getPermissaoacessoCollection() {
-        return permissaoacessoCollection;
-    }
-
-    public void setPermissaoacessoCollection(Collection<Permissaoacesso> permissaoacessoCollection) {
-        this.permissaoacessoCollection = permissaoacessoCollection;
     }
 
     @Override

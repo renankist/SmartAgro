@@ -24,12 +24,12 @@ public class PermissaoacessoPK implements Serializable {
     
     @JoinColumn(name = "operacao", referencedColumnName = "id")
     @ManyToOne(optional = false, cascade=CascadeType.ALL)
-    private Operacao operacao;
+    private Operacoesmodulo operacao;
 
     public PermissaoacessoPK() {
     }
 
-    public PermissaoacessoPK(Colaborador usuario, Operacao operacao) {
+    public PermissaoacessoPK(Colaborador usuario, Operacoesmodulo operacao) {
         this.usuario = usuario;
         this.operacao = operacao;
     }
@@ -42,11 +42,11 @@ public class PermissaoacessoPK implements Serializable {
         this.usuario = usuario;
     }
 
-    public Operacao getOperacao() {
+    public Operacoesmodulo getOperacao() {
         return operacao;
     }
 
-    public void setOperacao(Operacao operacao) {
+    public void setOperacao(Operacoesmodulo operacao) {
         this.operacao = operacao;
     }
 

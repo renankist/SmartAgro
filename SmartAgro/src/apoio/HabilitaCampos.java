@@ -27,27 +27,31 @@ public class HabilitaCampos {
     public static void habilitaCampos(Container container, boolean flag) {
         Component c[] = container.getComponents();
         for (int i = 0; i < c.length; i++) {
-            if (c[i] instanceof JFormattedTextField) {
-                JFormattedTextField field = (JFormattedTextField) c[i];
-                field.setEditable(flag);
-            } else if (c[i] instanceof JTextField) {
-                JTextField field = (JTextField) c[i];
-                field.setEditable(flag);
-            } else if (c[i] instanceof JScrollPane) {
-                ((JTextArea) ((JScrollPane) c[i]).getViewport().getComponent(0)).setEditable(flag);
-            } else if (c[i] instanceof JComboBox) {
-                JComboBox cb = (JComboBox) c[i];
-                cb.setEnabled(flag);
-            } else if (c[i] instanceof JCheckBox) {
-                JCheckBox ckb = (JCheckBox) c[i];
-                ckb.setEnabled(flag);
-            } else if (c[i] instanceof JButton) {
-                JButton btn = (JButton) c[i];
-                btn.setEnabled(flag);
-            } else if (c[i] instanceof JDateChooser) {
-                JDateChooser field = (JDateChooser) c[i];
-                field.setEnabled(flag);
-            }
+            habilitaCampo(c[i], flag);
+        }
+    }
+
+    public static void habilitaCampo(Component comp, boolean flag) {
+        if (comp instanceof JFormattedTextField) {
+            JFormattedTextField field = (JFormattedTextField) comp;
+            field.setEditable(flag);
+        } else if (comp instanceof JTextField) {
+            JTextField field = (JTextField) comp;
+            field.setEditable(flag);
+        } else if (comp instanceof JScrollPane) {
+            ((JTextArea) ((JScrollPane) comp).getViewport().getComponent(0)).setEditable(flag);
+        } else if (comp instanceof JComboBox) {
+            JComboBox cb = (JComboBox) comp;
+            cb.setEnabled(flag);
+        } else if (comp instanceof JCheckBox) {
+            JCheckBox ckb = (JCheckBox) comp;
+            ckb.setEnabled(flag);
+        } else if (comp instanceof JButton) {
+            JButton btn = (JButton) comp;
+            btn.setEnabled(flag);
+        } else if (comp instanceof JDateChooser) {
+            JDateChooser field = (JDateChooser) comp;
+            field.setEnabled(flag);
         }
     }
 
@@ -83,7 +87,7 @@ public class HabilitaCampos {
 
         JTabbedPane abas = (JTabbedPane) evt.getSource();
         JPanel painel = (JPanel) abas.getSelectedComponent();
-        
+
         // Tenta limpar o campo, se não limpar, é porque tem mais panels dentro do panel principal
         try {
             LimpaCampos.limparCampos(painel);
