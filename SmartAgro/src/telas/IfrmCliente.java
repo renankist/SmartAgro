@@ -19,6 +19,7 @@ import apoio.VerificadorCampos;
 import java.awt.event.ItemEvent;
 import java.util.ArrayList;
 import javax.swing.JComponent;
+import smartagro.VerificaPermissao;
 
 /**
  *
@@ -31,6 +32,7 @@ public class IfrmCliente extends javax.swing.JInternalFrame {
     private GenericDAO<Cliente> dao;
     private ArrayList<Cliente> clientes;
     private DlgCidades dlgCidades;
+    private VerificaPermissao permissoes;
     private boolean editando = false;
     
     private static final Logger logger = Logger.getLogger(IfrmCliente.class);
@@ -39,6 +41,10 @@ public class IfrmCliente extends javax.swing.JInternalFrame {
      * Creates new form IfrmCliente
      */
     public IfrmCliente(int aba) {
+        
+        // Ajusta os botoes da interface antes de inicializar os componentes (initComponents)
+        permissoes = new VerificaPermissao(this.getClass().getSimpleName(), this.getContentPane());
+        
         initComponents();
 
         // Abre na aba passada por parametro
@@ -860,7 +866,7 @@ public class IfrmCliente extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_tabAbasFocusLost
 
     private void tabAbasStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tabAbasStateChanged
-        HabilitaCampos.controlaBotoes(evt, btnSalvar, btnEditar, btnExcluir);
+        HabilitaCampos.controlaBotoes(evt, permissoes, btnSalvar, btnEditar, btnExcluir);
     }//GEN-LAST:event_tabAbasStateChanged
 
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed

@@ -13,6 +13,7 @@ import entidade.Estado;
 import entidade.Endereco;
 import java.util.ArrayList;
 import javax.swing.JComponent;
+import smartagro.VerificaPermissao;
 
 /**
  *
@@ -26,6 +27,7 @@ public class IfrmColaborador extends javax.swing.JInternalFrame {
     private ArrayList<Colaborador> colabs;
     private ArrayList<Estado> ufs;
     private DlgCidades dlgCidades;
+    private VerificaPermissao permissoes;
     private boolean editando = false;
     
     private static final Logger logger = Logger.getLogger(IfrmColaborador.class);
@@ -34,6 +36,10 @@ public class IfrmColaborador extends javax.swing.JInternalFrame {
      * Creates new form IfrmUnidadeMedida
      */
     public IfrmColaborador(int aba) {
+        
+        // Ajusta os botoes da interface antes de inicializar os componentes (initComponents)
+        permissoes = new VerificaPermissao(this.getClass().getSimpleName(), this.getContentPane());
+        
         initComponents();
        
         dlgCidades = new DlgCidades(null, true);
@@ -711,7 +717,7 @@ public class IfrmColaborador extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_rbtAdministradorItemStateChanged
 
     private void tabAbasStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tabAbasStateChanged
-        HabilitaCampos.controlaBotoes(evt, btnSalvar, btnEditar, btnExcluir);
+        HabilitaCampos.controlaBotoes(evt, permissoes, btnSalvar, btnEditar, btnExcluir);
     }//GEN-LAST:event_tabAbasStateChanged
 
     private void tabAbasFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tabAbasFocusLost

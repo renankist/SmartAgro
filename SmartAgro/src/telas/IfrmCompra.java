@@ -10,9 +10,9 @@ import entidade.ItemcompraPK;
 import entidade.Produto;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.Date;
 import javax.swing.JComponent;
 import org.apache.log4j.Logger;
+import smartagro.VerificaPermissao;
 
 public class IfrmCompra extends javax.swing.JInternalFrame {
 
@@ -23,10 +23,10 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
     private jtmItensCompra modelItens;
     private DlgProdutos dlgProdutos;
     private jtmCompra modelCompra;
-
     private DlgFornecedores dlgFornecedores;
     private DlgColaboradores dlgColaboradores;
     private ArrayList<Compra> compras;
+    private VerificaPermissao permissoes;
     private boolean editando = false;
     private boolean editandoItem = false;
 
@@ -36,6 +36,10 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
      * Creates new form IfrmVenda
      */
     public IfrmCompra(int aba) {
+        
+        // Ajusta os botoes da interface antes de inicializar os componentes (initComponents)
+        permissoes = new VerificaPermissao(this.getClass().getSimpleName(), this.getContentPane());
+        
         initComponents();
 
         // Abre na aba passada por parametro
@@ -662,7 +666,7 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void tabAbasStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tabAbasStateChanged
-        HabilitaCampos.controlaBotoes(evt, btnSalvar, btnEditar, btnExcluir);
+        HabilitaCampos.controlaBotoes(evt, permissoes, btnSalvar, btnEditar, btnExcluir);
     }//GEN-LAST:event_tabAbasStateChanged
 
     private void tabAbasFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tabAbasFocusLost
