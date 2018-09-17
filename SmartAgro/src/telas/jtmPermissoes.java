@@ -5,103 +5,86 @@
  */
 package telas;
 
-import org.jdesktop.swingx.treetable.DefaultMutableTreeTableNode;
-import org.jdesktop.swingx.treetable.DefaultTreeTableModel;
-import org.jdesktop.swingx.treetable.TreeTableNode;
-import org.jdesktop.swingx.JXTreeTable;
 import entidade.Permissaoacesso;
+import java.util.ArrayList;
+import javax.swing.table.AbstractTableModel;
 
 /**
  *
- * @author morgana.elis
+ * @author Morgana
  */
-public class jtmPermissoes extends DefaultTreeTableModel {
+public class jtmPermissoes extends AbstractTableModel {
 
-    public jtmPermissoes(TreeTableNode root) {
-        super(root);
+    private ArrayList<Permissaoacesso> permissoes;
+    private String[] colunas = {"Usuário", "Módulo", "Operação", "Acesso"};
+
+    public jtmPermissoes(ArrayList<Permissaoacesso> permissoes) {
+        this.permissoes = permissoes;
     }
 
-    public int getColumnCount() {
-        return 2;
+    public ArrayList<Permissaoacesso> getItens() {
+        return this.permissoes;
     }
 
-    public Class<?> getColumnClass(int column) {
-        switch (column) {
-            case 0:
-                return String.class;
-            case 1:
-                return Boolean.class;
-            default:
-                return super.getColumnClass(column);
-        }
+    public void setItens(ArrayList<Permissaoacesso> permissoes) {
+        this.permissoes = permissoes;
     }
 
-    public String getColumnName(int column) {
-        switch (column) {
-            case 0:
-                return "Módulo / Funcionalidades";
-            case 1:
-                return "Acesso";
-            default:
-                return super.getColumnName(column);
-        }
+    public String[] getColunas() {
+        return colunas;
+    }
+
+    public void setColunas(String[] colunas) {
+        this.colunas = colunas;
+    }
+
+    public void addRow(Permissaoacesso permissao) {
+        this.permissoes.add(permissao);
+        this.fireTableDataChanged();
+    }
+
+    public void setRow(Permissaoacesso permissao, int linha) {
+        this.permissoes.set(linha, permissao);
+        this.fireTableDataChanged();
     }
 
     @Override
-    public Object getValueAt(Object node, int column) {
-        if (((DefaultMutableTreeTableNode) node).getUserObject() instanceof Permissaoacesso) {
+    public int getRowCount() {
+        return this.permissoes.size();
+    }
 
-            Permissaoacesso permissao = (Permissaoacesso) ((DefaultMutableTreeTableNode) node).getUserObject();
+    @Override
+    public int getColumnCount() {
+        return this.colunas.length;
+    }
 
-            if (permissao.getPermissaoacessoPK() == null) {
-                return null;
-            }
-
-            switch (column) {
-                case 0:
-                    if (permissao.getOperacoesmodulo().getOperacao() == null) {
-                        return permissao.getOperacoesmodulo().getModulo().getDescricao();
-                    } else {
-                        return permissao.getOperacoesmodulo().getOperacao().getDescricao();
-                    }
-
-                case 1:
-                    return permissao.getAcesso();
-            }
+    @Override
+    public Object getValueAt(int linha, int coluna) {
+        switch (coluna) {
+            case 0:
+                return permissoes.get(linha).getPermissaoacessoPK().getUsuario().getNomecompleto();
+            case 1:
+                return permissoes.get(linha).getPermissaoacessoPK().getOperacao().getModulo().getDescricao();
+            case 2:
+                return permissoes.get(linha).getPermissaoacessoPK().getOperacao().getOperacao().getDescricao();
+            case 3:
+                return (permissoes.get(linha).getAcesso() ? "Sim" : "Não");
         }
 
-        if (column == 0) {
-            return super.getValueAt(node, column);
-        }
         return null;
     }
-    
-    public static void criaTabela(JXTreeTable table, Object[][] data) {
-        DefaultMutableTreeTableNode nodoTabela = new DefaultMutableTreeTableNode("Sistema");
-        DefaultTreeTableModel model = new jtmPermissoes(nodoTabela);
 
-        for (int i = 0; i < data.length; i++) {
-
-            if (data[i][0] == null) {
-                break;
-            }
-
-            Permissaoacesso modulo = (Permissaoacesso) data[i][0];
-            DefaultMutableTreeTableNode part = new DefaultMutableTreeTableNode(modulo);
-            model.insertNodeInto(part, nodoTabela, nodoTabela.getChildCount());
-
-            for (int j = 1; j < data[i].length; j++) {
-
-                if (data[i][j] == null) {
-                    break;
-                }
-
-                Permissaoacesso permissao = (Permissaoacesso) data[i][j];
-                DefaultMutableTreeTableNode nodoPermissao = new DefaultMutableTreeTableNode(permissao);
-                model.insertNodeInto(nodoPermissao, part, part.getChildCount());
-            }
-        }
-
-        table.setTreeTableModel(model);
+    public String getColumnName(int columnIndex) {
+        return this.colunas[columnIndex];
     }
+
+    public Permissaoacesso get(int linha) {
+        return this.permissoes.get(linha);
+    }
+
+    public void removeRow(int linha) {
+        this.permissoes.remove(linha);
+        this.fireTableRowsUpdated(linha, linha);
+    }
+
 }

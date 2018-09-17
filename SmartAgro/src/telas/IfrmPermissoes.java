@@ -22,9 +22,10 @@ import javax.swing.JComponent;
  */
 public class IfrmPermissoes extends javax.swing.JInternalFrame {
 
+    private GenericDAO<Permissaoacesso> dao;
+    private ArrayList<Permissaoacesso> permissoes;
     private Unidademedida unidade;
-    private GenericDAO<Unidademedida> dao;
-    private ArrayList<Unidademedida> unidades;
+    
     private boolean editando = false;
 
     /**
@@ -34,7 +35,8 @@ public class IfrmPermissoes extends javax.swing.JInternalFrame {
         initComponents();
 
         // Preenche a tabela de consulta com as colunas corretas
-        unidades = new ArrayList();
+        permissoes = new ArrayList();
+        tblPermissoes.setModel(new jtmPermissoes(permissoes));
 
         montaTreeOperacoes();
 
@@ -79,7 +81,7 @@ public class IfrmPermissoes extends javax.swing.JInternalFrame {
 
         }
         
-        jtmPermissoes.criaTabela(jtrPermissoes, tree);
+        jtmOperacoesSistema.criaTabela(jtrPermissoes, tree);
     }
 
     private Permissaoacesso retornaPermissaoTree(Modulo m, Operacao o) {
@@ -129,7 +131,7 @@ public class IfrmPermissoes extends javax.swing.JInternalFrame {
 
         setClosable(true);
         setIconifiable(true);
-        setTitle("Unidades de Medida");
+        setTitle("Permissões do Sistema");
 
         btnEditar.setText("Editar");
         btnEditar.addActionListener(new java.awt.event.ActionListener() {
@@ -300,55 +302,57 @@ public class IfrmPermissoes extends javax.swing.JInternalFrame {
         // Pega o código do registro para consultar o objeto
         int id = Integer.parseInt(tblPermissoes.getValueAt(tblPermissoes.getSelectedRow(), 0).toString());
 
-        unidade = dao.consultarPorId(id, "Unidademedida");
-
-        LimpaCampos.limparCampos(pnlCadastro);
-
-        //Se o objeto buscado no método do ServidoDao for diferente de null
-        if (unidade != null) {
-            tabAbas.setSelectedIndex(0);
-            editando = true;
-            focus();
-        }
+//        unidade = dao.consultarPorId(id, "Unidademedida");
+//
+//        LimpaCampos.limparCampos(pnlCadastro);
+//
+//        //Se o objeto buscado no método do ServidoDao for diferente de null
+//        if (unidade != null) {
+//            tabAbas.setSelectedIndex(0);
+//            editando = true;
+//            focus();
+//        }
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         // Aplica o validador
-        JComponent[] components = new JComponent[]{};
-        VerificadorCampos verifier = new VerificadorCampos(components);
-        if (!verifier.validaCampos()) {
-            return;
-        }
-
-        this.dao = new GenericDAO();
-
-        if (editando) {
-            if (dao.atualizar(unidade)) {
-                Mensagem.mostraInformacao("Sucesso", "Unidade de medida " + unidade.getDescricao() + " atualizada com sucesso");
-                LimpaCampos.limparCampos(pnlCadastro);
-            } else {
-                Mensagem.mostraErro("Problema", "Problema ao atualizar unidade de medida");
-            }
-            editando = false;
-        } else {
-            unidade = new Unidademedida();
-
-            if (dao.salvar(unidade)) {
-                Mensagem.mostraInformacao("Sucesso", "Unidade de medida " + unidade.getDescricao() + " inserida com sucesso");
-                LimpaCampos.limparCampos(pnlCadastro);
-            } else {
-                Mensagem.mostraErro("Problema", "Problema para inserir unidade de medida");
-            }
-        }
+//        JComponent[] components = new JComponent[]{};
+//        VerificadorCampos verifier = new VerificadorCampos(components);
+//        if (!verifier.validaCampos()) {
+//            return;
+//        }
+//
+//        this.dao = new GenericDAO();
+//
+//        if (editando) {
+//            if (dao.atualizar(unidade)) {
+//                Mensagem.mostraInformacao("Sucesso", "Unidade de medida " + unidade.getDescricao() + " atualizada com sucesso");
+//                LimpaCampos.limparCampos(pnlCadastro);
+//            } else {
+//                Mensagem.mostraErro("Problema", "Problema ao atualizar unidade de medida");
+//            }
+//            editando = false;
+//        } else {
+//            unidade = new Unidademedida();
+//
+//            if (dao.salvar(unidade)) {
+//                Mensagem.mostraInformacao("Sucesso", "Unidade de medida " + unidade.getDescricao() + " inserida com sucesso");
+//                LimpaCampos.limparCampos(pnlCadastro);
+//            } else {
+//                Mensagem.mostraErro("Problema", "Problema para inserir unidade de medida");
+//            }
+//        }
 
         focus();
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
         this.dao = new GenericDAO<>();
-        this.unidades = new ArrayList();
-        this.unidades = dao.consultarComCriterio("Unidademedida", "descricao", tfdCriterio.getText());
-        tblPermissoes.setModel(new jtmUnidadeMedida(unidades));
+        this.permissoes = new ArrayList();
+        
+        this.permissoes = dao.consultarTodos("Permissaoacesso");
+                
+        tblPermissoes.setModel(new jtmPermissoes(permissoes));
     }//GEN-LAST:event_btnPesquisarActionPerformed
 
     private void tabAbasFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tabAbasFocusLost
