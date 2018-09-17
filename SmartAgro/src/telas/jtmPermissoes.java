@@ -50,11 +50,21 @@ public class jtmPermissoes extends DefaultTreeTableModel {
     @Override
     public Object getValueAt(Object node, int column) {
         if (((DefaultMutableTreeTableNode) node).getUserObject() instanceof Permissaoacesso) {
+
             Permissaoacesso permissao = (Permissaoacesso) ((DefaultMutableTreeTableNode) node).getUserObject();
+
+            if (permissao.getPermissaoacessoPK() == null) {
+                return null;
+            }
 
             switch (column) {
                 case 0:
-                    return permissao.getOperacoesmodulo().getModulo().getDescricao();
+                    if (permissao.getOperacoesmodulo().getOperacao() == null) {
+                        return permissao.getOperacoesmodulo().getModulo().getDescricao();
+                    } else {
+                        return permissao.getOperacoesmodulo().getOperacao().getDescricao();
+                    }
+
                 case 1:
                     return permissao.getAcesso();
             }
@@ -65,19 +75,28 @@ public class jtmPermissoes extends DefaultTreeTableModel {
         }
         return null;
     }
-
-    public static void addNodes(JXTreeTable table, Object[][][] data) {
+    
+    public static void criaTabela(JXTreeTable table, Object[][] data) {
         DefaultMutableTreeTableNode nodoTabela = new DefaultMutableTreeTableNode("Sistema");
         DefaultTreeTableModel model = new jtmPermissoes(nodoTabela);
 
         for (int i = 0; i < data.length; i++) {
-            
-            DefaultMutableTreeTableNode part = new DefaultMutableTreeTableNode(data[i][0][0]);
+
+            if (data[i][0] == null) {
+                break;
+            }
+
+            Permissaoacesso modulo = (Permissaoacesso) data[i][0];
+            DefaultMutableTreeTableNode part = new DefaultMutableTreeTableNode(modulo);
             model.insertNodeInto(part, nodoTabela, nodoTabela.getChildCount());
-            
+
             for (int j = 1; j < data[i].length; j++) {
-                
-                Permissaoacesso permissao = new Permissaoacesso();
+
+                if (data[i][j] == null) {
+                    break;
+                }
+
+                Permissaoacesso permissao = (Permissaoacesso) data[i][j];
                 DefaultMutableTreeTableNode nodoPermissao = new DefaultMutableTreeTableNode(permissao);
                 model.insertNodeInto(nodoPermissao, part, part.getChildCount());
             }

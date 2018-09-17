@@ -84,9 +84,9 @@ public class PermissoesDAO {
         } finally {
             sessao.close();
         }
-        
+
         ArrayList<Permissaoacesso> permissoesModulo = new ArrayList();
-        
+
         for (Permissaoacesso p : resultado) {
             if (p.getOperacoesmodulo().getModulo().getId() == mod.getId()) {
                 permissoesModulo.add(p);

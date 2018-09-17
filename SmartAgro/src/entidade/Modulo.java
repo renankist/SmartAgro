@@ -11,12 +11,16 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -47,6 +51,14 @@ public class Modulo implements Serializable {
     @Basic(optional = false)
     @Column(name = "descricao")
     private String descricao;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OrderBy("descricao")
+    @JoinTable(name = "operacoesmodulo", joinColumns = {
+        @JoinColumn(name = "modulo", referencedColumnName = "id")},
+             inverseJoinColumns = {
+                @JoinColumn(name = "operacao", referencedColumnName = "id")})
+    private Collection<Operacao> operacoes;
 
     public Modulo() {
     }
@@ -80,6 +92,15 @@ public class Modulo implements Serializable {
     public String getDescricao() {
         return descricao;
     }
+    
+    @XmlTransient
+    public Collection<Operacao> getOperacoesCollection() {
+        return operacoes;
+    }
+
+    public void setOperacoesCollection(Collection<Operacao> operacoesCollection) {
+        this.operacoes = operacoesCollection;
+    }
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
@@ -109,5 +130,5 @@ public class Modulo implements Serializable {
     public String toString() {
         return "entidade.Modulo[ id=" + id + " ]";
     }
-    
+
 }

@@ -7,6 +7,11 @@ package telas;
 
 import apoio.*;
 import dao.GenericDAO;
+import entidade.Modulo;
+import entidade.Operacao;
+import entidade.Operacoesmodulo;
+import entidade.Permissaoacesso;
+import entidade.PermissaoacessoPK;
 import entidade.Unidademedida;
 import java.util.ArrayList;
 import javax.swing.JComponent;
@@ -30,28 +35,69 @@ public class IfrmPermissoes extends javax.swing.JInternalFrame {
 
         // Preenche a tabela de consulta com as colunas corretas
         unidades = new ArrayList();
-        tblPermissoes.setModel(new jtmUnidadeMedida(unidades));
 
-        Object[][][] data = new Object[][][]
-        {
-            {
-                {"1. Violin"},
-                {"Guy", false},
-                {"Daniel", true},
-            },
-        };
-                
-        jtmPermissoes.addNodes(jtrPermissoes, data);
+        montaTreeOperacoes();
 
         //Deixar o focus no campo de descrição
         focus();
     }
-    
+
     private void focus() {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
             }
         });
+    }
+
+    private void montaTreeOperacoes() {
+        ArrayList<Modulo> modulos = new GenericDAO<Modulo>().consultarTodos("Modulo");
+
+        // new Object[modulo] [operacao] [nivel 2];
+        Object[][] tree = new Object[modulos.size()][10];
+
+        int contModulo = 0;
+        int contOperacao = 0;
+
+        for (Modulo m : modulos) {
+
+            tree[contModulo][contOperacao] = retornaPermissaoTree(m, null);
+            contOperacao++;
+
+            Permissaoacesso objeto = new Permissaoacesso();
+            objeto.setAcesso(false);
+
+            // Carrega as operações do modulo
+            for (Operacao o : m.getOperacoesCollection()) {
+
+                tree[contModulo][contOperacao] = retornaPermissaoTree(m, o);
+                contOperacao++;
+            }
+            
+            // Reseta os contadores
+            contModulo++;
+            contOperacao = 0;
+
+        }
+        
+        jtmPermissoes.criaTabela(jtrPermissoes, tree);
+    }
+
+    private Permissaoacesso retornaPermissaoTree(Modulo m, Operacao o) {
+        
+        Permissaoacesso objeto = new Permissaoacesso();
+        objeto.setAcesso(false);
+
+        Operacoesmodulo om = new Operacoesmodulo();
+        om.setModulo(m);
+        om.setOperacao(o);
+        objeto.setOperacoesmodulo(om);
+        
+        PermissaoacessoPK pk = new PermissaoacessoPK();
+        pk.setOperacao(om);
+        pk.setUsuario(null);
+        objeto.setPermissaoacessoPK(pk);
+        
+        return objeto;
     }
 
     /**
