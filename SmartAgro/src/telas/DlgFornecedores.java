@@ -65,6 +65,7 @@ public class DlgFornecedores extends javax.swing.JDialog {
         jLabel2.setText("Nome");
 
         btnPesquisar.setText("Pesquisar");
+        btnPesquisar.setName("btnPesquisar"); // NOI18N
         btnPesquisar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnPesquisarActionPerformed(evt);
@@ -72,6 +73,7 @@ public class DlgFornecedores extends javax.swing.JDialog {
         });
 
         btnCancelar.setText("Cancelar");
+        btnCancelar.setName("btnCancelar"); // NOI18N
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelarActionPerformed(evt);
@@ -79,6 +81,7 @@ public class DlgFornecedores extends javax.swing.JDialog {
         });
 
         btnSelecionar.setText("Selecionar");
+        btnSelecionar.setName("btnSelecionar"); // NOI18N
         btnSelecionar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSelecionarActionPerformed(evt);

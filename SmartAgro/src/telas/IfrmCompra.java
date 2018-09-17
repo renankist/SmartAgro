@@ -170,6 +170,7 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
         setTitle("Compra");
 
         btnEditar.setText("Editar");
+        btnEditar.setName("btnEditar"); // NOI18N
         btnEditar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEditarActionPerformed(evt);
@@ -177,6 +178,7 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
         });
 
         btnSalvar.setText("Salvar");
+        btnSalvar.setName("btnSalvar"); // NOI18N
         btnSalvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSalvarActionPerformed(evt);
@@ -184,6 +186,7 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
         });
 
         btnExcluir.setText("Cancelar");
+        btnExcluir.setName("btnExcluir"); // NOI18N
         btnExcluir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnExcluirActionPerformed(evt);
@@ -576,6 +579,7 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
         pnlConsulta.setName("pnlConsulta"); // NOI18N
 
         btnPesquisar.setText("Carregar Dados");
+        btnPesquisar.setName("btnPesquisar"); // NOI18N
         btnPesquisar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnPesquisarActionPerformed(evt);
