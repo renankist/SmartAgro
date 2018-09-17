@@ -17,6 +17,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import smartagro.VerificaPermissao;
 
 /**
  *
@@ -55,21 +56,23 @@ public class HabilitaCampos {
         }
     }
 
-    public static void controlaBotoes(javax.swing.event.ChangeEvent evt, JButton btnSalvar, JButton btnEditar, JButton btnExcluir) {
+    public static void controlaBotoes(javax.swing.event.ChangeEvent evt, VerificaPermissao permissoes, JButton btnSalvar, JButton btnEditar, JButton btnExcluir) {
         JTabbedPane abas = (JTabbedPane) evt.getSource();
         JPanel painel = (JPanel) abas.getSelectedComponent();
 
+        // Ajusta os botoes conforme as pemissoes
+        if (permissoes != null) {
+            permissoes.ajustaInterfacePermissao();
+        }
+
         switch (painel.getName()) {
             case "pnlCadastro":
-                btnSalvar.setEnabled(true);
                 btnEditar.setEnabled(false);
                 btnExcluir.setEnabled(false);
                 break;
 
             case "pnlConsulta":
                 btnSalvar.setEnabled(false);
-                btnEditar.setEnabled(true);
-                btnExcluir.setEnabled(true);
                 break;
 
             case "pnlRelatorio":

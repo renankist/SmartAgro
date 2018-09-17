@@ -22,14 +22,21 @@ import telas.jfrLogin;
  * @author Morgana
  */
 public class VerificaPermissao {
+    
+    String modulo;
+    Container container;
+    
 
     public VerificaPermissao(String modulo, Container container) {
+        
+        this.modulo = modulo;
+        this.container = container;
 
-        ajustaInterfacePermissao(modulo, container);
+        ajustaInterfacePermissao();
 
     }
 
-    private void ajustaInterfacePermissao(String modulo, Container container) {
+    public void ajustaInterfacePermissao() {
 
         Colaborador usuario = jfrLogin.getUsuarioLogado();
 

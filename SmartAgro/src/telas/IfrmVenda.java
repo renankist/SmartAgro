@@ -31,6 +31,7 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
     private jtmItensVenda modelItens;
     private jtmVenda modelVenda;
     private ArrayList<Venda> vendas;
+    private VerificaPermissao permissoes;
 
     private DlgClientes dlgClientes;
     private DlgColaboradores dlgColaboradores;
@@ -45,8 +46,12 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
      * Creates new form IfrmVenda
      */
     public IfrmVenda(int aba) {
+
+        // Ajusta os botoes da interface antes de inicializar os componentes (initComponents)
+        permissoes = new VerificaPermissao(this.getClass().getSimpleName(), this.getContentPane());
+
         initComponents();
-        
+
         // Abre na aba passada por parametro
         tabAbas.setSelectedIndex(aba);
 
@@ -62,10 +67,8 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
         dlgClientes = new DlgClientes(null, true);
         dlgColaboradores = new DlgColaboradores(null, true);
         dlgProdutos = new DlgProdutos(null, true);
-        
+
         popularComboStatus();
-        
-        new VerificaPermissao(this.getClass().getSimpleName(), this.getContentPane());
 
         focus();
     }
@@ -107,6 +110,15 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
 
     private void setEditandoVenda(boolean editando) {
         this.editando = editando;
+
+        if (editando) {
+            if (!btnSalvar.isEnabled()) {
+                btnSalvar.setEnabled(true);
+            }
+        } else {
+            tabAbasStateChanged(new javax.swing.event.ChangeEvent(this));
+        }
+
     }
 
     /**
@@ -692,7 +704,7 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void tabAbasStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tabAbasStateChanged
-        HabilitaCampos.controlaBotoes(evt, btnSalvar, btnEditar, btnExcluir);
+        HabilitaCampos.controlaBotoes(evt, permissoes, btnSalvar, btnEditar, btnExcluir);
     }//GEN-LAST:event_tabAbasStateChanged
 
     private void tabAbasFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tabAbasFocusLost
@@ -1059,6 +1071,7 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
                 if (!dao.atualizar(venda)) {
                     throw new Exception("Erro ao atualizar venda");
                 }
+                setEditandoVenda(false);
             } else {
                 if (!dao.salvar(venda)) {
                     throw new Exception("Erro ao salvar venda");
