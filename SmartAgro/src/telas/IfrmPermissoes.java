@@ -7,14 +7,13 @@ package telas;
 
 import apoio.*;
 import dao.GenericDAO;
+import entidade.Colaborador;
 import entidade.Modulo;
 import entidade.Operacao;
 import entidade.Operacoesmodulo;
 import entidade.Permissaoacesso;
 import entidade.PermissaoacessoPK;
-import entidade.Unidademedida;
 import java.util.ArrayList;
-import javax.swing.JComponent;
 
 /**
  *
@@ -23,9 +22,11 @@ import javax.swing.JComponent;
 public class IfrmPermissoes extends javax.swing.JInternalFrame {
 
     private GenericDAO<Permissaoacesso> dao;
+    private Permissaoacesso permissao;
     private ArrayList<Permissaoacesso> permissoes;
-    private Unidademedida unidade;
     
+    private DlgColaboradores dlgColaboradores;
+
     private boolean editando = false;
 
     /**
@@ -37,8 +38,10 @@ public class IfrmPermissoes extends javax.swing.JInternalFrame {
         // Preenche a tabela de consulta com as colunas corretas
         permissoes = new ArrayList();
         tblPermissoes.setModel(new jtmPermissoes(permissoes));
+        
+        dlgColaboradores = new DlgColaboradores(null, true);
 
-        montaTreeOperacoes();
+        montaTreeOperacoes(null);
 
         //Deixar o focus no campo de descrição
         focus();
@@ -51,7 +54,8 @@ public class IfrmPermissoes extends javax.swing.JInternalFrame {
         });
     }
 
-    private void montaTreeOperacoes() {
+    private void montaTreeOperacoes(ArrayList<Permissaoacesso> permissoesUsuario) {
+        
         ArrayList<Modulo> modulos = new GenericDAO<Modulo>().consultarTodos("Modulo");
 
         // new Object[modulo] [operacao] [nivel 2];
@@ -70,22 +74,34 @@ public class IfrmPermissoes extends javax.swing.JInternalFrame {
 
             // Carrega as operações do modulo
             for (Operacao o : m.getOperacoesCollection()) {
+                
+                Permissaoacesso pGenerica = retornaPermissaoTree(m, o);
+                
+                // Se o usuário já tem permissoes, atualiza o valor dos mesmos
+                if (permissoesUsuario != null) {
+                    for (Permissaoacesso p : permissoesUsuario) {
+                        if (p.getOperacoesmodulo().getModulo().getId() == pGenerica.getOperacoesmodulo().getModulo().getId() &&
+                            p.getOperacoesmodulo().getOperacao().getId() == pGenerica.getOperacoesmodulo().getOperacao().getId()) {
+                            pGenerica = p;
+                        }
+                    }
+                }
 
-                tree[contModulo][contOperacao] = retornaPermissaoTree(m, o);
+                tree[contModulo][contOperacao] = pGenerica;
                 contOperacao++;
             }
-            
+
             // Reseta os contadores
             contModulo++;
             contOperacao = 0;
 
         }
-        
+
         jtmOperacoesSistema.criaTabela(jtrPermissoes, tree);
     }
 
     private Permissaoacesso retornaPermissaoTree(Modulo m, Operacao o) {
-        
+
         Permissaoacesso objeto = new Permissaoacesso();
         objeto.setAcesso(false);
 
@@ -93,13 +109,21 @@ public class IfrmPermissoes extends javax.swing.JInternalFrame {
         om.setModulo(m);
         om.setOperacao(o);
         objeto.setOperacoesmodulo(om);
-        
+
         PermissaoacessoPK pk = new PermissaoacessoPK();
         pk.setOperacao(om);
         pk.setUsuario(null);
         objeto.setPermissaoacessoPK(pk);
-        
+
         return objeto;
+    }
+
+    private boolean getEditando() {
+        return editando;
+    }
+
+    private void setEditando(boolean editando) {
+        this.editando = editando;
     }
 
     /**
@@ -184,12 +208,12 @@ public class IfrmPermissoes extends javax.swing.JInternalFrame {
                 .addGroup(pnlCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane3)
                     .addGroup(pnlCadastroLayout.createSequentialGroup()
-                        .addComponent(lblUnidade, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblUnidade)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(tfdVendedor, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnZoomVendedor, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 388, Short.MAX_VALUE)))
+                        .addGap(0, 407, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         pnlCadastroLayout.setVerticalGroup(
@@ -299,19 +323,23 @@ public class IfrmPermissoes extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
-        // Pega o código do registro para consultar o objeto
-        int id = Integer.parseInt(tblPermissoes.getValueAt(tblPermissoes.getSelectedRow(), 0).toString());
+        // Pega o model da tabela para pegar o objeto
+        jtmPermissoes model = (jtmPermissoes) tblPermissoes.getModel();
 
-//        unidade = dao.consultarPorId(id, "Unidademedida");
-//
-//        LimpaCampos.limparCampos(pnlCadastro);
-//
-//        //Se o objeto buscado no método do ServidoDao for diferente de null
-//        if (unidade != null) {
-//            tabAbas.setSelectedIndex(0);
-//            editando = true;
-//            focus();
-//        }
+        permissao = model.get(tblPermissoes.getSelectedRow());
+
+        LimpaCampos.limparCampos(pnlCadastro);
+        
+        if (permissao != null) {
+            Colaborador usuario = new GenericDAO<Colaborador>().consultarPorId(permissao.getPermissaoacessoPK().getUsuario().getId(), "Colaborador");
+
+            tfdVendedor.setText(usuario.getNomecompleto());
+            montaTreeOperacoes(permissoes);
+            
+            tabAbas.setSelectedIndex(0);
+            setEditando(true);
+            focus();
+        }
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
@@ -349,9 +377,9 @@ public class IfrmPermissoes extends javax.swing.JInternalFrame {
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
         this.dao = new GenericDAO<>();
         this.permissoes = new ArrayList();
-        
+
         this.permissoes = dao.consultarTodos("Permissaoacesso");
-                
+
         tblPermissoes.setModel(new jtmPermissoes(permissoes));
     }//GEN-LAST:event_btnPesquisarActionPerformed
 
@@ -363,6 +391,10 @@ public class IfrmPermissoes extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_tabAbasStateChanged
 
     private void btnZoomVendedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnZoomVendedorActionPerformed
+        dlgColaboradores.setVisible(true);
+        if (dlgColaboradores.getColaborador() != null) {
+            tfdVendedor.setText(dlgColaboradores.getColaboradorToString());
+        }
     }//GEN-LAST:event_btnZoomVendedorActionPerformed
 
 
