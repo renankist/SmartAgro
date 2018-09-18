@@ -16,9 +16,7 @@ import entidade.Produto;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import javax.swing.JComponent;
-import javax.swing.event.ChangeEvent;
 import org.apache.log4j.Logger;
-import smartagro.VerificaPermissao;
 
 /**
  *
@@ -32,7 +30,6 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
     private jtmItensVenda modelItens;
     private jtmVenda modelVenda;
     private ArrayList<Venda> vendas;
-    private VerificaPermissao permissoes;
 
     private DlgClientes dlgClientes;
     private DlgColaboradores dlgColaboradores;
@@ -47,14 +44,9 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
      * Creates new form IfrmVenda
      */
     public IfrmVenda(int aba) {
-
         initComponents();
         // Abre na aba passada por parametro
         tabAbas.setSelectedIndex(aba);
-        
-        // Ajusta os botões conforme as permissões
-        permissoes = new VerificaPermissao(this.getClass().getSimpleName(), this.getContentPane());
-        tabAbasStateChanged(new ChangeEvent(tabAbas));
 
         // Preenche a tabela de itens com as colunas corretas
         modelItens = new jtmItensVenda(new ArrayList<Itemvenda>());
@@ -114,8 +106,6 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
 
     private void setEditandoVenda(boolean editando) {
         this.editando = editando;
-
-        HabilitaCampos.controlaBotaoSalvar(editando, btnSalvar, permissoes);
     }
 
     /**
@@ -199,10 +189,8 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
         setClosable(true);
         setIconifiable(true);
         setTitle("Venda");
-        setName("IfrmVenda"); // NOI18N
 
         btnEditar.setText("Editar");
-        btnEditar.setName("btnEditar"); // NOI18N
         btnEditar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEditarActionPerformed(evt);
@@ -210,7 +198,6 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
         });
 
         btnSalvar.setText("Salvar");
-        btnSalvar.setName("btnSalvar"); // NOI18N
         btnSalvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSalvarActionPerformed(evt);
@@ -218,7 +205,6 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
         });
 
         btnExcluir.setText("Excluir");
-        btnExcluir.setName("btnExcluir"); // NOI18N
         btnExcluir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnExcluirActionPerformed(evt);
@@ -610,7 +596,6 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
         pnlConsulta.setName("pnlConsulta"); // NOI18N
 
         btnPesquisar.setText("Carregas dados");
-        btnPesquisar.setName("btnPesquisar"); // NOI18N
         btnPesquisar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnPesquisarActionPerformed(evt);
@@ -701,7 +686,7 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void tabAbasStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tabAbasStateChanged
-        HabilitaCampos.controlaBotoes(evt.getSource(), permissoes, btnSalvar, btnEditar, btnExcluir);
+        HabilitaCampos.controlaBotoes(evt, btnSalvar, btnEditar, btnExcluir);
     }//GEN-LAST:event_tabAbasStateChanged
 
     private void tabAbasFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tabAbasFocusLost
@@ -1068,7 +1053,6 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
                 if (!dao.atualizar(venda)) {
                     throw new Exception("Erro ao atualizar venda");
                 }
-                setEditandoVenda(false);
             } else {
                 if (!dao.salvar(venda)) {
                     throw new Exception("Erro ao salvar venda");

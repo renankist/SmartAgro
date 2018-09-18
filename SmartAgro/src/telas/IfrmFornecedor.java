@@ -13,9 +13,6 @@ import entidade.Endereco;
 import java.util.ArrayList;
 import javax.swing.JComponent;
 import java.awt.event.ItemEvent;
-import javax.swing.event.ChangeEvent;
-import smartagro.VerificaPermissao;
-
 
 /**
  *
@@ -28,7 +25,6 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
     private GenericDAO<Fornecedor> dao;
     private ArrayList<Fornecedor> fornecedores;
     private DlgCidades dlgCidades;
-    private VerificaPermissao permissoes;
     private boolean editando = false;
 
     private static final Logger logger = Logger.getLogger(IfrmFornecedor.class);
@@ -41,10 +37,6 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
 
         // Abre na aba passada por parametro
         tabAbas.setSelectedIndex(aba);
-        
-        // Ajusta os botões conforme as permissões
-        permissoes = new VerificaPermissao(this.getClass().getSimpleName(), this.getContentPane());
-        tabAbasStateChanged(new ChangeEvent(tabAbas));
 
         // Preenche a tabela de consulta com as colunas corretas
         fornecedores = new ArrayList();
@@ -63,12 +55,6 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
                 rbtJuridica.requestFocusInWindow();
             }
         });
-    }
-    
-    private void setEditando(boolean editando) {
-        this.editando = editando;
-
-        HabilitaCampos.controlaBotaoSalvar(editando, btnSalvar, permissoes);
     }
 
     /**
@@ -126,7 +112,6 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
         setTitle("Fornecedores");
 
         btnEditar.setText("Editar");
-        btnEditar.setName("btnEditar"); // NOI18N
         btnEditar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEditarActionPerformed(evt);
@@ -134,7 +119,6 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
         });
 
         btnSalvar.setText("Salvar");
-        btnSalvar.setName("btnSalvar"); // NOI18N
         btnSalvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSalvarActionPerformed(evt);
@@ -142,7 +126,6 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
         });
 
         btnExcluir.setText("Excluir");
-        btnExcluir.setName("btnExcluir"); // NOI18N
         btnExcluir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnExcluirActionPerformed(evt);
@@ -387,7 +370,6 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
         jLabel1.setText("Nome:");
 
         btnPesquisar.setText("Pesquisar");
-        btnPesquisar.setName("btnPesquisar"); // NOI18N
         btnPesquisar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnPesquisarActionPerformed(evt);
@@ -491,7 +473,7 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
             tfdCidade.setText(this.fornecedor.getEndereco().getCidade().getNome() + " - " + this.fornecedor.getEndereco().getCidade().getEstado().getSigla());
             ffdCEP.setText(this.fornecedor.getEndereco().getCep());
             tabAbas.setSelectedIndex(0);
-            setEditando(true);
+            editando = true;
             focus();
         }
     }//GEN-LAST:event_btnEditarActionPerformed
@@ -594,7 +576,7 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
                 logger.error("Erro ao atualizar tabelas", e);
             }
 
-            setEditando(false);
+            editando = false;
 
         } else {
 
@@ -678,7 +660,7 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_rbtJuridicaItemStateChanged
 
     private void tabAbasStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tabAbasStateChanged
-        HabilitaCampos.controlaBotoes(evt.getSource(), null, btnSalvar, btnEditar, btnExcluir);
+        HabilitaCampos.controlaBotoes(evt, btnSalvar, btnEditar, btnExcluir);
     }//GEN-LAST:event_tabAbasStateChanged
 
     private void tabAbasFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tabAbasFocusLost

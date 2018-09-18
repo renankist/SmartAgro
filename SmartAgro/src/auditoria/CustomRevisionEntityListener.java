@@ -8,7 +8,7 @@ package auditoria;
 import java.net.InetAddress;
 import java.util.Date;
 import org.hibernate.envers.RevisionListener;
-import telas.jfrLogin;
+import telas.FrmPrincipal;
 
 /**
  *
@@ -20,7 +20,12 @@ public class CustomRevisionEntityListener implements RevisionListener {
         CustomRevisionEntity customRevisionEntity
                 = (CustomRevisionEntity) revisionEntity;
 
-        customRevisionEntity.setUsername(jfrLogin.getUsuarioLogado().getUsuario());
+        if (FrmPrincipal.usuario != null) {
+            customRevisionEntity.setUsername(FrmPrincipal.usuario.getUsuario());
+        } else {
+            customRevisionEntity.setUsername("login");
+        }
+
         customRevisionEntity.setHora(new Date());
 
         try {

@@ -13,8 +13,6 @@ import entidade.Estado;
 import entidade.Endereco;
 import java.util.ArrayList;
 import javax.swing.JComponent;
-import javax.swing.event.ChangeEvent;
-import smartagro.VerificaPermissao;
 
 /**
  *
@@ -28,7 +26,6 @@ public class IfrmColaborador extends javax.swing.JInternalFrame {
     private ArrayList<Colaborador> colabs;
     private ArrayList<Estado> ufs;
     private DlgCidades dlgCidades;
-    private VerificaPermissao permissoes;
     private boolean editando = false;
     
     private static final Logger logger = Logger.getLogger(IfrmColaborador.class);
@@ -37,17 +34,11 @@ public class IfrmColaborador extends javax.swing.JInternalFrame {
      * Creates new form IfrmUnidadeMedida
      */
     public IfrmColaborador(int aba) {
-        
         initComponents();
-        
-        // Abre na aba passada por parametro
-        tabAbas.setSelectedIndex(aba);
-        
-        // Ajusta os botões conforme as permissões
-        permissoes = new VerificaPermissao(this.getClass().getSimpleName(), this.getContentPane());
-        tabAbasStateChanged(new ChangeEvent(tabAbas));
        
         dlgCidades = new DlgCidades(null, true);
+        // Abre na aba passada por parametro
+        tabAbas.setSelectedIndex(aba);
 
         // Preenche a tabela de consulta com as colunas corretas
         colabs = new ArrayList();
@@ -63,12 +54,6 @@ public class IfrmColaborador extends javax.swing.JInternalFrame {
                 tfdNome.requestFocusInWindow();
             }
         });
-    }
-    
-    private void setEditando(boolean editando) {
-        this.editando = editando;
-
-        HabilitaCampos.controlaBotaoSalvar(editando, btnSalvar, permissoes);
     }
 
     /**
@@ -129,7 +114,6 @@ public class IfrmColaborador extends javax.swing.JInternalFrame {
         setTitle("Colaboradores");
 
         btnEditar.setText("Editar");
-        btnEditar.setName("btnEditar"); // NOI18N
         btnEditar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEditarActionPerformed(evt);
@@ -137,7 +121,6 @@ public class IfrmColaborador extends javax.swing.JInternalFrame {
         });
 
         btnSalvar.setText("Salvar");
-        btnSalvar.setName("btnSalvar"); // NOI18N
         btnSalvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSalvarActionPerformed(evt);
@@ -145,7 +128,6 @@ public class IfrmColaborador extends javax.swing.JInternalFrame {
         });
 
         btnExcluir.setText("Excluir");
-        btnExcluir.setName("btnExcluir"); // NOI18N
         btnExcluir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnExcluirActionPerformed(evt);
@@ -177,6 +159,11 @@ public class IfrmColaborador extends javax.swing.JInternalFrame {
 
         btgPessoa.add(rbtOperador);
         rbtOperador.setText("Operador");
+        rbtOperador.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                rbtOperadorItemStateChanged(evt);
+            }
+        });
         rbtOperador.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 rbtOperadorActionPerformed(evt);
@@ -185,6 +172,11 @@ public class IfrmColaborador extends javax.swing.JInternalFrame {
 
         btgPessoa.add(rbtAdministrador);
         rbtAdministrador.setText("Administrador");
+        rbtAdministrador.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                rbtAdministradorItemStateChanged(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnlGeralLayout = new javax.swing.GroupLayout(pnlGeral);
         pnlGeral.setLayout(pnlGeralLayout);
@@ -230,7 +222,7 @@ public class IfrmColaborador extends javax.swing.JInternalFrame {
                     .addComponent(rbtOperador)
                     .addComponent(rbtAdministrador)
                     .addComponent(lblTipoUsuario))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
         pnlEndereco.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Endereço", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
@@ -430,7 +422,6 @@ public class IfrmColaborador extends javax.swing.JInternalFrame {
         jLabel1.setText("Nome:");
 
         btnPesquisar.setText("Pesquisar");
-        btnPesquisar.setName("btnPesquisar"); // NOI18N
         btnPesquisar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnPesquisarActionPerformed(evt);
@@ -540,7 +531,7 @@ public class IfrmColaborador extends javax.swing.JInternalFrame {
             tfdEmail.setText(this.colab.getEmail());
             ffdCelular.setText(this.colab.getCelular());
             tabAbas.setSelectedIndex(0);
-            setEditando(true);
+            editando = true;
             focus();
         }
     }//GEN-LAST:event_btnEditarActionPerformed
@@ -640,7 +631,7 @@ public class IfrmColaborador extends javax.swing.JInternalFrame {
                 Mensagem.mostraErro("Problema", "Problema ao atualizar colaborador");
                 logger.error("Erro ao atualizar tabelas", e);
             }
-            setEditando(false);
+            editando = false;
 
         } else {
 
@@ -712,8 +703,16 @@ public class IfrmColaborador extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btnZoomActionPerformed
 
+    private void rbtOperadorItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_rbtOperadorItemStateChanged
+
+    }//GEN-LAST:event_rbtOperadorItemStateChanged
+
+    private void rbtAdministradorItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_rbtAdministradorItemStateChanged
+
+    }//GEN-LAST:event_rbtAdministradorItemStateChanged
+
     private void tabAbasStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tabAbasStateChanged
-        HabilitaCampos.controlaBotoes(evt.getSource(), permissoes, btnSalvar, btnEditar, btnExcluir);
+        HabilitaCampos.controlaBotoes(evt, btnSalvar, btnEditar, btnExcluir);
     }//GEN-LAST:event_tabAbasStateChanged
 
     private void tabAbasFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tabAbasFocusLost
