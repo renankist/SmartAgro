@@ -22,13 +22,13 @@ import telas.jfrLogin;
  * @author Morgana
  */
 public class VerificaPermissao {
-    
-    String modulo;
-    Container container;
-    
+
+    private String modulo;
+    private Container container;
+    private ArrayList<Permissaoacesso> permissoes;
 
     public VerificaPermissao(String modulo, Container container) {
-        
+
         this.modulo = modulo;
         this.container = container;
 
@@ -40,7 +40,9 @@ public class VerificaPermissao {
 
         Colaborador usuario = jfrLogin.getUsuarioLogado();
 
-        ArrayList<Permissaoacesso> permissoes = new PermissoesDAO().consultarPermissoesUsuarioModulo(usuario, modulo);
+        if (permissoes == null) {
+            permissoes = new PermissoesDAO().consultarPermissoesUsuarioModulo(usuario, modulo);
+        }
 
         if (permissoes.size() == 0) {
             Mensagem.mostraAletra("Permissões", "Usuário não possui nenhuma permissão cadastrada");
@@ -49,17 +51,25 @@ public class VerificaPermissao {
 
         List<Component> componentes = getAllComponents(container);
 
+        if (componentes.size() == 0) {
+            Mensagem.mostraAletra("Permissões", "Nenhum componente encontrado para adequar as permissões");
+            return;
+        }
+
+        System.out.println("-----------------------------------------------------------------------------------------");
         for (Component c : componentes) {
             for (Permissaoacesso p : permissoes) {
                 if (p.getOperacoesmodulo().getOperacao().getNome().equals(c.getName())) {
+                    System.out.println(modulo + " - " + p.getOperacoesmodulo().getOperacao().getNome() + " | Valor: " + p.getAcesso());
                     HabilitaCampos.habilitaCampo(c, p.getAcesso());
                 }
             }
         }
+        System.out.println("-----------------------------------------------------------------------------------------");
 
     }
 
-    public static List<Component> getAllComponents(final Container c) {
+    public static List<Component> getAllComponents(Container c) {
         Component[] comps = c.getComponents();
         List<Component> compList = new ArrayList<Component>();
 

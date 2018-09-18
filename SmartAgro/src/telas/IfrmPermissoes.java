@@ -14,6 +14,7 @@ import entidade.Operacoesmodulo;
 import entidade.Permissaoacesso;
 import entidade.PermissaoacessoPK;
 import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  *
@@ -334,6 +335,8 @@ public class IfrmPermissoes extends javax.swing.JInternalFrame {
             Colaborador usuario = new GenericDAO<Colaborador>().consultarPorId(permissao.getPermissaoacessoPK().getUsuario().getId(), "Colaborador");
 
             tfdVendedor.setText(usuario.getNomecompleto());
+            
+            permissoes = new ArrayList<Permissaoacesso>(usuario.getPermissoesCollection());
             montaTreeOperacoes(permissoes);
             
             tabAbas.setSelectedIndex(0);

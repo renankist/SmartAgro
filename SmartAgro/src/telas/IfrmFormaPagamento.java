@@ -13,6 +13,7 @@ import dao.GenericDAO;
 import entidade.Formapagamento;
 import java.util.ArrayList;
 import javax.swing.JComponent;
+import javax.swing.event.ChangeEvent;
 import smartagro.VerificaPermissao;
 
 /**
@@ -28,12 +29,13 @@ public class IfrmFormaPagamento extends javax.swing.JInternalFrame {
     private boolean editando = false;
 
     public IfrmFormaPagamento() {
-        
-        // Ajusta os botoes da interface antes de inicializar os componentes (initComponents)
-        permissoes = new VerificaPermissao(this.getClass().getSimpleName(), this.getContentPane());
 
         initComponents();
-        
+
+        // Ajusta os botões conforme as permissões
+        permissoes = new VerificaPermissao(this.getClass().getSimpleName(), this.getContentPane());
+        tabAbasStateChanged(new ChangeEvent(tabAbas));
+
         //Deixar o focus no campo de descrição
         focus();
 
@@ -45,6 +47,12 @@ public class IfrmFormaPagamento extends javax.swing.JInternalFrame {
                 tfdDescricao.requestFocusInWindow();
             }
         });
+    }
+
+    private void setEditando(boolean editando) {
+        this.editando = editando;
+
+        HabilitaCampos.controlaBotaoSalvar(editando, btnSalvar, permissoes);
     }
 
     /**
@@ -245,14 +253,14 @@ public class IfrmFormaPagamento extends javax.swing.JInternalFrame {
         int id = Integer.parseInt(jTableFormasPagamento.getValueAt(jTableFormasPagamento.getSelectedRow(), 0).toString());
         //Busca um servico com o codigo/id pego anteriomente
         forma = dao.consultarPorId(id, "Formapagamento");
-        
+
         LimpaCampos.limparCampos(pnlCadastro);
 
         if (forma != null) { //Se o objeto buscado no método do ServidoDao for diferente de null
             tfdDescricao.setText(forma.getDescricao());//Seta no campo Descrição do formulário de serviços o valor da Descrição do obejto do tipo Servico
             tabAbas.setSelectedIndex(0);//Passa da tela de "Consulta" para a "Manutenção"
             tfdDescricao.requestFocus();//Poem o cursor no campo Descriçã
-            editando = true;
+            setEditando(true);
         }
 
     }//GEN-LAST:event_btnEditarActionPerformed
@@ -277,7 +285,7 @@ public class IfrmFormaPagamento extends javax.swing.JInternalFrame {
             } else {
                 Mensagem.mostraErro("Problema", "Problema para atualizar forma de pagamento");
             }
-            editando = false;
+            setEditando(false);
 
             //Modo inserção
         } else {
@@ -289,7 +297,6 @@ public class IfrmFormaPagamento extends javax.swing.JInternalFrame {
             } else {
                 Mensagem.mostraErro("Problema", "Problema para inserir forma de pagamento");
             }
-
         }
 
         focus();
@@ -330,7 +337,7 @@ public class IfrmFormaPagamento extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnPesquisarActionPerformed
 
     private void tabAbasStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tabAbasStateChanged
-        HabilitaCampos.controlaBotoes(evt, permissoes, btnSalvar, btnEditar, btnExcluir);
+        HabilitaCampos.controlaBotoes(evt.getSource(), permissoes, btnSalvar, btnEditar, btnExcluir);
     }//GEN-LAST:event_tabAbasStateChanged
 
     private void tabAbasFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tabAbasFocusLost

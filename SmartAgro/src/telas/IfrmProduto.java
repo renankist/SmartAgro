@@ -10,6 +10,8 @@ import entidade.Unidademedida;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import javax.swing.JComponent;
+import javax.swing.event.ChangeEvent;
+import smartagro.VerificaPermissao;
 
 public class IfrmProduto extends javax.swing.JInternalFrame {
 
@@ -19,15 +21,17 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
     private ArrayList<Produto> produtos;
     private boolean editando = false;
     private ArrayList<Unidademedida> unidades;
+    private VerificaPermissao permissoes;
 
     public IfrmProduto(int aba) {
         initComponents();
 
         // Abre na aba passada por parametro
         tabAbas.setSelectedIndex(aba);
-
-        //Definindo como falso a variavel que verifica se um produto está sendo editado
-        editando = false;
+        
+        // Ajusta os botões conforme as permissões
+        permissoes = new VerificaPermissao(this.getClass().getSimpleName(), this.getContentPane());
+        tabAbasStateChanged(new ChangeEvent(tabAbas));
 
         //Enchendo combo de unidades de medida
         this.unidades = new ArrayList();
@@ -44,6 +48,12 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
                 tfdCodigo.requestFocusInWindow();
             }
         });
+    }
+    
+    private void setEditando(boolean editando) {
+        this.editando = editando;
+
+        HabilitaCampos.controlaBotaoSalvar(editando, btnSalvar, permissoes);
     }
     
     private void limparPainelCadastro() {
@@ -430,7 +440,8 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
             } else {
                 Mensagem.mostraErro("Problema", "Problema ao atualizar produto");
             }
-            editando = false;
+            
+            setEditando(false);
 
         } else {
 
@@ -472,7 +483,7 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
             tfdCodigo.setText(this.p.getCodigo());
             jComboUnidadeMedida.setSelectedItem(this.p.getUnidademedida());
             tabAbas.setSelectedIndex(0);
-            editando = true;
+            setEditando(true);
             focus();
         }
 
@@ -483,7 +494,7 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_tabAbasFocusLost
 
     private void tabAbasStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tabAbasStateChanged
-        HabilitaCampos.controlaBotoes(evt, null, btnSalvar, btnEditar, btnExcluir);
+        HabilitaCampos.controlaBotoes(evt.getSource(), null, btnSalvar, btnEditar, btnExcluir);
     }//GEN-LAST:event_tabAbasStateChanged
 
 

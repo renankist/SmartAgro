@@ -19,6 +19,7 @@ import apoio.VerificadorCampos;
 import java.awt.event.ItemEvent;
 import java.util.ArrayList;
 import javax.swing.JComponent;
+import javax.swing.event.ChangeEvent;
 import smartagro.VerificaPermissao;
 
 /**
@@ -42,13 +43,14 @@ public class IfrmCliente extends javax.swing.JInternalFrame {
      */
     public IfrmCliente(int aba) {
         
-        // Ajusta os botoes da interface antes de inicializar os componentes (initComponents)
-        permissoes = new VerificaPermissao(this.getClass().getSimpleName(), this.getContentPane());
-        
         initComponents();
-
+        
         // Abre na aba passada por parametro
         tabAbas.setSelectedIndex(aba);
+        
+        // Ajusta os botões conforme as permissões
+        permissoes = new VerificaPermissao(this.getClass().getSimpleName(), this.getContentPane());
+        tabAbasStateChanged(new ChangeEvent(tabAbas));
         
         // Preenche a tabela de consulta com as colunas corretas
         clientes = new ArrayList();
@@ -66,6 +68,12 @@ public class IfrmCliente extends javax.swing.JInternalFrame {
                 rbtJuridica.requestFocusInWindow();
             }
         });
+    }
+    
+    private void setEditando(boolean editando) {
+        this.editando = editando;
+
+        HabilitaCampos.controlaBotaoSalvar(editando, btnSalvar, permissoes);
     }
 
     private void limparPainelCadastro() {
@@ -691,7 +699,7 @@ public class IfrmCliente extends javax.swing.JInternalFrame {
             tfdEmail.setText(this.cliente.getEmail());
 
             tabAbas.setSelectedIndex(0);
-            editando = true;
+            setEditando(true);
             focus();
         }
     }//GEN-LAST:event_btnEditarActionPerformed
@@ -810,7 +818,7 @@ public class IfrmCliente extends javax.swing.JInternalFrame {
                 Mensagem.mostraErro("Problema", "Problema ao atualizar cliente");
                 logger.error("Erro ao atualizar tabelas", e);
             }
-            editando = false;
+            setEditando(false);
 
         } else {
             String hoje = Formatacao.ajustaDataAMD(Formatacao.getDataAtual());
@@ -870,7 +878,7 @@ public class IfrmCliente extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_tabAbasFocusLost
 
     private void tabAbasStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tabAbasStateChanged
-        HabilitaCampos.controlaBotoes(evt, permissoes, btnSalvar, btnEditar, btnExcluir);
+        HabilitaCampos.controlaBotoes(evt.getSource(), permissoes, btnSalvar, btnEditar, btnExcluir);
     }//GEN-LAST:event_tabAbasStateChanged
 
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed

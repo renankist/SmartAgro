@@ -6,6 +6,7 @@
 package entidade;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -63,7 +64,7 @@ public class Colaborador implements Serializable {
     
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name="usuario")
-    private Collection<Permissaoacesso> permissoes;
+    private Collection<Permissaoacesso> permissoes = new ArrayList<Permissaoacesso>();
 
     public Colaborador() {
     }

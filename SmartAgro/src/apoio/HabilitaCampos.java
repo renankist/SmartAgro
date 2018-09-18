@@ -6,6 +6,7 @@
 package apoio;
 
 import com.toedter.calendar.JDateChooser;
+import entidade.Permissaoacesso;
 import java.awt.Component;
 import java.awt.Container;
 import javax.swing.JButton;
@@ -56,9 +57,9 @@ public class HabilitaCampos {
         }
     }
 
-    public static void controlaBotoes(javax.swing.event.ChangeEvent evt, VerificaPermissao permissoes, JButton btnSalvar, JButton btnEditar, JButton btnExcluir) {
-        JTabbedPane abas = (JTabbedPane) evt.getSource();
-        JPanel painel = (JPanel) abas.getSelectedComponent();
+    public static void controlaBotoes(Object tela, VerificaPermissao permissoes, JButton btnSalvar, JButton btnEditar, JButton btnExcluir) {
+        JTabbedPane abas = (JTabbedPane) tela;
+        JPanel painel = (JPanel) abas.getSelectedComponent();  
 
         // Ajusta os botoes conforme as pemissoes
         if (permissoes != null) {
@@ -80,6 +81,14 @@ public class HabilitaCampos {
                 btnEditar.setEnabled(false);
                 btnExcluir.setEnabled(false);
                 break;
+        }
+    }
+    
+    public static void controlaBotaoSalvar(boolean editando, JButton btnSalvar, VerificaPermissao permissoes){
+        if (editando) {
+            btnSalvar.setEnabled(!btnSalvar.isEnabled());
+        } else {
+            permissoes.ajustaInterfacePermissao();
         }
     }
 
