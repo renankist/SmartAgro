@@ -6,11 +6,13 @@
 package entidade;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -59,6 +61,10 @@ public class Colaborador implements Serializable {
     @JoinColumn(name = "endereco", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Endereco endereco;
+    
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name="usuario")
+    private Collection<Permissaoacesso> permissoes = new ArrayList<Permissaoacesso>();
 
     public Colaborador() {
     }
@@ -145,6 +151,15 @@ public class Colaborador implements Serializable {
 
     public void setEndereco(Endereco endereco) {
         this.endereco = endereco;
+    }
+    
+    @XmlTransient
+    public Collection<Permissaoacesso> getPermissoesCollection() {
+        return permissoes;
+    }
+
+    public void setPermissoesCollection(Collection<Permissaoacesso> permissoes) {
+        this.permissoes = permissoes;
     }
 
     @Override

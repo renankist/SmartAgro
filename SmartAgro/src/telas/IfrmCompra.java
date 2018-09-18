@@ -10,9 +10,10 @@ import entidade.ItemcompraPK;
 import entidade.Produto;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.Date;
 import javax.swing.JComponent;
+import javax.swing.event.ChangeEvent;
 import org.apache.log4j.Logger;
+import smartagro.VerificaPermissao;
 
 public class IfrmCompra extends javax.swing.JInternalFrame {
 
@@ -23,10 +24,10 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
     private jtmItensCompra modelItens;
     private DlgProdutos dlgProdutos;
     private jtmCompra modelCompra;
-
     private DlgFornecedores dlgFornecedores;
     private DlgColaboradores dlgColaboradores;
     private ArrayList<Compra> compras;
+    private VerificaPermissao permissoes;
     private boolean editando = false;
     private boolean editandoItem = false;
 
@@ -36,10 +37,15 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
      * Creates new form IfrmVenda
      */
     public IfrmCompra(int aba) {
+        
         initComponents();
 
         // Abre na aba passada por parametro
         tabAbas.setSelectedIndex(aba);
+        
+        // Ajusta os botões conforme as permissões
+        permissoes = new VerificaPermissao(this.getClass().getSimpleName(), this.getContentPane());
+        tabAbasStateChanged(new ChangeEvent(tabAbas));
 
         // Preenche a tabela de consulta com as colunas corretas
         itens = new ArrayList();
@@ -90,12 +96,14 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
         atualizaTotal();
     }
 
-    private boolean getEditandoCompra() {
+    private boolean getEditando() {
         return editando;
     }
 
-    private void setEditandoVenda(boolean editando) {
+    private void setEditando(boolean editando) {
         this.editando = editando;
+        
+        HabilitaCampos.controlaBotaoSalvar(editando, btnSalvar, permissoes);
     }
 
     /**
@@ -169,6 +177,7 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
         setTitle("Compra");
 
         btnEditar.setText("Editar");
+        btnEditar.setName("btnEditar"); // NOI18N
         btnEditar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEditarActionPerformed(evt);
@@ -176,6 +185,7 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
         });
 
         btnSalvar.setText("Salvar");
+        btnSalvar.setName("btnSalvar"); // NOI18N
         btnSalvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSalvarActionPerformed(evt);
@@ -183,6 +193,7 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
         });
 
         btnExcluir.setText("Cancelar");
+        btnExcluir.setName("btnExcluir"); // NOI18N
         btnExcluir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnExcluirActionPerformed(evt);
@@ -575,6 +586,7 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
         pnlConsulta.setName("pnlConsulta"); // NOI18N
 
         btnPesquisar.setText("Carregar Dados");
+        btnPesquisar.setName("btnPesquisar"); // NOI18N
         btnPesquisar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnPesquisarActionPerformed(evt);
@@ -661,7 +673,7 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void tabAbasStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tabAbasStateChanged
-        HabilitaCampos.controlaBotoes(evt, btnSalvar, btnEditar, btnExcluir);
+        HabilitaCampos.controlaBotoes(evt.getSource(), permissoes, btnSalvar, btnEditar, btnExcluir);
     }//GEN-LAST:event_tabAbasStateChanged
 
     private void tabAbasFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tabAbasFocusLost
@@ -978,7 +990,7 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
         this.dao = new GenericDAO<>();
 
         // Dados da compra
-        if (getEditandoCompra()) {
+        if (getEditando()) {
             compra.setPago(compra.getPago());
         } else {
             this.compra = new Compra();
@@ -1003,7 +1015,7 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
         compra.setDescricaodesconto(tfdDescrDesc.getText());
         compra.setObservacao(tfdObservacao.getText());
 
-        if (getEditandoCompra()) {
+        if (getEditando()) {
             compra.removeAllItemcompra();
         }
 
@@ -1017,22 +1029,25 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
         }
 
         try {
-            if (getEditandoCompra()) {
+            if (getEditando()) {
                 if (!dao.atualizar(compra)) {
                     throw new Exception("Erro ao atualizar compra");
                 }
+                
+                setEditando(false);
+                
             } else {
                 if (!dao.salvar(compra)) {
                     throw new Exception("Erro ao salvar compra");
                 }
             }
 
-            Mensagem.mostraInformacao("Sucesso", "Compra " + ((getEditandoCompra()) ? "atualizada" : "salva") + " com sucesso");
+            Mensagem.mostraInformacao("Sucesso", "Compra " + ((getEditando()) ? "atualizada" : "salva") + " com sucesso");
 
             limparPainelCadastro();
 
         } catch (Exception e) {
-            Mensagem.mostraErro("Problema", "Problema ao " + ((getEditandoCompra()) ? "atualizar" : "salvar") + " compra");
+            Mensagem.mostraErro("Problema", "Problema ao " + ((getEditando()) ? "atualizar" : "salvar") + " compra");
             logger.error("Erro ao atualizar tabelas", e);
         }
 
@@ -1106,7 +1121,7 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
             atualizaTotal();
 
             tabAbas.setSelectedIndex(0);
-            setEditandoVenda(true);
+            setEditando(true);
             focus();
         }
     }//GEN-LAST:event_btnEditarActionPerformed

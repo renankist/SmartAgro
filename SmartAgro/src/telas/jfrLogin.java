@@ -9,13 +9,19 @@ import apoio.Criptografia;
 import dao.ColaboradorDAO;
 import entidade.Colaborador;
 import static java.awt.Color.white;
-import sun.security.provider.MD5;
 
 /**
  *
  * @author renan
  */
 public class jfrLogin extends javax.swing.JFrame {
+
+    private static Colaborador colab;
+    
+    // Função para retornar o usuário logado
+    public static Colaborador getUsuarioLogado(){
+        return colab;
+    }
 
     /**
      * Creates new form jfrLogin
@@ -131,29 +137,17 @@ public class jfrLogin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        
         ColaboradorDAO dao = new ColaboradorDAO();
-
-        Colaborador colab = new Colaborador();
 
         colab = dao.autenticarColaborador(jtfLogin.getText(), Criptografia.criptografar(jpfSenha.getText()));
         
        
         if (colab != null) {
 
-            if (colab.getSenhausuario().equals(Criptografia.criptografar("12345"))) {
+            new FrmPrincipal().setVisible(true);
 
-                /* Set the Synthetica Plain look and feel */
-                try {
-                    javax.swing.UIManager.setLookAndFeel("de.javasoft.plaf.synthetica.SyntheticaPlainLookAndFeel");
-                } catch (ClassNotFoundException ex) {
-                    java.util.logging.Logger.getLogger(FrmPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-                } catch (InstantiationException ex) {
-                    java.util.logging.Logger.getLogger(FrmPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-                } catch (IllegalAccessException ex) {
-                    java.util.logging.Logger.getLogger(FrmPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-                } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-                    java.util.logging.Logger.getLogger(FrmPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-                }
+            this.dispose();
 
                 DlgAlterarSenhaPrimeiroAcesso dlgFP = new DlgAlterarSenhaPrimeiroAcesso(this, true, colab);
                 dlgFP.setLocationRelativeTo(this);
@@ -182,8 +176,6 @@ public class jfrLogin extends javax.swing.JFrame {
         } else {
             jlbMsgAutenticacao.setText("Usuário ou senha inválidos.");
         }
-
-
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jtfLoginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtfLoginMouseClicked
@@ -241,3 +233,4 @@ public class jfrLogin extends javax.swing.JFrame {
     private javax.swing.JTextField jtfLogin;
     // End of variables declaration//GEN-END:variables
 }
+
