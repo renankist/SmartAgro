@@ -5,6 +5,7 @@
  */
 package telas;
 
+import apoio.Mensagem;
 import entidade.Colaborador;
 
 /**
@@ -12,21 +13,19 @@ import entidade.Colaborador;
  * @author Morgana
  */
 public class FrmPrincipal extends javax.swing.JFrame {
-   
-    public static Colaborador usuario; 
- 
+
     /**
      * Creates new form FrmPrincipal
      */
-    public FrmPrincipal(Colaborador usuario ) {
+    public FrmPrincipal() {
         initComponents();
-        this.usuario = usuario;
         /* Abrir a tela maximizada */
         //setExtendedState(MAXIMIZED_BOTH);
 
         /* Define o icone da aplicação */
         setIconImage(java.awt.Toolkit.getDefaultToolkit().getImage(getClass().getResource("/imagens/stack.png")));
-    }       
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -403,7 +402,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_itmConsultaColaboradorActionPerformed
 
     private void itmRelatorioColaboradorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmRelatorioColaboradorActionPerformed
-        
+
     }//GEN-LAST:event_itmRelatorioColaboradorActionPerformed
 
     private void itmSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmSairActionPerformed
@@ -411,7 +410,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_itmSairActionPerformed
 
     private void itmFormasPagamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmFormasPagamentoActionPerformed
-        cadastroFormaPagamento(); 
+        cadastroFormaPagamento();
     }//GEN-LAST:event_itmFormasPagamentoActionPerformed
 
     private void itmCadastroCompraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmCadastroCompraActionPerformed
@@ -419,7 +418,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_itmCadastroCompraActionPerformed
 
     private void itmConsultaCompraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmConsultaCompraActionPerformed
-         cadastroCompra(1);
+        cadastroCompra(1);
     }//GEN-LAST:event_itmConsultaCompraActionPerformed
 
     private void itmRelatorioCompraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmRelatorioCompraActionPerformed
@@ -427,7 +426,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_itmRelatorioCompraActionPerformed
 
     private void itmCadastroVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmCadastroVendaActionPerformed
-       cadastroVenda(0);
+        cadastroVenda(0);
     }//GEN-LAST:event_itmCadastroVendaActionPerformed
 
     private void itmConsultaVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmConsultaVendaActionPerformed
@@ -441,8 +440,8 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private void itmPermissoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmPermissoesActionPerformed
         cadastroPermissoes();
     }//GEN-LAST:event_itmPermissoesActionPerformed
-    
-    private void cadastroVenda(int aba){
+
+    private void cadastroVenda(int aba) {
         IfrmVenda janelaVenda = new IfrmVenda(aba);
         dskArea.add(janelaVenda);
         janelaVenda.setVisible(true);
@@ -452,21 +451,20 @@ public class FrmPrincipal extends javax.swing.JFrame {
         } catch (Exception e) {
         }
     }
-    
+
     private void cadastroColaborador(int aba) {
         IfrmColaborador janelaColab = new IfrmColaborador(aba);
         dskArea.add(janelaColab);
         janelaColab.setVisible(true);
     }
-    
-    
+
     private void cadastroCliente(int aba) {
         IfrmCliente janelaClientes = new IfrmCliente(aba);
         dskArea.add(janelaClientes);
         janelaClientes.setVisible(true);
     }
-    
-    private void cadastroProduto(int aba){
+
+    private void cadastroProduto(int aba) {
         IfrmProduto janelaProdutos = new IfrmProduto(aba);
         dskArea.add(janelaProdutos);
         janelaProdutos.setVisible(true);
@@ -477,20 +475,20 @@ public class FrmPrincipal extends javax.swing.JFrame {
         dskArea.add(janelaUnidadesMedida);
         janelaUnidadesMedida.setVisible(true);
     }
-    
+
     private void cadastroFormaPagamento() {
         IfrmFormaPagamento janelaFormaPagamento = new IfrmFormaPagamento();
         dskArea.add(janelaFormaPagamento);
         janelaFormaPagamento.setVisible(true);
     }
-    
-    private void cadastroFornecedor(int aba){
+
+    private void cadastroFornecedor(int aba) {
         IfrmFornecedor janelaFornecedores = new IfrmFornecedor(aba);
         dskArea.add(janelaFornecedores);
         janelaFornecedores.setVisible(true);
     }
-    
-     private void cadastroCompra(int aba){
+
+    private void cadastroCompra(int aba) {
         IfrmCompra janelaCompra = new IfrmCompra(aba);
         dskArea.add(janelaCompra);
         janelaCompra.setVisible(true);
@@ -500,8 +498,13 @@ public class FrmPrincipal extends javax.swing.JFrame {
         } catch (Exception e) {
         }
     }
-     
+
     private void cadastroPermissoes() {
+        if (jfrLogin.getUsuarioLogado().getTipousuario() != 'a') {
+            Mensagem.mostraAletra("Permissão negada", "Você não tem permissão para acessar esta funcionalidade");
+            return;
+        }
+
         IfrmPermissoes janelaPermissoes = new IfrmPermissoes();
         dskArea.add(janelaPermissoes);
         janelaPermissoes.setVisible(true);
@@ -514,7 +517,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new FrmPrincipal(usuario).setVisible(true);
+                new FrmPrincipal().setVisible(true);
             }
         });
     }

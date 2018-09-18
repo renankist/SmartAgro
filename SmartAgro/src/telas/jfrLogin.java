@@ -156,15 +156,13 @@ public class jfrLogin extends javax.swing.JFrame {
                 java.util.logging.Logger.getLogger(FrmPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
             }
 
-            new FrmPrincipal(colab).setVisible(true);
+            new FrmPrincipal().setVisible(true);
 
             this.dispose();
 
         } else {
             jlbMsgAutenticacao.setText("Usuário ou senha inválidos.");
         }
-
-
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jtfLoginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtfLoginMouseClicked
