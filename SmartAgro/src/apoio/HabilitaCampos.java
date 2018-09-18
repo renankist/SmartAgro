@@ -6,6 +6,7 @@
 package apoio;
 
 import com.toedter.calendar.JDateChooser;
+import entidade.Permissaoacesso;
 import java.awt.Component;
 import java.awt.Container;
 import javax.swing.JButton;
@@ -17,6 +18,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import smartagro.VerificaPermissao;
 
 /**
  *
@@ -27,45 +29,51 @@ public class HabilitaCampos {
     public static void habilitaCampos(Container container, boolean flag) {
         Component c[] = container.getComponents();
         for (int i = 0; i < c.length; i++) {
-            if (c[i] instanceof JFormattedTextField) {
-                JFormattedTextField field = (JFormattedTextField) c[i];
-                field.setEditable(flag);
-            } else if (c[i] instanceof JTextField) {
-                JTextField field = (JTextField) c[i];
-                field.setEditable(flag);
-            } else if (c[i] instanceof JScrollPane) {
-                ((JTextArea) ((JScrollPane) c[i]).getViewport().getComponent(0)).setEditable(flag);
-            } else if (c[i] instanceof JComboBox) {
-                JComboBox cb = (JComboBox) c[i];
-                cb.setEnabled(flag);
-            } else if (c[i] instanceof JCheckBox) {
-                JCheckBox ckb = (JCheckBox) c[i];
-                ckb.setEnabled(flag);
-            } else if (c[i] instanceof JButton) {
-                JButton btn = (JButton) c[i];
-                btn.setEnabled(flag);
-            } else if (c[i] instanceof JDateChooser) {
-                JDateChooser field = (JDateChooser) c[i];
-                field.setEnabled(flag);
-            }
+            habilitaCampo(c[i], flag);
         }
     }
 
-    public static void controlaBotoes(javax.swing.event.ChangeEvent evt, JButton btnSalvar, JButton btnEditar, JButton btnExcluir) {
-        JTabbedPane abas = (JTabbedPane) evt.getSource();
-        JPanel painel = (JPanel) abas.getSelectedComponent();
+    public static void habilitaCampo(Component comp, boolean flag) {
+        if (comp instanceof JFormattedTextField) {
+            JFormattedTextField field = (JFormattedTextField) comp;
+            field.setEditable(flag);
+        } else if (comp instanceof JTextField) {
+            JTextField field = (JTextField) comp;
+            field.setEditable(flag);
+        } else if (comp instanceof JScrollPane) {
+            ((JTextArea) ((JScrollPane) comp).getViewport().getComponent(0)).setEditable(flag);
+        } else if (comp instanceof JComboBox) {
+            JComboBox cb = (JComboBox) comp;
+            cb.setEnabled(flag);
+        } else if (comp instanceof JCheckBox) {
+            JCheckBox ckb = (JCheckBox) comp;
+            ckb.setEnabled(flag);
+        } else if (comp instanceof JButton) {
+            JButton btn = (JButton) comp;
+            btn.setEnabled(flag);
+        } else if (comp instanceof JDateChooser) {
+            JDateChooser field = (JDateChooser) comp;
+            field.setEnabled(flag);
+        }
+    }
+
+    public static void controlaBotoes(Object tela, VerificaPermissao permissoes, JButton btnSalvar, JButton btnEditar, JButton btnExcluir) {
+        JTabbedPane abas = (JTabbedPane) tela;
+        JPanel painel = (JPanel) abas.getSelectedComponent();  
+
+        // Ajusta os botoes conforme as pemissoes
+        if (permissoes != null) {
+            permissoes.ajustaInterfacePermissao();
+        }
 
         switch (painel.getName()) {
             case "pnlCadastro":
-                btnSalvar.setEnabled(true);
                 btnEditar.setEnabled(false);
                 btnExcluir.setEnabled(false);
                 break;
 
             case "pnlConsulta":
                 btnSalvar.setEnabled(false);
-                btnEditar.setEnabled(true);
-                btnExcluir.setEnabled(true);
                 break;
 
             case "pnlRelatorio":
@@ -73,6 +81,14 @@ public class HabilitaCampos {
                 btnEditar.setEnabled(false);
                 btnExcluir.setEnabled(false);
                 break;
+        }
+    }
+    
+    public static void controlaBotaoSalvar(boolean editando, JButton btnSalvar, VerificaPermissao permissoes){
+        if (editando) {
+            btnSalvar.setEnabled(!btnSalvar.isEnabled());
+        } else {
+            permissoes.ajustaInterfacePermissao();
         }
     }
 
@@ -83,7 +99,7 @@ public class HabilitaCampos {
 
         JTabbedPane abas = (JTabbedPane) evt.getSource();
         JPanel painel = (JPanel) abas.getSelectedComponent();
-        
+
         // Tenta limpar o campo, se não limpar, é porque tem mais panels dentro do panel principal
         try {
            LimpaCampos.limparCampos(painel);

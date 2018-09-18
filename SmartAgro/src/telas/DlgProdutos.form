@@ -102,6 +102,7 @@
         <Component class="javax.swing.JButton" name="btnPesquisar">
           <Properties>
             <Property name="text" type="java.lang.String" value="Pesquisar"/>
+            <Property name="name" type="java.lang.String" value="btnPesquisar" noResource="true"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnPesquisarActionPerformed"/>
@@ -110,6 +111,7 @@
         <Component class="javax.swing.JButton" name="btnCancelar">
           <Properties>
             <Property name="text" type="java.lang.String" value="Cancelar"/>
+            <Property name="name" type="java.lang.String" value="btnCancelar" noResource="true"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCancelarActionPerformed"/>
@@ -118,6 +120,7 @@
         <Component class="javax.swing.JButton" name="btnSelecionar">
           <Properties>
             <Property name="text" type="java.lang.String" value="Selecionar"/>
+            <Property name="name" type="java.lang.String" value="btnSelecionar" noResource="true"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSelecionarActionPerformed"/>

@@ -10,6 +10,8 @@ import dao.GenericDAO;
 import entidade.Unidademedida;
 import java.util.ArrayList;
 import javax.swing.JComponent;
+import javax.swing.event.ChangeEvent;
+import smartagro.VerificaPermissao;
 
 /**
  *
@@ -20,6 +22,7 @@ public class IfrmUnidadeMedida extends javax.swing.JInternalFrame {
     private Unidademedida unidade;
     private GenericDAO<Unidademedida> dao;
     private ArrayList<Unidademedida> unidades;
+    private VerificaPermissao permissoes;
     private boolean editando = false;
 
     /**
@@ -27,6 +30,10 @@ public class IfrmUnidadeMedida extends javax.swing.JInternalFrame {
      */
     public IfrmUnidadeMedida() {
         initComponents();
+        
+        // Ajusta os botões conforme as permissões
+        permissoes = new VerificaPermissao(this.getClass().getSimpleName(), this.getContentPane());
+        tabAbasStateChanged(new ChangeEvent(tabAbas));
 
         // Preenche a tabela de consulta com as colunas corretas
         unidades = new ArrayList();
@@ -42,6 +49,12 @@ public class IfrmUnidadeMedida extends javax.swing.JInternalFrame {
                 tfdUnidade.requestFocusInWindow();
             }
         });
+    }
+    
+    private void setEditando(boolean editando) {
+        this.editando = editando;
+
+        HabilitaCampos.controlaBotaoSalvar(editando, btnSalvar, permissoes);
     }
 
     /**
@@ -76,6 +89,7 @@ public class IfrmUnidadeMedida extends javax.swing.JInternalFrame {
         setTitle("Unidades de Medida");
 
         btnEditar.setText("Editar");
+        btnEditar.setName("btnEditar"); // NOI18N
         btnEditar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEditarActionPerformed(evt);
@@ -83,6 +97,7 @@ public class IfrmUnidadeMedida extends javax.swing.JInternalFrame {
         });
 
         btnSalvar.setText("Salvar");
+        btnSalvar.setName("btnSalvar"); // NOI18N
         btnSalvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSalvarActionPerformed(evt);
@@ -90,6 +105,7 @@ public class IfrmUnidadeMedida extends javax.swing.JInternalFrame {
         });
 
         btnExcluir.setText("Excluir");
+        btnExcluir.setName("btnExcluir"); // NOI18N
         btnExcluir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnExcluirActionPerformed(evt);
@@ -159,6 +175,7 @@ public class IfrmUnidadeMedida extends javax.swing.JInternalFrame {
         jLabel1.setText("Descrição:");
 
         btnPesquisar.setText("Pesquisar");
+        btnPesquisar.setName("btnPesquisar"); // NOI18N
         btnPesquisar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnPesquisarActionPerformed(evt);
@@ -248,7 +265,7 @@ public class IfrmUnidadeMedida extends javax.swing.JInternalFrame {
             tfdUnidade.setText(unidade.getUnidade());
             tfdDescricao.setText(unidade.getDescricao());
             tabAbas.setSelectedIndex(0);
-            editando = true;
+            setEditando(true);
             focus();
         }
     }//GEN-LAST:event_btnEditarActionPerformed
@@ -272,7 +289,9 @@ public class IfrmUnidadeMedida extends javax.swing.JInternalFrame {
             } else {
                 Mensagem.mostraErro("Problema", "Problema ao atualizar unidade de medida");
             }
-            editando = false;
+            
+            setEditando(false);
+            
         } else {
             unidade = new Unidademedida();
             unidade.setUnidade(tfdUnidade.getText());
@@ -320,7 +339,7 @@ public class IfrmUnidadeMedida extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_tabAbasFocusLost
 
     private void tabAbasStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tabAbasStateChanged
-        HabilitaCampos.controlaBotoes(evt, btnSalvar, btnEditar, btnExcluir);
+        HabilitaCampos.controlaBotoes(evt.getSource(), null, btnSalvar, btnEditar, btnExcluir);
     }//GEN-LAST:event_tabAbasStateChanged
 
 

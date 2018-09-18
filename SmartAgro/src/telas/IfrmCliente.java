@@ -19,6 +19,8 @@ import apoio.VerificadorCampos;
 import java.awt.event.ItemEvent;
 import java.util.ArrayList;
 import javax.swing.JComponent;
+import javax.swing.event.ChangeEvent;
+import smartagro.VerificaPermissao;
 
 /**
  *
@@ -31,6 +33,7 @@ public class IfrmCliente extends javax.swing.JInternalFrame {
     private GenericDAO<Cliente> dao;
     private ArrayList<Cliente> clientes;
     private DlgCidades dlgCidades;
+    private VerificaPermissao permissoes;
     private boolean editando = false;
     
     private static final Logger logger = Logger.getLogger(IfrmCliente.class);
@@ -39,10 +42,15 @@ public class IfrmCliente extends javax.swing.JInternalFrame {
      * Creates new form IfrmCliente
      */
     public IfrmCliente(int aba) {
+        
         initComponents();
-
+        
         // Abre na aba passada por parametro
         tabAbas.setSelectedIndex(aba);
+        
+        // Ajusta os botões conforme as permissões
+        permissoes = new VerificaPermissao(this.getClass().getSimpleName(), this.getContentPane());
+        tabAbasStateChanged(new ChangeEvent(tabAbas));
         
         // Preenche a tabela de consulta com as colunas corretas
         clientes = new ArrayList();
@@ -60,6 +68,12 @@ public class IfrmCliente extends javax.swing.JInternalFrame {
                 rbtJuridica.requestFocusInWindow();
             }
         });
+    }
+    
+    private void setEditando(boolean editando) {
+        this.editando = editando;
+
+        HabilitaCampos.controlaBotaoSalvar(editando, btnSalvar, permissoes);
     }
 
     private void limparPainelCadastro() {
@@ -517,6 +531,7 @@ public class IfrmCliente extends javax.swing.JInternalFrame {
         jScrollPane3.setViewportView(tblClientes);
 
         btnPesquisar.setText("Pesquisar");
+        btnPesquisar.setName("btnPesquisar"); // NOI18N
         btnPesquisar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnPesquisarActionPerformed(evt);
@@ -550,6 +565,7 @@ public class IfrmCliente extends javax.swing.JInternalFrame {
         tabAbas.addTab("Consulta", pnlConsulta);
 
         btnEditar.setText("Editar");
+        btnEditar.setName("btnEditar"); // NOI18N
         btnEditar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEditarActionPerformed(evt);
@@ -557,6 +573,7 @@ public class IfrmCliente extends javax.swing.JInternalFrame {
         });
 
         btnSalvar.setText("Salvar");
+        btnSalvar.setName("btnSalvar"); // NOI18N
         btnSalvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSalvarActionPerformed(evt);
@@ -564,6 +581,7 @@ public class IfrmCliente extends javax.swing.JInternalFrame {
         });
 
         btnExcluir.setText("Excluir");
+        btnExcluir.setName("btnExcluir"); // NOI18N
         btnExcluir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnExcluirActionPerformed(evt);
@@ -681,7 +699,7 @@ public class IfrmCliente extends javax.swing.JInternalFrame {
             tfdEmail.setText(this.cliente.getEmail());
 
             tabAbas.setSelectedIndex(0);
-            editando = true;
+            setEditando(true);
             focus();
         }
     }//GEN-LAST:event_btnEditarActionPerformed
@@ -800,7 +818,7 @@ public class IfrmCliente extends javax.swing.JInternalFrame {
                 Mensagem.mostraErro("Problema", "Problema ao atualizar cliente");
                 logger.error("Erro ao atualizar tabelas", e);
             }
-            editando = false;
+            setEditando(false);
 
         } else {
             String hoje = Formatacao.ajustaDataAMD(Formatacao.getDataAtual());
@@ -860,7 +878,7 @@ public class IfrmCliente extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_tabAbasFocusLost
 
     private void tabAbasStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tabAbasStateChanged
-        HabilitaCampos.controlaBotoes(evt, btnSalvar, btnEditar, btnExcluir);
+        HabilitaCampos.controlaBotoes(evt.getSource(), permissoes, btnSalvar, btnEditar, btnExcluir);
     }//GEN-LAST:event_tabAbasStateChanged
 
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
