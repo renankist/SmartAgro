@@ -6,7 +6,6 @@
 package telas;
 
 import apoio.Criptografia;
-import apoio.Formatacao;
 import apoio.LimitaNroCaracteres;
 import dao.ColaboradorDAO;
 import entidade.Colaborador;
@@ -160,7 +159,8 @@ public class DlgAlterarSenhaPrimeiroAcesso extends javax.swing.JDialog {
 
                         JOptionPane.showMessageDialog(rootPane, "Senha do usuário " + colab.getUsuario() + " atualizada com sucesso.", "Confirmação de edição", JOptionPane.PLAIN_MESSAGE);
 
-                        new FrmPrincipal(colab).setVisible(true);
+                        jfrLogin.setUsuarioLogado(colab);
+                        new FrmPrincipal().setVisible(true);
 
                         this.dispose();
 

@@ -158,7 +158,7 @@ public class DlgAlterarSenha extends javax.swing.JDialog {
                  colab.setSenhausuario(Criptografia.criptografar(senhaNova));
                     if (dao.atualizar(colab)) {
                         JOptionPane.showMessageDialog(rootPane, "Senha do usuário " + colab.getUsuario() + " atualizada com sucesso.", "Confirmação de edição", JOptionPane.PLAIN_MESSAGE);
-                        FrmPrincipal.usuario = colab;
+                        jfrLogin.setUsuarioLogado(colab);
                         jLabel3.setText("");
                         jpfSenhaAtual.setText("");
                         jpfSenha.setText("");

@@ -70,7 +70,7 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
         dlgProdutos = new DlgProdutos(null, true);
         
        //Definindo o Colaborador que está logado no campo vendedor
-        tfdVendedor.setText(FrmPrincipal.usuario.getNomecompleto());
+        tfdVendedor.setText(jfrLogin.getUsuarioLogado().getNomecompleto());
          
         popularComboStatus();
 
