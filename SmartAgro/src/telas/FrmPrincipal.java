@@ -6,23 +6,40 @@
 package telas;
 
 import apoio.Mensagem;
+import dao.GenericDAO;
+import entidade.Config;
 
 /**
  *
  * @author Morgana
  */
 public class FrmPrincipal extends javax.swing.JFrame {
-
+    
+    
+    
+    private static Config parametros; 
+    private GenericDAO<Config> dao;
     /**
      * Creates new form FrmPrincipal
      */
     public FrmPrincipal() {
         initComponents();
+        dao = new GenericDAO(); 
+        parametros = new Config();
+        parametros = dao.consultarPorId(1, "Config");
         /* Abrir a tela maximizada */
         //setExtendedState(MAXIMIZED_BOTH);
 
         /* Define o icone da aplicação */
         setIconImage(java.awt.Toolkit.getDefaultToolkit().getImage(getClass().getResource("/imagens/stack.png")));
+    }
+
+    public static Config getParametros() {
+        return parametros;
+    }
+
+    public static void setParametros(Config parametros) {
+        parametros = parametros;
     }
 
     /**
@@ -68,13 +85,13 @@ public class FrmPrincipal extends javax.swing.JFrame {
         itmConsultaColaborador = new javax.swing.JMenuItem();
         itmRelatorioColaborador = new javax.swing.JMenuItem();
         mnuSistema = new javax.swing.JMenu();
-        itmPermissoes = new javax.swing.JMenuItem();
         itmSair = new javax.swing.JMenuItem();
+        itmParametros = new javax.swing.JMenuItem();
+        itmPermissoes = new javax.swing.JMenuItem();
         itmSair1 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("SmartAgro");
-        setPreferredSize(new java.awt.Dimension(900, 700));
         setSize(new java.awt.Dimension(0, 0));
 
         dskArea.setPreferredSize(new java.awt.Dimension(900, 900));
@@ -87,9 +104,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         );
         dskAreaLayout.setVerticalGroup(
             dskAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(dskAreaLayout.createSequentialGroup()
-                .addGap(0, Short.MAX_VALUE, Short.MAX_VALUE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGap(0, 900, Short.MAX_VALUE)
         );
 
         barMenu.setAutoscrolls(true);
@@ -320,6 +335,24 @@ public class FrmPrincipal extends javax.swing.JFrame {
         mnuSistema.setMnemonic('S');
         mnuSistema.setText("Sistema");
 
+        itmSair.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/register.png"))); // NOI18N
+        itmSair.setText("Alterar Senha Usuário");
+        itmSair.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itmSairActionPerformed(evt);
+            }
+        });
+        mnuSistema.add(itmSair);
+
+        itmParametros.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/compass.png"))); // NOI18N
+        itmParametros.setText("Parâmetros");
+        itmParametros.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itmParametrosActionPerformed(evt);
+            }
+        });
+        mnuSistema.add(itmParametros);
+
         itmPermissoes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/locked.png"))); // NOI18N
         itmPermissoes.setText("Permissões");
         itmPermissoes.addActionListener(new java.awt.event.ActionListener() {
@@ -328,15 +361,6 @@ public class FrmPrincipal extends javax.swing.JFrame {
             }
         });
         mnuSistema.add(itmPermissoes);
-
-        itmSair.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/register.png"))); // NOI18N
-        itmSair.setText("Alterar Senha");
-        itmSair.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                itmSairActionPerformed(evt);
-            }
-        });
-        mnuSistema.add(itmSair);
 
         itmSair1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/power.png"))); // NOI18N
         itmSair1.setText("Sair");
@@ -456,6 +480,12 @@ public class FrmPrincipal extends javax.swing.JFrame {
        System.exit(0);
     }//GEN-LAST:event_itmSair1ActionPerformed
     
+     private void parametros(){
+        IfrmParametros ifrmPar = new IfrmParametros(parametros);
+        dskArea.add(ifrmPar);
+        ifrmPar.setVisible(true);
+    }
+
     private void alterarSenha(){
         DlgAlterarSenha dlgFP = new DlgAlterarSenha(this,true, jfrLogin.getUsuarioLogado());
         dlgFP.setLocationRelativeTo(this);
@@ -465,6 +495,10 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private void itmPermissoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmPermissoesActionPerformed
         cadastroPermissoes();
     }//GEN-LAST:event_itmPermissoesActionPerformed
+
+    private void itmParametrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmParametrosActionPerformed
+        parametros();
+    }//GEN-LAST:event_itmParametrosActionPerformed
 
     private void cadastroVenda(int aba) {
         IfrmVenda janelaVenda = new IfrmVenda(aba);
@@ -565,6 +599,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem itmContasPagar;
     private javax.swing.JMenuItem itmContasReceber;
     private javax.swing.JMenuItem itmFormasPagamento;
+    private javax.swing.JMenuItem itmParametros;
     private javax.swing.JMenuItem itmPermissoes;
     private javax.swing.JMenuItem itmRelatorioCliente;
     private javax.swing.JMenuItem itmRelatorioColaborador;
