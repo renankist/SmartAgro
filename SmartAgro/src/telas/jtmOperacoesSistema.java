@@ -5,11 +5,14 @@
  */
 package telas;
 
+import apoio.Mensagem;
 import org.jdesktop.swingx.treetable.DefaultMutableTreeTableNode;
 import org.jdesktop.swingx.treetable.DefaultTreeTableModel;
-import org.jdesktop.swingx.treetable.TreeTableNode;
 import org.jdesktop.swingx.JXTreeTable;
 import entidade.Permissaoacesso;
+import javax.swing.DefaultCellEditor;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 
 /**
  *
@@ -17,34 +20,27 @@ import entidade.Permissaoacesso;
  */
 public class jtmOperacoesSistema extends DefaultTreeTableModel {
 
-    public jtmOperacoesSistema(TreeTableNode root) {
-        super(root);
-    }
+    private final String[] columnNames = new String[]{
+        "Módulo / Funcionalidades", "Acesso", "Teste"
+    };
 
+    private final Class[] columnClass = new Class[]{
+        String.class, Boolean.class, Boolean.class
+    };
+
+//    public jtmOperacoesSistema(TreeTableNode root) {
+//        super(root);
+//    }
     public int getColumnCount() {
-        return 2;
+        return columnNames.length;
     }
 
     public Class<?> getColumnClass(int column) {
-        switch (column) {
-            case 0:
-                return String.class;
-            case 1:
-                return Boolean.class;
-            default:
-                return super.getColumnClass(column);
-        }
+        return columnClass[column];
     }
 
     public String getColumnName(int column) {
-        switch (column) {
-            case 0:
-                return "Módulo / Funcionalidades";
-            case 1:
-                return "Acesso";
-            default:
-                return super.getColumnName(column);
-        }
+        return columnNames[column];
     }
 
     @Override
@@ -67,19 +63,63 @@ public class jtmOperacoesSistema extends DefaultTreeTableModel {
 
                 case 1:
                     return permissao.getAcesso();
+
+                case 2:
+                    return super.getValueAt(node, column);
             }
         }
 
         if (column == 0) {
             return super.getValueAt(node, column);
         }
+
         return null;
     }
-    
-    public static void criaTabela(JXTreeTable table, Object[][] data) {
-        DefaultMutableTreeTableNode nodoTabela = new DefaultMutableTreeTableNode("Sistema");
-        DefaultTreeTableModel model = new jtmOperacoesSistema(nodoTabela);
 
+    @Override
+    public void setValueAt(Object value, Object node, int column) {
+
+        Permissaoacesso permissao = (Permissaoacesso) ((DefaultMutableTreeTableNode) node).getUserObject();
+
+        switch (column) {
+            case 0:
+                break;
+            case 1:
+                permissao.setAcesso((Boolean) value);
+                break;
+        }
+        
+        String  la = "Param: "+ String.valueOf(value) + " objeto: " + String.valueOf(permissao.getAcesso());
+        Mensagem.mostraInformacao("oi, sou eu mesmo", la);
+
+//        Employee row = employeeList.get(rowIndex);
+//        if (0 == columnIndex) {
+//            row.setId((Integer) aValue);
+//        } else if (1 == columnIndex) {
+//            row.setName((String) aValue);
+//        } else if (2 == columnIndex) {
+//            row.setHourlyRate((Double) aValue);
+//        } else if (3 == columnIndex) {
+//            row.setPartTime((Boolean) aValue);
+//        }
+    }
+
+    @Override
+    public boolean isCellEditable(Object node, int column) {
+        return (column == 1 || column == 2);
+    }
+
+    public static void criaTabela(JXTreeTable table, Object[][] data) {
+
+        // Model
+        DefaultTreeTableModel model = new jtmOperacoesSistema();
+        table.setTreeTableModel(model);
+
+        // Root node
+        DefaultMutableTreeTableNode root = new DefaultMutableTreeTableNode("root");
+        model.setRoot(root);
+
+        // New nodes/rows
         for (int i = 0; i < data.length; i++) {
 
             if (data[i][0] == null) {
@@ -87,9 +127,10 @@ public class jtmOperacoesSistema extends DefaultTreeTableModel {
             }
 
             Permissaoacesso modulo = (Permissaoacesso) data[i][0];
-            DefaultMutableTreeTableNode part = new DefaultMutableTreeTableNode(modulo);
-            model.insertNodeInto(part, nodoTabela, nodoTabela.getChildCount());
+            DefaultMutableTreeTableNode nodeModulo = new DefaultMutableTreeTableNode(modulo);
+            model.insertNodeInto(nodeModulo, root, root.getChildCount());
 
+            // Sub rows
             for (int j = 1; j < data[i].length; j++) {
 
                 if (data[i][j] == null) {
@@ -97,11 +138,13 @@ public class jtmOperacoesSistema extends DefaultTreeTableModel {
                 }
 
                 Permissaoacesso permissao = (Permissaoacesso) data[i][j];
-                DefaultMutableTreeTableNode nodoPermissao = new DefaultMutableTreeTableNode(permissao);
-                model.insertNodeInto(nodoPermissao, part, part.getChildCount());
+                DefaultMutableTreeTableNode nodeOperacao = new DefaultMutableTreeTableNode(permissao);
+                model.insertNodeInto(nodeOperacao, nodeModulo, nodeModulo.getChildCount());
             }
         }
 
-        table.setTreeTableModel(model);
+        // Setting the cell editor
+        DefaultCellEditor cellEditorCheck = new DefaultCellEditor(new JCheckBox());
+        table.getColumn(2).setCellEditor(cellEditorCheck);
     }
 }
