@@ -24,6 +24,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
      */
     public FrmPrincipal() {
         initComponents();
+        lbUsuario.setText("Olá, "+jfrLogin.getUsuarioLogado().getNomecompleto());
         dao = new GenericDAO(); 
         parametros = new Config();
         parametros = dao.consultarPorId(1, "Config");
@@ -52,6 +53,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private void initComponents() {
 
         dskArea = new javax.swing.JDesktopPane();
+        lbUsuario = new java.awt.Label();
         barMenu = new javax.swing.JMenuBar();
         mnuCliente = new javax.swing.JMenu();
         itmCadastroCliente = new javax.swing.JMenuItem();
@@ -96,15 +98,25 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
         dskArea.setPreferredSize(new java.awt.Dimension(900, 900));
 
+        lbUsuario.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
+        lbUsuario.setText("label1");
+
+        dskArea.setLayer(lbUsuario, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
         javax.swing.GroupLayout dskAreaLayout = new javax.swing.GroupLayout(dskArea);
         dskArea.setLayout(dskAreaLayout);
         dskAreaLayout.setHorizontalGroup(
             dskAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 900, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, dskAreaLayout.createSequentialGroup()
+                .addGap(0, 732, Short.MAX_VALUE)
+                .addComponent(lbUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         dskAreaLayout.setVerticalGroup(
             dskAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 900, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, dskAreaLayout.createSequentialGroup()
+                .addContainerGap(871, Short.MAX_VALUE)
+                .addComponent(lbUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         barMenu.setAutoscrolls(true);
@@ -612,6 +624,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem itmUnidadeMedida;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
+    private java.awt.Label lbUsuario;
     private javax.swing.JMenu mnuCliente;
     private javax.swing.JMenu mnuColaborador;
     private javax.swing.JMenu mnuCompras;
