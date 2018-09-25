@@ -20,7 +20,7 @@ import org.hibernate.Session;
  */
 public class PermissoesDAO {
 
-    private static final Logger logger = Logger.getLogger(GenericDAO.class);
+    private static final Logger logger = Logger.getLogger(PermissoesDAO.class);
 
     public ArrayList<Permissaoacesso> consultarPermissoesUsuario(Colaborador usu) {
 

@@ -14,7 +14,7 @@ import entidade.Operacoesmodulo;
 import entidade.Permissaoacesso;
 import entidade.PermissaoacessoPK;
 import java.util.ArrayList;
-import java.util.Collection;
+import javax.swing.JComponent;
 
 /**
  *
@@ -25,6 +25,7 @@ public class IfrmPermissoes extends javax.swing.JInternalFrame {
     private GenericDAO<Permissaoacesso> dao;
     private Permissaoacesso permissao;
     private ArrayList<Permissaoacesso> permissoes;
+    private jtmEstruturaPermissoes modelPermissoes;
     
     private DlgColaboradores dlgColaboradores;
 
@@ -42,6 +43,7 @@ public class IfrmPermissoes extends javax.swing.JInternalFrame {
         
         dlgColaboradores = new DlgColaboradores(null, true);
 
+        modelPermissoes = new jtmEstruturaPermissoes();
         montaTreeOperacoes(null);
 
         //Deixar o focus no campo de descrição
@@ -59,8 +61,7 @@ public class IfrmPermissoes extends javax.swing.JInternalFrame {
         
         ArrayList<Modulo> modulos = new GenericDAO<Modulo>().consultarTodos("Modulo");
 
-        // new Object[modulo] [operacao] [nivel 2];
-        Object[][] tree = new Object[modulos.size()][10];
+        Object[][] tree = new Object[modulos.size()][50];
 
         int contModulo = 0;
         int contOperacao = 0;
@@ -98,7 +99,7 @@ public class IfrmPermissoes extends javax.swing.JInternalFrame {
 
         }
 
-        jtmOperacoesSistema.criaTabela(jtrPermissoes, tree);
+        modelPermissoes.criaTabela(jtrPermissoes, tree);
     }
 
     private Permissaoacesso retornaPermissaoTree(Modulo m, Operacao o) {
@@ -143,7 +144,7 @@ public class IfrmPermissoes extends javax.swing.JInternalFrame {
         tabAbas = new javax.swing.JTabbedPane();
         pnlCadastro = new javax.swing.JPanel();
         lblUnidade = new javax.swing.JLabel();
-        tfdVendedor = new javax.swing.JTextField();
+        tfdUsuario = new javax.swing.JTextField();
         btnZoomVendedor = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
         jtrPermissoes = new org.jdesktop.swingx.JXTreeTable();
@@ -187,7 +188,7 @@ public class IfrmPermissoes extends javax.swing.JInternalFrame {
 
         lblUnidade.setText("Usuário *");
 
-        tfdVendedor.setEditable(false);
+        tfdUsuario.setEditable(false);
 
         btnZoomVendedor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/zoom.png"))); // NOI18N
         btnZoomVendedor.setToolTipText("Pesquisar");
@@ -211,7 +212,7 @@ public class IfrmPermissoes extends javax.swing.JInternalFrame {
                     .addGroup(pnlCadastroLayout.createSequentialGroup()
                         .addComponent(lblUnidade)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tfdVendedor, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(tfdUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnZoomVendedor, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 407, Short.MAX_VALUE)))
@@ -223,7 +224,7 @@ public class IfrmPermissoes extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(pnlCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(tfdVendedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(tfdUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(lblUnidade, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(btnZoomVendedor, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -334,7 +335,7 @@ public class IfrmPermissoes extends javax.swing.JInternalFrame {
         if (permissao != null) {
             Colaborador usuario = new GenericDAO<Colaborador>().consultarPorId(permissao.getPermissaoacessoPK().getUsuario().getId(), "Colaborador");
 
-            tfdVendedor.setText(usuario.getNomecompleto());
+            tfdUsuario.setText(usuario.getNomecompleto());
             
             permissoes = new ArrayList<Permissaoacesso>(usuario.getPermissoesCollection());
             montaTreeOperacoes(permissoes);
@@ -347,11 +348,17 @@ public class IfrmPermissoes extends javax.swing.JInternalFrame {
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         // Aplica o validador
-//        JComponent[] components = new JComponent[]{};
-//        VerificadorCampos verifier = new VerificadorCampos(components);
-//        if (!verifier.validaCampos()) {
-//            return;
-//        }
+        JComponent[] components = new JComponent[]{tfdUsuario};
+        VerificadorCampos verifier = new VerificadorCampos(components);
+        if (!verifier.validaCampos()) {
+            return;
+        }
+        
+        ArrayList<Permissaoacesso> ps = modelPermissoes.getPermissoes();
+        
+        if (ps.size() > 0) {
+            System.out.println("IHUHUHUHUHUHU");
+        }
 //
 //        this.dao = new GenericDAO();
 //
@@ -396,7 +403,7 @@ public class IfrmPermissoes extends javax.swing.JInternalFrame {
     private void btnZoomVendedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnZoomVendedorActionPerformed
         dlgColaboradores.setVisible(true);
         if (dlgColaboradores.getColaborador() != null) {
-            tfdVendedor.setText(dlgColaboradores.getColaboradorToString());
+            tfdUsuario.setText(dlgColaboradores.getColaboradorToString());
         }
     }//GEN-LAST:event_btnZoomVendedorActionPerformed
 
@@ -418,6 +425,6 @@ public class IfrmPermissoes extends javax.swing.JInternalFrame {
     private javax.swing.JTabbedPane tabAbas;
     private javax.swing.JTable tblPermissoes;
     private javax.swing.JTextField tfdCriterio;
-    private javax.swing.JTextField tfdVendedor;
+    private javax.swing.JTextField tfdUsuario;
     // End of variables declaration//GEN-END:variables
 }
