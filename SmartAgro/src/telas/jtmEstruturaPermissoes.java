@@ -168,9 +168,6 @@ public class jtmEstruturaPermissoes {
                     break;
             }
 
-            String param = "Param: " + String.valueOf(value) + " - Objeto: " + String.valueOf(permissao.getAcesso());
-            System.out.println(param);
-
         }
 
         @Override

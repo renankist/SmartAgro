@@ -367,8 +367,6 @@ public class IfrmPermissoes extends javax.swing.JInternalFrame {
 
         dao = new GenericDAO();
         
-        //if (new GenericDAO<Permissaoacesso>().atualizar(ps)) {
-
         if (dao.atualizar(usuario)) {
             Mensagem.mostraInformacao("Sucesso", "Permissões do usuário atualizadas com sucesso");
             LimpaCampos.limparCampos(pnlCadastro);
@@ -400,7 +398,6 @@ public class IfrmPermissoes extends javax.swing.JInternalFrame {
             tfdUsuario.setText(dlgColaboradores.getColaboradorToString());
         }
     }//GEN-LAST:event_btnZoomVendedorActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEditar;
