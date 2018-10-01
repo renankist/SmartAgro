@@ -360,6 +360,7 @@ public class IfrmPermissoes extends javax.swing.JInternalFrame {
             PermissaoacessoPK pk = ps.get(i).getPermissaoacessoPK();
             pk.setUsuario(usuario);
             ps.get(i).setPermissaoacessoPK(pk);
+            ps.get(i).setUsuario(usuario);
         }
         
         usuario.setPermissoesCollection(ps);

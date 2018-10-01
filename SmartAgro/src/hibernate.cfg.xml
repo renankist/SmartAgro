@@ -20,13 +20,13 @@
         <mapping class="entidade.Cliente"/>
         <mapping class="entidade.Compra"/>
         <mapping class="entidade.Itemcompra"/> 
-		<mapping class="entidade.Modulo"/>
-		<mapping class="entidade.Operacao"/> 
-		<mapping class="entidade.Operacoesmodulo"/>
-		<mapping class="entidade.Permissaoacesso"/>
+        <mapping class="entidade.Modulo"/>
+        <mapping class="entidade.Operacao"/> 
+        <mapping class="entidade.Operacoesmodulo"/>
+        <mapping class="entidade.Permissaoacesso"/>
         <mapping class="auditoria.CustomRevisionEntity"/>
-		<mapping class="entidade.Venda"/>
-		<mapping class="entidade.Itemvenda"/>
+        <mapping class="entidade.Venda"/>
+        <mapping class="entidade.Itemvenda"/>
    
         <listener class="org.hibernate.envers.event.AuditEventListener" type="post-insert" /> 
         <listener class="org.hibernate.envers.event.AuditEventListener" type="post-update" />
