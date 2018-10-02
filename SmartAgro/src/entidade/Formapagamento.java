@@ -38,7 +38,8 @@ public class Formapagamento implements Serializable {
     @Basic(optional = false)
     @Column(name = "descricao")
     private String descricao;
-  
+    
+    
 
     public Formapagamento() {
     }
@@ -91,7 +92,7 @@ public class Formapagamento implements Serializable {
 
     @Override
     public String toString() {
-        return "entidade.Formapagamento[ id=" + id + " ]";
+        return "Id: "+this.id +" Descrição: "+ this.descricao;
     }
 
 }
