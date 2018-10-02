@@ -50,7 +50,7 @@ public class SimpleTreeTable extends JPanel {
         @Override
         public boolean isCellEditable(EventObject e) {
             return super.isCellEditable(e)
-                && ((TreeNode) lastPath.getLastPathComponent()).isLeaf();
+                    && ((TreeNode) lastPath.getLastPathComponent()).isLeaf();
         }
     }
 
@@ -69,7 +69,7 @@ public class SimpleTreeTable extends JPanel {
                 setName((String) userObject);
             } else if (userObject instanceof Resource) {
                 super.setUserObject(userObject);
-            }    
+            }
         }
 
         public void setName(String name) {
@@ -90,12 +90,13 @@ public class SimpleTreeTable extends JPanel {
             return (Resource) super.getUserObject();
         }
 
-
     }
+
     private static class Resource {
 
         String name;
         private String category;
+        private boolean teste;
 
         public Resource(String name, String category) {
             this.name = name;
@@ -109,6 +110,15 @@ public class SimpleTreeTable extends JPanel {
         public String getName() {
             return name;
         }
+
+        public boolean isTeste() {
+            return teste;
+        }
+
+        public void setTeste(boolean teste) {
+            this.teste = teste;
+        }
+        
         @Override
         public String toString() {
             // BEWARE: don't do this in production code!

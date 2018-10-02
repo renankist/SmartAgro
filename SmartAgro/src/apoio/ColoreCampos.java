@@ -22,9 +22,9 @@ import javax.swing.JTextField;
  * @author Morgana
  */
 public class ColoreCampos {
-    
+
     private static Color amarelinho = new Color(255, 255, 153);
-    
+
     public static void pintarCampo(Component c, boolean pintar) {
         if (c instanceof JFormattedTextField) {
             JFormattedTextField field = (JFormattedTextField) c;
@@ -71,9 +71,9 @@ public class ColoreCampos {
         } else if (c instanceof JDateChooser) {
             JDateChooser field = (JDateChooser) c;
             if (pintar) {
-                ((JTextField)field.getDateEditor().getUiComponent()).setBackground(amarelinho);
+                ((JTextField) field.getDateEditor().getUiComponent()).setBackground(amarelinho);
             } else {
-                ((JTextField)field.getDateEditor().getUiComponent()).setBackground(Color.white);
+                ((JTextField) field.getDateEditor().getUiComponent()).setBackground(Color.white);
             }
         }
     }

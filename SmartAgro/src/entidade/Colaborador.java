@@ -19,6 +19,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlTransient;
 import org.hibernate.envers.Audited;
@@ -62,8 +63,8 @@ public class Colaborador implements Serializable {
     @ManyToOne(optional = false)
     private Endereco endereco;
     
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name="usuario")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy="usuario")
+    @OrderBy("usuario, operacao")
     private Collection<Permissaoacesso> permissoes = new ArrayList<Permissaoacesso>();
 
     public Colaborador() {

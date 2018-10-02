@@ -37,6 +37,10 @@ public class Permissaoacesso implements Serializable {
     @EmbeddedId
     protected PermissaoacessoPK permissaoacessoPK;
     
+    @JoinColumn(name = "usuario", referencedColumnName = "id", insertable = false, updatable = false)
+    @ManyToOne(optional = false)
+    private Colaborador usuario;
+    
     @Basic(optional = false)
     @Column(name = "acesso")
     private boolean acesso;
@@ -67,6 +71,14 @@ public class Permissaoacesso implements Serializable {
 
     public void setPermissaoacessoPK(PermissaoacessoPK permissaoacessoPK) {
         this.permissaoacessoPK = permissaoacessoPK;
+    }
+
+    public Colaborador getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Colaborador usuario) {
+        this.usuario = usuario;
     }
 
     public boolean getAcesso() {

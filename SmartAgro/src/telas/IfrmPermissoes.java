@@ -14,7 +14,7 @@ import entidade.Operacoesmodulo;
 import entidade.Permissaoacesso;
 import entidade.PermissaoacessoPK;
 import java.util.ArrayList;
-import java.util.Collection;
+import javax.swing.JComponent;
 
 /**
  *
@@ -22,10 +22,12 @@ import java.util.Collection;
  */
 public class IfrmPermissoes extends javax.swing.JInternalFrame {
 
-    private GenericDAO<Permissaoacesso> dao;
+    private GenericDAO<Colaborador> dao;
+    Colaborador usuario;
     private Permissaoacesso permissao;
     private ArrayList<Permissaoacesso> permissoes;
-    
+    private jtmEstruturaPermissoes modelPermissoes;
+
     private DlgColaboradores dlgColaboradores;
 
     private boolean editando = false;
@@ -39,9 +41,10 @@ public class IfrmPermissoes extends javax.swing.JInternalFrame {
         // Preenche a tabela de consulta com as colunas corretas
         permissoes = new ArrayList();
         tblPermissoes.setModel(new jtmPermissoes(permissoes));
-        
+
         dlgColaboradores = new DlgColaboradores(null, true);
 
+        modelPermissoes = new jtmEstruturaPermissoes();
         montaTreeOperacoes(null);
 
         //Deixar o focus no campo de descrição
@@ -56,11 +59,10 @@ public class IfrmPermissoes extends javax.swing.JInternalFrame {
     }
 
     private void montaTreeOperacoes(ArrayList<Permissaoacesso> permissoesUsuario) {
-        
+
         ArrayList<Modulo> modulos = new GenericDAO<Modulo>().consultarTodos("Modulo");
 
-        // new Object[modulo] [operacao] [nivel 2];
-        Object[][] tree = new Object[modulos.size()][10];
+        Object[][] tree = new Object[modulos.size()][50];
 
         int contModulo = 0;
         int contOperacao = 0;
@@ -75,14 +77,14 @@ public class IfrmPermissoes extends javax.swing.JInternalFrame {
 
             // Carrega as operações do modulo
             for (Operacao o : m.getOperacoesCollection()) {
-                
+
                 Permissaoacesso pGenerica = retornaPermissaoTree(m, o);
-                
+
                 // Se o usuário já tem permissoes, atualiza o valor dos mesmos
                 if (permissoesUsuario != null) {
                     for (Permissaoacesso p : permissoesUsuario) {
-                        if (p.getOperacoesmodulo().getModulo().getId() == pGenerica.getOperacoesmodulo().getModulo().getId() &&
-                            p.getOperacoesmodulo().getOperacao().getId() == pGenerica.getOperacoesmodulo().getOperacao().getId()) {
+                        if (p.getOperacoesmodulo().getModulo().getId() == pGenerica.getOperacoesmodulo().getModulo().getId()
+                                && p.getOperacoesmodulo().getOperacao().getId() == pGenerica.getOperacoesmodulo().getOperacao().getId()) {
                             pGenerica = p;
                         }
                     }
@@ -98,7 +100,7 @@ public class IfrmPermissoes extends javax.swing.JInternalFrame {
 
         }
 
-        jtmOperacoesSistema.criaTabela(jtrPermissoes, tree);
+        modelPermissoes.criaTabela(jtrPermissoes, tree);
     }
 
     private Permissaoacesso retornaPermissaoTree(Modulo m, Operacao o) {
@@ -143,7 +145,7 @@ public class IfrmPermissoes extends javax.swing.JInternalFrame {
         tabAbas = new javax.swing.JTabbedPane();
         pnlCadastro = new javax.swing.JPanel();
         lblUnidade = new javax.swing.JLabel();
-        tfdVendedor = new javax.swing.JTextField();
+        tfdUsuario = new javax.swing.JTextField();
         btnZoomVendedor = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
         jtrPermissoes = new org.jdesktop.swingx.JXTreeTable();
@@ -187,7 +189,7 @@ public class IfrmPermissoes extends javax.swing.JInternalFrame {
 
         lblUnidade.setText("Usuário *");
 
-        tfdVendedor.setEditable(false);
+        tfdUsuario.setEditable(false);
 
         btnZoomVendedor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/zoom.png"))); // NOI18N
         btnZoomVendedor.setToolTipText("Pesquisar");
@@ -211,7 +213,7 @@ public class IfrmPermissoes extends javax.swing.JInternalFrame {
                     .addGroup(pnlCadastroLayout.createSequentialGroup()
                         .addComponent(lblUnidade)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tfdVendedor, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(tfdUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnZoomVendedor, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 407, Short.MAX_VALUE)))
@@ -223,7 +225,7 @@ public class IfrmPermissoes extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(pnlCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(tfdVendedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(tfdUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(lblUnidade, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(btnZoomVendedor, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -330,15 +332,14 @@ public class IfrmPermissoes extends javax.swing.JInternalFrame {
         permissao = model.get(tblPermissoes.getSelectedRow());
 
         LimpaCampos.limparCampos(pnlCadastro);
-        
-        if (permissao != null) {
-            Colaborador usuario = new GenericDAO<Colaborador>().consultarPorId(permissao.getPermissaoacessoPK().getUsuario().getId(), "Colaborador");
 
-            tfdVendedor.setText(usuario.getNomecompleto());
-            
+        if (permissao != null) {
+            usuario = new GenericDAO<Colaborador>().consultarPorId(permissao.getPermissaoacessoPK().getUsuario().getId(), "Colaborador");
+            tfdUsuario.setText(usuario.getNomecompleto());
+
             permissoes = new ArrayList<Permissaoacesso>(usuario.getPermissoesCollection());
             montaTreeOperacoes(permissoes);
-            
+
             tabAbas.setSelectedIndex(0);
             setEditando(true);
             focus();
@@ -347,41 +348,38 @@ public class IfrmPermissoes extends javax.swing.JInternalFrame {
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         // Aplica o validador
-//        JComponent[] components = new JComponent[]{};
-//        VerificadorCampos verifier = new VerificadorCampos(components);
-//        if (!verifier.validaCampos()) {
-//            return;
-//        }
-//
-//        this.dao = new GenericDAO();
-//
-//        if (editando) {
-//            if (dao.atualizar(unidade)) {
-//                Mensagem.mostraInformacao("Sucesso", "Unidade de medida " + unidade.getDescricao() + " atualizada com sucesso");
-//                LimpaCampos.limparCampos(pnlCadastro);
-//            } else {
-//                Mensagem.mostraErro("Problema", "Problema ao atualizar unidade de medida");
-//            }
-//            editando = false;
-//        } else {
-//            unidade = new Unidademedida();
-//
-//            if (dao.salvar(unidade)) {
-//                Mensagem.mostraInformacao("Sucesso", "Unidade de medida " + unidade.getDescricao() + " inserida com sucesso");
-//                LimpaCampos.limparCampos(pnlCadastro);
-//            } else {
-//                Mensagem.mostraErro("Problema", "Problema para inserir unidade de medida");
-//            }
-//        }
+        JComponent[] components = new JComponent[]{tfdUsuario};
+        VerificadorCampos verifier = new VerificadorCampos(components);
+        if (!verifier.validaCampos()) {
+            return;
+        }
+
+        ArrayList<Permissaoacesso> ps = modelPermissoes.getPermissoes();
+
+        for (int i = 0; i < ps.size(); i++) {
+            PermissaoacessoPK pk = ps.get(i).getPermissaoacessoPK();
+            pk.setUsuario(usuario);
+            ps.get(i).setPermissaoacessoPK(pk);
+            ps.get(i).setUsuario(usuario);
+        }
+        
+        usuario.setPermissoesCollection(ps);
+
+        dao = new GenericDAO();
+        
+        if (dao.atualizar(usuario)) {
+            Mensagem.mostraInformacao("Sucesso", "Permissões do usuário atualizadas com sucesso");
+            LimpaCampos.limparCampos(pnlCadastro);
+        } else {
+            Mensagem.mostraErro("Problema", "Problema ao atualizar as permissões do usuário");
+        }
 
         focus();
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
-        this.dao = new GenericDAO<>();
         this.permissoes = new ArrayList();
-
-        this.permissoes = dao.consultarTodos("Permissaoacesso");
+        this.permissoes = new GenericDAO<Permissaoacesso>().consultarTodos("Permissaoacesso");
 
         tblPermissoes.setModel(new jtmPermissoes(permissoes));
     }//GEN-LAST:event_btnPesquisarActionPerformed
@@ -396,10 +394,10 @@ public class IfrmPermissoes extends javax.swing.JInternalFrame {
     private void btnZoomVendedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnZoomVendedorActionPerformed
         dlgColaboradores.setVisible(true);
         if (dlgColaboradores.getColaborador() != null) {
-            tfdVendedor.setText(dlgColaboradores.getColaboradorToString());
+            usuario = dlgColaboradores.getColaborador();
+            tfdUsuario.setText(dlgColaboradores.getColaboradorToString());
         }
     }//GEN-LAST:event_btnZoomVendedorActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEditar;
@@ -418,6 +416,6 @@ public class IfrmPermissoes extends javax.swing.JInternalFrame {
     private javax.swing.JTabbedPane tabAbas;
     private javax.swing.JTable tblPermissoes;
     private javax.swing.JTextField tfdCriterio;
-    private javax.swing.JTextField tfdVendedor;
+    private javax.swing.JTextField tfdUsuario;
     // End of variables declaration//GEN-END:variables
 }
