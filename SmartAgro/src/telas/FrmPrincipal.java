@@ -114,7 +114,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         dskAreaLayout.setVerticalGroup(
             dskAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, dskAreaLayout.createSequentialGroup()
-                .addContainerGap(871, Short.MAX_VALUE)
+                .addContainerGap(870, Short.MAX_VALUE)
                 .addComponent(lbUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -347,7 +347,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         mnuSistema.setMnemonic('S');
         mnuSistema.setText("Sistema");
 
-        itmSair.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/register.png"))); // NOI18N
+        itmSair.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/senha.png"))); // NOI18N
         itmSair.setText("Alterar Senha Usuário");
         itmSair.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -356,7 +356,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         });
         mnuSistema.add(itmSair);
 
-        itmParametros.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/compass.png"))); // NOI18N
+        itmParametros.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/parametros.png"))); // NOI18N
         itmParametros.setText("Parâmetros");
         itmParametros.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
