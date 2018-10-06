@@ -25,7 +25,6 @@ public class IfrmPermissoes extends javax.swing.JInternalFrame {
     private GenericDAO<Colaborador> dao;
     Colaborador usuario;
     private Permissaoacesso permissao;
-    private ArrayList<Permissaoacesso> permissoes;
     private jtmEstruturaPermissoes modelPermissoes;
 
     private DlgColaboradores dlgColaboradores;
@@ -39,7 +38,7 @@ public class IfrmPermissoes extends javax.swing.JInternalFrame {
         initComponents();
 
         // Preenche a tabela de consulta com as colunas corretas
-        permissoes = new ArrayList();
+        ArrayList<Permissaoacesso> permissoes = new ArrayList();
         tblPermissoes.setModel(new jtmPermissoes(permissoes));
 
         dlgColaboradores = new DlgColaboradores(null, true);
@@ -337,7 +336,7 @@ public class IfrmPermissoes extends javax.swing.JInternalFrame {
             usuario = new GenericDAO<Colaborador>().consultarPorId(permissao.getPermissaoacessoPK().getUsuario().getId(), "Colaborador");
             tfdUsuario.setText(usuario.getNomecompleto());
 
-            permissoes = new ArrayList<Permissaoacesso>(usuario.getPermissoesCollection());
+            ArrayList<Permissaoacesso> permissoes = new ArrayList<Permissaoacesso>(usuario.getPermissoesCollection());
             montaTreeOperacoes(permissoes);
 
             tabAbas.setSelectedIndex(0);
@@ -378,9 +377,7 @@ public class IfrmPermissoes extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
-        this.permissoes = new ArrayList();
-        this.permissoes = new GenericDAO<Permissaoacesso>().consultarTodos("Permissaoacesso");
-
+        ArrayList<Permissaoacesso> permissoes = new GenericDAO<Permissaoacesso>().consultarTodos("Permissaoacesso");
         tblPermissoes.setModel(new jtmPermissoes(permissoes));
     }//GEN-LAST:event_btnPesquisarActionPerformed
 
