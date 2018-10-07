@@ -7,10 +7,16 @@ import apoio.VerificadorCampos;
 import dao.GenericDAO;
 import entidade.Produto;
 import entidade.Unidademedida;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import javax.swing.ImageIcon;
 import javax.swing.JComponent;
+import javax.swing.JFileChooser;
 import javax.swing.event.ChangeEvent;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import smartagro.VerificaPermissao;
 
 public class IfrmProduto extends javax.swing.JInternalFrame {
@@ -28,7 +34,7 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
 
         // Abre na aba passada por parametro
         tabAbas.setSelectedIndex(aba);
-        
+
         // Ajusta os botões conforme as permissões
         permissoes = new VerificaPermissao(this.getClass().getSimpleName(), this.getContentPane());
         tabAbasStateChanged(new ChangeEvent(tabAbas));
@@ -49,18 +55,18 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
             }
         });
     }
-    
+
     private void setEditando(boolean editando) {
         this.editando = editando;
 
         HabilitaCampos.controlaBotaoSalvar(editando, btnSalvar, permissoes);
     }
-    
+
     private void limparPainelCadastro() {
         LimpaCampos.limparCampos(pnlIdentificacao);
         LimpaCampos.limparCampos(pnlValoresEstoque);
+        LimpaCampos.limparCampos(pnlImagem);
     }
-
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -94,6 +100,10 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
         jComboUnidadeMedida = new javax.swing.JComboBox();
         moedaFormatadaValorCompra = new apoio.MoedaFormatada();
         moedaFormatadaValorVenda = new apoio.MoedaFormatada();
+        pnlImagem = new javax.swing.JPanel();
+        lblImagem = new javax.swing.JLabel();
+        btnSelecionar = new javax.swing.JButton();
+        tfdCaminho = new javax.swing.JTextField();
         pnlConsulta = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblProdutos = new javax.swing.JTable();
@@ -171,7 +181,7 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
                     .addComponent(tfdCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(tfdDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(tfdCodigoBarras, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 100, Short.MAX_VALUE))
         );
         pnlIdentificacaoLayout.setVerticalGroup(
             pnlIdentificacaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -180,7 +190,7 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
                 .addGroup(pnlIdentificacaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblCodigo)
                     .addComponent(tfdCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(pnlIdentificacaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblDescricao)
                     .addComponent(tfdDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -214,7 +224,7 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(pnlValoresEstoqueLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlValoresEstoqueLayout.createSequentialGroup()
-                        .addComponent(lblValorVenda1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lblValorVenda1, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
                         .addGap(869, 869, 869))
                     .addGroup(pnlValoresEstoqueLayout.createSequentialGroup()
                         .addGroup(pnlValoresEstoqueLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -224,8 +234,8 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
                                 .addComponent(moedaFormatadaValorCompra, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(pnlValoresEstoqueLayout.createSequentialGroup()
                                 .addGroup(pnlValoresEstoqueLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(lblUnidadeMedida, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(lblValorVenda, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 141, Short.MAX_VALUE))
+                                    .addComponent(lblUnidadeMedida, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 141, Short.MAX_VALUE)
+                                    .addComponent(lblValorVenda, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(pnlValoresEstoqueLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(moedaFormatadaValorVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -252,23 +262,65 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
                 .addGroup(pnlValoresEstoqueLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblValorVenda1)
                     .addComponent(tfdQuantidadeEstoque, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        pnlImagem.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Imagem do produto", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
+
+        btnSelecionar.setText("Selecionar imagem");
+        btnSelecionar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSelecionarActionPerformed(evt);
+            }
+        });
+
+        tfdCaminho.setEditable(false);
+
+        javax.swing.GroupLayout pnlImagemLayout = new javax.swing.GroupLayout(pnlImagem);
+        pnlImagem.setLayout(pnlImagemLayout);
+        pnlImagemLayout.setHorizontalGroup(
+            pnlImagemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlImagemLayout.createSequentialGroup()
+                .addComponent(btnSelecionar, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(tfdCaminho, javax.swing.GroupLayout.DEFAULT_SIZE, 257, Short.MAX_VALUE))
+            .addGroup(pnlImagemLayout.createSequentialGroup()
+                .addComponent(lblImagem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        pnlImagemLayout.setVerticalGroup(
+            pnlImagemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlImagemLayout.createSequentialGroup()
+                .addGroup(pnlImagemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnSelecionar)
+                    .addComponent(tfdCaminho, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
+                .addComponent(lblImagem, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(43, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout pnlCadastroLayout = new javax.swing.GroupLayout(pnlCadastro);
         pnlCadastro.setLayout(pnlCadastroLayout);
         pnlCadastroLayout.setHorizontalGroup(
             pnlCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pnlIdentificacao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(pnlValoresEstoque, javax.swing.GroupLayout.PREFERRED_SIZE, 994, Short.MAX_VALUE)
+            .addGroup(pnlCadastroLayout.createSequentialGroup()
+                .addGroup(pnlCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(pnlValoresEstoque, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(pnlIdentificacao, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(pnlImagem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         pnlCadastroLayout.setVerticalGroup(
             pnlCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlCadastroLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(pnlIdentificacao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(pnlValoresEstoque, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(pnlCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(pnlImagem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(pnlCadastroLayout.createSequentialGroup()
+                        .addComponent(pnlIdentificacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(pnlValoresEstoque, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
         tabAbas.addTab("Cadastro", pnlCadastro);
@@ -328,7 +380,7 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
                     .addComponent(tfdCriterio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnPesquisar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 237, Short.MAX_VALUE))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 266, Short.MAX_VALUE))
         );
 
         tabAbas.addTab("Consulta", pnlConsulta);
@@ -422,17 +474,45 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
             return;
         }
 
+        if (!editando) {
+            this.p = new Produto();
+        }
+
+        p.setDescricao(tfdDescricao.getText());
+        p.setCodigobarras(tfdCodigoBarras.getText());
+        p.setValorcompra(moedaFormatadaValorCompra.getValue());
+        p.setValorvenda(moedaFormatadaValorVenda.getValue());
+        p.setQuantidadeestoque(new BigDecimal(tfdQuantidadeEstoque.getText()));
+        p.setUnidademedida((Unidademedida) jComboUnidadeMedida.getSelectedItem());
+        p.setCodigo(tfdCodigo.getText());
+
+        // How to convert an image file to  byte array?
+        if (!tfdCaminho.getText().trim().isEmpty()) {
+            File file = new File(tfdCaminho.getText());
+            ByteArrayOutputStream bos = null;
+            byte[] buf = new byte[1024];
+            try {
+                FileInputStream fis = new FileInputStream(file);
+                //create FileInputStream which obtains input bytes from a file in a file system
+                //FileInputStream is meant for reading streams of raw bytes such as image data. For reading streams of characters, consider using FileReader.
+                bos = new ByteArrayOutputStream();
+                for (int readNum; (readNum = fis.read(buf)) != -1;) {
+                    //Writes to this byte array output stream
+                    bos.write(buf, 0, readNum);
+                }
+            } catch (Exception ex) {
+                Mensagem.mostraErro("Problema", "Problema ao carregar a imagem do produto");
+                return;
+            }
+
+            byte[] bytes = bos.toByteArray();
+
+            p.setImagem(bytes);
+        }
+
         this.dao = new GenericDAO<>();
 
         if (editando) {
-
-            p.setDescricao(tfdDescricao.getText());
-            p.setCodigobarras(tfdCodigoBarras.getText());
-            p.setValorcompra(moedaFormatadaValorCompra.getValue());
-            p.setValorvenda(moedaFormatadaValorVenda.getValue());
-            p.setQuantidadeestoque(new BigDecimal(tfdQuantidadeEstoque.getText()));
-            p.setUnidademedida((Unidademedida) jComboUnidadeMedida.getSelectedItem());
-            p.setCodigo(tfdCodigo.getText());
 
             if (dao.atualizar(p)) {
                 Mensagem.mostraInformacao("Sucesso", "Produto " + this.p.getDescricao() + " atualizado com sucesso");
@@ -440,20 +520,10 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
             } else {
                 Mensagem.mostraErro("Problema", "Problema ao atualizar produto");
             }
-            
+
             setEditando(false);
 
         } else {
-
-            this.p = new Produto();
-
-            p.setDescricao(tfdDescricao.getText());
-            p.setCodigobarras(tfdCodigoBarras.getText());
-            p.setValorcompra(moedaFormatadaValorCompra.getValue());
-            p.setValorvenda(moedaFormatadaValorVenda.getValue());
-            p.setQuantidadeestoque(new BigDecimal(tfdQuantidadeEstoque.getText()));
-            p.setUnidademedida((Unidademedida) jComboUnidadeMedida.getSelectedItem());
-            p.setCodigo(tfdCodigo.getText());
 
             if (dao.salvar(p)) {
                 Mensagem.mostraInformacao("Sucesso", "Produto " + p.getDescricao() + " inserido com sucesso");
@@ -470,7 +540,7 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
         // Pega o código do registro para consultar o objeto
         int id = Integer.parseInt(tblProdutos.getValueAt(tblProdutos.getSelectedRow(), 0).toString());
         this.p = dao.consultarPorId(id, "Produto");
-        
+
         limparPainelCadastro();
 
         //Se o objeto buscado no método do ServidoDao for diferente de null
@@ -483,6 +553,14 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
             tfdCodigo.setText(this.p.getCodigo());
             jComboUnidadeMedida.setSelectedItem(this.p.getUnidademedida());
             tabAbas.setSelectedIndex(0);
+
+            // Exibe a imagem do produto
+            try {
+                ImageIcon foto = new javax.swing.ImageIcon(this.p.getImagem(), "");
+                lblImagem.setIcon(foto);
+            } catch (Exception e) {
+            }
+
             setEditando(true);
             focus();
         }
@@ -497,12 +575,23 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
         HabilitaCampos.controlaBotoes(evt.getSource(), null, btnSalvar, btnEditar, btnExcluir);
     }//GEN-LAST:event_tabAbasStateChanged
 
+    private void btnSelecionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelecionarActionPerformed
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setFileFilter(new FileNameExtensionFilter("Images", "jpg", "png", "gif", "bmp"));
+        int result = fileChooser.showOpenDialog(this);
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = fileChooser.getSelectedFile();
+            tfdCaminho.setText(selectedFile.getAbsolutePath());
+        }
+    }//GEN-LAST:event_btnSelecionarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnExcluir;
     private javax.swing.JButton btnPesquisar;
     private javax.swing.JButton btnSalvar;
+    private javax.swing.JButton btnSelecionar;
     private javax.swing.JComboBox jComboUnidadeMedida;
     private javax.swing.JLabel jLbDescricaoConsulta;
     private javax.swing.JPanel jPanel1;
@@ -511,6 +600,7 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
     private javax.swing.JLabel lblCodigo;
     private javax.swing.JLabel lblCodigoBarras;
     private javax.swing.JLabel lblDescricao;
+    private javax.swing.JLabel lblImagem;
     private javax.swing.JLabel lblUnidadeMedida;
     private javax.swing.JLabel lblValorCompra;
     private javax.swing.JLabel lblValorVenda;
@@ -520,9 +610,11 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
     private javax.swing.JPanel pnlCadastro;
     private javax.swing.JPanel pnlConsulta;
     private javax.swing.JPanel pnlIdentificacao;
+    private javax.swing.JPanel pnlImagem;
     private javax.swing.JPanel pnlValoresEstoque;
     private javax.swing.JTabbedPane tabAbas;
     private javax.swing.JTable tblProdutos;
+    private javax.swing.JTextField tfdCaminho;
     private javax.swing.JTextField tfdCodigo;
     private javax.swing.JTextField tfdCodigoBarras;
     private javax.swing.JTextField tfdCriterio;
