@@ -21,14 +21,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlTransient;
-import org.hibernate.envers.Audited;
+
 
 /**
  *
  * @author Renan Luis Kist
  */
 @Entity
-@Audited
 @Table(name = "colaborador")
 
 public class Colaborador implements Serializable {

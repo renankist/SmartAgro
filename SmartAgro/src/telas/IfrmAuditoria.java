@@ -9,6 +9,7 @@ import apoio.HabilitaCampos;
 import apoio.LimpaCampos;
 import apoio.Mensagem;
 import apoio.VerificadorCampos;
+import dao.AuditoriaDAO;
 
 import dao.GenericDAO;
 import entidade.Config;
@@ -25,7 +26,8 @@ public class IfrmAuditoria extends javax.swing.JInternalFrame {
 
 
     private VerificaPermissao permissoes;
-
+    private AuditoriaDAO dao ; 
+    
     public IfrmAuditoria(int aba) {
 
         initComponents();
@@ -99,7 +101,7 @@ public class IfrmAuditoria extends javax.swing.JInternalFrame {
 
         pnlCadastro.setName("pnlCadastro"); // NOI18N
 
-        lblDescricao.setText("Por favor, selecione um período para arquivar os dados auditoria ");
+        lblDescricao.setText("Por favor, selecione o período que deseje armazenar os dados de auditoria");
 
         dchInicio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/calendar.png")));
         dchInicio.setInheritsPopupMenu(true);
@@ -189,7 +191,12 @@ public class IfrmAuditoria extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnArquivarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnArquivarActionPerformed
-   
+        dao = new AuditoriaDAO();
+        
+        if(dao.arquivarAuditoria(dchInicio.getDate(), dchFim.getDate())){
+            System.out.println("Auditoria exportada com sucesso.");
+        }
+        
         focus();
 
     }//GEN-LAST:event_btnArquivarActionPerformed

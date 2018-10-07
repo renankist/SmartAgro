@@ -2,17 +2,23 @@ package dao;
 
 import apoio.HibernateUtil;
 import apoio.Validacao;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.jdbc.Work;
+import telas.FrmPrincipal;
+import telas.jfrLogin;
 
 public class GenericDAO<Object> {
 
     private static final Logger logger = Logger.getLogger(GenericDAO.class);
 
-    public boolean salvar(Object o) {
+    public boolean salvar(final Object o) {
 
         Boolean r = false;
 
@@ -23,12 +29,15 @@ public class GenericDAO<Object> {
 
         try {
 
+            setParametroSessao(sessao);
+            
             sessao.save(o);
-
+  
             t.commit();
-
+    
             r = true;
-
+            
+         
         } catch (HibernateException he) {
             he.printStackTrace();
             logger.error("Erro ao salvar registro", he);
@@ -44,6 +53,8 @@ public class GenericDAO<Object> {
 
     }
 
+
+
     public ArrayList<Object> consultarTodos(String className) {
 
         ArrayList resultado = null;
@@ -52,6 +63,7 @@ public class GenericDAO<Object> {
         try {
 
             sessao = HibernateUtil.getSessionFactory().openSession();
+            
             sessao.beginTransaction();
 
             org.hibernate.Query q = sessao.createQuery("from " + className);
@@ -79,7 +91,9 @@ public class GenericDAO<Object> {
         Transaction t = sessao.beginTransaction();
 
         try {
-
+            
+            setParametroSessao(sessao);
+            
             sessao.update(o);
 
             t.commit();
@@ -105,15 +119,19 @@ public class GenericDAO<Object> {
         Boolean r = false;
 
         Session sessao = null;
-
+        
+        
         sessao = HibernateUtil.getSessionFactory().openSession();
 
         Transaction t = sessao.beginTransaction();
 
         try {
-
+            setParametroSessao(sessao);
+            
             sessao.delete(o);
+            
             t.commit();
+            
             r = true;
         } catch (HibernateException he) {
 
@@ -221,6 +239,16 @@ public class GenericDAO<Object> {
 
         return (resultado.size() > 0);
 
+    }
+    
+        public void setParametroSessao(Session sessao){
+        sessao.doWork(new Work() {
+            public void execute(Connection connection) throws SQLException {
+                CallableStatement call = connection.prepareCall("{ call set_session_user(?) }");
+                call.setString(1, jfrLogin.getUsuarioLogado().getUsuario());
+                call.execute();
+            }
+        });
     }
 
 }

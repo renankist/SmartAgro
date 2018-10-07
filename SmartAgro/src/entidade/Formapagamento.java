@@ -17,14 +17,9 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlTransient;
-import org.hibernate.envers.Audited;
 
-/**
- *
- * @author rlkist
- */
+
 @Entity
-@Audited
 @Table(name = "formapagamento")
 public class Formapagamento implements Serializable {
 
@@ -39,8 +34,6 @@ public class Formapagamento implements Serializable {
     @Column(name = "descricao")
     private String descricao;
     
-    
-
     public Formapagamento() {
     }
 
@@ -68,6 +61,7 @@ public class Formapagamento implements Serializable {
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
+      
     }
     
     @Override
@@ -92,7 +86,7 @@ public class Formapagamento implements Serializable {
 
     @Override
     public String toString() {
-        return "Id: "+this.id +" Descrição: "+ this.descricao;
+        return "Descrição: "+ this.descricao;
     }
 
 }
