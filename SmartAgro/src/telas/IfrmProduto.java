@@ -20,7 +20,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import smartagro.VerificaPermissao;
 
 public class IfrmProduto extends javax.swing.JInternalFrame {
-
+    
     private Produto p;
     private GenericDAO<Produto> dao;
     private GenericDAO<Unidademedida> udao;
@@ -28,7 +28,7 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
     private boolean editando = false;
     private ArrayList<Unidademedida> unidades;
     private VerificaPermissao permissoes;
-
+    
     public IfrmProduto(int aba) {
         initComponents();
 
@@ -44,10 +44,10 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
         udao = new GenericDAO<>();
         this.unidades = udao.consultarComCriterio("Unidademedida", "descricao", "");
         jComboUnidadeMedida.setModel(new jcmUnidadesMedidas(this.unidades));
-
+        
         focus();
     }
-
+    
     private void focus() {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
@@ -55,13 +55,13 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
             }
         });
     }
-
+    
     private void setEditando(boolean editando) {
         this.editando = editando;
-
+        
         HabilitaCampos.controlaBotaoSalvar(editando, btnSalvar, permissoes);
     }
-
+    
     private void limparPainelCadastro() {
         LimpaCampos.limparCampos(pnlIdentificacao);
         LimpaCampos.limparCampos(pnlValoresEstoque);
@@ -434,7 +434,7 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
         this.dao = new GenericDAO<>();
         this.unidades = new ArrayList();
-
+        
         this.produtos = dao.consultarComCriterio("Produto", "descricao", tfdCriterio.getText());
         tblProdutos.setModel(new jtmProduto(produtos));
     }//GEN-LAST:event_btnPesquisarActionPerformed
@@ -446,12 +446,12 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
         // Pega o código do registro para consultar o objeto
         int id = Integer.parseInt(tblProdutos.getValueAt(tblProdutos.getSelectedRow(), 0).toString());
-
+        
         this.p = dao.consultarPorId(id, "Produto");
 
         //Abre uma mensagem pedindo se o usuário realmente quer excluír o registro
         boolean resposta = Mensagem.confirmaMensagem("Atenção", "Deseja realmente excluir o produto: " + this.p.getDescricao() + "?");
-
+        
         if (resposta) {
             // Exclui o registro
             if (dao.deletar(p)) {
@@ -466,18 +466,18 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnExcluirActionPerformed
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
-
+        
         JComponent[] components = new JComponent[]{tfdCodigo, tfdDescricao, tfdQuantidadeEstoque, jComboUnidadeMedida};
         VerificadorCampos verifier = new VerificadorCampos(components);
-
+        
         if (!verifier.validaCampos()) {
             return;
         }
-
+        
         if (!editando) {
             this.p = new Produto();
         }
-
+        
         p.setDescricao(tfdDescricao.getText());
         p.setCodigobarras(tfdCodigoBarras.getText());
         p.setValorcompra(moedaFormatadaValorCompra.getValue());
@@ -504,27 +504,27 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
                 Mensagem.mostraErro("Problema", "Problema ao carregar a imagem do produto");
                 return;
             }
-
+            
             byte[] bytes = bos.toByteArray();
-
+            
             p.setImagem(bytes);
         }
-
+        
         this.dao = new GenericDAO<>();
-
+        
         if (editando) {
-
+            
             if (dao.atualizar(p)) {
                 Mensagem.mostraInformacao("Sucesso", "Produto " + this.p.getDescricao() + " atualizado com sucesso");
                 limparPainelCadastro();
             } else {
                 Mensagem.mostraErro("Problema", "Problema ao atualizar produto");
             }
-
+            
             setEditando(false);
-
+            
         } else {
-
+            
             if (dao.salvar(p)) {
                 Mensagem.mostraInformacao("Sucesso", "Produto " + p.getDescricao() + " inserido com sucesso");
                 limparPainelCadastro();
@@ -532,7 +532,7 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
                 Mensagem.mostraErro("Problema", "Problema para inserir produto");
             }
         }
-
+        
         focus();
     }//GEN-LAST:event_btnSalvarActionPerformed
 
@@ -540,7 +540,7 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
         // Pega o código do registro para consultar o objeto
         int id = Integer.parseInt(tblProdutos.getValueAt(tblProdutos.getSelectedRow(), 0).toString());
         this.p = dao.consultarPorId(id, "Produto");
-
+        
         limparPainelCadastro();
 
         //Se o objeto buscado no método do ServidoDao for diferente de null
@@ -555,12 +555,13 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
             tabAbas.setSelectedIndex(0);
 
             // Exibe a imagem do produto
-            try {
+            if (this.p.getImagem() != null) {
                 ImageIcon foto = new javax.swing.ImageIcon(this.p.getImagem(), "");
                 lblImagem.setIcon(foto);
-            } catch (Exception e) {
+            } else {
+                lblImagem.setIcon(null);
             }
-
+            
             setEditando(true);
             focus();
         }
@@ -572,7 +573,7 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_tabAbasFocusLost
 
     private void tabAbasStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tabAbasStateChanged
-        HabilitaCampos.controlaBotoes(evt.getSource(), null, btnSalvar, btnEditar, btnExcluir);
+        HabilitaCampos.controlaBotoes(evt.getSource(), permissoes, btnSalvar, btnEditar, btnExcluir);
     }//GEN-LAST:event_tabAbasStateChanged
 
     private void btnSelecionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelecionarActionPerformed
