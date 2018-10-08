@@ -16,14 +16,13 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
-import org.hibernate.envers.Audited;
+
 
 /**
  *
  * @author Morgana
  */
 @Entity
-@Audited
 @Table(name = "unidademedida")
 @XmlRootElement
 public class Unidademedida implements Serializable {

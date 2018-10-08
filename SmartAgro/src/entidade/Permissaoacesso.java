@@ -16,14 +16,13 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
-import org.hibernate.envers.Audited;
+
 
 /**
  *
  * @author morganabagatini
  */
 @Entity
-@Audited
 @Table(name = "permissaoacesso")
 @XmlRootElement
 @NamedQueries({
