@@ -50,10 +50,12 @@ public class Produto implements Serializable {
     @Column(name = "quantidadeestoque")
     private BigDecimal quantidadeestoque;
     @Basic(optional = false)
-
     @JoinColumn(name = "unidademedida", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Unidademedida unidademedida;
+    
+    @Column(name = "imagem")
+    private byte[] imagem;
 
     public Produto() {
     }
@@ -134,6 +136,14 @@ public class Produto implements Serializable {
         this.unidademedida = unidademedida;
     }
 
+    public byte[] getImagem() {
+        return imagem;
+    }
+
+    public void setImagem(byte[] imagem) {
+        this.imagem = imagem;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 0;
