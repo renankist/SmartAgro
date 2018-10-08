@@ -6,39 +6,47 @@
 package dao;
 
 import apoio.HibernateUtil;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.jdbc.Work;
+import telas.jfrLogin;
 
 /**
  *
  * @author renan
  */
-public class AuditoriaDAO extends GenericDAO{
-    
+public class AuditoriaDAO extends GenericDAO {
+
     private static final Logger logger = Logger.getLogger(GenericDAO.class);
-    
-    
-    public boolean arquivarAuditoria(Date inicio, Date fim){
-        
+
+    public boolean arquivarAuditoria(final Date inicio, final Date fim) {
+
         Boolean r = false;
 
         Session sessao = null;
 
         sessao = HibernateUtil.getSessionFactory().openSession();
-        
+
         Transaction t = sessao.beginTransaction();
 
         try {
 
-            sessao.createSQLQuery("delete from custom_rev_info_arq");
-            
-            
-            
-            
+            sessao.doWork(new Work() {
+                public void execute(Connection connection) throws SQLException {
+                    CallableStatement call = connection.prepareCall("{ call fn_arq_audit(?,?) }");
+                    call.setTimestamp(1, new java.sql.Timestamp(inicio.getTime()));
+                    call.setTimestamp(2, new java.sql.Timestamp(fim.getTime()));
+                    call.execute();
+                }
+            });
+
             t.commit();
 
             r = true;
@@ -56,5 +64,5 @@ public class AuditoriaDAO extends GenericDAO{
 
         return r;
     }
-    
+
 }

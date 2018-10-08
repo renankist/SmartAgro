@@ -194,7 +194,10 @@ public class IfrmAuditoria extends javax.swing.JInternalFrame {
         dao = new AuditoriaDAO();
         
         if(dao.arquivarAuditoria(dchInicio.getDate(), dchFim.getDate())){
-            System.out.println("Auditoria exportada com sucesso.");
+            Mensagem.mostraInformacao("Sucesso", "Informações do período selecionado, arquivadas com sucesso.");
+            LimpaCampos.limparCampos(pnlCadastro);
+        }else{
+            Mensagem.mostraErro("Problema", "Problema para arquivar dados");
         }
         
         focus();
