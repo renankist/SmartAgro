@@ -357,7 +357,6 @@ public class FrmPrincipal extends javax.swing.JFrame {
         });
         mnuSistema.add(itmSair);
 
-        itmParametros.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/parametros.png"))); // NOI18N
         itmSair2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/browser.png"))); // NOI18N
         itmSair2.setText("Auditoria");
         itmSair2.addActionListener(new java.awt.event.ActionListener() {
@@ -367,7 +366,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         });
         mnuSistema.add(itmSair2);
 
-        itmParametros.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/compass.png"))); // NOI18N
+        itmParametros.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/parametros.png"))); // NOI18N
         itmParametros.setText("Parâmetros");
         itmParametros.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

@@ -56,7 +56,6 @@ public class VerificaPermissao {
             return;
         }
 
-        System.out.println("-----------------------------------------------------------------------------------------");
         for (Component c : componentes) {
             for (Permissaoacesso p : permissoes) {
                 if (p.getOperacoesmodulo().getOperacao().getNome().equals(c.getName())) {
@@ -65,7 +64,7 @@ public class VerificaPermissao {
                 }
             }
         }
-        System.out.println("-----------------------------------------------------------------------------------------");
+        System.out.println("----- END -----");
 
     }
 
