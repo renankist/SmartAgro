@@ -97,7 +97,7 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
         pnlValoresEstoque = new javax.swing.JPanel();
         lblValorCompra = new javax.swing.JLabel();
         lblValorVenda = new javax.swing.JLabel();
-        lblValorVenda1 = new javax.swing.JLabel();
+        lblEstoque = new javax.swing.JLabel();
         tfdQuantidadeEstoque = new javax.swing.JTextField();
         lblUnidadeMedida = new javax.swing.JLabel();
         jComboUnidadeMedida = new javax.swing.JComboBox();
@@ -209,7 +209,7 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
 
         lblValorVenda.setText("Valor venda * ");
 
-        lblValorVenda1.setText("Quantidade estoque *");
+        lblEstoque.setText("Quantidade estoque *");
 
         lblUnidadeMedida.setText("Unidade de Medida *");
 
@@ -226,25 +226,21 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
             .addGroup(pnlValoresEstoqueLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pnlValoresEstoqueLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblEstoque)
                     .addGroup(pnlValoresEstoqueLayout.createSequentialGroup()
-                        .addComponent(lblValorVenda1, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
-                        .addGap(869, 869, 869))
+                        .addComponent(lblValorCompra, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(moedaFormatadaValorCompra, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(pnlValoresEstoqueLayout.createSequentialGroup()
+                        .addGroup(pnlValoresEstoqueLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(lblUnidadeMedida, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 141, Short.MAX_VALUE)
+                            .addComponent(lblValorVenda, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(pnlValoresEstoqueLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(pnlValoresEstoqueLayout.createSequentialGroup()
-                                .addComponent(lblValorCompra, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(moedaFormatadaValorCompra, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(pnlValoresEstoqueLayout.createSequentialGroup()
-                                .addGroup(pnlValoresEstoqueLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(lblUnidadeMedida, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 141, Short.MAX_VALUE)
-                                    .addComponent(lblValorVenda, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(pnlValoresEstoqueLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(moedaFormatadaValorVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jComboUnidadeMedida, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(tfdQuantidadeEstoque, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(moedaFormatadaValorVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jComboUnidadeMedida, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(tfdQuantidadeEstoque, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pnlValoresEstoqueLayout.setVerticalGroup(
             pnlValoresEstoqueLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -263,12 +259,13 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
                     .addComponent(jComboUnidadeMedida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlValoresEstoqueLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblValorVenda1)
+                    .addComponent(lblEstoque)
                     .addComponent(tfdQuantidadeEstoque, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pnlImagem.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Imagem do produto", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
+        pnlImagem.setAutoscrolls(true);
 
         btnSelecionar.setText("Selecionar imagem");
         btnSelecionar.addActionListener(new java.awt.event.ActionListener() {
@@ -298,8 +295,7 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
                     .addComponent(btnSelecionar)
                     .addComponent(tfdCaminho, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
-                .addComponent(lblImagem, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(43, Short.MAX_VALUE))
+                .addComponent(lblImagem, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         javax.swing.GroupLayout pnlCadastroLayout = new javax.swing.GroupLayout(pnlCadastro);
@@ -308,7 +304,7 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
             pnlCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlCadastroLayout.createSequentialGroup()
                 .addGroup(pnlCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(pnlValoresEstoque, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(pnlValoresEstoque, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(pnlIdentificacao, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pnlImagem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -604,11 +600,11 @@ public class IfrmProduto extends javax.swing.JInternalFrame {
     private javax.swing.JLabel lblCodigo;
     private javax.swing.JLabel lblCodigoBarras;
     private javax.swing.JLabel lblDescricao;
+    private javax.swing.JLabel lblEstoque;
     private javax.swing.JLabel lblImagem;
     private javax.swing.JLabel lblUnidadeMedida;
     private javax.swing.JLabel lblValorCompra;
     private javax.swing.JLabel lblValorVenda;
-    private javax.swing.JLabel lblValorVenda1;
     private apoio.MoedaFormatada moedaFormatadaValorCompra;
     private apoio.MoedaFormatada moedaFormatadaValorVenda;
     private javax.swing.JPanel pnlCadastro;

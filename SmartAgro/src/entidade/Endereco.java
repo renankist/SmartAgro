@@ -18,7 +18,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import org.hibernate.envers.Audited;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 /**
@@ -26,7 +25,6 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author Morgana
  */
 @Entity
-@Audited
 @XmlRootElement
 @Table(name = "endereco")
 public class Endereco implements Serializable {

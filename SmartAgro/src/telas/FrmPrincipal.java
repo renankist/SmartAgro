@@ -88,6 +88,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         itmRelatorioColaborador = new javax.swing.JMenuItem();
         mnuSistema = new javax.swing.JMenu();
         itmSair = new javax.swing.JMenuItem();
+        itmSair2 = new javax.swing.JMenuItem();
         itmParametros = new javax.swing.JMenuItem();
         itmPermissoes = new javax.swing.JMenuItem();
         itmSair1 = new javax.swing.JMenuItem();
@@ -356,6 +357,15 @@ public class FrmPrincipal extends javax.swing.JFrame {
         });
         mnuSistema.add(itmSair);
 
+        itmSair2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/browser.png"))); // NOI18N
+        itmSair2.setText("Auditoria");
+        itmSair2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itmSair2ActionPerformed(evt);
+            }
+        });
+        mnuSistema.add(itmSair2);
+
         itmParametros.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/parametros.png"))); // NOI18N
         itmParametros.setText("Parâmetros");
         itmParametros.addActionListener(new java.awt.event.ActionListener() {
@@ -512,6 +522,10 @@ public class FrmPrincipal extends javax.swing.JFrame {
         parametros();
     }//GEN-LAST:event_itmParametrosActionPerformed
 
+    private void itmSair2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmSair2ActionPerformed
+        auditoria(0);
+    }//GEN-LAST:event_itmSair2ActionPerformed
+
     private void cadastroVenda(int aba) {
         IfrmVenda janelaVenda = new IfrmVenda(aba);
         dskArea.add(janelaVenda);
@@ -522,7 +536,13 @@ public class FrmPrincipal extends javax.swing.JFrame {
         } catch (Exception e) {
         }
     }
-
+    
+    private void auditoria(int aba) {
+        IfrmAuditoria janelaAud = new IfrmAuditoria(aba);
+        dskArea.add(janelaAud);
+        janelaAud.setVisible(true);
+    }
+    
     private void cadastroColaborador(int aba) {
         IfrmColaborador janelaColab = new IfrmColaborador(aba);
         dskArea.add(janelaColab);
@@ -621,6 +641,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem itmRelatorioVenda;
     private javax.swing.JMenuItem itmSair;
     private javax.swing.JMenuItem itmSair1;
+    private javax.swing.JMenuItem itmSair2;
     private javax.swing.JMenuItem itmUnidadeMedida;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;

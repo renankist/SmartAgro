@@ -25,17 +25,11 @@
         <mapping class="entidade.Operacao"/> 
         <mapping class="entidade.Operacoesmodulo"/>
         <mapping class="entidade.Permissaoacesso"/>
-        <mapping class="auditoria.CustomRevisionEntity"/>
         <mapping class="entidade.Venda"/>
         <mapping class="entidade.Itemvenda"/>
         <mapping class="entidade.Config"/>
         
-<!--        <listener class="org.hibernate.envers.event.AuditEventListener" type="post-insert" /> 
-        <listener class="org.hibernate.envers.event.AuditEventListener" type="post-update" />
-        <listener class="org.hibernate.envers.event.AuditEventListener" type="post-delete" /> 
-        <listener class="org.hibernate.envers.event.AuditEventListener" type="pre-collection-update" /> 
-        <listener class="org.hibernate.envers.event.AuditEventListener" type="pre-collection-remove" /> 
-        <listener class="org.hibernate.envers.event.AuditEventListener" type="post-collection-recreate" /> -->
+
    
     </session-factory>
 </hibernate-configuration>
