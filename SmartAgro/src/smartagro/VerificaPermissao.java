@@ -56,16 +56,16 @@ public class VerificaPermissao {
             return;
         }
 
-        System.out.println("-----------------------------------------------------------------------------------------");
+        //System.out.println("-----------------------------------------------------------------------------------------");
         for (Component c : componentes) {
             for (Permissaoacesso p : permissoes) {
                 if (p.getOperacoesmodulo().getOperacao().getNome().equals(c.getName())) {
-                    System.out.println(modulo + " - " + p.getOperacoesmodulo().getOperacao().getNome() + " | Valor: " + p.getAcesso());
+                    //System.out.println(modulo + " - " + p.getOperacoesmodulo().getOperacao().getNome() + " | Valor: " + p.getAcesso());
                     HabilitaCampos.habilitaCampo(c, p.getAcesso());
                 }
             }
         }
-        System.out.println("-----------------------------------------------------------------------------------------");
+        //System.out.println("-----------------------------------------------------------------------------------------");
 
     }
 

@@ -60,6 +60,9 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
     private void focus() {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
+                // Seta a aba de cadastro como a selecionada
+                tabAbas.setSelectedIndex(0);
+                tabAbasStateChanged(new ChangeEvent(tabAbas));
                 rbtJuridica.requestFocusInWindow();
             }
         });
@@ -678,7 +681,7 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_rbtJuridicaItemStateChanged
 
     private void tabAbasStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tabAbasStateChanged
-        HabilitaCampos.controlaBotoes(evt.getSource(), null, btnSalvar, btnEditar, btnExcluir);
+        HabilitaCampos.controlaBotoes(evt.getSource(), permissoes, btnSalvar, btnEditar, btnExcluir);
     }//GEN-LAST:event_tabAbasStateChanged
 
     private void tabAbasFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tabAbasFocusLost

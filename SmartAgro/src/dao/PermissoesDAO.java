@@ -28,11 +28,10 @@ public class PermissoesDAO {
 
         Session sessao = null;
         try {
-
             sessao = HibernateUtil.getSessionFactory().openSession();
             sessao.beginTransaction();
 
-            org.hibernate.Query q = sessao.createQuery("from Permissaoacesso where usuario = :user ");
+            org.hibernate.Query q = sessao.createQuery("from Permissaoacesso where usuario = :user order by usuario, operacao");
 
             q.setInteger("user", usu.getId());
 

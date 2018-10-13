@@ -129,7 +129,7 @@
                               <Component id="lblDescricao" min="-2" pref="80" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="tfdDescricao" min="-2" pref="225" max="-2" attributes="0"/>
-                              <EmptySpace pref="779" max="32767" attributes="0"/>
+                              <EmptySpace pref="239" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -179,7 +179,7 @@
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="btnPesquisar" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="jScrollPane2" pref="1104" max="32767" attributes="0"/>
+                          <Component id="jScrollPane2" min="-2" pref="551" max="-2" attributes="0"/>
                       </Group>
                     </DimensionLayout>
                     <DimensionLayout dim="1">

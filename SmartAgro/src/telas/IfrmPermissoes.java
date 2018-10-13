@@ -7,6 +7,7 @@ package telas;
 
 import apoio.*;
 import dao.GenericDAO;
+import dao.PermissoesDAO;
 import entidade.Colaborador;
 import entidade.Modulo;
 import entidade.Operacao;
@@ -152,8 +153,9 @@ public class IfrmPermissoes extends javax.swing.JInternalFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         tblPermissoes = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
-        tfdCriterio = new javax.swing.JTextField();
         btnPesquisar = new javax.swing.JButton();
+        tfdCriterio = new javax.swing.JTextField();
+        btnZoomComprador = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -215,7 +217,7 @@ public class IfrmPermissoes extends javax.swing.JInternalFrame {
                         .addComponent(tfdUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnZoomVendedor, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 407, Short.MAX_VALUE)))
+                        .addGap(0, 466, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         pnlCadastroLayout.setVerticalGroup(
@@ -255,31 +257,56 @@ public class IfrmPermissoes extends javax.swing.JInternalFrame {
             }
         });
 
+        tfdCriterio.setEditable(false);
+        tfdCriterio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tfdCriterioActionPerformed(evt);
+            }
+        });
+
+        btnZoomComprador.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/zoom.png"))); // NOI18N
+        btnZoomComprador.setToolTipText("Pesquisar");
+        btnZoomComprador.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        btnZoomComprador.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnZoomCompradorActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout pnlConsultaLayout = new javax.swing.GroupLayout(pnlConsulta);
         pnlConsulta.setLayout(pnlConsultaLayout);
         pnlConsultaLayout.setHorizontalGroup(
             pnlConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlConsultaLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(pnlConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                .addGroup(pnlConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane2)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlConsultaLayout.createSequentialGroup()
+                    .addGroup(pnlConsultaLayout.createSequentialGroup()
                         .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(tfdCriterio, javax.swing.GroupLayout.PREFERRED_SIZE, 565, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(tfdCriterio, javax.swing.GroupLayout.PREFERRED_SIZE, 431, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnZoomComprador, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 182, Short.MAX_VALUE)
                         .addComponent(btnPesquisar)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         pnlConsultaLayout.setVerticalGroup(
             pnlConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlConsultaLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(pnlConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(tfdCriterio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnPesquisar))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pnlConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlConsultaLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(btnPesquisar)
+                        .addGap(7, 7, 7))
+                    .addGroup(pnlConsultaLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(pnlConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(btnZoomComprador, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(pnlConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(tfdCriterio, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel1)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 352, Short.MAX_VALUE))
         );
 
@@ -290,22 +317,23 @@ public class IfrmPermissoes extends javax.swing.JInternalFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(btnSalvar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnEditar)
-                .addContainerGap())
-            .addComponent(tabAbas)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(btnSalvar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnEditar))
+                    .addComponent(tabAbas, javax.swing.GroupLayout.PREFERRED_SIZE, 791, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addComponent(tabAbas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(tabAbas, javax.swing.GroupLayout.PREFERRED_SIZE, 421, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSalvar)
                     .addComponent(btnEditar))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         jScrollPane1.setViewportView(jPanel1);
@@ -314,11 +342,14 @@ public class IfrmPermissoes extends javax.swing.JInternalFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 734, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 809, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -377,7 +408,14 @@ public class IfrmPermissoes extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
-        ArrayList<Permissaoacesso> permissoes = new GenericDAO<Permissaoacesso>().consultarTodos("Permissaoacesso");
+        ArrayList<Permissaoacesso> permissoes;
+        
+        if (dlgColaboradores.getColaborador() == null) {
+            permissoes = new GenericDAO<Permissaoacesso>().consultarTodos("Permissaoacesso");
+        } else {
+            permissoes = new PermissoesDAO().consultarPermissoesUsuario(dlgColaboradores.getColaborador());
+        }
+        
         tblPermissoes.setModel(new jtmPermissoes(permissoes));
     }//GEN-LAST:event_btnPesquisarActionPerformed
 
@@ -396,10 +434,22 @@ public class IfrmPermissoes extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btnZoomVendedorActionPerformed
 
+    private void btnZoomCompradorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnZoomCompradorActionPerformed
+        dlgColaboradores.setVisible(true);
+        if (dlgColaboradores.getColaborador() != null) {
+            tfdCriterio.setText(dlgColaboradores.getColaboradorToString());
+        }
+    }//GEN-LAST:event_btnZoomCompradorActionPerformed
+
+    private void tfdCriterioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfdCriterioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tfdCriterioActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnPesquisar;
     private javax.swing.JButton btnSalvar;
+    private javax.swing.JButton btnZoomComprador;
     private javax.swing.JButton btnZoomVendedor;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;

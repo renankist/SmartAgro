@@ -80,6 +80,9 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
     private void focus() {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
+                // Seta a aba de cadastro como a selecionada
+                tabAbas.setSelectedIndex(0);
+                tabAbasStateChanged(new ChangeEvent(tabAbas));
                 tfdCliente.requestFocusInWindow();
             }
         });

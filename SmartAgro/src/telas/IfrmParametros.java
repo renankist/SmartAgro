@@ -5,15 +5,10 @@
  */
 package telas;
 
-import apoio.HabilitaCampos;
-import apoio.LimpaCampos;
 import apoio.Mensagem;
-import apoio.VerificadorCampos;
 
 import dao.GenericDAO;
 import entidade.Config;
-import java.util.ArrayList;
-import javax.swing.JComponent;
 import javax.swing.event.ChangeEvent;
 import smartagro.VerificaPermissao;
 

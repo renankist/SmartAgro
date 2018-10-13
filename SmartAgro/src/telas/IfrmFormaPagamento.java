@@ -44,6 +44,9 @@ public class IfrmFormaPagamento extends javax.swing.JInternalFrame {
     private void focus() {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
+                // Seta a aba de cadastro como a selecionada
+                tabAbas.setSelectedIndex(0);
+                tabAbasStateChanged(new ChangeEvent(tabAbas));
                 tfdDescricao.requestFocusInWindow();
             }
         });
@@ -132,7 +135,7 @@ public class IfrmFormaPagamento extends javax.swing.JInternalFrame {
                 .addComponent(lblDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(tfdDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(779, Short.MAX_VALUE))
+                .addContainerGap(239, Short.MAX_VALUE))
         );
         pnlCadastroLayout.setVerticalGroup(
             pnlCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -187,7 +190,7 @@ public class IfrmFormaPagamento extends javax.swing.JInternalFrame {
                 .addComponent(tfdDescricaoConsulta)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnPesquisar))
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 1104, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 551, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         pnlConsultaLayout.setVerticalGroup(
             pnlConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -261,6 +264,7 @@ public class IfrmFormaPagamento extends javax.swing.JInternalFrame {
             tabAbas.setSelectedIndex(0);//Passa da tela de "Consulta" para a "Manutenção"
             tfdDescricao.requestFocus();//Poem o cursor no campo Descriçã
             setEditando(true);
+            focus();
         }
 
     }//GEN-LAST:event_btnEditarActionPerformed

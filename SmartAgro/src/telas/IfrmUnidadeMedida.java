@@ -46,6 +46,9 @@ public class IfrmUnidadeMedida extends javax.swing.JInternalFrame {
     private void focus() {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
+                // Seta a aba de cadastro como a selecionada
+                tabAbas.setSelectedIndex(0);
+                tabAbasStateChanged(new ChangeEvent(tabAbas));
                 tfdUnidade.requestFocusInWindow();
             }
         });
@@ -339,7 +342,7 @@ public class IfrmUnidadeMedida extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_tabAbasFocusLost
 
     private void tabAbasStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tabAbasStateChanged
-        HabilitaCampos.controlaBotoes(evt.getSource(), null, btnSalvar, btnEditar, btnExcluir);
+        HabilitaCampos.controlaBotoes(evt.getSource(), permissoes, btnSalvar, btnEditar, btnExcluir);
     }//GEN-LAST:event_tabAbasStateChanged
 
 
