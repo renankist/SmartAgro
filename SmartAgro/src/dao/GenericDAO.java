@@ -11,7 +11,6 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.jdbc.Work;
-import telas.FrmPrincipal;
 import telas.jfrLogin;
 
 public class GenericDAO<Object> {
