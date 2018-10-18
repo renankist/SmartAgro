@@ -5,22 +5,30 @@
  */
 package apoio;
 
+import java.awt.Rectangle;
+import java.awt.Robot;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.*;
-import org.apache.log4j.Logger;;
+import org.apache.log4j.Logger;
+;
 import javax.mail.*;
 import javax.mail.internet.*;
 import javax.activation.*;
+import javax.imageio.ImageIO;
 
 /**
  *
  * @author Morgana
  */
+
+
 public class Email {
-    
+
     private static Logger logger = Logger.getLogger(Email.class);
 
-    public static void enviarEmail(String de, String para, String arquivo) {
-        
+    public static void enviarEmail(String para, String arquivo) {
+
         // Email de autenticação
         final String username = "morganabagatini@universo.univates.br";
         final String password = "@Wilde69";
@@ -29,7 +37,7 @@ public class Email {
         String to = para;
 
         // Sender's email ID needs to be mentioned
-        String from = de;
+        String from = username;
 
         // Assuming you are sending email from localhost
         String host = "smtp.gmail.com";
@@ -54,11 +62,17 @@ public class Email {
         Session session = Session.getDefaultInstance(properties, aut);
 
         try {
+            // Bate um print da tela
+            Robot robot = new Robot();
+            BufferedImage bi = robot.createScreenCapture(new // Captura a tela na àrea definida pelo retângulo
+                               Rectangle(0, 0, 1440, 900)); // aqui vc configura as posições xy e o tam da área que quer capturar
+            //ImageIO.write(bi, "png", new File("C://Meus documentos//tela.png"));// Salva a imagem
+
             // Create a default MimeMessage object.
             MimeMessage message = new MimeMessage(session);
 
             // Set From: header field of the header.
-            message.setFrom(new InternetAddress("SmartAgro" + "<" + de + ">"));
+            message.setFrom(new InternetAddress("SmartAgro" + "<" + from + ">"));
 
             // Set To: header field of the header.
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
@@ -79,7 +93,7 @@ public class Email {
 
                 // Set text message part
                 multipart.addBodyPart(messageBodyPart);
-                
+
                 messageBodyPart = new MimeBodyPart();
                 String filename = arquivo;
                 DataSource source = new FileDataSource(filename);
@@ -92,11 +106,13 @@ public class Email {
             message.setContent("<h1>This is actual message</h1>", "text/html");
 
             // Send message
-            Transport.send(message);
+            //Transport.send(message);
             System.out.println("E-mail enviado com sucesso!");
         } catch (MessagingException mex) {
             mex.printStackTrace();
             logger.error("Erro ao enviar e-mail", mex);
+        } catch (Exception ex){
+            ex.printStackTrace();
         }
     }
 

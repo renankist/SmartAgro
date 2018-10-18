@@ -50,7 +50,7 @@ public class SmartAgro {
             jfrLogin telaLogin = new jfrLogin();
             telaLogin.setVisible(true);
             
-            Email.enviarEmail("no-reply@smartagro.com", "morganabagatini@gmail.com");
+            Email.enviarEmail("morganabagatini@gmail.com", "C://Meus documentos//tela.png");
 
         }
     }
