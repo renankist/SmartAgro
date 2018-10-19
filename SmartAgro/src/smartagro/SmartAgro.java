@@ -1,6 +1,5 @@
 package smartagro;
 
-import apoio.Email;
 import dao.GenericDAO;
 import telas.jfrLogin;
 import javax.swing.JWindow;
@@ -27,7 +26,7 @@ public class SmartAgro {
         window.pack();
         window.setLocationRelativeTo(null);
         window.setVisible(true);
-        
+
         new SmartAgro.StartWorker().execute();
     }
 
@@ -49,8 +48,6 @@ public class SmartAgro {
             // Abre a tela de login
             jfrLogin telaLogin = new jfrLogin();
             telaLogin.setVisible(true);
-            
-            Email.enviarEmail("morganabagatini@gmail.com", "C://Meus documentos//tela.png");
 
         }
     }

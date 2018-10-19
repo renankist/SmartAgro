@@ -13,8 +13,13 @@ import entidade.Venda;
 import entidade.Itemvenda;
 import entidade.ItemvendaPK;
 import entidade.Produto;
+import java.awt.Rectangle;
+import java.awt.Robot;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import javax.imageio.ImageIO;
 import javax.swing.JComponent;
 import javax.swing.event.ChangeEvent;
 import org.apache.log4j.Logger;
@@ -51,7 +56,7 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
         initComponents();
         // Abre na aba passada por parametro
         tabAbas.setSelectedIndex(aba);
-        
+
         // Ajusta os botões conforme as permissões
         permissoes = new VerificaPermissao(this.getClass().getSimpleName(), this.getContentPane());
         tabAbasStateChanged(new ChangeEvent(tabAbas));
@@ -68,10 +73,10 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
         dlgClientes = new DlgClientes(null, true);
         dlgColaboradores = new DlgColaboradores(null, true);
         dlgProdutos = new DlgProdutos(null, true);
-        
-       //Definindo o Colaborador que está logado no campo vendedor
+
+        //Definindo o Colaborador que está logado no campo vendedor
         tfdVendedor.setText(jfrLogin.getUsuarioLogado().getNomecompleto());
-         
+
         popularComboStatus();
 
         focus();
@@ -95,7 +100,7 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
         for (Object st : new Venda().getTodosStatus()) {
             cbmStatus.addItem(st.toString());
         }
-       
+
         cbmStatus.setSelectedIndex(0);
     }
 
@@ -581,7 +586,7 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
                                 .addComponent(lblTotal)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(lblTotalLiquido)))))
-                .addContainerGap(42, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout pnlCadastroLayout = new javax.swing.GroupLayout(pnlCadastro);
@@ -643,7 +648,7 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
                     .addGroup(pnlConsultaLayout.createSequentialGroup()
                         .addComponent(btnPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jYTableScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1056, Short.MAX_VALUE))
+                    .addComponent(jYTableScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1029, Short.MAX_VALUE))
                 .addContainerGap())
         );
         pnlConsultaLayout.setVerticalGroup(
@@ -663,14 +668,14 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(845, Short.MAX_VALUE)
                 .addComponent(btnSalvar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnExcluir)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnEditar)
                 .addContainerGap())
-            .addComponent(tabAbas)
+            .addComponent(tabAbas, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -695,7 +700,7 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 638, Short.MAX_VALUE)
+            .addComponent(jScrollPane1)
         );
 
         getAccessibleContext().setAccessibleDescription("Venda");
@@ -1014,6 +1019,8 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
     }
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
+        enviarEmail();
+        
         JComponent[] components = new JComponent[]{cbmStatus, tfdCliente, tfdVendedor};
         VerificadorCampos verifier = new VerificadorCampos(components);
 
@@ -1077,6 +1084,8 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
                     throw new Exception("Erro ao salvar venda");
                 }
             }
+
+            enviarEmail();
 
             Mensagem.mostraInformacao("Sucesso", "Venda " + ((getEditandoVenda()) ? "atualizada" : "salva") + " com sucesso");
             limparPainelCadastro();
@@ -1171,6 +1180,25 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
     private void tfdDescontoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfdDescontoFocusLost
         atualizaTotal();
     }//GEN-LAST:event_tfdDescontoFocusLost
+
+    private void enviarEmail() {
+        try {
+            // Bate um print da tela
+            Robot robot = new Robot();
+            
+            Rectangle r = pnlCadastro.getVisibleRect();
+            
+            // Captura a tela na àrea definida pelo retângulo
+            // aqui vc configura as posições xy e o tam da área que quer capturar
+            BufferedImage bi = robot.createScreenCapture(r);
+            // Salva a imagem
+            ImageIO.write(bi, "png", new File("venda.png"));
+            
+            Email.enviarEmail("morganabagatini@gmail.com", "venda.png");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton brnPagamento;
