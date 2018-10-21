@@ -21,7 +21,7 @@ public class Email {
 
     private static Logger logger = Logger.getLogger(Email.class);
 
-    public static void enviarEmail(String para, String arquivo) {
+    public static void enviarEmail(String para, String assunto, String mensagem, String arquivo) {
 
         // Email de autenticação
         final String username = "morganabagatini@universo.univates.br";
@@ -66,13 +66,13 @@ public class Email {
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
 
             // Set Subject: header field
-            message.setSubject("This is the Subject Line!");
+            message.setSubject(assunto);
 
             // Create the message part 
             BodyPart messageBodyPart = new MimeBodyPart();
 
             // Send the actual HTML message, as big as you like
-            messageBodyPart.setContent("<h1>This is actual message</h1>", "text/html");
+            messageBodyPart.setContent(mensagem, "text/html");
 
             // Create a multipar message
             Multipart multipart = new MimeMultipart();

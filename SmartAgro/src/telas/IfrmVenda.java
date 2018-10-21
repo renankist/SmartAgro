@@ -13,6 +13,7 @@ import entidade.Venda;
 import entidade.Itemvenda;
 import entidade.ItemvendaPK;
 import entidade.Produto;
+import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Robot;
 import java.awt.image.BufferedImage;
@@ -648,7 +649,7 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
                     .addGroup(pnlConsultaLayout.createSequentialGroup()
                         .addComponent(btnPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jYTableScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1029, Short.MAX_VALUE))
+                    .addComponent(jYTableScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap())
         );
         pnlConsultaLayout.setVerticalGroup(
@@ -657,8 +658,8 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(btnPesquisar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jYTableScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 458, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jYTableScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(41, Short.MAX_VALUE))
         );
 
         tabAbas.addTab("Consulta", pnlConsulta);
@@ -668,20 +669,20 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(845, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnSalvar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnExcluir)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnEditar)
                 .addContainerGap())
-            .addComponent(tabAbas, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+            .addComponent(tabAbas, javax.swing.GroupLayout.DEFAULT_SIZE, 1023, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(tabAbas, javax.swing.GroupLayout.PREFERRED_SIZE, 535, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(tabAbas, javax.swing.GroupLayout.PREFERRED_SIZE, 508, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSalvar)
@@ -1019,8 +1020,6 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
     }
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
-        enviarEmail();
-        
         JComponent[] components = new JComponent[]{cbmStatus, tfdCliente, tfdVendedor};
         VerificadorCampos verifier = new VerificadorCampos(components);
 
@@ -1094,7 +1093,7 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
             Mensagem.mostraErro("Problema", "Problema ao " + ((getEditandoVenda()) ? "atualizar" : "salvar") + " venda");
             logger.error("Erro ao atualizar tabelas", e);
         }
-
+        
         focus();
     }//GEN-LAST:event_btnSalvarActionPerformed
 
@@ -1185,16 +1184,32 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
         try {
             // Bate um print da tela
             Robot robot = new Robot();
-            
-            Rectangle r = pnlCadastro.getVisibleRect();
-            
+
+            // Assunto
+            String assunto = "Confirmação de compra";
+
+            // Corpo do email
+            String msg = "<body style=\"font-family:verdana;\">"
+                    + "<p>Prezado cliente,"
+                    + "<h3>Recebemos sua compra!</h3>"
+                    + "<p> Segue em anexo um resumo da compra."
+                    + "<p> Agradeçemos pela preferência e volte sempre!"
+                    + "</body>";
+
+            // Anexo
+            Point p = super.rootPane.getLocationOnScreen();
+            int x = (int) p.getX();
+            int y = (int) p.getY();
+            int w = pnlCadastro.getWidth()+3;
+            int h = pnlCadastro.getHeight()+3;
+
             // Captura a tela na àrea definida pelo retângulo
             // aqui vc configura as posições xy e o tam da área que quer capturar
-            BufferedImage bi = robot.createScreenCapture(r);
+            BufferedImage bi = robot.createScreenCapture(new Rectangle(x, y, w, h));
             // Salva a imagem
             ImageIO.write(bi, "png", new File("venda.png"));
-            
-            Email.enviarEmail("morganabagatini@gmail.com", "venda.png");
+
+            Email.enviarEmail("morganabagatini@gmail.com", assunto, msg, "venda.png");
         } catch (Exception e) {
             e.printStackTrace();
         }
