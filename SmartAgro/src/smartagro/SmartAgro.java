@@ -1,6 +1,8 @@
 package smartagro;
 
+import Comunicacao.Server;
 import dao.GenericDAO;
+import java.net.ServerSocket;
 import telas.jfrLogin;
 import javax.swing.JWindow;
 import javax.swing.SwingUtilities;
@@ -28,6 +30,8 @@ public class SmartAgro {
         window.setVisible(true);
 
         new SmartAgro.StartWorker().execute();
+          
+            
     }
 
     private class StartWorker extends SwingWorker<Void, Void> {
