@@ -15,10 +15,13 @@ import entidade.ItemvendaPK;
 import entidade.Produto;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.net.ConnectException;
+import java.util.Iterator;
 import javax.swing.JComponent;
 import javax.swing.event.ChangeEvent;
 import org.apache.log4j.Logger;
 import smartagro.VerificaPermissao;
+import sun.net.ConnectionResetException;
 
 /**
  *
@@ -51,7 +54,7 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
         initComponents();
         // Abre na aba passada por parametro
         tabAbas.setSelectedIndex(aba);
-        
+
         // Ajusta os botões conforme as permissões
         permissoes = new VerificaPermissao(this.getClass().getSimpleName(), this.getContentPane());
         tabAbasStateChanged(new ChangeEvent(tabAbas));
@@ -68,10 +71,10 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
         dlgClientes = new DlgClientes(null, true);
         dlgColaboradores = new DlgColaboradores(null, true);
         dlgProdutos = new DlgProdutos(null, true);
-        
-       //Definindo o Colaborador que está logado no campo vendedor
+
+        //Definindo o Colaborador que está logado no campo vendedor
         tfdVendedor.setText(jfrLogin.getUsuarioLogado().getNomecompleto());
-         
+
         popularComboStatus();
 
         focus();
@@ -92,7 +95,7 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
         for (Object st : new Venda().getTodosStatus()) {
             cbmStatus.addItem(st.toString());
         }
-       
+
         cbmStatus.setSelectedIndex(0);
     }
 
@@ -1053,17 +1056,16 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
         if (getEditandoVenda()) {
             venda.removeAllItemvenda();
         }
-
-        // Itens da venda
-        for (Itemvenda item : modelItens.getItens()) {
-            // Atualiza a venda
-            ItemvendaPK pk = new ItemvendaPK(item.getItemvendaPK().getProduto(), venda);
-            item.setItemvendaPK(pk);
-            // Adiciona aos itens
-            venda.addItemvenda(item);
-        }
-
         try {
+            // Itens da venda
+            for (Itemvenda item : modelItens.getItens()) {
+                // Atualiza a venda
+                ItemvendaPK pk = new ItemvendaPK(item.getItemvendaPK().getProduto(), venda);
+                item.setItemvendaPK(pk);
+                // Adiciona aos itens
+                venda.addItemvenda(item);
+            }
+
             if (getEditandoVenda()) {
                 if (!dao.atualizar(venda)) {
                     throw new Exception("Erro ao atualizar venda");
@@ -1076,15 +1078,45 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
             }
 
             Mensagem.mostraInformacao("Sucesso", "Venda " + ((getEditandoVenda()) ? "atualizada" : "salva") + " com sucesso");
+
             limparPainelCadastro();
 
+            ArrayList<String> produtosBaixoEstoque = new ArrayList();
+            Itemvenda item;
+            Iterator<Itemvenda> itr = venda.getItemvendaCollection().iterator();
+            while (itr.hasNext()) {
+                item = itr.next();
+                if (item.getItemvendaPK().getProduto().getQuantidadeestoque().doubleValue() < 5.0) {
+                    produtosBaixoEstoque.add(item.getItemvendaPK().getProduto().getDescricao());
+                }
+            }
+
+            enviarmensagemSocket(produtosBaixoEstoque);
+
+            //
         } catch (Exception e) {
             Mensagem.mostraErro("Problema", "Problema ao " + ((getEditandoVenda()) ? "atualizar" : "salvar") + " venda");
             logger.error("Erro ao atualizar tabelas", e);
         }
-
         focus();
     }//GEN-LAST:event_btnSalvarActionPerformed
+
+    private void enviarmensagemSocket(ArrayList<String> produtos) {
+        try {
+            if (produtos.size() <= 0) {
+                return;
+            } else {
+                String mensagem = "Produto com estoque abaixo do limite(5): ";
+
+                for (int i = 0; i < produtos.size(); i++) {
+                    mensagem += produtos.get(i) + "  ";
+                }
+                FrmPrincipal.getC().send(mensagem);
+            }
+        } catch (Exception e) {
+            //
+        }
+    }
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
         // Pega o código do registro para consultar o objeto

@@ -9,6 +9,8 @@ import apoio.Criptografia;
 import dao.ColaboradorDAO;
 import entidade.Colaborador;
 import static java.awt.Color.white;
+import java.io.IOException;
+import java.net.Socket;
 
 /**
  *
@@ -17,7 +19,10 @@ import static java.awt.Color.white;
 public class jfrLogin extends javax.swing.JFrame {
     
     private static Colaborador colab;
-    
+
+  
+
+  
     // Função para retornar o usuário logado
     public static Colaborador getUsuarioLogado(){
         return colab;
@@ -231,7 +236,7 @@ public class jfrLogin extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new jfrLogin().setVisible(true);
+                new jfrLogin().setVisible(true); 
             }
         });
     }
