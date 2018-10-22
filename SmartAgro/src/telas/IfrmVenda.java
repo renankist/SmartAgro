@@ -20,11 +20,14 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.net.ConnectException;
+import java.util.Iterator;
 import javax.imageio.ImageIO;
 import javax.swing.JComponent;
 import javax.swing.event.ChangeEvent;
 import org.apache.log4j.Logger;
 import smartagro.VerificaPermissao;
+import sun.net.ConnectionResetException;
 
 /**
  *
@@ -1062,17 +1065,16 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
         if (getEditandoVenda()) {
             venda.removeAllItemvenda();
         }
-
-        // Itens da venda
-        for (Itemvenda item : modelItens.getItens()) {
-            // Atualiza a venda
-            ItemvendaPK pk = new ItemvendaPK(item.getItemvendaPK().getProduto(), venda);
-            item.setItemvendaPK(pk);
-            // Adiciona aos itens
-            venda.addItemvenda(item);
-        }
-
         try {
+            // Itens da venda
+            for (Itemvenda item : modelItens.getItens()) {
+                // Atualiza a venda
+                ItemvendaPK pk = new ItemvendaPK(item.getItemvendaPK().getProduto(), venda);
+                item.setItemvendaPK(pk);
+                // Adiciona aos itens
+                venda.addItemvenda(item);
+            }
+
             if (getEditandoVenda()) {
                 if (!dao.atualizar(venda)) {
                     throw new Exception("Erro ao atualizar venda");
@@ -1087,15 +1089,47 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
             enviarEmail();
 
             Mensagem.mostraInformacao("Sucesso", "Venda " + ((getEditandoVenda()) ? "atualizada" : "salva") + " com sucesso");
+
             limparPainelCadastro();
 
+            ArrayList<String> produtosBaixoEstoque = new ArrayList();
+            Itemvenda item;
+            Iterator<Itemvenda> itr = venda.getItemvendaCollection().iterator();
+            while (itr.hasNext()) {
+                item = itr.next();
+                if (item.getItemvendaPK().getProduto().getQuantidadeestoque().doubleValue() < 5.0) {
+                    produtosBaixoEstoque.add(item.getItemvendaPK().getProduto().getDescricao());
+                }
+            }
+
+            enviarmensagemSocket(produtosBaixoEstoque);
+
+            //
         } catch (Exception e) {
             Mensagem.mostraErro("Problema", "Problema ao " + ((getEditandoVenda()) ? "atualizar" : "salvar") + " venda");
             logger.error("Erro ao atualizar tabelas", e);
         }
+
         
         focus();
     }//GEN-LAST:event_btnSalvarActionPerformed
+
+    private void enviarmensagemSocket(ArrayList<String> produtos) {
+        try {
+            if (produtos.size() <= 0) {
+                return;
+            } else {
+                String mensagem = "Produto com estoque abaixo do limite(5): ";
+
+                for (int i = 0; i < produtos.size(); i++) {
+                    mensagem += produtos.get(i) + "  ";
+                }
+                FrmPrincipal.getC().send(mensagem);
+            }
+        } catch (Exception e) {
+            //
+        }
+    }
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
         // Pega o código do registro para consultar o objeto

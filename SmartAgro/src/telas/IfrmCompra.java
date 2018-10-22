@@ -1,5 +1,7 @@
 package telas;
 
+import Comunicacao.Message;
+import Comunicacao.Status;
 import apoio.*;
 import java.util.ArrayList;
 import dao.GenericDAO;
@@ -8,8 +10,12 @@ import entidade.Compra;
 import entidade.Itemcompra;
 import entidade.ItemcompraPK;
 import entidade.Produto;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.net.Socket;
 import javax.swing.JComponent;
 import javax.swing.event.ChangeEvent;
 import org.apache.log4j.Logger;
@@ -37,12 +43,12 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
      * Creates new form IfrmVenda
      */
     public IfrmCompra(int aba) {
-        
+
         initComponents();
 
         // Abre na aba passada por parametro
         tabAbas.setSelectedIndex(aba);
-        
+
         // Ajusta os botões conforme as permissões
         permissoes = new VerificaPermissao(this.getClass().getSimpleName(), this.getContentPane());
         tabAbasStateChanged(new ChangeEvent(tabAbas));
@@ -91,7 +97,7 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
         LimpaCampos.limparCampos(pnlCabecalho);
         LimpaCampos.limparCampos(pnlItens);
         LimpaCampos.limparCampos(pnlComplemento);
-        
+
         this.modelItens = new jtmItensCompra(new ArrayList<Itemcompra>());
         tblItens.setModel(this.modelItens);
 
@@ -105,7 +111,7 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
 
     private void setEditando(boolean editando) {
         this.editando = editando;
-        
+
         HabilitaCampos.controlaBotaoSalvar(editando, btnSalvar, permissoes);
     }
 
@@ -1036,9 +1042,9 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
                 if (!dao.atualizar(compra)) {
                     throw new Exception("Erro ao atualizar compra");
                 }
-                
+
                 setEditando(false);
-                
+
             } else {
                 if (!dao.salvar(compra)) {
                     throw new Exception("Erro ao salvar compra");
@@ -1046,6 +1052,8 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
             }
 
             Mensagem.mostraInformacao("Sucesso", "Compra " + ((getEditando()) ? "atualizada" : "salva") + " com sucesso");
+
+            enviarMensagemServer(produto);
 
             limparPainelCadastro();
 
@@ -1056,6 +1064,37 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
 
         focus();
     }//GEN-LAST:event_btnSalvarActionPerformed
+
+    private void enviarMensagemServer(Produto p) {
+
+//        try {
+//          
+//            ObjectOutputStream output = new ObjectOutputStream(jfrLogin.getS().getOutputStream());
+//            ObjectInputStream input = new ObjectInputStream(jfrLogin.getS().getInputStream());
+//
+//            Message m = new Message();
+//            m.setP(p);
+//            m.setC(jfrLogin.getUsuarioLogado());
+//            m.setStatus(Status.WAITING);
+//            m.setToWho("all");
+//
+//            output.writeObject(m);
+//            output.flush();
+//
+//            m = (Message) input.readObject();
+//
+//            FrmPrincipal.lbMensagens.setText(m.getMsg());
+//
+//            input.close();
+//            output.close();
+//            //jfrLogin.getS().close();
+//        } catch (IOException e) {
+//            System.out.println("Erro: " + e.getMessage());
+//        }catch(ClassNotFoundException e){
+//            System.out.println("Error"+e.getMessage());
+//        }
+    }
+
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
         // Pega o código do registro para consultar o objeto

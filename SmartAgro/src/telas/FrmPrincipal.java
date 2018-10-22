@@ -5,32 +5,64 @@
  */
 package telas;
 
+import apoio.Client;
 import apoio.Mensagem;
 import dao.GenericDAO;
 import entidade.Config;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.PrintStream;
+import java.net.Socket;
+import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author Morgana
  */
 public class FrmPrincipal extends javax.swing.JFrame {
-    
-    
-    
-    private static Config parametros; 
+
+    private static Config parametros;
     private GenericDAO<Config> dao;
+   
+    private static Client c;
+
+    public static Client getC() {
+        return c;
+    }
+
+    public void setC(Client c) {
+        this.c = c;
+    }
+    
+
     /**
      * Creates new form FrmPrincipal
      */
     public FrmPrincipal() {
+
         initComponents();
-        lbUsuario.setText("Olá, "+jfrLogin.getUsuarioLogado().getNomecompleto());
-        dao = new GenericDAO(); 
+        lbUsuario.setText("Olá, " + jfrLogin.getUsuarioLogado().getNomecompleto());
+        dao = new GenericDAO();
         parametros = new Config();
         parametros = dao.consultarPorId(1, "Config");
+        try {
+            c = new Client("localhost", 5000, jtaNotificacoes);
+            c.start();
+        } catch (Exception ex) {
+            Logger.getLogger(FrmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        /* Abrir a tela maximizada */
+        //setExtendedState(MAXIMIZED_BOTH);
 
         /* Define o icone da aplicação */
         setIconImage(java.awt.Toolkit.getDefaultToolkit().getImage(getClass().getResource("/imagens/stack.png")));
+
     }
 
     public static Config getParametros() {
@@ -52,6 +84,10 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
         dskArea = new javax.swing.JDesktopPane();
         lbUsuario = new java.awt.Label();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jtaNotificacoes = new javax.swing.JTextArea();
+        label1 = new java.awt.Label();
+        JtnLimpar = new javax.swing.JButton();
         barMenu = new javax.swing.JMenuBar();
         mnuCliente = new javax.swing.JMenu();
         itmCadastroCliente = new javax.swing.JMenuItem();
@@ -94,27 +130,65 @@ public class FrmPrincipal extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("SmartAgro");
         setSize(new java.awt.Dimension(0, 0));
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         dskArea.setPreferredSize(new java.awt.Dimension(900, 900));
 
         lbUsuario.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         lbUsuario.setText("label1");
 
+        jtaNotificacoes.setColumns(20);
+        jtaNotificacoes.setFont(new java.awt.Font("Noto Sans", 0, 10)); // NOI18N
+        jtaNotificacoes.setForeground(new java.awt.Color(255, 31, 0));
+        jtaNotificacoes.setRows(5);
+        jtaNotificacoes.setEnabled(false);
+        jScrollPane1.setViewportView(jtaNotificacoes);
+
+        label1.setText("Notificações:");
+
+        JtnLimpar.setText("Limpar");
+        JtnLimpar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JtnLimparActionPerformed(evt);
+            }
+        });
+
         dskArea.setLayer(lbUsuario, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        dskArea.setLayer(jScrollPane1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        dskArea.setLayer(label1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        dskArea.setLayer(JtnLimpar, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout dskAreaLayout = new javax.swing.GroupLayout(dskArea);
         dskArea.setLayout(dskAreaLayout);
         dskAreaLayout.setHorizontalGroup(
             dskAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, dskAreaLayout.createSequentialGroup()
-                .addContainerGap(823, Short.MAX_VALUE)
-                .addComponent(lbUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(dskAreaLayout.createSequentialGroup()
+                .addContainerGap(669, Short.MAX_VALUE)
+                .addGroup(dskAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lbUsuario, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, dskAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(JtnLimpar)))
                 .addContainerGap())
         );
         dskAreaLayout.setVerticalGroup(
             dskAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, dskAreaLayout.createSequentialGroup()
-                .addContainerGap(495, Short.MAX_VALUE)
+                .addContainerGap()
+                .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(8, 8, 8)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(JtnLimpar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 308, Short.MAX_VALUE)
                 .addComponent(lbUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -495,21 +569,27 @@ public class FrmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_itmRelatorioVendaActionPerformed
 
     private void itmSair1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmSair1ActionPerformed
-       System.exit(0);
+        try {
+            c.stop();
+            c.close();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        System.exit(0);
     }//GEN-LAST:event_itmSair1ActionPerformed
-    
-     private void parametros(){
+
+    private void parametros() {
         IfrmParametros ifrmPar = new IfrmParametros(parametros);
         dskArea.add(ifrmPar);
         ifrmPar.setVisible(true);
     }
 
-    private void alterarSenha(){
-        DlgAlterarSenha dlgFP = new DlgAlterarSenha(this,true, jfrLogin.getUsuarioLogado());
+    private void alterarSenha() {
+        DlgAlterarSenha dlgFP = new DlgAlterarSenha(this, true, jfrLogin.getUsuarioLogado());
         dlgFP.setLocationRelativeTo(this);
         dlgFP.setVisible(true);
     }
-    
+
     private void itmPermissoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmPermissoesActionPerformed
         cadastroPermissoes();
     }//GEN-LAST:event_itmPermissoesActionPerformed
@@ -522,6 +602,29 @@ public class FrmPrincipal extends javax.swing.JFrame {
         auditoria(0);
     }//GEN-LAST:event_itmSair2ActionPerformed
 
+    private void JtnLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JtnLimparActionPerformed
+        jtaNotificacoes.setText("");
+    }//GEN-LAST:event_JtnLimparActionPerformed
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        try {
+            c.stop();
+            c.close();
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }//GEN-LAST:event_formWindowClosed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        try {
+            c.stop();
+            c.close();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }//GEN-LAST:event_formWindowClosing
+
     private void cadastroVenda(int aba) {
         IfrmVenda janelaVenda = new IfrmVenda(aba);
         dskArea.add(janelaVenda);
@@ -532,13 +635,13 @@ public class FrmPrincipal extends javax.swing.JFrame {
         } catch (Exception e) {
         }
     }
-    
+
     private void auditoria(int aba) {
         IfrmAuditoria janelaAud = new IfrmAuditoria(aba);
         dskArea.add(janelaAud);
         janelaAud.setVisible(true);
     }
-    
+
     private void cadastroColaborador(int aba) {
         IfrmColaborador janelaColab = new IfrmColaborador(aba);
         dskArea.add(janelaColab);
@@ -605,11 +708,14 @@ public class FrmPrincipal extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new FrmPrincipal().setVisible(true);
+
             }
         });
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton JtnLimpar;
     private javax.swing.JMenuBar barMenu;
     private javax.swing.JDesktopPane dskArea;
     private javax.swing.JMenuItem itmCadastroCliente;
@@ -639,8 +745,11 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem itmSair1;
     private javax.swing.JMenuItem itmSair2;
     private javax.swing.JMenuItem itmUnidadeMedida;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
+    private javax.swing.JTextArea jtaNotificacoes;
+    private java.awt.Label label1;
     private java.awt.Label lbUsuario;
     private javax.swing.JMenu mnuCliente;
     private javax.swing.JMenu mnuColaborador;
