@@ -1215,6 +1215,7 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_tfdDescontoFocusLost
 
     private void enviarEmail() {
+        
         try {
             // Bate um print da tela
             Robot robot = new Robot();
