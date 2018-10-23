@@ -20,8 +20,9 @@ import apoio.Validacao;
 import apoio.VerificadorCampos;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import dao.CidadeDAO;
+import entidade.Cidade;
 import java.awt.event.ItemEvent;
-import java.lang.ProcessBuilder.Redirect.Type;
 import java.util.ArrayList;
 import javax.swing.JComponent;
 import javax.swing.event.ChangeEvent;
@@ -40,23 +41,23 @@ public class IfrmCliente extends javax.swing.JInternalFrame {
     private DlgCidades dlgCidades;
     private VerificaPermissao permissoes;
     private boolean editando = false;
-    
+
     private static final Logger logger = Logger.getLogger(IfrmCliente.class);
 
     /**
      * Creates new form IfrmCliente
      */
     public IfrmCliente(int aba) {
-        
+
         initComponents();
-        
+
         // Abre na aba passada por parametro
         tabAbas.setSelectedIndex(aba);
-        
+
         // Ajusta os botões conforme as permissões
         permissoes = new VerificaPermissao(this.getClass().getSimpleName(), this.getContentPane());
         tabAbasStateChanged(new ChangeEvent(tabAbas));
-        
+
         // Preenche a tabela de consulta com as colunas corretas
         clientes = new ArrayList();
         tblClientes.setModel(new jtmCliente(clientes));
@@ -77,7 +78,7 @@ public class IfrmCliente extends javax.swing.JInternalFrame {
             }
         });
     }
-    
+
     private void setEditando(boolean editando) {
         this.editando = editando;
 
@@ -786,8 +787,7 @@ public class IfrmCliente extends javax.swing.JInternalFrame {
         endereco.setBairro(tfdBairro.getText());
         endereco.setComplemento(tfdComplemento.getText());
         endereco.setCep(ffdCEP.getText());
-        
-        
+
         if (dlgCidades.getCidade() != null) {
             endereco.setCidade(dlgCidades.getCidade());
         }
@@ -827,7 +827,7 @@ public class IfrmCliente extends javax.swing.JInternalFrame {
                 limparPainelCadastro();
                 btgPessoa.clearSelection();
                 btgSexo.clearSelection();
-                
+
             } catch (Exception e) {
                 Mensagem.mostraErro("Problema", "Problema ao atualizar cliente");
                 logger.error("Erro ao atualizar tabelas", e);
@@ -851,7 +851,7 @@ public class IfrmCliente extends javax.swing.JInternalFrame {
                 limparPainelCadastro();
                 btgPessoa.clearSelection();
                 btgSexo.clearSelection();
-                
+
             } catch (Exception e) {
                 Mensagem.mostraErro("Problema", "Problema ao inserir cliente");
                 logger.error("Erro ao salvar tabelas", e);
@@ -904,33 +904,38 @@ public class IfrmCliente extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnPesquisarActionPerformed
 
     private void ffdCEPFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_ffdCEPFocusLost
-        
-        if(ffdCEP.getText().trim() != "" ||ffdCEP.getText() != null ){
-             ClientCepWS clientCep = new ClientCepWS(ffdCEP.getText());
-             try{
-             String json = clientCep.get();
-             
-             Gson g = new Gson();
-             
-             EnderecoWebService end = new EnderecoWebService();
-             
-                 java.lang.reflect.Type endType = new TypeToken<EnderecoWebService>() {}.getType();
-             
-                 end = g.fromJson(json,endType);
-             
-                 
-                tfdBairro.setText(end.getBairro());
-                tfdComplemento.setText(end.getComplemento());
-                tfdCidade.setText(end.getLocalidade() + " - "+end.getUf());
-                tfdLogradouro.setText(end.getLogradouro());
+        if (!ffdCEP.getText().trim().isEmpty() || ffdCEP.getText() != null) {
+            ClientCepWS clientCep = new ClientCepWS(ffdCEP.getText());
+            try {
+                String json = clientCep.get();
+
+                Gson g = new Gson();
+
+                EnderecoWebService enderecoWEB = new EnderecoWebService();
+
+                java.lang.reflect.Type endType = new TypeToken<EnderecoWebService>() {
+                }.getType();
+
+                enderecoWEB = g.fromJson(json, endType);
+
+                tfdBairro.setText(enderecoWEB.getBairro());
+                tfdComplemento.setText(enderecoWEB.getComplemento());
+                tfdCidade.setText(enderecoWEB.getLocalidade() + " - " + enderecoWEB.getUf());
+                tfdLogradouro.setText(enderecoWEB.getLogradouro());
                 
-             }catch(Exception e){
-                 e.printStackTrace();
-             }
-             
-            
+                Cidade cid = new CidadeDAO().consultarPorCidadeUF(enderecoWEB.getLocalidade(), enderecoWEB.getUf());
+                if (cid == null) {
+                    Mensagem.mostraErro("Ops!", "Não foi possível selecionar a cidade do cliente, tente novamente por favor.");
+                } else{
+                    dlgCidades.setCidadeSelecionada(cid);
+                }
+                        
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
         }
-       
+
     }//GEN-LAST:event_ffdCEPFocusLost
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

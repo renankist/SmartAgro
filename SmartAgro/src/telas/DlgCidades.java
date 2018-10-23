@@ -71,6 +71,15 @@ public class DlgCidades extends javax.swing.JDialog {
         modelCidade = new jtmCidade((cidades));
         tblCidades.setModel(modelCidade);
     }
+    
+    public void setCidadeSelecionada(Cidade cid){
+        cidades = new ArrayList();
+        cidades.add(cid);
+        modelCidade = new jtmCidade(cidades);
+        tblCidades.setModel(modelCidade);
+        tblCidades.setRowSelectionInterval(0, 0);
+        selecionou = true;
+    }
 
     public Cidade getCidade() {
         Cidade cid = null;
@@ -87,7 +96,7 @@ public class DlgCidades extends javax.swing.JDialog {
     public boolean seleciou() {
         return selecionou;
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
