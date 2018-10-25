@@ -13,6 +13,7 @@ import entidade.Venda;
 import entidade.Itemvenda;
 import entidade.ItemvendaPK;
 import entidade.Produto;
+import static entidade.Venda.STATUS_CANCELADA;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Robot;
@@ -1092,18 +1093,18 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
 
             limparPainelCadastro();
 
-            ArrayList<String> produtosBaixoEstoque = new ArrayList();
-            Itemvenda item;
-            Iterator<Itemvenda> itr = venda.getItemvendaCollection().iterator();
-            while (itr.hasNext()) {
-                item = itr.next();
-                if ((item.getItemvendaPK().getProduto().getQuantidadeestoque().doubleValue() - item.getQuantidade().doubleValue())  < 5.0) {
-                    produtosBaixoEstoque.add(item.getItemvendaPK().getProduto().getDescricao());
+            if (venda.getStatus() != STATUS_CANCELADA) {
+                ArrayList<String> produtosBaixoEstoque = new ArrayList();
+                Itemvenda item;
+                Iterator<Itemvenda> itr = venda.getItemvendaCollection().iterator();
+                while (itr.hasNext()) {
+                    item = itr.next();
+                    if ((item.getItemvendaPK().getProduto().getQuantidadeestoque().doubleValue() - item.getQuantidade().doubleValue()) < 5.0) {
+                        produtosBaixoEstoque.add(item.getItemvendaPK().getProduto().getDescricao());
+                    }
                 }
+                enviarmensagemSocket(produtosBaixoEstoque);
             }
-            
-            enviarmensagemSocket(produtosBaixoEstoque);
-          
 
             //
         } catch (Exception e) {
@@ -1111,7 +1112,6 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
             logger.error("Erro ao atualizar tabelas", e);
         }
 
-        
         focus();
     }//GEN-LAST:event_btnSalvarActionPerformed
 
@@ -1128,7 +1128,7 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
                     FrmPrincipal.getC().send(mensagem);
                     mensagem = "";
                 }
-               
+
             }
         } catch (Exception e) {
             //
@@ -1219,7 +1219,7 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_tfdDescontoFocusLost
 
     private void enviarEmail() {
-        
+
         try {
             // Bate um print da tela
             Robot robot = new Robot();
@@ -1239,8 +1239,8 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
             Point p = super.rootPane.getLocationOnScreen();
             int x = (int) p.getX();
             int y = (int) p.getY();
-            int w = pnlCadastro.getWidth()+3;
-            int h = pnlCadastro.getHeight()+3;
+            int w = pnlCadastro.getWidth() + 3;
+            int h = pnlCadastro.getHeight() + 3;
 
             // Captura a tela na àrea definida pelo retângulo
             // aqui vc configura as posições xy e o tam da área que quer capturar
