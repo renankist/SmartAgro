@@ -16,6 +16,9 @@ import javax.activation.*;
  * @author Morgana
  */
 public class Email {
+    
+    // Trocar essa variável para realmente mandar o email
+    private static final boolean enviarEmail = false;
 
     private static Logger logger = Logger.getLogger(Email.class);
     
@@ -98,8 +101,13 @@ public class Email {
                     message.setContent(multipart);
 
                     // Send message
-                    Transport.send(message);
-                    System.out.println("E-mail enviado com sucesso!");
+                    if (enviarEmail) {
+                        Transport.send(message);
+                        System.out.println("E-mail enviado com sucesso!");
+                    } else {
+                        System.out.println("E-mail montado com sucesso, mas não foi enviado por estar em base de teste!");
+                    }
+ 
                 } catch (MessagingException mex) {
                     mex.printStackTrace();
                     logger.error("Erro ao enviar e-mail", mex);
