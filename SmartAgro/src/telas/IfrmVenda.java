@@ -1119,12 +1119,15 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
             if (produtos.size() <= 0) {
                 return;
             } else {
-                String mensagem = "Produto com estoque abaixo do limite(5): ";
+                String mensagem;
 
                 for (int i = 0; i < produtos.size(); i++) {
+                    mensagem = "Produto com estoque abaixo do limite(5): ";
                     mensagem += produtos.get(i) + "  ";
+                    FrmPrincipal.getC().send(mensagem);
+                    mensagem = "";
                 }
-                FrmPrincipal.getC().send(mensagem);
+               
             }
         } catch (Exception e) {
             //
