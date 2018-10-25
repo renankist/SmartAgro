@@ -1097,12 +1097,13 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
             Iterator<Itemvenda> itr = venda.getItemvendaCollection().iterator();
             while (itr.hasNext()) {
                 item = itr.next();
-                if (item.getItemvendaPK().getProduto().getQuantidadeestoque().doubleValue() < 5.0) {
+                if ((item.getItemvendaPK().getProduto().getQuantidadeestoque().doubleValue() - item.getQuantidade().doubleValue())  < 5.0) {
                     produtosBaixoEstoque.add(item.getItemvendaPK().getProduto().getDescricao());
                 }
             }
-
+            
             enviarmensagemSocket(produtosBaixoEstoque);
+          
 
             //
         } catch (Exception e) {
