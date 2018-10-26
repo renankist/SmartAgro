@@ -908,34 +908,35 @@ public class IfrmCliente extends javax.swing.JInternalFrame {
 
     private void ffdCEPFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_ffdCEPFocusLost
         if (!ffdCEP.getText().trim().isEmpty() || ffdCEP.getText() != null) {
-            
+
             ClientCepWS clientCep = new ClientCepWS(ffdCEP.getText());
-            
+
             try {
                 String json = clientCep.get();
 
-                Gson g = new Gson();
+                if (!json.contains("{  \"erro\": true}")) {
+                    Gson g = new Gson();
 
-                EnderecoWebService enderecoWEB = new EnderecoWebService();
+                    EnderecoWebService enderecoWEB = new EnderecoWebService();
 
-                java.lang.reflect.Type endType = new TypeToken<EnderecoWebService>() {
-                }.getType();
+                    java.lang.reflect.Type endType = new TypeToken<EnderecoWebService>() {
+                    }.getType();
 
-                enderecoWEB = g.fromJson(json, endType);
+                    enderecoWEB = g.fromJson(json, endType);
 
-                tfdBairro.setText(enderecoWEB.getBairro());
-                tfdComplemento.setText(enderecoWEB.getComplemento());
-                tfdCidade.setText(enderecoWEB.getLocalidade() + " - " + enderecoWEB.getUf());
-                tfdLogradouro.setText(enderecoWEB.getLogradouro());
-                
-                Cidade cid = new CidadeDAO().consultarPorCidadeUF(enderecoWEB.getLocalidade(), enderecoWEB.getUf());
-                
-                if (cid == null) {
-                    Mensagem.mostraErro("Ops!", "Não foi possível selecionar a cidade do cliente, tente novamente por favor.");
-                } else{
-                    dlgCidades.setCidadeSelecionada(cid);
+                    tfdBairro.setText(enderecoWEB.getBairro());
+                    tfdComplemento.setText(enderecoWEB.getComplemento());
+                    tfdCidade.setText(enderecoWEB.getLocalidade() + " - " + enderecoWEB.getUf());
+                    tfdLogradouro.setText(enderecoWEB.getLogradouro());
+
+                    Cidade cid = new CidadeDAO().consultarPorCidadeUF(enderecoWEB.getLocalidade(), enderecoWEB.getUf());
+
+                    if (cid == null) {
+                        Mensagem.mostraErro("Ops!", "Não foi possível selecionar a cidade do cliente, tente novamente por favor.");
+                    } else {
+                        dlgCidades.setCidadeSelecionada(cid);
+                    }
                 }
-                        
             } catch (Exception e) {
                 e.printStackTrace();
             }
