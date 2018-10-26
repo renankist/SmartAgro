@@ -7,7 +7,11 @@ package telas;
 
 import org.apache.log4j.Logger;
 import apoio.*;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import dao.CidadeDAO;
 import dao.GenericDAO;
+import entidade.Cidade;
 import entidade.Fornecedor;
 import entidade.Endereco;
 import java.util.ArrayList;
@@ -15,7 +19,6 @@ import javax.swing.JComponent;
 import java.awt.event.ItemEvent;
 import javax.swing.event.ChangeEvent;
 import smartagro.VerificaPermissao;
-
 
 /**
  *
@@ -41,7 +44,7 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
 
         // Abre na aba passada por parametro
         tabAbas.setSelectedIndex(aba);
-        
+
         // Ajusta os botões conforme as permissões
         permissoes = new VerificaPermissao(this.getClass().getSimpleName(), this.getContentPane());
         tabAbasStateChanged(new ChangeEvent(tabAbas));
@@ -67,7 +70,7 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
             }
         });
     }
-    
+
     private void setEditando(boolean editando) {
         this.editando = editando;
 
@@ -108,14 +111,14 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
         jLabel11 = new javax.swing.JLabel();
         tfdNumero = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
-        jLabel15 = new javax.swing.JLabel();
         tfdBairro = new javax.swing.JTextField();
-        ffdCEP = new javax.swing.JFormattedTextField();
         jLabel13 = new javax.swing.JLabel();
         tfdCidade = new javax.swing.JTextField();
         jLabel14 = new javax.swing.JLabel();
         tfdComplemento = new javax.swing.JTextField();
         btnZoom = new javax.swing.JButton();
+        jLabel15 = new javax.swing.JLabel();
+        ffdCEP = new javax.swing.JFormattedTextField();
         jLabel26 = new javax.swing.JLabel();
         pnlConsulta = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -181,7 +184,7 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
             }
         });
 
-        pnlGeral.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Dados gerais", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
+        pnlGeral.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Dados gerais", 0, 0, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
         lblNome.setText("Nome *");
 
@@ -236,21 +239,13 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
                     .addComponent(tfdRazaoSocial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
-        pnlEndereco.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Endereço", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
+        pnlEndereco.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Endereço", 0, 0, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
         jLabel10.setText("Logradouro *");
 
         jLabel11.setText("Número");
 
         jLabel12.setText("Bairro *");
-
-        jLabel15.setText("CEP *");
-
-        try {
-            ffdCEP.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("#####-###")));
-        } catch (java.text.ParseException ex) {
-            ex.printStackTrace();
-        }
 
         jLabel13.setText("Cidade *");
 
@@ -267,47 +262,61 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
             }
         });
 
+        jLabel15.setText("CEP *");
+
+        try {
+            ffdCEP.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("#####-###")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        ffdCEP.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                ffdCEPFocusLost(evt);
+            }
+        });
+
         javax.swing.GroupLayout pnlEnderecoLayout = new javax.swing.GroupLayout(pnlEndereco);
         pnlEndereco.setLayout(pnlEnderecoLayout);
         pnlEnderecoLayout.setHorizontalGroup(
             pnlEnderecoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlEnderecoLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(pnlEnderecoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlEnderecoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlEnderecoLayout.createSequentialGroup()
-                            .addComponent(jLabel10)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
-                        .addGroup(pnlEnderecoLayout.createSequentialGroup()
-                            .addComponent(jLabel12)
-                            .addGap(37, 37, 37)))
-                    .addGroup(pnlEnderecoLayout.createSequentialGroup()
-                        .addComponent(jLabel13)
-                        .addGap(32, 32, 32)))
+                .addGroup(pnlEnderecoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel15)
+                    .addComponent(jLabel13)
+                    .addComponent(jLabel12))
+                .addGap(46, 46, 46)
                 .addGroup(pnlEnderecoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlEnderecoLayout.createSequentialGroup()
                         .addComponent(tfdCidade, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnZoom, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(pnlEnderecoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(tfdBairro, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(tfdLogradouro, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
-                .addGroup(pnlEnderecoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel14, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel15, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(pnlEnderecoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(tfdComplemento, javax.swing.GroupLayout.PREFERRED_SIZE, 351, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tfdNumero, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tfdBairro, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(ffdCEP, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(47, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
+                .addGroup(pnlEnderecoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel14)
+                    .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addGap(36, 36, 36)
+                .addGroup(pnlEnderecoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(tfdComplemento, javax.swing.GroupLayout.DEFAULT_SIZE, 351, Short.MAX_VALUE)
+                    .addComponent(tfdNumero, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tfdLogradouro))
+                .addGap(21, 21, 21))
         );
         pnlEnderecoLayout.setVerticalGroup(
             pnlEnderecoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlEnderecoLayout.createSequentialGroup()
-                .addGroup(pnlEnderecoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(11, 11, 11)
+                .addGroup(pnlEnderecoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel15)
+                    .addComponent(ffdCEP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(pnlEnderecoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel10)
+                        .addComponent(tfdLogradouro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pnlEnderecoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(pnlEnderecoLayout.createSequentialGroup()
                         .addGroup(pnlEnderecoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel11)
@@ -315,16 +324,8 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(pnlEnderecoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel14)
-                            .addComponent(tfdComplemento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(pnlEnderecoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel15)
-                            .addComponent(ffdCEP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(tfdComplemento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(pnlEnderecoLayout.createSequentialGroup()
-                        .addGroup(pnlEnderecoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel10)
-                            .addComponent(tfdLogradouro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(pnlEnderecoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel12)
                             .addComponent(tfdBairro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -333,7 +334,7 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
                             .addGroup(pnlEnderecoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(tfdCidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(jLabel13))
-                            .addComponent(btnZoom, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))))
+                            .addComponent(btnZoom, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -370,7 +371,7 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
                 .addComponent(pnlGeral, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pnlEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(34, Short.MAX_VALUE))
         );
 
         tabAbas.addTab("Cadastro", pnlCadastro);
@@ -418,7 +419,7 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
                     .addComponent(tfdCriterio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnPesquisar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 306, Short.MAX_VALUE))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 341, Short.MAX_VALUE))
         );
 
         tabAbas.addTab("Consulta", pnlConsulta);
@@ -687,6 +688,44 @@ public class IfrmFornecedor extends javax.swing.JInternalFrame {
     private void tabAbasFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tabAbasFocusLost
         HabilitaCampos.controlaPainelCadastro(evt, editando);
     }//GEN-LAST:event_tabAbasFocusLost
+
+    private void ffdCEPFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_ffdCEPFocusLost
+        if (!ffdCEP.getText().trim().isEmpty() || ffdCEP.getText() != null) {
+
+            ClientCepWS clientCep = new ClientCepWS(ffdCEP.getText());
+
+            try {
+                String json = clientCep.get();
+
+                if (!json.contains("{  \"erro\": true}")) { //verifica se web-service não retornou erro, ou seja: CEP inválido
+                    Gson g = new Gson();
+
+                    EnderecoWebService enderecoWEB = new EnderecoWebService();
+
+                    java.lang.reflect.Type endType = new TypeToken<EnderecoWebService>() {
+                    }.getType();
+
+                    enderecoWEB = g.fromJson(json, endType);
+
+                    tfdBairro.setText(enderecoWEB.getBairro());
+                    tfdComplemento.setText(enderecoWEB.getComplemento());
+                    tfdCidade.setText(enderecoWEB.getLocalidade() + " - " + enderecoWEB.getUf());
+                    tfdLogradouro.setText(enderecoWEB.getLogradouro());
+
+                    Cidade cid = new CidadeDAO().consultarPorCidadeUF(enderecoWEB.getLocalidade(), enderecoWEB.getUf());
+
+                    if (cid == null) {
+                        Mensagem.mostraErro("Ops!", "Não foi possível selecionar a cidade do cliente, tente novamente por favor.");
+                    } else {
+                        dlgCidades.setCidadeSelecionada(cid);
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+    }//GEN-LAST:event_ffdCEPFocusLost
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup btgPessoa;
