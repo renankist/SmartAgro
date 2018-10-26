@@ -6,8 +6,10 @@
 package telas;
 
 import apoio.*;
+import com.thoughtworks.xstream.XStream;
 import java.util.ArrayList;
 import dao.GenericDAO;
+import entidade.Estado;
 import entidade.Formapagamento;
 import entidade.Venda;
 import entidade.Itemvenda;
@@ -21,14 +23,12 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.net.ConnectException;
 import java.util.Iterator;
 import javax.imageio.ImageIO;
 import javax.swing.JComponent;
 import javax.swing.event.ChangeEvent;
 import org.apache.log4j.Logger;
 import smartagro.VerificaPermissao;
-import sun.net.ConnectionResetException;
 
 /**
  *
@@ -1163,6 +1163,11 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
         // Pega o código do registro para consultar o objeto
         int id = Integer.parseInt(tblVendas.getValueAt(tblVendas.getSelectedRow(), 0).toString());
         this.venda = dao.consultarPorId(id, "Venda");
+
+        // Teste escrever XML
+        XStream xstream = new XStream();
+        xstream.alias("venda", Venda.class);
+        System.out.println(xstream.toXML(this.venda));
 
         limparPainelCadastro();
 
