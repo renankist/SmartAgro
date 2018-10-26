@@ -214,8 +214,8 @@ public class IfrmCliente extends javax.swing.JInternalFrame {
                         .addComponent(rbtFemino)
                         .addGap(3, 3, 3)
                         .addComponent(rbtMasculino))
-                    .addComponent(ffdCPF, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(dchDataNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(dchDataNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ffdCPF, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(97, Short.MAX_VALUE))
         );
         pnlFisicaLayout.setVerticalGroup(
@@ -393,6 +393,11 @@ public class IfrmCliente extends javax.swing.JInternalFrame {
                 ffdCEPFocusLost(evt);
             }
         });
+        ffdCEP.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ffdCEPActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnlEnderecoLayout = new javax.swing.GroupLayout(pnlEndereco);
         pnlEndereco.setLayout(pnlEnderecoLayout);
@@ -409,12 +414,10 @@ public class IfrmCliente extends javax.swing.JInternalFrame {
                         .addComponent(jLabel11))
                     .addGroup(pnlEnderecoLayout.createSequentialGroup()
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(11, 11, 11)
-                        .addGroup(pnlEnderecoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(tfdCidade, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlEnderecoLayout.createSequentialGroup()
-                                .addGap(224, 224, 224)
-                                .addComponent(btnZoom, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(tfdCidade, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnZoom, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlEnderecoLayout.createSequentialGroup()
                 .addGap(97, 97, 97)
@@ -428,7 +431,6 @@ public class IfrmCliente extends javax.swing.JInternalFrame {
                         .addComponent(tfdComplemento, javax.swing.GroupLayout.PREFERRED_SIZE, 351, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(27, 27, 27))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlEnderecoLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel10)
                         .addGap(18, 18, 18)
                         .addGroup(pnlEnderecoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -456,11 +458,12 @@ public class IfrmCliente extends javax.swing.JInternalFrame {
                     .addComponent(tfdNumero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlEnderecoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
+                    .addGroup(pnlEnderecoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel1)
+                        .addComponent(tfdCidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(pnlEnderecoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel14)
                         .addComponent(tfdComplemento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(tfdCidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnZoom, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -905,7 +908,9 @@ public class IfrmCliente extends javax.swing.JInternalFrame {
 
     private void ffdCEPFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_ffdCEPFocusLost
         if (!ffdCEP.getText().trim().isEmpty() || ffdCEP.getText() != null) {
+            
             ClientCepWS clientCep = new ClientCepWS(ffdCEP.getText());
+            
             try {
                 String json = clientCep.get();
 
@@ -924,6 +929,7 @@ public class IfrmCliente extends javax.swing.JInternalFrame {
                 tfdLogradouro.setText(enderecoWEB.getLogradouro());
                 
                 Cidade cid = new CidadeDAO().consultarPorCidadeUF(enderecoWEB.getLocalidade(), enderecoWEB.getUf());
+                
                 if (cid == null) {
                     Mensagem.mostraErro("Ops!", "Não foi possível selecionar a cidade do cliente, tente novamente por favor.");
                 } else{
@@ -937,6 +943,10 @@ public class IfrmCliente extends javax.swing.JInternalFrame {
         }
 
     }//GEN-LAST:event_ffdCEPFocusLost
+
+    private void ffdCEPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ffdCEPActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ffdCEPActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup btgPessoa;

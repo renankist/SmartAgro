@@ -188,8 +188,8 @@
                                           <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
                                           <Component id="rbtMasculino" min="-2" max="-2" attributes="0"/>
                                       </Group>
-                                      <Component id="ffdCPF" min="-2" pref="100" max="-2" attributes="0"/>
-                                      <Component id="dchDataNascimento" alignment="0" min="-2" pref="102" max="-2" attributes="0"/>
+                                      <Component id="dchDataNascimento" alignment="0" min="-2" pref="144" max="-2" attributes="0"/>
+                                      <Component id="ffdCPF" alignment="0" min="-2" pref="138" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace pref="97" max="32767" attributes="0"/>
                               </Group>
@@ -504,14 +504,10 @@
                                       </Group>
                                       <Group type="102" alignment="0" attributes="0">
                                           <Component id="jLabel1" min="-2" pref="74" max="-2" attributes="0"/>
-                                          <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
-                                          <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="tfdCidade" alignment="0" min="-2" pref="217" max="-2" attributes="0"/>
-                                              <Group type="102" alignment="1" attributes="0">
-                                                  <EmptySpace min="-2" pref="224" max="-2" attributes="0"/>
-                                                  <Component id="btnZoom" min="-2" pref="24" max="-2" attributes="0"/>
-                                              </Group>
-                                          </Group>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Component id="tfdCidade" min="-2" pref="250" max="-2" attributes="0"/>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Component id="btnZoom" min="-2" pref="24" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                                   <EmptySpace max="32767" attributes="0"/>
@@ -564,12 +560,14 @@
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="jLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Group type="103" alignment="0" groupAlignment="3" attributes="0">
+                                          <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="tfdCidade" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      </Group>
                                       <Group type="103" groupAlignment="3" attributes="0">
                                           <Component id="jLabel14" alignment="3" min="-2" max="-2" attributes="0"/>
                                           <Component id="tfdComplemento" alignment="3" min="-2" max="-2" attributes="0"/>
                                       </Group>
-                                      <Component id="tfdCidade" alignment="0" min="-2" max="-2" attributes="0"/>
                                       <Component id="btnZoom" alignment="0" min="-2" pref="24" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace max="32767" attributes="0"/>
@@ -645,6 +643,7 @@
                           </Properties>
                           <Events>
                             <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="ffdCEPFocusLost"/>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ffdCEPActionPerformed"/>
                           </Events>
                         </Component>
                       </SubComponents>

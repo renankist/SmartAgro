@@ -14,7 +14,7 @@
         <mapping class="entidade.Cidade"/>
         <mapping class="entidade.Endereco"/>
         <mapping class="entidade.Fornecedor"/>
-        <mapping class="entidade.Formapagamento"/>
+        <mapping class="entidade.Formapagamento"/>  
         <mapping class="entidade.Unidademedida"/>
         <mapping class="entidade.Produto"/>
         <mapping class="entidade.Colaborador"/>

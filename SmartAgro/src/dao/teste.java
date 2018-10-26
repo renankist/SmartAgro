@@ -14,7 +14,7 @@ import entidade.Cidade;
 public class teste {
     public static void main(String args[]){
         Cidade c = new Cidade();
-        c = new CidadeDAO().consultarPorCidadeUF("Arroio do Meio", "RS");
+        c = new CidadeDAO().consultarPorCidadeUF("Lajeado", "RS");
         System.out.println(c.getNome());
     }
 }
