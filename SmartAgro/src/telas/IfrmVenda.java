@@ -9,23 +9,25 @@ import apoio.*;
 import com.thoughtworks.xstream.XStream;
 import java.util.ArrayList;
 import dao.GenericDAO;
-import entidade.Estado;
 import entidade.Formapagamento;
 import entidade.Venda;
 import entidade.Itemvenda;
 import entidade.ItemvendaPK;
 import entidade.Produto;
 import static entidade.Venda.STATUS_CANCELADA;
+import java.awt.BufferCapabilities;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Robot;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileWriter;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Iterator;
 import javax.imageio.ImageIO;
 import javax.swing.JComponent;
+import javax.swing.JFileChooser;
 import javax.swing.event.ChangeEvent;
 import org.apache.log4j.Logger;
 import smartagro.VerificaPermissao;
@@ -198,6 +200,7 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
         btnPesquisar = new javax.swing.JButton();
         jYTableScrollPane1 = new de.javasoft.swing.JYTableScrollPane();
         tblVendas = new de.javasoft.swing.JYTable();
+        btnXML = new javax.swing.JButton();
 
         tblVendasE.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -643,6 +646,13 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
         ));
         jYTableScrollPane1.setViewportView(tblVendas);
 
+        btnXML.setText("Gerar XML da venda");
+        btnXML.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnXMLActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout pnlConsultaLayout = new javax.swing.GroupLayout(pnlConsulta);
         pnlConsulta.setLayout(pnlConsultaLayout);
         pnlConsultaLayout.setHorizontalGroup(
@@ -652,18 +662,21 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
                 .addGroup(pnlConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlConsultaLayout.createSequentialGroup()
                         .addComponent(btnPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jYTableScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnXML))
+                    .addComponent(jYTableScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 998, Short.MAX_VALUE))
                 .addContainerGap())
         );
         pnlConsultaLayout.setVerticalGroup(
             pnlConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlConsultaLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(btnPesquisar)
+                .addGroup(pnlConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnPesquisar)
+                    .addComponent(btnXML))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jYTableScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(41, Short.MAX_VALUE))
+                .addComponent(jYTableScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 429, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         tabAbas.addTab("Consulta", pnlConsulta);
@@ -680,7 +693,7 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnEditar)
                 .addContainerGap())
-            .addComponent(tabAbas, javax.swing.GroupLayout.DEFAULT_SIZE, 1023, Short.MAX_VALUE)
+            .addComponent(tabAbas)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1164,11 +1177,6 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
         int id = Integer.parseInt(tblVendas.getValueAt(tblVendas.getSelectedRow(), 0).toString());
         this.venda = dao.consultarPorId(id, "Venda");
 
-        // Teste escrever XML
-        XStream xstream = new XStream();
-        xstream.alias("venda", Venda.class);
-        System.out.println(xstream.toXML(this.venda));
-
         limparPainelCadastro();
 
         // Pega os dados se existir objeto
@@ -1223,6 +1231,45 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
         atualizaTotal();
     }//GEN-LAST:event_tfdDescontoFocusLost
 
+    private void btnXMLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXMLActionPerformed
+        if (tblVendas.getSelectedRow() != -1) {
+            // Pega o código do registro para consultar o objeto
+            int id = Integer.parseInt(tblVendas.getValueAt(tblVendas.getSelectedRow(), 0).toString());
+            Venda v = dao.consultarPorId(id, "Venda");
+
+            JFileChooser chooser = new JFileChooser();
+            chooser.setCurrentDirectory(new java.io.File("."));
+            chooser.setDialogTitle("Selecione um local para salvar o arquivo");
+            chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+            chooser.setAcceptAllFileFilterUsed(false);
+
+            if (chooser.showSaveDialog(null) != JFileChooser.APPROVE_OPTION) {
+                return;
+            }
+
+            String arquivo = chooser.getSelectedFile().getAbsolutePath() + "\\venda_" + v.getId() + ".xml";
+
+            try {
+                // Escrever XML da venda
+                XStream xstream = new XStream();
+                xstream.alias("venda", Venda.class);
+                xstream.addImplicitCollection(Venda.class, "itemvendaCollection");
+                
+                String conteudo = xstream.toXML(v);
+
+                // Gera o arquivo
+                FileWriter fileXML = new FileWriter(arquivo);
+                fileXML.write(conteudo);
+                fileXML.close();
+
+                Mensagem.mostraInformacao("Sucesso", "Arquivo salvo com sucesso!");
+            } catch (Exception e) {
+                e.printStackTrace();
+                Mensagem.mostraErro("Ops!", "Não foi possível salvar o arquivo. Tente novamente.");
+            }
+        }
+    }//GEN-LAST:event_btnXMLActionPerformed
+
     private void enviarEmail() {
 
         try {
@@ -1269,6 +1316,7 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnPesquisar;
     private javax.swing.JButton btnRemover;
     private javax.swing.JButton btnSalvar;
+    private javax.swing.JButton btnXML;
     private javax.swing.JButton btnZoom;
     private javax.swing.JButton btnZoomCliente;
     private javax.swing.JButton btnZoomVendedor;
