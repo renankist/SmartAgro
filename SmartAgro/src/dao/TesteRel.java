@@ -5,16 +5,19 @@
  */
 package dao;
 
-import entidade.Cidade;
-
 /**
  *
  * @author renan
  */
-public class teste {
+public class TesteRel {
     public static void main(String args[]){
-        Cidade c = new Cidade();
-        c = new CidadeDAO().consultarPorCidadeUF("Lajeado", "RS");
-        System.out.println(c.getNome());
+        GraficoDAO d = new GraficoDAO();
+        
+        d.vendaPorColaborador();
+                
+        
+        
+        
+        
     }
 }
