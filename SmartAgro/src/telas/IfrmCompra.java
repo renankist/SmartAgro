@@ -1208,10 +1208,23 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
 
             // Converte o arquivo em um objeto
             XStream xstream = new XStream();
-            xstream.alias("customer", Compra.class);
+            //xstream.alias("customer", Compra.class);
             xstream.ignoreUnknownElements();
 
             c = (Compra) xstream.fromXML(selectedFile);
+
+            // Itens
+            ArrayList<Itemcompra> itens = new ArrayList();
+            for (Itemcompra item : c.getItemcompraCollection()) {
+                item.setDesconto(BigDecimal.ZERO);
+                item.setValortotal(item.getValor().multiply(item.getQuantidade()));
+                itens.add(item);
+            }
+            this.modelItens = new jtmItensCompra(itens);
+            tblItens.setModel(this.modelItens);
+            
+            atualizaSubtotal();
+            atualizaTotal();
 
         } catch (Exception e) {
             e.printStackTrace();
