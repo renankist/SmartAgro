@@ -1,8 +1,7 @@
 package telas;
 
-import Comunicacao.Message;
-import Comunicacao.Status;
 import apoio.*;
+import com.thoughtworks.xstream.XStream;
 import java.util.ArrayList;
 import dao.GenericDAO;
 import entidade.Formapagamento;
@@ -10,14 +9,14 @@ import entidade.Compra;
 import entidade.Itemcompra;
 import entidade.ItemcompraPK;
 import entidade.Produto;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.File;
+import java.io.FileWriter;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.net.Socket;
 import javax.swing.JComponent;
+import javax.swing.JFileChooser;
 import javax.swing.event.ChangeEvent;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import org.apache.log4j.Logger;
 import smartagro.VerificaPermissao;
 
@@ -166,6 +165,7 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
         btnRemover = new javax.swing.JButton();
         btnEdit = new javax.swing.JButton();
         tfdCodigoPro = new javax.swing.JTextField();
+        btnXML = new javax.swing.JButton();
         pnlComplemento = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
@@ -421,6 +421,13 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
             }
         });
 
+        btnXML.setText("Importar XML");
+        btnXML.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnXMLActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout pnlItensLayout = new javax.swing.GroupLayout(pnlItens);
         pnlItens.setLayout(pnlItensLayout);
         pnlItensLayout.setHorizontalGroup(
@@ -455,6 +462,8 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnZoomProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnXML)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnAdicionar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -484,7 +493,8 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
                     .addComponent(tfdSubtotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnAdicionar)
                     .addComponent(btnRemover)
-                    .addComponent(btnEdit))
+                    .addComponent(btnEdit)
+                    .addComponent(btnXML))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -538,7 +548,7 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlComplementoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblTotal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblTotalLiquido, javax.swing.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE))
+                    .addComponent(lblTotalLiquido, javax.swing.GroupLayout.DEFAULT_SIZE, 279, Short.MAX_VALUE))
                 .addContainerGap())
         );
         pnlComplementoLayout.setVerticalGroup(
@@ -1045,10 +1055,8 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
 
                 setEditando(false);
 
-            } else {
-                if (!dao.salvar(compra)) {
-                    throw new Exception("Erro ao salvar compra");
-                }
+            } else if (!dao.salvar(compra)) {
+                throw new Exception("Erro ao salvar compra");
             }
 
             Mensagem.mostraInformacao("Sucesso", "Compra " + ((getEditando()) ? "atualizada" : "salva") + " com sucesso");
@@ -1180,6 +1188,38 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
         tblCompras.setModel(new jtmCompra(compras));
     }//GEN-LAST:event_btnPesquisarActionPerformed
 
+    private void btnXMLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXMLActionPerformed
+
+        JFileChooser chooser = new JFileChooser();
+        chooser.setCurrentDirectory(new java.io.File(".xml"));
+        chooser.setDialogTitle("Selecione o arquivo XML");
+        chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        chooser.setAcceptAllFileFilterUsed(false);
+        chooser.addChoosableFileFilter(new FileNameExtensionFilter("Arquivo XML", "xml"));
+
+        if (chooser.showOpenDialog(null) != JFileChooser.APPROVE_OPTION) {
+            return;
+        }
+
+        try {
+            File selectedFile = chooser.getSelectedFile();
+
+            Compra c = new Compra();
+
+            // Converte o arquivo em um objeto
+            XStream xstream = new XStream();
+            xstream.alias("customer", Compra.class);
+            xstream.ignoreUnknownElements();
+
+            c = (Compra) xstream.fromXML(selectedFile);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Mensagem.mostraErro("Ops!", "Não foi possível carregar os dados do arquivo XML. Tente novamente.");
+        }
+
+    }//GEN-LAST:event_btnXMLActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton brnPagamento;
     private javax.swing.ButtonGroup btgPaga;
@@ -1190,6 +1230,7 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnPesquisar;
     private javax.swing.JButton btnRemover;
     private javax.swing.JButton btnSalvar;
+    private javax.swing.JButton btnXML;
     private javax.swing.JButton btnZoomComprador;
     private javax.swing.JButton btnZoomFornecedor;
     private javax.swing.JButton btnZoomProduto;

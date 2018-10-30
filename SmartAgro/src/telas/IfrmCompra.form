@@ -407,6 +407,8 @@
                                               </Group>
                                           </Group>
                                           <EmptySpace max="32767" attributes="0"/>
+                                          <Component id="btnXML" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace max="-2" attributes="0"/>
                                           <Component id="btnAdicionar" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
                                           <Component id="btnEdit" min="-2" pref="89" max="-2" attributes="0"/>
@@ -443,6 +445,7 @@
                                       <Component id="btnAdicionar" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="btnRemover" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="btnEdit" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="btnXML" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="jScrollPane3" min="-2" pref="160" max="-2" attributes="0"/>
@@ -576,6 +579,14 @@
                             <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="tfdCodigoProFocusLost"/>
                           </Events>
                         </Component>
+                        <Component class="javax.swing.JButton" name="btnXML">
+                          <Properties>
+                            <Property name="text" type="java.lang.String" value="Importar XML"/>
+                          </Properties>
+                          <Events>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnXMLActionPerformed"/>
+                          </Events>
+                        </Component>
                       </SubComponents>
                     </Container>
                     <Container class="javax.swing.JPanel" name="pnlComplemento">
@@ -612,7 +623,7 @@
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="lblTotal" max="32767" attributes="0"/>
-                                      <Component id="lblTotalLiquido" pref="218" max="32767" attributes="0"/>
+                                      <Component id="lblTotalLiquido" pref="279" max="32767" attributes="0"/>
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
                               </Group>

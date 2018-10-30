@@ -15,7 +15,6 @@ import entidade.Itemvenda;
 import entidade.ItemvendaPK;
 import entidade.Produto;
 import static entidade.Venda.STATUS_CANCELADA;
-import java.awt.BufferCapabilities;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Robot;
