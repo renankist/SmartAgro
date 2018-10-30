@@ -8,7 +8,9 @@ package telas;
 import apoio.Client;
 import apoio.Mensagem;
 import dao.GenericDAO;
+import dao.GraficoDAO;
 import entidade.Config;
+import java.awt.BorderLayout;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,9 +18,11 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import relatorios.GeraGrafico;
 
 /**
  *
@@ -28,9 +32,14 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
     private static Config parametros;
     private GenericDAO<Config> dao;
-   
+    private GraficoDAO grafdao; 
     private static Client c;
-
+    
+    //Graficos
+    private GeraGrafico vendasPorVendedor;
+    private GeraGrafico valorVendidoPorVendedor;
+    
+    
     public static Client getC() {
         return c;
     }
@@ -48,6 +57,11 @@ public class FrmPrincipal extends javax.swing.JFrame {
         initComponents();
         lbUsuario.setText("Olá, " + jfrLogin.getUsuarioLogado().getNomecompleto());
         dao = new GenericDAO();
+        grafdao = new GraficoDAO();
+        //Gráficos: 
+        vendasPorVendedor = new GeraGrafico("Vendas realizadas por vendedor");
+        valorVendidoPorVendedor = new GeraGrafico("Valor total vendido por vendedor");
+        
         parametros = new Config();
         parametros = dao.consultarPorId(1, "Config");
         try {
@@ -56,14 +70,34 @@ public class FrmPrincipal extends javax.swing.JFrame {
         } catch (Exception ex) {
             Logger.getLogger(FrmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+       // dashboard();
 
         /* Abrir a tela maximizada */
         //setExtendedState(MAXIMIZED_BOTH);
         /* Define o icone da aplicação */
         setIconImage(java.awt.Toolkit.getDefaultToolkit().getImage(getClass().getResource("/imagens/stack.png")));
 
+        montarGraficos();
+        
     }
-
+    
+    private void montarGraficos(){
+        
+        //Vendas por vendedor           
+        ArrayList<String> dados = this.grafdao.vendaPorColaborador();
+        this.vendasPorVendedor.criarGraficoPizza(dados, "Inteiro");
+        this.jplVendasPorVendedor.setLayout(new BorderLayout());
+        this.jplVendasPorVendedor.add(this.vendasPorVendedor.getPainel());
+        
+         //Valor total vendido por vendedor           
+        this.valorVendidoPorVendedor.criarGraficoPizza(this.grafdao.valorVendidoPorColaborador(), "Decimal");
+        this.jplValorVendidoPorVendedor.setLayout(new BorderLayout());
+        this.jplValorVendidoPorVendedor.add(this.valorVendidoPorVendedor.getPainel());
+       
+        
+    }
+    
     public static Config getParametros() {
         return parametros;
     }
@@ -87,6 +121,10 @@ public class FrmPrincipal extends javax.swing.JFrame {
         jtaNotificacoes = new javax.swing.JTextArea();
         label1 = new java.awt.Label();
         JtnLimpar = new javax.swing.JButton();
+        jplVendasPorVendedor = new javax.swing.JPanel();
+        btnAtualizarDash = new javax.swing.JButton();
+        JtnLimpar2 = new javax.swing.JButton();
+        jplValorVendidoPorVendedor = new javax.swing.JPanel();
         barMenu = new javax.swing.JMenuBar();
         mnuCliente = new javax.swing.JMenu();
         itmCadastroCliente = new javax.swing.JMenuItem();
@@ -161,39 +199,106 @@ public class FrmPrincipal extends javax.swing.JFrame {
             }
         });
 
+        javax.swing.GroupLayout jplVendasPorVendedorLayout = new javax.swing.GroupLayout(jplVendasPorVendedor);
+        jplVendasPorVendedor.setLayout(jplVendasPorVendedorLayout);
+        jplVendasPorVendedorLayout.setHorizontalGroup(
+            jplVendasPorVendedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 264, Short.MAX_VALUE)
+        );
+        jplVendasPorVendedorLayout.setVerticalGroup(
+            jplVendasPorVendedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
+        btnAtualizarDash.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/Eraser-icon .png"))); // NOI18N
+        btnAtualizarDash.setText("Atualizar Dash");
+        btnAtualizarDash.setToolTipText("Limpar");
+        btnAtualizarDash.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAtualizarDashActionPerformed(evt);
+            }
+        });
+
+        JtnLimpar2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/Eraser-icon .png"))); // NOI18N
+        JtnLimpar2.setText("Atualizar Dash");
+        JtnLimpar2.setToolTipText("Limpar");
+        JtnLimpar2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JtnLimpar2ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jplValorVendidoPorVendedorLayout = new javax.swing.GroupLayout(jplValorVendidoPorVendedor);
+        jplValorVendidoPorVendedor.setLayout(jplValorVendidoPorVendedorLayout);
+        jplValorVendidoPorVendedorLayout.setHorizontalGroup(
+            jplValorVendidoPorVendedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 270, Short.MAX_VALUE)
+        );
+        jplValorVendidoPorVendedorLayout.setVerticalGroup(
+            jplValorVendidoPorVendedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 191, Short.MAX_VALUE)
+        );
+
         dskArea.setLayer(lbUsuario, javax.swing.JLayeredPane.DEFAULT_LAYER);
         dskArea.setLayer(jScrollPane1, javax.swing.JLayeredPane.DEFAULT_LAYER);
         dskArea.setLayer(label1, javax.swing.JLayeredPane.DEFAULT_LAYER);
         dskArea.setLayer(JtnLimpar, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        dskArea.setLayer(jplVendasPorVendedor, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        dskArea.setLayer(btnAtualizarDash, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        dskArea.setLayer(JtnLimpar2, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        dskArea.setLayer(jplValorVendidoPorVendedor, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout dskAreaLayout = new javax.swing.GroupLayout(dskArea);
         dskArea.setLayout(dskAreaLayout);
         dskAreaLayout.setHorizontalGroup(
             dskAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(dskAreaLayout.createSequentialGroup()
-                .addContainerGap(669, Short.MAX_VALUE)
+                .addContainerGap()
                 .addGroup(dskAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(dskAreaLayout.createSequentialGroup()
+                        .addComponent(btnAtualizarDash)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(JtnLimpar2))
+                    .addGroup(dskAreaLayout.createSequentialGroup()
+                        .addComponent(jplVendasPorVendedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(55, 55, 55)
+                        .addComponent(jplValorVendidoPorVendedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 68, Short.MAX_VALUE)
+                .addGroup(dskAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(lbUsuario, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, dskAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(dskAreaLayout.createSequentialGroup()
-                            .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(JtnLimpar))
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(dskAreaLayout.createSequentialGroup()
+                        .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(JtnLimpar))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE))
                 .addContainerGap())
         );
         dskAreaLayout.setVerticalGroup(
             dskAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, dskAreaLayout.createSequentialGroup()
-                .addGap(19, 19, 19)
                 .addGroup(dskAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(JtnLimpar, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 331, Short.MAX_VALUE)
-                .addComponent(lbUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                    .addGroup(dskAreaLayout.createSequentialGroup()
+                        .addGap(19, 19, 19)
+                        .addGroup(dskAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(JtnLimpar, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(dskAreaLayout.createSequentialGroup()
+                        .addGap(37, 37, 37)
+                        .addGroup(dskAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jplValorVendidoPorVendedor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jplVendasPorVendedor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 248, Short.MAX_VALUE)
+                .addGroup(dskAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, dskAreaLayout.createSequentialGroup()
+                        .addComponent(lbUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, dskAreaLayout.createSequentialGroup()
+                        .addGroup(dskAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnAtualizarDash, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(JtnLimpar2, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(23, 23, 23))))
         );
 
         barMenu.setAutoscrolls(true);
@@ -586,7 +691,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         dskArea.add(ifrmPar);
         ifrmPar.setVisible(true);
     }
-
+ 
     private void alterarSenha() {
         DlgAlterarSenha dlgFP = new DlgAlterarSenha(this, true, jfrLogin.getUsuarioLogado());
         dlgFP.setLocationRelativeTo(this);
@@ -627,6 +732,20 @@ public class FrmPrincipal extends javax.swing.JFrame {
             ex.printStackTrace();
         }
     }//GEN-LAST:event_formWindowClosing
+
+    private void btnAtualizarDashActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtualizarDashActionPerformed
+          
+        //Atualiza graficos de vendasPorVendedor
+        vendasPorVendedor.setPizza( this.grafdao.vendaPorColaborador(), "Inteiro");
+        valorVendidoPorVendedor.setPizza(this.grafdao.valorVendidoPorColaborador(), "Decimal");
+           
+           
+    }//GEN-LAST:event_btnAtualizarDashActionPerformed
+
+    private void JtnLimpar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JtnLimpar2ActionPerformed
+        this.jplVendasPorVendedor.removeAll();
+        this.jplVendasPorVendedor.repaint();
+    }//GEN-LAST:event_JtnLimpar2ActionPerformed
 
     private void cadastroVenda(int aba) {
         IfrmVenda janelaVenda = new IfrmVenda(aba);
@@ -719,7 +838,9 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton JtnLimpar;
+    private javax.swing.JButton JtnLimpar2;
     private javax.swing.JMenuBar barMenu;
+    private javax.swing.JButton btnAtualizarDash;
     private javax.swing.JDesktopPane dskArea;
     private javax.swing.JMenuItem itmCadastroCliente;
     private javax.swing.JMenuItem itmCadastroColaborador;
@@ -751,6 +872,8 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
+    private javax.swing.JPanel jplValorVendidoPorVendedor;
+    private javax.swing.JPanel jplVendasPorVendedor;
     private javax.swing.JTextArea jtaNotificacoes;
     private java.awt.Label label1;
     private java.awt.Label lbUsuario;
