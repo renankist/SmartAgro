@@ -1,8 +1,6 @@
 package smartagro;
 
-import Comunicacao.Server;
 import dao.GenericDAO;
-import java.net.ServerSocket;
 import telas.jfrLogin;
 import javax.swing.JWindow;
 import javax.swing.SwingUtilities;
@@ -48,7 +46,7 @@ public class SmartAgro {
 
             // Dispose window when background process is finished
             window.dispose();
-
+            
             // Abre a tela de login
             jfrLogin telaLogin = new jfrLogin();
             telaLogin.setVisible(true);
