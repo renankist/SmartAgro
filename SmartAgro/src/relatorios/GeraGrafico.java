@@ -15,42 +15,16 @@ public class GeraGrafico {
     private boolean legenda = true;
     private boolean tooltip = true;
     private boolean urls = false;
-    private DefaultPieDataset dadosPizza;
     private JFreeChart grafico;
+
+    public void setGrafico(JFreeChart grafico) {
+        this.grafico = grafico;
+    }
     private ChartPanel painel;
 
     public GeraGrafico(String nome) {
         this.nome = nome;
     }
-
-    public void criarGraficoPizza(ArrayList<String> dados, String tipoValor) {
-        this.dadosPizza = new DefaultPieDataset();
-
-        if (tipoValor.equals(("Inteiro"))) {
-
-            for (String d : dados) {
-
-                String[] v = d.split(",");
-
-                dadosPizza.setValue(v[0], Integer.parseInt(v[1]));
-
-            }
-
-        } else if (tipoValor.equals("Decimal")) {
-
-            for (String d : dados) {
-
-                String[] v = d.split(",");
-
-                dadosPizza.setValue(v[0], Double.parseDouble(v[1]));
-
-            }
-
-        }
-        this.grafico = ChartFactory.createPieChart(nome, dadosPizza, legenda, tooltip, urls);
-        this.painel = new ChartPanel(grafico);
-    }
-
     public ChartPanel getPainel() {
         return painel;
     }
@@ -95,29 +69,4 @@ public class GeraGrafico {
         this.urls = urls;
     }
 
-    public DefaultPieDataset getDadosPizza() {
-        return dadosPizza;
-    }
-
-    public void setPizza(ArrayList<String> dados, String tipoValor) {
-        if (tipoValor.equals(("Inteiro"))) {
-
-            for (String d : dados) {
-
-                String[] v = d.split(",");
-
-                dadosPizza.setValue(v[0], Integer.parseInt(v[1]));
-            }
-        } else if (tipoValor.equals("Decimal")) {
-
-            for (String d : dados) {
-
-                String[] v = d.split(",");
-
-                dadosPizza.setValue(v[0], Double.parseDouble(v[1]));
-
-            }
-        }
-
-    }
 }
