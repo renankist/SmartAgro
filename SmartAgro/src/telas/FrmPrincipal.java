@@ -67,7 +67,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         parametros = new Config();
         parametros = dao.consultarPorId(1, "Config");
         try {
-            c = new Client("localhost", 5000, jtaNotificacoes);
+            c = new Client("10.3.59.36", 5000, jtaNotificacoes);
             c.start();
         } catch (Exception ex) {
             Logger.getLogger(FrmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
@@ -231,7 +231,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
         label1.setText("Notificações:");
 
-        JtnLimpar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/Eraser-icon .png"))); // NOI18N
+        JtnLimpar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/eraser.png"))); // NOI18N
         JtnLimpar.setText("Limpar");
         JtnLimpar.setToolTipText("Limpar");
         JtnLimpar.addActionListener(new java.awt.event.ActionListener() {
@@ -377,7 +377,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
         pnlValorTotalVendidoMes.getAccessibleContext().setAccessibleName("pnlIndicador");
 
-        btnAtualizarDash.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/update.png"))); // NOI18N
+        btnAtualizarDash.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/barras.png"))); // NOI18N
         btnAtualizarDash.setText("Atualizar Dash");
         btnAtualizarDash.setToolTipText("Limpar");
         btnAtualizarDash.addActionListener(new java.awt.event.ActionListener() {
@@ -386,7 +386,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
             }
         });
 
-        btnOcultarDash.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/ocult.png"))); // NOI18N
+        btnOcultarDash.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/stop.png"))); // NOI18N
         btnOcultarDash.setText("Ocultar Dash");
         btnOcultarDash.setToolTipText("Limpar");
         btnOcultarDash.addActionListener(new java.awt.event.ActionListener() {
@@ -683,10 +683,10 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 .addComponent(btnAtualizarDash)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnOcultarDash)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 574, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 558, Short.MAX_VALUE)
                 .addComponent(lbUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
-            .addComponent(dskArea, javax.swing.GroupLayout.DEFAULT_SIZE, 1001, Short.MAX_VALUE)
+            .addComponent(dskArea, javax.swing.GroupLayout.DEFAULT_SIZE, 1018, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
