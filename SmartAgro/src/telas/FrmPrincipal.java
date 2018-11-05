@@ -11,20 +11,9 @@ import dao.GenericDAO;
 import dao.GraficoDAO;
 import entidade.Config;
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Paint;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.PrintStream;
-import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import relatorios.GeraGrafico;
 import relatorios.GeraGraficoBarra;
 import relatorios.GeraGraficoLinha;
 import relatorios.GeraGraficoPizza;
@@ -111,8 +100,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private void montarGraficos() {
 
         //Indicador
-        
-        labelValorVendasMes.setText("R$ "+this.grafdao.valorTotalVendidoNoMes()+"");
+        labelValorVendas.setText("R$ "+this.grafdao.valorTotalVendidoNoMes()+"");
         
         //Vendas por vendedor           
         ArrayList<String> dados = this.grafdao.vendaPorColaborador();
@@ -157,14 +145,17 @@ public class FrmPrincipal extends javax.swing.JFrame {
         dskArea = new javax.swing.JDesktopPane();
         jScrollPane1 = new javax.swing.JScrollPane();
         jtaNotificacoes = new javax.swing.JTextArea();
-        label1 = new java.awt.Label();
+        lblNotific = new java.awt.Label();
         JtnLimpar = new javax.swing.JButton();
         jplVendasPorVendedor = new javax.swing.JPanel();
         jplValorVendidoPorVendedor = new javax.swing.JPanel();
         jplBarra = new javax.swing.JPanel();
         jplValorVendidoPorMes = new javax.swing.JPanel();
-        pnlValorTotalVendidoMes = new javax.swing.JPanel();
-        labelValorVendasMes = new java.awt.Label();
+        pnlPeriodo = new javax.swing.JPanel();
+        pnlTotalVendido = new javax.swing.JPanel();
+        labelValorVendas = new java.awt.Label();
+        pnlQtdVendida = new javax.swing.JPanel();
+        labelValorVendasMes2 = new java.awt.Label();
         btnAtualizarDash = new javax.swing.JButton();
         btnOcultarDash = new javax.swing.JButton();
         lbUsuario = new java.awt.Label();
@@ -229,7 +220,8 @@ public class FrmPrincipal extends javax.swing.JFrame {
         jtaNotificacoes.setEnabled(false);
         jScrollPane1.setViewportView(jtaNotificacoes);
 
-        label1.setText("Notificações:");
+        lblNotific.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        lblNotific.setText("Notificações:");
 
         JtnLimpar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/eraser.png"))); // NOI18N
         JtnLimpar.setText("Limpar");
@@ -250,7 +242,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         );
         jplVendasPorVendedorLayout.setVerticalGroup(
             jplVendasPorVendedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 191, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout jplValorVendidoPorVendedorLayout = new javax.swing.GroupLayout(jplValorVendidoPorVendedor);
@@ -272,52 +264,93 @@ public class FrmPrincipal extends javax.swing.JFrame {
         );
         jplBarraLayout.setVerticalGroup(
             jplBarraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 194, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout jplValorVendidoPorMesLayout = new javax.swing.GroupLayout(jplValorVendidoPorMes);
         jplValorVendidoPorMes.setLayout(jplValorVendidoPorMesLayout);
         jplValorVendidoPorMesLayout.setHorizontalGroup(
             jplValorVendidoPorMesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 684, Short.MAX_VALUE)
         );
         jplValorVendidoPorMesLayout.setVerticalGroup(
             jplValorVendidoPorMesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 194, Short.MAX_VALUE)
         );
 
-        pnlValorTotalVendidoMes.setBackground(new java.awt.Color(254, 254, 254));
-        pnlValorTotalVendidoMes.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Valor total vendido no mês atual", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12), new java.awt.Color(1, 1, 1))); // NOI18N
-        pnlValorTotalVendidoMes.setForeground(new java.awt.Color(1, 1, 1));
+        pnlPeriodo.setBackground(new java.awt.Color(254, 254, 254));
+        pnlPeriodo.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Período", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12), new java.awt.Color(1, 1, 1))); // NOI18N
+        pnlPeriodo.setForeground(new java.awt.Color(1, 1, 1));
 
-        labelValorVendasMes.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
-        labelValorVendasMes.setText("R$ 40.500,60");
+        javax.swing.GroupLayout pnlPeriodoLayout = new javax.swing.GroupLayout(pnlPeriodo);
+        pnlPeriodo.setLayout(pnlPeriodoLayout);
+        pnlPeriodoLayout.setHorizontalGroup(
+            pnlPeriodoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        pnlPeriodoLayout.setVerticalGroup(
+            pnlPeriodoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 126, Short.MAX_VALUE)
+        );
 
-        javax.swing.GroupLayout pnlValorTotalVendidoMesLayout = new javax.swing.GroupLayout(pnlValorTotalVendidoMes);
-        pnlValorTotalVendidoMes.setLayout(pnlValorTotalVendidoMesLayout);
-        pnlValorTotalVendidoMesLayout.setHorizontalGroup(
-            pnlValorTotalVendidoMesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlValorTotalVendidoMesLayout.createSequentialGroup()
+        pnlTotalVendido.setBackground(new java.awt.Color(254, 254, 254));
+        pnlTotalVendido.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Valor total vendido", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12), new java.awt.Color(1, 1, 1))); // NOI18N
+        pnlTotalVendido.setForeground(new java.awt.Color(1, 1, 1));
+
+        labelValorVendas.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        labelValorVendas.setText("R$ 40.500,60");
+
+        javax.swing.GroupLayout pnlTotalVendidoLayout = new javax.swing.GroupLayout(pnlTotalVendido);
+        pnlTotalVendido.setLayout(pnlTotalVendidoLayout);
+        pnlTotalVendidoLayout.setHorizontalGroup(
+            pnlTotalVendidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlTotalVendidoLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(labelValorVendasMes, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(labelValorVendas, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        pnlValorTotalVendidoMesLayout.setVerticalGroup(
-            pnlValorTotalVendidoMesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlValorTotalVendidoMesLayout.createSequentialGroup()
+        pnlTotalVendidoLayout.setVerticalGroup(
+            pnlTotalVendidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlTotalVendidoLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(labelValorVendasMes, javax.swing.GroupLayout.DEFAULT_SIZE, 49, Short.MAX_VALUE)
+                .addComponent(labelValorVendas, javax.swing.GroupLayout.DEFAULT_SIZE, 49, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        pnlQtdVendida.setBackground(new java.awt.Color(254, 254, 254));
+        pnlQtdVendida.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Vendas realizadas", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12), new java.awt.Color(1, 1, 1))); // NOI18N
+        pnlQtdVendida.setForeground(new java.awt.Color(1, 1, 1));
+
+        labelValorVendasMes2.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        labelValorVendasMes2.setText("R$ 40.500,60");
+
+        javax.swing.GroupLayout pnlQtdVendidaLayout = new javax.swing.GroupLayout(pnlQtdVendida);
+        pnlQtdVendida.setLayout(pnlQtdVendidaLayout);
+        pnlQtdVendidaLayout.setHorizontalGroup(
+            pnlQtdVendidaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlQtdVendidaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(labelValorVendasMes2, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        pnlQtdVendidaLayout.setVerticalGroup(
+            pnlQtdVendidaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlQtdVendidaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(labelValorVendasMes2, javax.swing.GroupLayout.DEFAULT_SIZE, 49, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         dskArea.setLayer(jScrollPane1, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        dskArea.setLayer(label1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        dskArea.setLayer(lblNotific, javax.swing.JLayeredPane.DEFAULT_LAYER);
         dskArea.setLayer(JtnLimpar, javax.swing.JLayeredPane.DEFAULT_LAYER);
         dskArea.setLayer(jplVendasPorVendedor, javax.swing.JLayeredPane.DEFAULT_LAYER);
         dskArea.setLayer(jplValorVendidoPorVendedor, javax.swing.JLayeredPane.DEFAULT_LAYER);
         dskArea.setLayer(jplBarra, javax.swing.JLayeredPane.DEFAULT_LAYER);
         dskArea.setLayer(jplValorVendidoPorMes, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        dskArea.setLayer(pnlValorTotalVendidoMes, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        dskArea.setLayer(pnlPeriodo, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        dskArea.setLayer(pnlTotalVendido, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        dskArea.setLayer(pnlQtdVendida, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout dskAreaLayout = new javax.swing.GroupLayout(dskArea);
         dskArea.setLayout(dskAreaLayout);
@@ -325,57 +358,55 @@ public class FrmPrincipal extends javax.swing.JFrame {
             dskAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(dskAreaLayout.createSequentialGroup()
                 .addContainerGap()
+                .addGroup(dskAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(pnlQtdVendida, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, dskAreaLayout.createSequentialGroup()
+                        .addComponent(lblNotific, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(JtnLimpar))
+                    .addComponent(jScrollPane1)
+                    .addComponent(pnlTotalVendido, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(pnlPeriodo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(42, 42, 42)
                 .addGroup(dskAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(dskAreaLayout.createSequentialGroup()
-                        .addComponent(jplBarra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jplValorVendidoPorMes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(6, 6, 6))
-                    .addGroup(dskAreaLayout.createSequentialGroup()
-                        .addComponent(jplVendasPorVendedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(27, 27, 27)
-                        .addComponent(jplValorVendidoPorVendedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(dskAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(dskAreaLayout.createSequentialGroup()
-                                .addGap(0, 77, Short.MAX_VALUE)
-                                .addGroup(dskAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(dskAreaLayout.createSequentialGroup()
-                                        .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(JtnLimpar))
-                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE)))
-                            .addGroup(dskAreaLayout.createSequentialGroup()
-                                .addComponent(pnlValorTotalVendidoMes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE)))))
-                .addContainerGap())
+                    .addComponent(jplBarra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jplVendasPorVendedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(dskAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jplValorVendidoPorVendedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jplValorVendidoPorMes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(47, Short.MAX_VALUE))
         );
         dskAreaLayout.setVerticalGroup(
             dskAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, dskAreaLayout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(dskAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(dskAreaLayout.createSequentialGroup()
-                        .addGap(19, 19, 19)
-                        .addGroup(dskAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(JtnLimpar, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(pnlPeriodo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(pnlTotalVendido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(48, 48, 48)
-                        .addComponent(pnlValorTotalVendidoMes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(pnlQtdVendida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 104, Short.MAX_VALUE)
+                        .addGroup(dskAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(JtnLimpar, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblNotific, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(dskAreaLayout.createSequentialGroup()
-                        .addGap(37, 37, 37)
-                        .addGroup(dskAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jplValorVendidoPorVendedor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jplVendasPorVendedor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 74, Short.MAX_VALUE)
-                .addGroup(dskAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jplValorVendidoPorMes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jplBarra, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(57, 57, 57))
+                        .addGroup(dskAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jplVendasPorVendedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jplValorVendidoPorVendedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(dskAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jplBarra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jplValorVendidoPorMes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
 
-        pnlValorTotalVendidoMes.getAccessibleContext().setAccessibleName("pnlIndicador");
+        pnlPeriodo.getAccessibleContext().setAccessibleName("pnlIndicador");
 
         btnAtualizarDash.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/barras.png"))); // NOI18N
         btnAtualizarDash.setText("Atualizar Dash");
@@ -683,10 +714,10 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 .addComponent(btnAtualizarDash)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnOcultarDash)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 558, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(lbUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
-            .addComponent(dskArea, javax.swing.GroupLayout.DEFAULT_SIZE, 1018, Short.MAX_VALUE)
+            .addComponent(dskArea, javax.swing.GroupLayout.DEFAULT_SIZE, 1458, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -856,8 +887,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         valorVendidoPorMes.setDadosLinha(this.grafdao.valorTotalVendidoNoAno(), "Decimal");
         
         //Indicador
-        
-        labelValorVendasMes.setText("R$ "+this.grafdao.valorTotalVendidoNoMes()+"");
+        labelValorVendas.setText("R$ "+this.grafdao.valorTotalVendidoNoMes()+"");
         
     }//GEN-LAST:event_btnAtualizarDashActionPerformed
 
@@ -886,7 +916,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         this.jplValorVendidoPorMes.setVisible(status);
         this.jplValorVendidoPorVendedor.setVisible(status);
         this.jplBarra.setVisible(status);
-        this.pnlValorTotalVendidoMes.setVisible(status);
+        this.pnlPeriodo.setVisible(status);
     }
     
     private void auditoria(int aba) {
@@ -1008,9 +1038,10 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private javax.swing.JPanel jplValorVendidoPorVendedor;
     private javax.swing.JPanel jplVendasPorVendedor;
     private javax.swing.JTextArea jtaNotificacoes;
-    private java.awt.Label label1;
-    private java.awt.Label labelValorVendasMes;
+    private java.awt.Label labelValorVendas;
+    private java.awt.Label labelValorVendasMes2;
     private java.awt.Label lbUsuario;
+    private java.awt.Label lblNotific;
     private javax.swing.JMenu mnuCliente;
     private javax.swing.JMenu mnuColaborador;
     private javax.swing.JMenu mnuCompras;
@@ -1019,6 +1050,8 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenu mnuProduto;
     private javax.swing.JMenu mnuSistema;
     private javax.swing.JMenu mnuVendas;
-    private javax.swing.JPanel pnlValorTotalVendidoMes;
+    private javax.swing.JPanel pnlPeriodo;
+    private javax.swing.JPanel pnlQtdVendida;
+    private javax.swing.JPanel pnlTotalVendido;
     // End of variables declaration//GEN-END:variables
 }
