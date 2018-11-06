@@ -43,7 +43,7 @@ public class GeraGraficoLinha extends GeraGrafico {
             }
 
         }
-        this.setGrafico(ChartFactory.createLineChart(this.getNome(), this.descricaoX, this.descricaoY, dadosLinha, PlotOrientation.VERTICAL, this.isLegenda(), this.isTooltip(), this.isUrls()));
+        this.setGrafico(ChartFactory.createLineChart(this.getNome(), this.descricaoX, this.descricaoY, dadosLinha, PlotOrientation.HORIZONTAL, this.isLegenda(), this.isTooltip(), this.isUrls()));
         //Configurando as cores do gráfico
         this.getGrafico().getPlot().setBackgroundPaint(Color.WHITE);
         this.getGrafico().getPlot().setOutlinePaint(Color.WHITE);
@@ -65,13 +65,16 @@ public class GeraGraficoLinha extends GeraGrafico {
     }
 
     public void setDadosLinha(ArrayList<String> dados, String tipoValor) {
+
+        this.dadosLinha.clear();
+        
         if (tipoValor.equals(("Inteiro"))) {
 
             for (String d : dados) {
 
                 String[] v = d.split(",");
 
-                this.dadosLinha.setValue(Integer.parseInt(v[1]), v[0], "");
+                this.dadosLinha.setValue(Integer.parseInt(v[1]), "", v[0]);
 
             }
 
@@ -81,8 +84,7 @@ public class GeraGraficoLinha extends GeraGrafico {
 
                 String[] v = d.split(",");
 
-                this.dadosLinha.setValue(Double.parseDouble(v[1]), v[0], "");
-
+                this.dadosLinha.setValue(Double.parseDouble(v[1]),"",v[0]);
             }
 
         }

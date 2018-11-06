@@ -97,12 +97,16 @@ public class GeraGraficoBarra extends GeraGrafico {
     }
 
     public void setDadosBarra(ArrayList<String> dados, String tipoValor) {
+        
+        
+        this.dadosBarra.clear();
+        
         if (tipoValor.equals(("Inteiro"))) {
 
             for (String d : dados) {
 
                 String[] v = d.split(",");
-
+                System.out.println(Integer.parseInt(v[1])+" "+v[0]);
                 this.dadosBarra.setValue(Integer.parseInt(v[1]), v[0], "");
 
             }

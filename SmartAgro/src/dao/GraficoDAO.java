@@ -90,7 +90,11 @@ public class GraficoDAO extends GenericDAO<Object> {
         } finally {
             sessao.close();
         }
-        System.out.println(retorno);
+    
+        
+        if(retorno == null){
+          retorno = new BigDecimal(0);
+        }
         return retorno;
     }
 
@@ -147,13 +151,15 @@ public class GraficoDAO extends GenericDAO<Object> {
 
             String hql = "SELECT EXTRACT(MONTH FROM dia) as mes, EXTRACT(YEAR FROM dia) as ano , count(id) as quantVenda "
                     + " FROM Venda where dia between '" + inicio + "' and '" + fim + "' "
-                    + " group by EXTRACT(MONTH FROM dia), EXTRACT(YEAR FROM dia) order by EXTRACT(MONTH FROM dia), EXTRACT(YEAR FROM dia) ";
+                    + " group by EXTRACT(YEAR FROM dia), EXTRACT(MONTH FROM dia) order by EXTRACT(YEAR FROM dia), EXTRACT(MONTH FROM dia)";
 
             List<?> lista = sessao.createQuery(hql).list();
 
             for (int i = 0; i < lista.size(); i++) {
                 Object[] row = (Object[]) lista.get(i);
-
+                
+                System.out.println(row[0] +" - " + row[1]+" - " +row[2]);
+                
                 switch (Integer.parseInt(row[0] + "")) {
                     case 1:
                         row[0] = "Jan";
@@ -221,9 +227,9 @@ public class GraficoDAO extends GenericDAO<Object> {
             sessao = HibernateUtil.getSessionFactory().openSession();
             sessao.beginTransaction();
 
-            String hql = "SELECT EXTRACT(MONTH FROM dia) as mes, EXTRACT(YEAR FROM dia) as ano, sum(valortotal) as quantVenda "
-
-                    + " FROM Venda where dia between '" + inicio + "' and '" + fim + "' group by EXTRACT(MONTH FROM dia), EXTRACT(YEAR FROM dia) order by EXTRACT(MONTH FROM dia), EXTRACT(YEAR FROM dia) ";
+            String hql = "SELECT EXTRACT(MONTH FROM dia) as mes, sum(valortotal) as quantVenda, EXTRACT(YEAR FROM dia) as mes "
+                    + " FROM Venda where dia between '" + inicio + "' and '" + fim + "'"
+                    + " group by EXTRACT(MONTH FROM dia), EXTRACT(YEAR FROM dia) order by EXTRACT(YEAR FROM dia) ,EXTRACT(MONTH FROM dia) ";
 
             List<?> lista = sessao.createQuery(hql).list();
 
@@ -271,7 +277,8 @@ public class GraficoDAO extends GenericDAO<Object> {
                         row[0] = "Inválido";
                         break;
                 }
-                resultado.add(row[0] + " " + row[1] + "," + row[2]);
+
+                resultado.add(row[0]+" "+row[2]+ "," + row[1]);
 
             }
 
@@ -283,6 +290,8 @@ public class GraficoDAO extends GenericDAO<Object> {
         }
 
         return resultado;
+
+    
 
     }
 

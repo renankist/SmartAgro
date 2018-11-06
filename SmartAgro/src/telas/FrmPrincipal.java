@@ -12,12 +12,16 @@ import dao.GraficoDAO;
 import entidade.Config;
 import java.awt.BorderLayout;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import relatorios.GeraGraficoBarra;
 import relatorios.GeraGraficoLinha;
 import relatorios.GeraGraficoPizza;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import org.jfree.ui.RectangleInsets;
 
 /**
  *
@@ -52,15 +56,27 @@ public class FrmPrincipal extends javax.swing.JFrame {
         initComponents();
         lbUsuario.setText("Olá, " + jfrLogin.getUsuarioLogado().getNomecompleto());
         dao = new GenericDAO();
-     
-        
-        this.dchInicio.setDate(new Date());
-        this.dchFim.setDate(new Date());
-       
+
+        try {
+            //Inserindo datas 
+            Calendar cal = Calendar.getInstance();
+            int mes = cal.get(Calendar.MONTH);
+            mes += 1;
+            String ultimo = cal.get(Calendar.YEAR) + "/" + mes + "/" + cal.getActualMinimum(Calendar.DAY_OF_MONTH);
+            String pattern = "yyyy/MM/dd";
+            SimpleDateFormat format = new SimpleDateFormat(pattern);
+            Date d;
+            d = format.parse(ultimo);
+            this.dchInicio.setDate(d);
+            this.dchFim.setDate(new Date());
+        } catch (ParseException ex) {
+            Logger.getLogger(FrmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
         parametros = new Config();
         parametros = dao.consultarPorId(1, "Config");
         try {
-            c = new Client("10.3.59.36", 5000, jtaNotificacoes);
+            c = new Client("localhost", 5000, jtaNotificacoes);
             c.start();
         } catch (Exception ex) {
             Logger.getLogger(FrmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
@@ -75,10 +91,10 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
         //Caso o usuário for administrador
         if (jfrLogin.getUsuarioLogado().getTipousuario() == 'a') {
-         
+
             //Gráficos: 
             grafdao = new GraficoDAO();
-               
+
             vendasPorVendedor = new GeraGraficoPizza("Vendas realizadas - por vendedor");
             valorVendidoPorVendedor = new GeraGraficoPizza("Valor total vendido - por vendedor");
             vendasPorMes = new GeraGraficoBarra("Quantidade de vendas realizadas - por mês", 0);
@@ -89,31 +105,28 @@ public class FrmPrincipal extends javax.swing.JFrame {
             valorVendidoPorMes.setDescricaoX("Mês");
             valorVendidoPorMes.setDescricaoY("Valor vendido");
             valorVendidoPorMes.setLegenda(false);
-                
+
             montarGraficos();
 
-        }else{
+        } else {
             alteraStatusDash(false);
             btnAtualizarDash.setVisible(false);
             btnOcultarDash.setVisible(false);
         }
 
-     
     }
 
     private void montarGraficos() {
 
         //Indicador
-        labelValorVendas.setText("R$ "+this.grafdao.valorTotalVendidoNoMes(dchInicio.getDate(), dchFim.getDate())+"");
-        labelQuantidadeVendas.setText(this.grafdao.quantidadeDeVendasrealizadas(dchInicio.getDate(), dchFim.getDate())+"");
+        labelValorVendas.setText("R$ " + this.grafdao.valorTotalVendidoNoMes(dchInicio.getDate(), dchFim.getDate()) + "");
+        labelQuantidadeVendas.setText(this.grafdao.quantidadeDeVendasrealizadas(dchInicio.getDate(), dchFim.getDate()) + "");
         //Vendas por vendedor           
         ArrayList<String> dados = this.grafdao.vendaPorColaborador(dchInicio.getDate(), dchFim.getDate());
         this.vendasPorVendedor.criarGraficoPizza(dados, "Inteiro");
         this.jplVendasPorVendedor.setLayout(new BorderLayout());
         this.jplVendasPorVendedor.add(this.vendasPorVendedor.getPainel());
-        
-        
-        
+
         //Valor total vendido por vendedor           
         this.valorVendidoPorVendedor.criarGraficoPizza(this.grafdao.valorVendidoPorColaborador(dchInicio.getDate(), dchFim.getDate()), "Decimal");
         this.jplValorVendidoPorVendedor.setLayout(new BorderLayout());
@@ -126,7 +139,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         this.valorVendidoPorMes.criaGraficoLinha(this.grafdao.valorTotalVendidoNoAno(dchInicio.getDate(), dchFim.getDate()), "Decimal");
         jplValorVendidoPorMes.setLayout(new BorderLayout());
         jplValorVendidoPorMes.add(valorVendidoPorMes.getPainel());
-
+        valorVendidoPorMes.getGrafico().getPlot().setInsets(RectangleInsets.ZERO_INSETS);
     }
 
     public static Config getParametros() {
@@ -311,7 +324,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlPeriodoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(dchFim, javax.swing.GroupLayout.DEFAULT_SIZE, 216, Short.MAX_VALUE)
+                    .addComponent(dchFim, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE)
                     .addComponent(dchInicio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -394,26 +407,33 @@ public class FrmPrincipal extends javax.swing.JFrame {
             dskAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(dskAreaLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(dskAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(pnlQtdVendida, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, dskAreaLayout.createSequentialGroup()
-                        .addComponent(lblNotific, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(JtnLimpar))
-                    .addComponent(jScrollPane1)
-                    .addComponent(pnlTotalVendido, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(pnlPeriodo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(42, 42, 42)
+                .addGroup(dskAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(pnlPeriodo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(dskAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, dskAreaLayout.createSequentialGroup()
+                            .addGap(8, 8, 8)
+                            .addComponent(lblNotific, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(2, 2, 2)
+                            .addComponent(JtnLimpar))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 319, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(dskAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(pnlTotalVendido, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(pnlQtdVendida, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGap(28, 28, 28)
                 .addGroup(dskAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jplBarra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jplVendasPorVendedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addGroup(dskAreaLayout.createSequentialGroup()
+                        .addGap(93, 93, 93)
+                        .addComponent(jplVendasPorVendedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGroup(dskAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(dskAreaLayout.createSequentialGroup()
+                        .addGap(57, 57, 57)
                         .addComponent(jplValorVendidoPorVendedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 433, Short.MAX_VALUE))
-                    .addComponent(jplValorVendidoPorMes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                        .addContainerGap(408, Short.MAX_VALUE))
+                    .addGroup(dskAreaLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jplValorVendidoPorMes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())))
         );
         dskAreaLayout.setVerticalGroup(
             dskAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -422,26 +442,26 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 .addGroup(dskAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(dskAreaLayout.createSequentialGroup()
                         .addComponent(pnlPeriodo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(56, 56, 56)
+                        .addGap(18, 18, 18)
                         .addComponent(pnlTotalVendido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(pnlQtdVendida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 98, Short.MAX_VALUE)
+                        .addComponent(pnlQtdVendida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jplVendasPorVendedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jplValorVendidoPorVendedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(dskAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, dskAreaLayout.createSequentialGroup()
+                        .addGroup(dskAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jplValorVendidoPorMes, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jplBarra, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(136, 136, 136))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, dskAreaLayout.createSequentialGroup()
                         .addGroup(dskAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(JtnLimpar, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(lblNotific, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(dskAreaLayout.createSequentialGroup()
-                        .addGroup(dskAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jplVendasPorVendedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jplValorVendidoPorVendedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(dskAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jplBarra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jplValorVendidoPorMes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 217, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(56, 56, 56))))
         );
 
         pnlPeriodo.getAccessibleContext().setAccessibleName("pnlIndicador");
@@ -913,25 +933,24 @@ public class FrmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosing
 
     private void btnAtualizarDashActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtualizarDashActionPerformed
-        
+
         // Mostra os paineis caso estavam invisible
         alteraStatusDash(true);
-        
-        
+
         //Atualiza graficos de vendasPorVendedor
         vendasPorVendedor.setPizza(this.grafdao.vendaPorColaborador(dchInicio.getDate(), dchFim.getDate()), "Inteiro");
         valorVendidoPorVendedor.setPizza(this.grafdao.valorVendidoPorColaborador(dchInicio.getDate(), dchFim.getDate()), "Decimal");
         vendasPorMes.setDadosBarra(this.grafdao.quantidadeDeVendasNoAnoPorMes(dchInicio.getDate(), dchFim.getDate()), "Inteiro");
         valorVendidoPorMes.setDadosLinha(this.grafdao.valorTotalVendidoNoAno(dchInicio.getDate(), dchFim.getDate()), "Decimal");
-        
+
         //Indicador
-        labelValorVendas.setText("R$ "+this.grafdao.valorTotalVendidoNoMes(dchInicio.getDate(), dchFim.getDate())+"");
-        labelQuantidadeVendas.setText(this.grafdao.quantidadeDeVendasrealizadas(dchInicio.getDate(), dchFim.getDate())+"");
+        labelValorVendas.setText("R$ " + this.grafdao.valorTotalVendidoNoMes(dchInicio.getDate(), dchFim.getDate()) + "");
+        labelQuantidadeVendas.setText(this.grafdao.quantidadeDeVendasrealizadas(dchInicio.getDate(), dchFim.getDate()) + "");
     }//GEN-LAST:event_btnAtualizarDashActionPerformed
 
     private void btnOcultarDashActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOcultarDashActionPerformed
         alteraStatusDash(false);
-        
+
     }//GEN-LAST:event_btnOcultarDashActionPerformed
 
     private void JtnLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JtnLimparActionPerformed
@@ -949,7 +968,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         }
     }
 
-    private void alteraStatusDash(boolean status){
+    private void alteraStatusDash(boolean status) {
         this.jplVendasPorVendedor.setVisible(status);
         this.jplValorVendidoPorMes.setVisible(status);
         this.jplValorVendidoPorVendedor.setVisible(status);
@@ -958,7 +977,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         this.pnlQtdVendida.setVisible(status);
         this.pnlTotalVendido.setVisible(status);
     }
-    
+
     private void auditoria(int aba) {
         IfrmAuditoria janelaAud = new IfrmAuditoria(aba);
         dskArea.add(janelaAud);

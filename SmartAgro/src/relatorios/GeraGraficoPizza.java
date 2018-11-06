@@ -62,6 +62,9 @@ public final class GeraGraficoPizza extends GeraGrafico {
     }
 
     public void setPizza(ArrayList<String> dados, String tipoValor) {
+        
+        this.dadosPizza.clear();
+        
         if (tipoValor.equals(("Inteiro"))) {
 
             for (String d : dados) {
