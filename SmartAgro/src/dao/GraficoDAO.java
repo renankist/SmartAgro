@@ -27,40 +27,7 @@ import org.hibernate.criterion.Restrictions;
  */
 public class GraficoDAO extends GenericDAO<Object> {
 
-    public ArrayList<Venda> vendasFinalizadasMesAtual() {
-
-        ArrayList<Venda> resultado = new ArrayList();
-
-        Calendar cal = Calendar.getInstance();
-
-        int mes = cal.get(Calendar.MONTH);
-        mes += 1;
-
-        String ultimo = cal.get(Calendar.YEAR) + "/" + mes + "/" + cal.getActualMaximum(Calendar.DAY_OF_MONTH);
-        String primeiro = cal.get(Calendar.YEAR) + "/" + mes + "/" + cal.getActualMinimum(Calendar.DAY_OF_MONTH);
-
-        Session sessao = null;
-        try {
-
-            sessao = HibernateUtil.getSessionFactory().openSession();
-            sessao.beginTransaction();
-
-            org.hibernate.Query q = sessao.createQuery("from Venda where dia between '" + primeiro + "' and '" + ultimo + "' and status = 'F'");
-
-            resultado = (ArrayList) q.list();
-
-        } catch (HibernateException he) {
-            throw new HibernateException("Erro ao tentar consultar as vendas.");
-            // logger.error("Erro ao consultar registros", he);
-        } finally {
-            sessao.close();
-        }
-
-        return resultado;
-
-    }
-
-    public ArrayList<String> vendaPorColaborador() {
+    public ArrayList<String> vendaPorColaborador(Date inicio, Date fim) {
 
         ArrayList<String> resultado = new ArrayList();
 
@@ -80,7 +47,7 @@ public class GraficoDAO extends GenericDAO<Object> {
 
             String hql = "SELECT c.nomecompleto as vendedor, count(v.id) as quantVenda "
                     + " FROM Venda as v, Colaborador as c "
-                    + " where c.id = v.vendedor and v.dia between '" + primeiro + "' and '" + ultimo + "' "
+                    + " where c.id = v.vendedor and v.dia between '" + inicio + "' and '" + fim + "' "
                     + "group by c.nomecompleto";
 
             List<?> lista = sessao.createQuery(hql).list();
@@ -101,19 +68,11 @@ public class GraficoDAO extends GenericDAO<Object> {
 
     }
 
-    public BigDecimal valorTotalVendidoNoMes() {
+    public BigDecimal valorTotalVendidoNoMes(Date inicio, Date fim) {
 
         BigDecimal retorno;
 
         Session sessao = null;
-
-        Calendar cal = Calendar.getInstance();
-
-        int mes = cal.get(Calendar.MONTH);
-        mes += 1;
-
-        String ultimo = cal.get(Calendar.YEAR) + "/" + mes + "/" + cal.getActualMaximum(Calendar.DAY_OF_MONTH);
-        String primeiro = cal.get(Calendar.YEAR) + "/" + mes + "/" + cal.getActualMinimum(Calendar.DAY_OF_MONTH);
 
         try {
             sessao = HibernateUtil.getSessionFactory().openSession();
@@ -121,7 +80,7 @@ public class GraficoDAO extends GenericDAO<Object> {
 
             String hql = "SELECT sum(valortotal) as valorTotal "
                     + " FROM Venda "
-                    + " where dia between '" + primeiro + "' and '" + ultimo + "' ";
+                    + " where dia between '" + inicio + "' and '" + fim + "' ";
 
             retorno = (BigDecimal) sessao.createQuery(hql).uniqueResult();
 
@@ -135,7 +94,7 @@ public class GraficoDAO extends GenericDAO<Object> {
         return retorno;
     }
 
-    public ArrayList<String> valorVendidoPorColaborador() {
+    public ArrayList<String> valorVendidoPorColaborador(Date inicio, Date fim) {
 
         ArrayList<String> resultado = new ArrayList();
 
@@ -155,7 +114,7 @@ public class GraficoDAO extends GenericDAO<Object> {
 
             String hql = "SELECT c.nomecompleto as vendedor, sum(v.valortotal) as quantVenda "
                     + " FROM Venda as v, Colaborador as c "
-                    + " where c.id = v.vendedor and v.dia between '" + primeiro + "' and '" + ultimo + "' "
+                    + " where c.id = v.vendedor and v.dia between '" + inicio + "' and '" + fim + "' "
                     + "group by c.nomecompleto";
 
             List<?> lista = sessao.createQuery(hql).list();
@@ -176,7 +135,7 @@ public class GraficoDAO extends GenericDAO<Object> {
 
     }
 
-    public ArrayList<String> quantidadeDeVendasNoAnoPorMes() {
+    public ArrayList<String> quantidadeDeVendasNoAnoPorMes(Date inicio, Date fim) {
 
         ArrayList<String> resultado = new ArrayList();
 
@@ -186,8 +145,9 @@ public class GraficoDAO extends GenericDAO<Object> {
             sessao = HibernateUtil.getSessionFactory().openSession();
             sessao.beginTransaction();
 
-            String hql = "SELECT EXTRACT(MONTH FROM dia) as mes, count(id) as quantVenda "
-                    + " FROM Venda group by EXTRACT(MONTH FROM dia) order by EXTRACT(MONTH FROM dia) ";
+            String hql = "SELECT EXTRACT(MONTH FROM dia) as mes, EXTRACT(YEAR FROM dia) as ano , count(id) as quantVenda "
+                    + " FROM Venda where dia between '" + inicio + "' and '" + fim + "' "
+                    + " group by EXTRACT(MONTH FROM dia), EXTRACT(YEAR FROM dia) order by EXTRACT(MONTH FROM dia), EXTRACT(YEAR FROM dia) ";
 
             List<?> lista = sessao.createQuery(hql).list();
 
@@ -236,7 +196,7 @@ public class GraficoDAO extends GenericDAO<Object> {
                         break;
                 }
 
-                resultado.add(row[0] + "," + row[1]);
+                resultado.add(row[0] + " " + row[1] + "," + row[2]);
 
             }
 
@@ -251,7 +211,7 @@ public class GraficoDAO extends GenericDAO<Object> {
 
     }
 
-    public ArrayList<String> valorTotalVendidoNoAno() {
+    public ArrayList<String> valorTotalVendidoNoAno(Date inicio, Date fim) {
 
         ArrayList<String> resultado = new ArrayList();
 
@@ -261,8 +221,9 @@ public class GraficoDAO extends GenericDAO<Object> {
             sessao = HibernateUtil.getSessionFactory().openSession();
             sessao.beginTransaction();
 
-            String hql = "SELECT EXTRACT(MONTH FROM dia) as mes, sum(valortotal) as quantVenda "
-                    + " FROM Venda group by EXTRACT(MONTH FROM dia) order by EXTRACT(MONTH FROM dia) ";
+            String hql = "SELECT EXTRACT(MONTH FROM dia) as mes, EXTRACT(YEAR FROM dia) as ano, sum(valortotal) as quantVenda "
+
+                    + " FROM Venda where dia between '" + inicio + "' and '" + fim + "' group by EXTRACT(MONTH FROM dia), EXTRACT(YEAR FROM dia) order by EXTRACT(MONTH FROM dia), EXTRACT(YEAR FROM dia) ";
 
             List<?> lista = sessao.createQuery(hql).list();
 
@@ -310,8 +271,7 @@ public class GraficoDAO extends GenericDAO<Object> {
                         row[0] = "Inválido";
                         break;
                 }
-
-                resultado.add(row[0] + "," + row[1]);
+                resultado.add(row[0] + " " + row[1] + "," + row[2]);
 
             }
 
@@ -324,6 +284,32 @@ public class GraficoDAO extends GenericDAO<Object> {
 
         return resultado;
 
+    }
+
+    public int quantidadeDeVendasrealizadas(Date inicio, Date fim) {
+
+        int retorno = 0;
+
+        Session sessao = null;
+
+        try {
+            sessao = HibernateUtil.getSessionFactory().openSession();
+            sessao.beginTransaction();
+
+            String hql = "SELECT count(id) as valorTotal "
+                    + " FROM Venda "
+                    + " where dia between '" + inicio + "' and '" + fim + "' ";
+
+            retorno = Integer.parseInt(sessao.createQuery(hql).uniqueResult().toString());
+
+        } catch (HibernateException he) {
+            throw new HibernateException("Erro ao tentar consultar as vendas.");
+            // logger.error("Erro ao consultar registros", he);
+        } finally {
+            sessao.close();
+        }
+        System.out.println(retorno);
+        return retorno;
     }
 
 }

@@ -12,6 +12,7 @@ import dao.GraficoDAO;
 import entidade.Config;
 import java.awt.BorderLayout;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import relatorios.GeraGraficoBarra;
@@ -52,7 +53,10 @@ public class FrmPrincipal extends javax.swing.JFrame {
         lbUsuario.setText("Olá, " + jfrLogin.getUsuarioLogado().getNomecompleto());
         dao = new GenericDAO();
      
-
+        
+        this.dchInicio.setDate(new Date());
+        this.dchFim.setDate(new Date());
+       
         parametros = new Config();
         parametros = dao.consultarPorId(1, "Config");
         try {
@@ -75,17 +79,17 @@ public class FrmPrincipal extends javax.swing.JFrame {
             //Gráficos: 
             grafdao = new GraficoDAO();
                
-            vendasPorVendedor = new GeraGraficoPizza("Vendas realizadas no mês atual - por vendedor");
-            valorVendidoPorVendedor = new GeraGraficoPizza("Valor total vendido no mês atual  - por vendedor");
-            vendasPorMes = new GeraGraficoBarra("Quantidade de vendas realizadas no ano atual - por mês", 0);
+            vendasPorVendedor = new GeraGraficoPizza("Vendas realizadas - por vendedor");
+            valorVendidoPorVendedor = new GeraGraficoPizza("Valor total vendido - por vendedor");
+            vendasPorMes = new GeraGraficoBarra("Quantidade de vendas realizadas - por mês", 0);
             vendasPorMes.setDescricaoY("Vendas realizadas");
             vendasPorMes.setDescricaoX("Mês do ano");
 
-            valorVendidoPorMes = new GeraGraficoLinha("Valor total vendido no ano atual - por mês");
+            valorVendidoPorMes = new GeraGraficoLinha("Valor total vendido - por mês");
             valorVendidoPorMes.setDescricaoX("Mês");
             valorVendidoPorMes.setDescricaoY("Valor vendido");
             valorVendidoPorMes.setLegenda(false);
-            
+                
             montarGraficos();
 
         }else{
@@ -100,10 +104,10 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private void montarGraficos() {
 
         //Indicador
-        labelValorVendas.setText("R$ "+this.grafdao.valorTotalVendidoNoMes()+"");
-        
+        labelValorVendas.setText("R$ "+this.grafdao.valorTotalVendidoNoMes(dchInicio.getDate(), dchFim.getDate())+"");
+        labelQuantidadeVendas.setText(this.grafdao.quantidadeDeVendasrealizadas(dchInicio.getDate(), dchFim.getDate())+"");
         //Vendas por vendedor           
-        ArrayList<String> dados = this.grafdao.vendaPorColaborador();
+        ArrayList<String> dados = this.grafdao.vendaPorColaborador(dchInicio.getDate(), dchFim.getDate());
         this.vendasPorVendedor.criarGraficoPizza(dados, "Inteiro");
         this.jplVendasPorVendedor.setLayout(new BorderLayout());
         this.jplVendasPorVendedor.add(this.vendasPorVendedor.getPainel());
@@ -111,15 +115,15 @@ public class FrmPrincipal extends javax.swing.JFrame {
         
         
         //Valor total vendido por vendedor           
-        this.valorVendidoPorVendedor.criarGraficoPizza(this.grafdao.valorVendidoPorColaborador(), "Decimal");
+        this.valorVendidoPorVendedor.criarGraficoPizza(this.grafdao.valorVendidoPorColaborador(dchInicio.getDate(), dchFim.getDate()), "Decimal");
         this.jplValorVendidoPorVendedor.setLayout(new BorderLayout());
         this.jplValorVendidoPorVendedor.add(this.valorVendidoPorVendedor.getPainel());
 
-        this.vendasPorMes.criarGraficoBarras(this.grafdao.quantidadeDeVendasNoAnoPorMes(), "Inteiro");
+        this.vendasPorMes.criarGraficoBarras(this.grafdao.quantidadeDeVendasNoAnoPorMes(dchInicio.getDate(), dchFim.getDate()), "Inteiro");
         jplBarra.setLayout(new BorderLayout());
         jplBarra.add(this.vendasPorMes.getPainel());
 
-        this.valorVendidoPorMes.criaGraficoLinha(this.grafdao.valorTotalVendidoNoAno(), "Decimal");
+        this.valorVendidoPorMes.criaGraficoLinha(this.grafdao.valorTotalVendidoNoAno(dchInicio.getDate(), dchFim.getDate()), "Decimal");
         jplValorVendidoPorMes.setLayout(new BorderLayout());
         jplValorVendidoPorMes.add(valorVendidoPorMes.getPainel());
 
@@ -152,13 +156,17 @@ public class FrmPrincipal extends javax.swing.JFrame {
         jplBarra = new javax.swing.JPanel();
         jplValorVendidoPorMes = new javax.swing.JPanel();
         pnlPeriodo = new javax.swing.JPanel();
+        dchInicio = new com.toedter.calendar.JDateChooser();
+        dchFim = new com.toedter.calendar.JDateChooser();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
         pnlTotalVendido = new javax.swing.JPanel();
         labelValorVendas = new java.awt.Label();
         pnlQtdVendida = new javax.swing.JPanel();
-        labelValorVendasMes2 = new java.awt.Label();
-        btnAtualizarDash = new javax.swing.JButton();
+        labelQuantidadeVendas = new java.awt.Label();
         btnOcultarDash = new javax.swing.JButton();
         lbUsuario = new java.awt.Label();
+        btnAtualizarDash = new javax.swing.JButton();
         barMenu = new javax.swing.JMenuBar();
         mnuCliente = new javax.swing.JMenu();
         itmCadastroCliente = new javax.swing.JMenuItem();
@@ -271,7 +279,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         jplValorVendidoPorMes.setLayout(jplValorVendidoPorMesLayout);
         jplValorVendidoPorMesLayout.setHorizontalGroup(
             jplValorVendidoPorMesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 684, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         jplValorVendidoPorMesLayout.setVerticalGroup(
             jplValorVendidoPorMesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -282,15 +290,43 @@ public class FrmPrincipal extends javax.swing.JFrame {
         pnlPeriodo.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Período", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12), new java.awt.Color(1, 1, 1))); // NOI18N
         pnlPeriodo.setForeground(new java.awt.Color(1, 1, 1));
 
+        dchInicio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/calendar.png")));
+        dchInicio.setInheritsPopupMenu(true);
+
+        dchFim.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/calendar.png")));
+        dchFim.setInheritsPopupMenu(true);
+
+        jLabel3.setText("Início");
+
+        jLabel4.setText("Fim");
+
         javax.swing.GroupLayout pnlPeriodoLayout = new javax.swing.GroupLayout(pnlPeriodo);
         pnlPeriodo.setLayout(pnlPeriodoLayout);
         pnlPeriodoLayout.setHorizontalGroup(
             pnlPeriodoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(pnlPeriodoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(pnlPeriodoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pnlPeriodoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(dchFim, javax.swing.GroupLayout.DEFAULT_SIZE, 216, Short.MAX_VALUE)
+                    .addComponent(dchInicio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         pnlPeriodoLayout.setVerticalGroup(
             pnlPeriodoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 126, Short.MAX_VALUE)
+            .addGroup(pnlPeriodoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(pnlPeriodoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(dchInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3))
+                .addGap(18, 18, 18)
+                .addGroup(pnlPeriodoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(dchFim, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pnlTotalVendido.setBackground(new java.awt.Color(254, 254, 254));
@@ -321,8 +357,8 @@ public class FrmPrincipal extends javax.swing.JFrame {
         pnlQtdVendida.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Vendas realizadas", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12), new java.awt.Color(1, 1, 1))); // NOI18N
         pnlQtdVendida.setForeground(new java.awt.Color(1, 1, 1));
 
-        labelValorVendasMes2.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
-        labelValorVendasMes2.setText("R$ 40.500,60");
+        labelQuantidadeVendas.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        labelQuantidadeVendas.setText("R$ 40.500,60");
 
         javax.swing.GroupLayout pnlQtdVendidaLayout = new javax.swing.GroupLayout(pnlQtdVendida);
         pnlQtdVendida.setLayout(pnlQtdVendidaLayout);
@@ -330,14 +366,14 @@ public class FrmPrincipal extends javax.swing.JFrame {
             pnlQtdVendidaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlQtdVendidaLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(labelValorVendasMes2, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(labelQuantidadeVendas, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pnlQtdVendidaLayout.setVerticalGroup(
             pnlQtdVendidaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlQtdVendidaLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(labelValorVendasMes2, javax.swing.GroupLayout.DEFAULT_SIZE, 49, Short.MAX_VALUE)
+                .addComponent(labelQuantidadeVendas, javax.swing.GroupLayout.DEFAULT_SIZE, 49, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -373,9 +409,11 @@ public class FrmPrincipal extends javax.swing.JFrame {
                     .addComponent(jplVendasPorVendedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(dskAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jplValorVendidoPorVendedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jplValorVendidoPorMes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(47, Short.MAX_VALUE))
+                    .addGroup(dskAreaLayout.createSequentialGroup()
+                        .addComponent(jplValorVendidoPorVendedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 433, Short.MAX_VALUE))
+                    .addComponent(jplValorVendidoPorMes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         dskAreaLayout.setVerticalGroup(
             dskAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -384,11 +422,11 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 .addGroup(dskAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(dskAreaLayout.createSequentialGroup()
                         .addComponent(pnlPeriodo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(56, 56, 56)
                         .addComponent(pnlTotalVendido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(pnlQtdVendida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 104, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 98, Short.MAX_VALUE)
                         .addGroup(dskAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(JtnLimpar, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(lblNotific, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -402,20 +440,11 @@ public class FrmPrincipal extends javax.swing.JFrame {
                         .addGroup(dskAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jplBarra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jplValorVendidoPorMes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 217, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
         pnlPeriodo.getAccessibleContext().setAccessibleName("pnlIndicador");
-
-        btnAtualizarDash.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/barras.png"))); // NOI18N
-        btnAtualizarDash.setText("Atualizar Dash");
-        btnAtualizarDash.setToolTipText("Limpar");
-        btnAtualizarDash.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAtualizarDashActionPerformed(evt);
-            }
-        });
 
         btnOcultarDash.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/stop.png"))); // NOI18N
         btnOcultarDash.setText("Ocultar Dash");
@@ -428,6 +457,15 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
         lbUsuario.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         lbUsuario.setText("label1");
+
+        btnAtualizarDash.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/barras.png"))); // NOI18N
+        btnAtualizarDash.setText("Atualizar Dash");
+        btnAtualizarDash.setToolTipText("Limpar");
+        btnAtualizarDash.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAtualizarDashActionPerformed(evt);
+            }
+        });
 
         barMenu.setAutoscrolls(true);
 
@@ -710,7 +748,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(24, 24, 24)
+                .addContainerGap()
                 .addComponent(btnAtualizarDash)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnOcultarDash)
@@ -728,8 +766,8 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(lbUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btnAtualizarDash, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnOcultarDash, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnOcultarDash, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnAtualizarDash, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
 
@@ -881,14 +919,14 @@ public class FrmPrincipal extends javax.swing.JFrame {
         
         
         //Atualiza graficos de vendasPorVendedor
-        vendasPorVendedor.setPizza(this.grafdao.vendaPorColaborador(), "Inteiro");
-        valorVendidoPorVendedor.setPizza(this.grafdao.valorVendidoPorColaborador(), "Decimal");
-        vendasPorMes.setDadosBarra(this.grafdao.quantidadeDeVendasNoAnoPorMes(), "Inteiro");
-        valorVendidoPorMes.setDadosLinha(this.grafdao.valorTotalVendidoNoAno(), "Decimal");
+        vendasPorVendedor.setPizza(this.grafdao.vendaPorColaborador(dchInicio.getDate(), dchFim.getDate()), "Inteiro");
+        valorVendidoPorVendedor.setPizza(this.grafdao.valorVendidoPorColaborador(dchInicio.getDate(), dchFim.getDate()), "Decimal");
+        vendasPorMes.setDadosBarra(this.grafdao.quantidadeDeVendasNoAnoPorMes(dchInicio.getDate(), dchFim.getDate()), "Inteiro");
+        valorVendidoPorMes.setDadosLinha(this.grafdao.valorTotalVendidoNoAno(dchInicio.getDate(), dchFim.getDate()), "Decimal");
         
         //Indicador
-        labelValorVendas.setText("R$ "+this.grafdao.valorTotalVendidoNoMes()+"");
-        
+        labelValorVendas.setText("R$ "+this.grafdao.valorTotalVendidoNoMes(dchInicio.getDate(), dchFim.getDate())+"");
+        labelQuantidadeVendas.setText(this.grafdao.quantidadeDeVendasrealizadas(dchInicio.getDate(), dchFim.getDate())+"");
     }//GEN-LAST:event_btnAtualizarDashActionPerformed
 
     private void btnOcultarDashActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOcultarDashActionPerformed
@@ -917,6 +955,8 @@ public class FrmPrincipal extends javax.swing.JFrame {
         this.jplValorVendidoPorVendedor.setVisible(status);
         this.jplBarra.setVisible(status);
         this.pnlPeriodo.setVisible(status);
+        this.pnlQtdVendida.setVisible(status);
+        this.pnlTotalVendido.setVisible(status);
     }
     
     private void auditoria(int aba) {
@@ -1002,6 +1042,8 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuBar barMenu;
     private javax.swing.JButton btnAtualizarDash;
     private javax.swing.JButton btnOcultarDash;
+    private com.toedter.calendar.JDateChooser dchFim;
+    private com.toedter.calendar.JDateChooser dchInicio;
     private javax.swing.JDesktopPane dskArea;
     private javax.swing.JMenuItem itmCadastroCliente;
     private javax.swing.JMenuItem itmCadastroColaborador;
@@ -1030,6 +1072,8 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem itmSair1;
     private javax.swing.JMenuItem itmSair2;
     private javax.swing.JMenuItem itmUnidadeMedida;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
@@ -1038,8 +1082,8 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private javax.swing.JPanel jplValorVendidoPorVendedor;
     private javax.swing.JPanel jplVendasPorVendedor;
     private javax.swing.JTextArea jtaNotificacoes;
+    private java.awt.Label labelQuantidadeVendas;
     private java.awt.Label labelValorVendas;
-    private java.awt.Label labelValorVendasMes2;
     private java.awt.Label lbUsuario;
     private java.awt.Label lblNotific;
     private javax.swing.JMenu mnuCliente;
