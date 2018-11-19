@@ -9,7 +9,10 @@ import apoio.Mensagem;
 
 import dao.GenericDAO;
 import entidade.Config;
+import java.io.File;
+import javax.swing.JFileChooser;
 import javax.swing.event.ChangeEvent;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import smartagro.VerificaPermissao;
 
 /**
@@ -18,7 +21,7 @@ import smartagro.VerificaPermissao;
  */
 public class IfrmBackup extends javax.swing.JInternalFrame {
 
-   ;
+    ;
     private GenericDAO<Config> dao;
 
     private VerificaPermissao permissoes;
@@ -49,7 +52,11 @@ public class IfrmBackup extends javax.swing.JInternalFrame {
         btnSalvar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
         tabAbas = new javax.swing.JTabbedPane();
-        pnlCadastro = new javax.swing.JPanel();
+        pnlRestaurarBackup = new javax.swing.JPanel();
+        pnlCriarBackup = new javax.swing.JPanel();
+        jbtSelecionar = new javax.swing.JButton();
+        label1 = new java.awt.Label();
+        tfdCaminhoSalvarBackup = new javax.swing.JTextField();
 
         setClosable(true);
         setIconifiable(true);
@@ -84,37 +91,82 @@ public class IfrmBackup extends javax.swing.JInternalFrame {
             }
         });
 
-        pnlCadastro.setName("pnlCadastro"); // NOI18N
+        pnlRestaurarBackup.setName("pnlCadastro"); // NOI18N
 
-        javax.swing.GroupLayout pnlCadastroLayout = new javax.swing.GroupLayout(pnlCadastro);
-        pnlCadastro.setLayout(pnlCadastroLayout);
-        pnlCadastroLayout.setHorizontalGroup(
-            pnlCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 522, Short.MAX_VALUE)
+        javax.swing.GroupLayout pnlRestaurarBackupLayout = new javax.swing.GroupLayout(pnlRestaurarBackup);
+        pnlRestaurarBackup.setLayout(pnlRestaurarBackupLayout);
+        pnlRestaurarBackupLayout.setHorizontalGroup(
+            pnlRestaurarBackupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 720, Short.MAX_VALUE)
         );
-        pnlCadastroLayout.setVerticalGroup(
-            pnlCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 320, Short.MAX_VALUE)
+        pnlRestaurarBackupLayout.setVerticalGroup(
+            pnlRestaurarBackupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 415, Short.MAX_VALUE)
         );
 
-        tabAbas.addTab("Geral", pnlCadastro);
+        tabAbas.addTab("Restaurar Backup", pnlRestaurarBackup);
+
+        pnlCriarBackup.setName("pnlCriarBackup"); // NOI18N
+
+        jbtSelecionar.setText("Selecionar ");
+        jbtSelecionar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtSelecionarActionPerformed(evt);
+            }
+        });
+
+        label1.setText("Por favor, selecione um local para gravar o backup *");
+
+        tfdCaminhoSalvarBackup.setEditable(false);
+
+        javax.swing.GroupLayout pnlCriarBackupLayout = new javax.swing.GroupLayout(pnlCriarBackup);
+        pnlCriarBackup.setLayout(pnlCriarBackupLayout);
+        pnlCriarBackupLayout.setHorizontalGroup(
+            pnlCriarBackupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlCriarBackupLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(pnlCriarBackupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlCriarBackupLayout.createSequentialGroup()
+                        .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, 377, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 319, Short.MAX_VALUE))
+                    .addGroup(pnlCriarBackupLayout.createSequentialGroup()
+                        .addComponent(jbtSelecionar, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(tfdCaminhoSalvarBackup)))
+                .addContainerGap())
+        );
+        pnlCriarBackupLayout.setVerticalGroup(
+            pnlCriarBackupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlCriarBackupLayout.createSequentialGroup()
+                .addGap(26, 26, 26)
+                .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pnlCriarBackupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jbtSelecionar)
+                    .addComponent(tfdCaminhoSalvarBackup, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(329, Short.MAX_VALUE))
+        );
+
+        tabAbas.addTab("Novo  Backup", pnlCriarBackup);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(tabAbas)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(407, 407, 407)
-                .addComponent(btnSalvar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnCancelar)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnSalvar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnCancelar))
+                    .addComponent(tabAbas))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addComponent(tabAbas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(tabAbas, javax.swing.GroupLayout.PREFERRED_SIZE, 458, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSalvar)
@@ -140,20 +192,6 @@ public class IfrmBackup extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
-
-
-
-        focus();
-
-    }//GEN-LAST:event_btnSalvarActionPerformed
-
-    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-
-        this.setVisible(false);
-
-    }//GEN-LAST:event_btnCancelarActionPerformed
-
     private void tabAbasFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tabAbasFocusLost
 
     }//GEN-LAST:event_tabAbasFocusLost
@@ -162,13 +200,44 @@ public class IfrmBackup extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_tabAbasStateChanged
 
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+
+        this.setVisible(false);
+    }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
+
+        focus();
+    }//GEN-LAST:event_btnSalvarActionPerformed
+
+    private void jbtSelecionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtSelecionarActionPerformed
+
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        fileChooser.setAcceptAllFileFilterUsed(false);
+       
+        int result = fileChooser.showOpenDialog(this);
+
+        if (result == JFileChooser.APPROVE_OPTION) {
+
+            tfdCaminhoSalvarBackup.setText(fileChooser.getSelectedFile().getAbsolutePath());
+
+        }
+
+
+    }//GEN-LAST:event_jbtSelecionarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnSalvar;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JPanel pnlCadastro;
+    private javax.swing.JButton jbtSelecionar;
+    private java.awt.Label label1;
+    private javax.swing.JPanel pnlCriarBackup;
+    private javax.swing.JPanel pnlRestaurarBackup;
     private javax.swing.JTabbedPane tabAbas;
+    private javax.swing.JTextField tfdCaminhoSalvarBackup;
     // End of variables declaration//GEN-END:variables
 }
