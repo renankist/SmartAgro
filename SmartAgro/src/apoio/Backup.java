@@ -46,8 +46,8 @@ public class Backup {
         String savePath = this.dir + "/" + fileName;
         /*NOTE: Used to create a cmd command*/
         String[] executeCmd = {
-            "pg_dump", "--username", dbUser, "-w", "--format", "tar", "--file", savePath, dbName};
-
+            "pg_dump", "-h", "localhost", "-p", "5432", "-U", "postgres", "-F", "c", "-b", "-v", "-f", savePath, dbName};
+        
         if (executarComandoBanco(executeCmd)) {
             System.out.println(("Backup executado com sucesso"));
             retorno = true;
@@ -68,6 +68,8 @@ public class Backup {
         System.out.println("");
       
         ProcessBuilder runtimeProcess = new ProcessBuilder(executeCmd);
+        
+        System.out.println(dir);
         
         runtimeProcess.environment().put("PGPASSWORD", "postgres");
         
