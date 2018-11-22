@@ -28,8 +28,5 @@
         <mapping class="entidade.Venda"/>
         <mapping class="entidade.Itemvenda"/>
         <mapping class="entidade.Config"/>
-        
-
-   
     </session-factory>
 </hibernate-configuration>
