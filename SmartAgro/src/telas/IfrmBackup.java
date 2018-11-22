@@ -7,6 +7,7 @@ package telas;
 
 import apoio.Backup;
 import apoio.Mensagem;
+import apoio.VerificadorCampos;
 
 import dao.GenericDAO;
 import entidade.Config;
@@ -14,6 +15,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.event.ChangeEvent;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -116,19 +118,19 @@ public class IfrmBackup extends javax.swing.JInternalFrame {
         pnlRestaurarBackup.setLayout(pnlRestaurarBackupLayout);
         pnlRestaurarBackupLayout.setHorizontalGroup(
             pnlRestaurarBackupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlRestaurarBackupLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(btnSalvar2, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnCancelar1))
             .addGroup(pnlRestaurarBackupLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pnlRestaurarBackupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlRestaurarBackupLayout.createSequentialGroup()
                         .addComponent(jbtSelecionarArq, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tfdCaminhoRestaurarBackup, javax.swing.GroupLayout.DEFAULT_SIZE, 533, Short.MAX_VALUE))
-                    .addComponent(lblCodigo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(tfdCaminhoRestaurarBackup, javax.swing.GroupLayout.DEFAULT_SIZE, 560, Short.MAX_VALUE))
+                    .addComponent(lblCodigo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlRestaurarBackupLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnSalvar2, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnCancelar1)))
                 .addContainerGap())
         );
         pnlRestaurarBackupLayout.setVerticalGroup(
@@ -182,11 +184,6 @@ public class IfrmBackup extends javax.swing.JInternalFrame {
         pnlCriarBackup.setLayout(pnlCriarBackupLayout);
         pnlCriarBackupLayout.setHorizontalGroup(
             pnlCriarBackupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlCriarBackupLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnCancelar))
             .addGroup(pnlCriarBackupLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pnlCriarBackupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -196,7 +193,12 @@ public class IfrmBackup extends javax.swing.JInternalFrame {
                         .addComponent(tfdCaminhoSalvarBackup))
                     .addGroup(pnlCriarBackupLayout.createSequentialGroup()
                         .addComponent(lblCodigo1, javax.swing.GroupLayout.PREFERRED_SIZE, 644, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 54, Short.MAX_VALUE)))
+                        .addGap(0, 81, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlCriarBackupLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnCancelar)))
                 .addContainerGap())
         );
         pnlCriarBackupLayout.setVerticalGroup(
@@ -221,9 +223,7 @@ public class IfrmBackup extends javax.swing.JInternalFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(tabAbas)
-                .addContainerGap())
+            .addComponent(tabAbas)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -262,12 +262,22 @@ public class IfrmBackup extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
+         // Aplica o validador
+       JComponent[] components = new JComponent[]{tfdCaminhoSalvarBackup};
+        VerificadorCampos verifier = new VerificadorCampos(components);
 
+        if (!verifier.validaCampos()) {
+            return;
+        }
+        
+        
+        
         try {
             Backup b = new Backup(tfdCaminhoSalvarBackup.getText());
 
             if (b.fazBackup()) {
                 Mensagem.mostraInformacao("Sucesso", "Backup realizado com sucesso!");
+                tfdCaminhoSalvarBackup.setText("");
             } else {
                Mensagem.mostraInformacao("Problema", "Erro ao tentar realizar backup!");
             }
