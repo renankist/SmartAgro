@@ -17,6 +17,8 @@
     <class>entidade.Operacoesmodulo</class>
     <class>entidade.Permissaoacesso</class>
     <class>entidade.Config</class>
+    <class>entidade.Visualizacaorelease</class>
+    <class>entidade.Release</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/smartagro"/>
       <property name="javax.persistence.jdbc.user" value="postgres"/>

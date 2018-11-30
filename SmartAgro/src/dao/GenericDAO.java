@@ -29,14 +29,13 @@ public class GenericDAO<Object> {
         try {
 
             setParametroSessao(sessao);
-            
+
             sessao.save(o);
-  
+
             t.commit();
-    
+
             r = true;
-            
-         
+
         } catch (HibernateException he) {
             he.printStackTrace();
             logger.error("Erro ao salvar registro", he);
@@ -52,8 +51,6 @@ public class GenericDAO<Object> {
 
     }
 
-
-
     public ArrayList<Object> consultarTodos(String className) {
 
         ArrayList resultado = null;
@@ -62,7 +59,7 @@ public class GenericDAO<Object> {
         try {
 
             sessao = HibernateUtil.getSessionFactory().openSession();
-            
+
             sessao.beginTransaction();
 
             org.hibernate.Query q = sessao.createQuery("from " + className);
@@ -90,9 +87,9 @@ public class GenericDAO<Object> {
         Transaction t = sessao.beginTransaction();
 
         try {
-            
+
             setParametroSessao(sessao);
-            
+
             sessao.update(o);
 
             t.commit();
@@ -118,19 +115,18 @@ public class GenericDAO<Object> {
         Boolean r = false;
 
         Session sessao = null;
-        
-        
+
         sessao = HibernateUtil.getSessionFactory().openSession();
 
         Transaction t = sessao.beginTransaction();
 
         try {
             setParametroSessao(sessao);
-            
+
             sessao.delete(o);
-            
+
             t.commit();
-            
+
             r = true;
         } catch (HibernateException he) {
 
@@ -202,7 +198,7 @@ public class GenericDAO<Object> {
             String sql = "from " + className;
 
             // Verifica se o critério é um numero, se for, não usa o upper
-            if (Validacao.isNumeric(valor)) {
+            if (Validacao.isNumeric(valor) || valor.equalsIgnoreCase("true") || valor.equalsIgnoreCase("false")) {
                 sql = sql + " where " + criterio + " = :criterio";
             } else {
                 sql = sql + " where upper(" + criterio + ") like upper(:criterio)";
@@ -212,6 +208,8 @@ public class GenericDAO<Object> {
 
             if (Validacao.isNumeric(valor)) {
                 q.setInteger("criterio", Integer.parseInt(valor));
+            } else if (valor.equalsIgnoreCase("true") || valor.equalsIgnoreCase("false")) {
+                q.setBoolean("criterio", Boolean.parseBoolean(valor));
             } else {
                 if (valorExato) {
                     q.setString("criterio", valor);
@@ -239,8 +237,8 @@ public class GenericDAO<Object> {
         return (resultado.size() > 0);
 
     }
-    
-        public void setParametroSessao(Session sessao){
+
+    public void setParametroSessao(Session sessao) {
         sessao.doWork(new Work() {
             public void execute(Connection connection) throws SQLException {
                 CallableStatement call = connection.prepareCall("{ call set_session_user(?) }");

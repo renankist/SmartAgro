@@ -8,14 +8,11 @@ package dao;
 import apoio.HibernateUtil;
 import entidade.Cidade;
 import entidade.Colaborador;
-import entidade.Estado;
-import entidade.Produto;
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
-import org.hibernate.transform.Transformers;
 
 /**
  *

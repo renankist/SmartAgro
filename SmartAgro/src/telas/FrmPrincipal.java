@@ -7,6 +7,7 @@ package telas;
 
 import apoio.Client;
 import apoio.Mensagem;
+import dao.ColaboradorDAO;
 import dao.GenericDAO;
 import dao.GraficoDAO;
 import entidade.Config;
@@ -113,6 +114,8 @@ public class FrmPrincipal extends javax.swing.JFrame {
             btnAtualizarDash.setVisible(false);
             btnOcultarDash.setVisible(false);
         }
+        
+        exibirReleases();
 
     }
 
@@ -148,6 +151,15 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
     public static void setParametros(Config parametros) {
         parametros = parametros;
+    }
+    
+    private void exibirReleases(){
+        ColaboradorDAO usuDAO = new ColaboradorDAO();
+        
+        if (usuDAO.existeReleaseParaVisualizar(jfrLogin.getUsuarioLogado().getId())) {
+            exibeSobre(true);
+        }
+ 
     }
 
     /**
@@ -217,6 +229,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         itmSair2 = new javax.swing.JMenuItem();
         itmParametros = new javax.swing.JMenuItem();
         itmPermissoes = new javax.swing.JMenuItem();
+        itmSobre = new javax.swing.JMenuItem();
         itmSair1 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -750,6 +763,15 @@ public class FrmPrincipal extends javax.swing.JFrame {
         });
         mnuSistema.add(itmPermissoes);
 
+        itmSobre.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/about.png"))); // NOI18N
+        itmSobre.setText("Sobre");
+        itmSobre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itmSobreActionPerformed(evt);
+            }
+        });
+        mnuSistema.add(itmSobre);
+
         itmSair1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/power.png"))); // NOI18N
         itmSair1.setText("Sair");
         itmSair1.addActionListener(new java.awt.event.ActionListener() {
@@ -957,6 +979,10 @@ public class FrmPrincipal extends javax.swing.JFrame {
         jtaNotificacoes.setText("");
     }//GEN-LAST:event_JtnLimparActionPerformed
 
+    private void itmSobreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmSobreActionPerformed
+        exibeSobre(false);
+    }//GEN-LAST:event_itmSobreActionPerformed
+
     private void cadastroVenda(int aba) {
         IfrmVenda janelaVenda = new IfrmVenda(aba);
         dskArea.add(janelaVenda);
@@ -1041,6 +1067,11 @@ public class FrmPrincipal extends javax.swing.JFrame {
         dskArea.add(janelaPermissoes);
         janelaPermissoes.setVisible(true);
     }
+    
+    private void exibeSobre(boolean atualizarVisualizacao){
+        DlgSobre janelaSobre = new DlgSobre(this, true, atualizarVisualizacao);
+        janelaSobre.setVisible(true);
+    }
 
     /**
      * @param args the command line arguments
@@ -1090,6 +1121,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem itmSair;
     private javax.swing.JMenuItem itmSair1;
     private javax.swing.JMenuItem itmSair2;
+    private javax.swing.JMenuItem itmSobre;
     private javax.swing.JMenuItem itmUnidadeMedida;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

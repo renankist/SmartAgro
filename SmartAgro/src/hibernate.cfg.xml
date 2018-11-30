@@ -28,8 +28,8 @@
         <mapping class="entidade.Venda"/>
         <mapping class="entidade.Itemvenda"/>
         <mapping class="entidade.Config"/>
-        
-
+        <mapping class="entidade.Release"/>
+        <mapping class="entidade.Visualizacaorelease"/>
    
     </session-factory>
 </hibernate-configuration>
