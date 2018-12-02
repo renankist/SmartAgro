@@ -21,7 +21,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author morgana.elis
  */
 @Entity
-@Table(name = "vizualizacaorelease")
+@Table(name = "visualizacaorelease")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Visualizacaorelease.findAll", query = "SELECT v FROM Visualizacaorelease v")
@@ -30,11 +30,11 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Visualizacaorelease.findByVisto", query = "SELECT v FROM Visualizacaorelease v WHERE v.visto = :visto")})
 public class Visualizacaorelease implements Serializable {
 
-    private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected VisualizacaoreleasePK visualizacaoreleasePK;
     @Column(name = "visto")
     private Boolean visto;
+    
     @JoinColumn(name = "release", referencedColumnName = "id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Release release;
@@ -64,14 +64,6 @@ public class Visualizacaorelease implements Serializable {
 
     public void setVisto(Boolean visto) {
         this.visto = visto;
-    }
-
-    public Release getRelease1() {
-        return release;
-    }
-
-    public void setRelease1(Release release) {
-        this.release = release;
     }
 
     @Override

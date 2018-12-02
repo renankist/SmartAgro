@@ -7,9 +7,9 @@ package telas;
 
 import apoio.Client;
 import apoio.Mensagem;
-import dao.ColaboradorDAO;
 import dao.GenericDAO;
 import dao.GraficoDAO;
+import dao.ReleaseDAO;
 import entidade.Config;
 import java.awt.BorderLayout;
 import java.util.ArrayList;
@@ -114,8 +114,6 @@ public class FrmPrincipal extends javax.swing.JFrame {
             btnAtualizarDash.setVisible(false);
             btnOcultarDash.setVisible(false);
         }
-        
-        exibirReleases();
 
     }
 
@@ -151,15 +149,6 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
     public static void setParametros(Config parametros) {
         parametros = parametros;
-    }
-    
-    private void exibirReleases(){
-        ColaboradorDAO usuDAO = new ColaboradorDAO();
-        
-        if (usuDAO.existeReleaseParaVisualizar(jfrLogin.getUsuarioLogado().getId())) {
-            exibeSobre(true);
-        }
- 
     }
 
     /**
@@ -237,11 +226,8 @@ public class FrmPrincipal extends javax.swing.JFrame {
         setBackground(new java.awt.Color(254, 254, 254));
         setSize(new java.awt.Dimension(0, 0));
         addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowClosing(java.awt.event.WindowEvent evt) {
-                formWindowClosing(evt);
-            }
-            public void windowClosed(java.awt.event.WindowEvent evt) {
-                formWindowClosed(evt);
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
             }
         });
 
@@ -935,25 +921,6 @@ public class FrmPrincipal extends javax.swing.JFrame {
         auditoria(0);
     }//GEN-LAST:event_itmSair2ActionPerformed
 
-    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
-        try {
-            c.stop();
-            c.close();
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }//GEN-LAST:event_formWindowClosed
-
-    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        try {
-            c.stop();
-            c.close();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }//GEN-LAST:event_formWindowClosing
-
     private void btnAtualizarDashActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtualizarDashActionPerformed
 
         // Mostra os paineis caso estavam invisible
@@ -982,6 +949,14 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private void itmSobreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmSobreActionPerformed
         exibeSobre(false);
     }//GEN-LAST:event_itmSobreActionPerformed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        ReleaseDAO rDAO = new ReleaseDAO();
+
+        if (rDAO.existeReleaseParaVisualizar(jfrLogin.getUsuarioLogado().getId())) {
+            exibeSobre(true);
+        }
+    }//GEN-LAST:event_formWindowOpened
 
     private void cadastroVenda(int aba) {
         IfrmVenda janelaVenda = new IfrmVenda(aba);
@@ -1067,8 +1042,8 @@ public class FrmPrincipal extends javax.swing.JFrame {
         dskArea.add(janelaPermissoes);
         janelaPermissoes.setVisible(true);
     }
-    
-    private void exibeSobre(boolean atualizarVisualizacao){
+
+    private void exibeSobre(boolean atualizarVisualizacao) {
         DlgSobre janelaSobre = new DlgSobre(this, true, atualizarVisualizacao);
         janelaSobre.setVisible(true);
     }

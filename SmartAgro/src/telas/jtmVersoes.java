@@ -15,19 +15,19 @@ import javax.swing.table.AbstractTableModel;
  */
 public class jtmVersoes extends AbstractTableModel {
     
-    private ArrayList<Release> release;
-    private String[] colunas = {"Versão"};
+    private ArrayList<Release> releases;
+    private String[] colunas = {"Versões"};
     
     public jtmVersoes(ArrayList<Release> release) {
-        this.release = release;
+        this.releases = release;
     }
 
     public ArrayList<Release> getReleases() {
-        return release;
+        return releases;
     }
 
     public void setReleases(ArrayList<Release> release) {
-        this.release = release;
+        this.releases = release;
     }
 
     public String[] getColunas() {
@@ -39,13 +39,13 @@ public class jtmVersoes extends AbstractTableModel {
     }
 
     public void addRow(Release forma) {
-        this.release.add(forma);
+        this.releases.add(forma);
         this.fireTableDataChanged();
     }
 
     @Override
     public int getRowCount() {
-        return this.release.size();
+        return this.releases.size();
     }
 
     @Override
@@ -57,7 +57,7 @@ public class jtmVersoes extends AbstractTableModel {
     public Object getValueAt(int linha, int coluna) {
         switch (coluna) {
             case 0:
-                return release.get(linha).getVersao();
+                return releases.get(linha).getVersao();
         }
 
         return null;
@@ -68,11 +68,11 @@ public class jtmVersoes extends AbstractTableModel {
     }
     
     public Release get(int linha){
-        return this.release.get(linha);
+        return this.releases.get(linha);
     }
     
     public void removeRow(int linha){
-        this.release.remove(linha);
+        this.releases.remove(linha);
         this.fireTableRowsUpdated(linha, linha);
     }
     

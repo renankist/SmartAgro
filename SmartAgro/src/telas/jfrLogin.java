@@ -6,6 +6,7 @@
 package telas;
 
 import apoio.Criptografia;
+import apoio.Mensagem;
 import dao.ColaboradorDAO;
 import entidade.Colaborador;
 import static java.awt.Color.white;
@@ -187,7 +188,7 @@ public class jfrLogin extends javax.swing.JFrame {
                 }
 
                 new FrmPrincipal().setVisible(true);
-
+                
                 this.dispose();
 
             }

@@ -7,7 +7,6 @@ package dao;
 
 import apoio.HibernateUtil;
 import entidade.Cidade;
-import entidade.Colaborador;
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
@@ -18,7 +17,7 @@ import org.hibernate.criterion.Restrictions;
  *
  * @author renan
  */
-public class CidadeDAO extends GenericDAO<Colaborador> {
+public class CidadeDAO extends GenericDAO<Cidade> {
 
     private static final Logger logger = Logger.getLogger(CidadeDAO.class);
 

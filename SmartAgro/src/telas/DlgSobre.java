@@ -6,39 +6,51 @@
 package telas;
 
 import apoio.Formatacao;
-import dao.ColaboradorDAO;
+import apoio.Mensagem;
+import dao.GenericDAO;
+import dao.ReleaseDAO;
 import entidade.Release;
+import entidade.Visualizacaorelease;
+import entidade.VisualizacaoreleasePK;
+import java.awt.event.ItemEvent;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  *
  * @author morgana.elis
  */
 public class DlgSobre extends javax.swing.JDialog {
-    
-    private ColaboradorDAO dao;
-    private ArrayList versoes;
+
+    private ReleaseDAO dao;
+    private ArrayList<Release> versoes;
     private jtmVersoes modelVersoes;
 
     /**
      * Creates new form DlgSobre
      */
-    public DlgSobre(java.awt.Frame parent, boolean modal, boolean atualizarVisualizacao) {
+    public DlgSobre(java.awt.Frame parent, boolean modal, boolean exibirSoNaoVistos) {
         super(parent, modal);
         initComponents();
-        
+
         // DAO
-        dao = new ColaboradorDAO();
-        versoes = new ArrayList();
-        
-        if (atualizarVisualizacao) {
+        dao = new ReleaseDAO();
+
+        if (exibirSoNaoVistos) {
+            tabAbas.setSelectedIndex(1);
             versoes = dao.consultarReleaseParaVisualizarUsuario(jfrLogin.getUsuarioLogado().getId(), true);
         } else {
-            versoes = dao.consultarReleaseParaVisualizarUsuario(jfrLogin.getUsuarioLogado().getId(), false);
+            versoes = dao.consultarTodos("Release");
         }
- 
+
         modelVersoes = new jtmVersoes(versoes);
         tblVersoes.setModel(modelVersoes);
+
+        if (exibirSoNaoVistos) {
+            tblVersoes.setRowSelectionInterval(0, 0);
+            tblVersoes.requestFocus();
+            exibeDadosVersao();
+        }
     }
 
     /**
@@ -61,11 +73,11 @@ public class DlgSobre extends javax.swing.JDialog {
         tblVersoes = new javax.swing.JTable();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         txpDescricao = new javax.swing.JTextPane();
         tfdData = new javax.swing.JTextField();
         tfdVersao = new javax.swing.JTextField();
+        chbLida = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Sobre");
@@ -124,9 +136,15 @@ public class DlgSobre extends javax.swing.JDialog {
 
         jLabel5.setText("Data de release:");
 
-        jLabel6.setText("Detalhes:");
-
+        txpDescricao.setEditable(false);
         jScrollPane3.setViewportView(txpDescricao);
+
+        chbLida.setText("OK, li e compreendi esta atualização, não exibir novamente");
+        chbLida.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                chbLidaItemStateChanged(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnlVersoesLayout = new javax.swing.GroupLayout(pnlVersoes);
         pnlVersoes.setLayout(pnlVersoesLayout);
@@ -137,9 +155,10 @@ public class DlgSobre extends javax.swing.JDialog {
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(pnlVersoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 512, Short.MAX_VALUE)
                     .addGroup(pnlVersoesLayout.createSequentialGroup()
                         .addGroup(pnlVersoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel6)
+                            .addComponent(chbLida)
                             .addGroup(pnlVersoesLayout.createSequentialGroup()
                                 .addGroup(pnlVersoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel5)
@@ -148,16 +167,15 @@ public class DlgSobre extends javax.swing.JDialog {
                                 .addGroup(pnlVersoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(tfdData, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(tfdVersao, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 512, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         pnlVersoesLayout.setVerticalGroup(
             pnlVersoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlVersoesLayout.createSequentialGroup()
-                .addGroup(pnlVersoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlVersoesLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(pnlVersoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(pnlVersoesLayout.createSequentialGroup()
-                        .addGap(31, 31, 31)
                         .addGroup(pnlVersoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
                             .addComponent(tfdVersao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -166,10 +184,10 @@ public class DlgSobre extends javax.swing.JDialog {
                             .addComponent(jLabel5)
                             .addComponent(tfdData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel6)
+                        .addComponent(jScrollPane3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 263, Short.MAX_VALUE))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                        .addComponent(chbLida))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 355, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -204,12 +222,50 @@ public class DlgSobre extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void tblVersoesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblVersoesMouseClicked
+        exibeDadosVersao();
+    }//GEN-LAST:event_tblVersoesMouseClicked
+
+    private void chbLidaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_chbLidaItemStateChanged
+        if (evt.getStateChange() == ItemEvent.SELECTED) {
+            Release versao = modelVersoes.get(tblVersoes.getSelectedRow());
+
+            GenericDAO vDAO = new GenericDAO<Visualizacaorelease>();
+
+            Visualizacaorelease versaoLida = new Visualizacaorelease();
+
+            VisualizacaoreleasePK vPK = new VisualizacaoreleasePK();
+            vPK.setRelease(versao);
+            vPK.setUsuario(jfrLogin.getUsuarioLogado());
+
+            versaoLida.setVisualizacaoreleasePK(vPK);
+            versaoLida.setVisto(true);
+
+            if (!vDAO.atualizar(versaoLida)) {
+                Mensagem.mostraErro("Problema", "Operação defeituosa no sistema. Tente novamente.");
+            }
+        }
+    }//GEN-LAST:event_chbLidaItemStateChanged
+
+    private void exibeDadosVersao() {
         Release versao = modelVersoes.get(tblVersoes.getSelectedRow());
-        
+
         tfdVersao.setText(versao.getVersao());
         tfdData.setText(Formatacao.ajustaDataDMA(versao.getData().toString()));
         txpDescricao.setText(versao.getDescricao());
-    }//GEN-LAST:event_tblVersoesMouseClicked
+
+        Visualizacaorelease lida;
+
+        Iterator<Visualizacaorelease> itr = versao.getVisualizacaoreleaseCollection().iterator();
+        while (itr.hasNext()) {
+            lida = itr.next();
+            
+            if (lida.getVisto() && lida.getVisualizacaoreleasePK().getUsuario().getId() == jfrLogin.getUsuarioLogado().getId()) {
+                chbLida.setSelected(true);
+            } else {
+                chbLida.setSelected(false);
+            }
+        }
+    }
 
     /**
      * @param args the command line arguments
@@ -254,10 +310,10 @@ public class DlgSobre extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JCheckBox chbLida;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
