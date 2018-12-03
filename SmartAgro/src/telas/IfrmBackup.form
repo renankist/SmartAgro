@@ -110,7 +110,7 @@
                                   <Component id="jbtSelecionarArq" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="tfdCaminhoRestaurarBackup" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace pref="325" max="32767" attributes="0"/>
+                              <EmptySpace pref="327" max="32767" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="btnCancelar1" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="btnSalvar2" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -182,15 +182,24 @@
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Component id="tfdCaminhoSalvarBackup" max="32767" attributes="0"/>
                                   </Group>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Component id="lblCodigo1" min="-2" pref="644" max="-2" attributes="0"/>
-                                      <EmptySpace min="0" pref="81" max="32767" attributes="0"/>
-                                  </Group>
                                   <Group type="102" alignment="1" attributes="0">
                                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                                       <Component id="btnSalvar" min="-2" pref="138" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Component id="btnCancelar" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" attributes="0">
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="lblCodigo1" min="-2" pref="644" max="-2" attributes="0"/>
+                                          <Group type="102" alignment="0" attributes="0">
+                                              <Component id="lblDescricao" min="-2" max="-2" attributes="0"/>
+                                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                                              <Component id="rbtAudAtivada" min="-2" max="-2" attributes="0"/>
+                                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                              <Component id="rbtAudDesativada" min="-2" max="-2" attributes="0"/>
+                                          </Group>
+                                      </Group>
+                                      <EmptySpace min="0" pref="81" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
@@ -207,7 +216,13 @@
                                   <Component id="jbtSelecionarDir" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="tfdCaminhoSalvarBackup" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace pref="325" max="32767" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="lblDescricao" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="rbtAudAtivada" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="rbtAudDesativada" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace pref="293" max="32767" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="btnSalvar" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="btnCancelar" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -253,6 +268,27 @@
                       <Properties>
                         <Property name="text" type="java.lang.String" value="Por favor, selecione um local para gravar o backup *"/>
                       </Properties>
+                    </Component>
+                    <Component class="javax.swing.JLabel" name="lblDescricao">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="Tipo de ackup *"/>
+                      </Properties>
+                    </Component>
+                    <Component class="javax.swing.JRadioButton" name="rbtAudAtivada">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="Completo"/>
+                      </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rbtAudAtivadaActionPerformed"/>
+                      </Events>
+                    </Component>
+                    <Component class="javax.swing.JRadioButton" name="rbtAudDesativada">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="Somente dados"/>
+                      </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rbtAudDesativadaActionPerformed"/>
+                      </Events>
                     </Component>
                   </SubComponents>
                 </Container>

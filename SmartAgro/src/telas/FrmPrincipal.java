@@ -1030,7 +1030,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
     
     private void backup() {
         IfrmBackup janelaBackup = new  IfrmBackup();
-        dskArea.add( janelaBackup);
+        dskArea.add(janelaBackup);
          janelaBackup.setVisible(true);
     }
 

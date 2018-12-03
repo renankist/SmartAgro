@@ -20,18 +20,13 @@ public class Backup {
         
     }
   
-    
-    
-    
-    
-    
-    
-    
     public boolean restaurarLinux(String arq){
         
         boolean retorno = false; 
-
-        String[] executeCmd = {"pg_restore","-1","-d",dbName,"--username",dbUser,"-w",arq};
+       
+        this.dir = arq;
+        
+        String[] executeCmd = {"pg_restore","-d",dbName,"-h localhost","-p 5432","-U",dbUser,"--clean",dir};
         
         if(executarComandoBancoLinux(executeCmd)){
             System.out.println(("Restauração executada com sucesso"));
@@ -67,11 +62,14 @@ public class Backup {
     }
 
     public boolean executarComandoBancoLinux(String[] executeCmd) {
+        
         boolean retorno = false;
+        
         System.out.print("execute: ");
         for (String string : executeCmd) {
             System.out.print(string + " ");
         }
+        
         System.out.println("");
       
         ProcessBuilder runtimeProcess = new ProcessBuilder(executeCmd);
