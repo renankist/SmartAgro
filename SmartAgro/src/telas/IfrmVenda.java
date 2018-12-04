@@ -9,7 +9,7 @@ import apoio.*;
 import com.thoughtworks.xstream.XStream;
 import java.util.ArrayList;
 import dao.GenericDAO;
-import entidade.Formapagamento;
+import entidade.Contareceber;
 import entidade.Venda;
 import entidade.Itemvenda;
 import entidade.ItemvendaPK;
@@ -48,6 +48,7 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
     private DlgClientes dlgClientes;
     private DlgColaboradores dlgColaboradores;
     private DlgProdutos dlgProdutos;
+    private DlgPagamento dlgPagamento;
 
     private boolean editando = false;
     private boolean editandoItem = false;
@@ -79,6 +80,7 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
         dlgClientes = new DlgClientes(null, true);
         dlgColaboradores = new DlgColaboradores(null, true);
         dlgProdutos = new DlgProdutos(null, true);
+        dlgPagamento = new DlgPagamento(null, true);
 
         //Definindo o Colaborador que está logado no campo vendedor
         tfdVendedor.setText(jfrLogin.getUsuarioLogado().getNomecompleto());
@@ -536,6 +538,11 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
         });
 
         brnPagamento.setText("Condição de pagamento");
+        brnPagamento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                brnPagamentoActionPerformed(evt);
+            }
+        });
 
         lblTotal.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         lblTotal.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -632,17 +639,6 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
             }
         });
 
-        tblVendas.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
         jYTableScrollPane1.setViewportView(tblVendas);
 
         btnXML.setText("Gerar XML da venda");
@@ -1010,6 +1006,12 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
         boolean inputOK = true;
 
         while (inputOK) {
+            if (!getEditandoVenda() && dlgPagamento.getFormaPagamento() == null) {
+                Mensagem.mostraAletra("Atenção", "Por favor, informe as condições de pagamento");
+                inputOK = false;
+                break;
+            }
+
             if (modelItens.getRowCount() == 0) {
                 Mensagem.mostraAletra("Atenção", "Informe os itens da venda");
                 inputOK = false;
@@ -1068,16 +1070,23 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
         }
 
         venda.setStatus(Venda.getStatusPelaDescricao(cbmStatus.getSelectedItem().toString()));
-        venda.setFormapagamento(new Formapagamento(1));
         venda.setValor(getTotal());
         venda.setValortotal(getTotalLiquido());
         venda.setDesconto(tfdDesconto.getValue().setScale(2));
         venda.setDescricaodesconto(tfdDescrDesc.getText());
         venda.setObservacao(tfdObservacao.getText());
 
+        if (dlgPagamento.getFormaPagamento() != null) {
+            venda.setFormapagamento(dlgPagamento.getFormaPagamento());
+
+            ArrayList<Contareceber> parcelas = dlgPagamento.getCondicoesPagamentoVenda(venda);
+            venda.setContasCollection(parcelas);
+        }
+
         if (getEditandoVenda()) {
             venda.removeAllItemvenda();
         }
+
         try {
             // Itens da venda
             for (Itemvenda item : modelItens.getItens()) {
@@ -1253,7 +1262,7 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
                 XStream xstream = new XStream();
                 xstream.alias("venda", Venda.class);
                 xstream.addImplicitCollection(Venda.class, "itemvendaCollection");
-                
+
                 String conteudo = xstream.toXML(v);
 
                 // Gera o arquivo
@@ -1268,6 +1277,10 @@ public class IfrmVenda extends javax.swing.JInternalFrame {
             }
         }
     }//GEN-LAST:event_btnXMLActionPerformed
+
+    private void brnPagamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_brnPagamentoActionPerformed
+        dlgPagamento.setVisible(true);
+    }//GEN-LAST:event_brnPagamentoActionPerformed
 
     private void enviarEmail() {
 

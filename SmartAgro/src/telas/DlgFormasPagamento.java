@@ -46,6 +46,7 @@ public class DlgFormasPagamento extends javax.swing.JDialog {
         btnSelecionar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Formas de Pagamento");
 
         jLabel1.setText("Descrição");
 
@@ -149,7 +150,10 @@ public class DlgFormasPagamento extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jtbFormasPagamentoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtbFormasPagamentoMouseClicked
-
+        if (evt.getClickCount() == 2) {
+            selecionou = true;
+            this.dispose();
+        }
     }//GEN-LAST:event_jtbFormasPagamentoMouseClicked
 
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
@@ -182,6 +186,14 @@ public class DlgFormasPagamento extends javax.swing.JDialog {
         }
 
         return forma;
+    }
+    
+    public String getFormaToString(){
+        Formapagamento f = model.get(jtbFormasPagamento.getSelectedRow());
+        
+        String descr = f.getDescricao();
+        
+        return descr;
     }
 
     /**

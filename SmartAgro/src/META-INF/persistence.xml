@@ -19,6 +19,8 @@
     <class>entidade.Config</class>
     <class>entidade.Visualizacaorelease</class>
     <class>entidade.Release</class>
+    <class>entidade.Contapagar</class>
+    <class>entidade.Contareceber</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/smartagro"/>
       <property name="javax.persistence.jdbc.user" value="postgres"/>

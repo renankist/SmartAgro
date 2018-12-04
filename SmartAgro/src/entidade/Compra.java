@@ -1,4 +1,4 @@
- package entidade;
+package entidade;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -21,7 +21,6 @@ import javax.xml.bind.annotation.XmlTransient;
 import java.util.ArrayList;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-
 
 @Entity
 @Table(name = "compra")
@@ -62,16 +61,15 @@ public class Compra implements Serializable {
     @Basic(optional = false)
     @Column(name = "pago")
     private boolean pago;
-    
+
     @JoinColumn(name = "fornecedor", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Fornecedor fornecedor;
-    
+
     @JoinColumn(name = "colaborador", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Colaborador colaborador;
-    
-    
+
     @JoinColumn(name = "formapagamento", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Formapagamento formapagamento;
@@ -79,14 +77,17 @@ public class Compra implements Serializable {
     @OneToMany(mappedBy = "compra", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private Collection<Itemcompra> itemcompraCollection = new ArrayList<Itemcompra>();
 
+    @OneToMany(mappedBy = "compra", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    private Collection<Contapagar> contasCollection = new ArrayList<Contapagar>();
+
     // Status de uma compra
-    public static final char   STATUS_ORCAMENTO = 'O';
+    public static final char STATUS_ORCAMENTO = 'O';
     public static final String STATUS_ORCAMENTO_DESCRICAO = "Orçamento";
-    public static final char   STATUS_CANCELADA = 'C';
+    public static final char STATUS_CANCELADA = 'C';
     public static final String STATUS_CANCELADA_DESCRICAO = "Cancelada";
-    public static final char   STATUS_FINALIZADA = 'F';
+    public static final char STATUS_FINALIZADA = 'F';
     public static final String STATUS_FINALIZADA_DESCRICAO = "Finalizada";
-    public static final char   STATUS_PENDENTE = 'P';
+    public static final char STATUS_PENDENTE = 'P';
     public static final String STATUS_PENDENTE_DESCRICAO = "Pendente";
 
     public Compra() {
@@ -218,14 +219,22 @@ public class Compra implements Serializable {
     public void setItemcompraCollection(Collection<Itemcompra> itemcompraCollection) {
         this.itemcompraCollection = itemcompraCollection;
     }
-    
-    public void addItemcompra(Itemcompra item){
+
+    public void addItemcompra(Itemcompra item) {
         item.setCompra(this);
         this.itemcompraCollection.add(item);
     }
-    
-    public void removeAllItemcompra(){
+
+    public void removeAllItemcompra() {
         this.itemcompraCollection.clear();
+    }
+
+    public Collection<Contapagar> getContasCollection() {
+        return contasCollection;
+    }
+
+    public void setContasCollection(Collection<Contapagar> contasCollection) {
+        this.contasCollection = contasCollection;
     }
 
     @Override
@@ -276,7 +285,7 @@ public class Compra implements Serializable {
 
         return descr;
     }
-    
+
     public static char getStatusPelaDescricao(String descr) {
         char status = STATUS_PENDENTE;
 
