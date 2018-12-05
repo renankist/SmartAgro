@@ -6,6 +6,7 @@
 package telas;
 
 import apoio.Criptografia;
+import apoio.GeraLicenca;
 import apoio.RSAcriptografia;
 import apoio.Mensagem;
 import dao.ColaboradorDAO;
@@ -185,18 +186,18 @@ public class jfrLogin extends javax.swing.JFrame {
                     java.util.logging.Logger.getLogger(FrmPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
                 }
 
-                String verificaLicenca = RSAcriptografia.verificaLicenca();
+                String verificaLicenca = GeraLicenca.verificaLicenca();
 
                 if (!verificaLicenca.equals("")) {
                     DlgLicenca telaLicenca = new DlgLicenca(null, true);
                     if (verificaLicenca.contains("Erro") || verificaLicenca.contains("expirada") || verificaLicenca.contains("Falha")) {
                         telaLicenca.getJlTitulobMensagem().setText("Licença expirada!");
-                        telaLicenca.getJlbMensagem().setText("Selecione uma nova ou solicite outra a nossa equipe, pelo e-mail: licenca@smartagro.com");
+                        telaLicenca.getJlbMensagem().setText(verificaLicenca);
                         telaLicenca.setVisible(true);
 
                     } else if (verificaLicenca.contains("Resta(m)") || verificaLicenca.contains("Último")) {
-                        telaLicenca.getJlTitulobMensagem().setText("Último dia de licença!");
-                        telaLicenca.getJlbMensagem().setText("Selecione uma nova ou solicite outra a nossa equipe, pelo e-mail: licenca@smartagro.com");
+                        telaLicenca.getJlTitulobMensagem().setText("Último(s) dia(s) de licença!");
+                        telaLicenca.getJlbMensagem().setText(verificaLicenca);
                         telaLicenca.setVisible(true);
                         new FrmPrincipal().setVisible(true);
                         this.dispose();

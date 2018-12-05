@@ -5,6 +5,7 @@
  */
 package telas;
 
+import apoio.GeraLicenca;
 import apoio.RSAcriptografia;
 import dao.GenericDAO;
 import dao.ProdutoDAO;
@@ -210,7 +211,7 @@ public class DlgLicenca extends javax.swing.JDialog {
             e.printStackTrace();
         }
 
-        String verificaLicenca = RSAcriptografia.verificaLicenca();
+        String verificaLicenca = GeraLicenca.verificaLicenca();
         if (verificaLicenca.contains("Erro") || verificaLicenca.contains("expirada") || verificaLicenca.contains("Falha")) {
             JOptionPane.showMessageDialog(null, verificaLicenca + ". Software será fechado.", "Licença", JOptionPane.OK_OPTION);
             System.exit(0);

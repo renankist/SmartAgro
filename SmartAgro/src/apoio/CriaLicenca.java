@@ -23,13 +23,13 @@ public class CriaLicenca {
         Date validade = null;
         
         try {
-            validade = new SimpleDateFormat("dd/MM/yyyy - hh:mm:ss").parse("02/12/2018 - 23:59:59");
+            validade = new SimpleDateFormat("dd/MM/yyyy - hh:mm:ss").parse("4/12/2018 - 23:59:59");
             l.setValidade(validade);
         }catch (Exception e) {
          e.printStackTrace();
         }
         
         //RSAcriptografia.criaChaves();
-        RSAcriptografia.criaLicenca(l);
+        GeraLicenca.criaLicenca(l);
     }
 }

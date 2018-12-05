@@ -136,63 +136,63 @@ public class RSAcriptografia {
 
         return new String(dectyptedText);
     }
-
-    public static void criaLicenca(Licenca licenca) {
-        try {
-            File arquivo = new File("smartagro.licenca");
-            
-             XStream xstream = new XStream();
-
-            ObjectInputStream inputStream = null;
-            
-            inputStream = new ObjectInputStream(new FileInputStream(LOCAL_CHAVE_PUBLICA));
-            final PublicKey chavePublica = (PublicKey) inputStream.readObject();
-            final byte[] textoCriptografado = criptografa(xstream.toXML(licenca), chavePublica);
-            
-            FileOutputStream in = new FileOutputStream(arquivo);
-            in.write(textoCriptografado);
-            in.close();
-          
-            
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-    }
-
-    public static String verificaLicenca() {
-        try {
-            XStream xstream = new XStream(new DomDriver());
-
-            Path arquivo = Paths.get("smartagro.licenca");
-
-            byte[] textoCriptografado = Files.readAllBytes(arquivo);
-
-            ObjectInputStream inputStream = null;
-            inputStream = new ObjectInputStream(new FileInputStream(LOCAL_CHAVE_PRIVADA));
-            final PrivateKey chavePrivada = (PrivateKey) inputStream.readObject();
-
-                final String textoPuro = decriptografa(textoCriptografado, chavePrivada);
-                Licenca licenca = (Licenca) xstream.fromXML(textoPuro);
-                System.out.println(licenca.getValidade());
-                if (licenca.getValidade().before(new Date())) {
-                    return "Licença expirada em: " + Formatacao.DataDMA(licenca.getValidade());
-                } else {
-                    long dt = (licenca.getValidade().getTime() - new Date().getTime());
-                    Long dias = dt / 86400000L; // número de dias
-                    int diasInteiros = dias.intValue();
-                    if (diasInteiros <= 5 && diasInteiros > 0) {
-                        return "Resta(m) " + diasInteiros + " dia(s) para a licença expirar!";
-                    } else if (diasInteiros == 0) {
-                        return "Último dia de licença! Solicite renovação.";
-                    } else {
-                        return "";
-                    }
-                }
-            
-        } catch (Exception e) {
-            System.out.println(e);
-            return "Falha ao verificar Licença!";
-        }
-    }
+//
+//    public static void criaLicenca(Licenca licenca) {
+//        try {
+//            File arquivo = new File("smartagro.licenca");
+//            
+//             XStream xstream = new XStream();
+//
+//            ObjectInputStream inputStream = null;
+//            
+//            inputStream = new ObjectInputStream(new FileInputStream(LOCAL_CHAVE_PUBLICA));
+//            final PublicKey chavePublica = (PublicKey) inputStream.readObject();
+//            final byte[] textoCriptografado = criptografa(xstream.toXML(licenca), chavePublica);
+//            
+//            FileOutputStream in = new FileOutputStream(arquivo);
+//            in.write(textoCriptografado);
+//            in.close();
+//          
+//            
+//        } catch (Exception e) {
+//            System.out.println(e);
+//        }
+//    }
+//
+//    public static String verificaLicenca() {
+//        try {
+//            XStream xstream = new XStream(new DomDriver());
+//
+//            Path arquivo = Paths.get("smartagro.licenca");
+//
+//            byte[] textoCriptografado = Files.readAllBytes(arquivo);
+//
+//            ObjectInputStream inputStream = null;
+//            inputStream = new ObjectInputStream(new FileInputStream(LOCAL_CHAVE_PRIVADA));
+//            final PrivateKey chavePrivada = (PrivateKey) inputStream.readObject();
+//
+//                final String textoPuro = decriptografa(textoCriptografado, chavePrivada);
+//                Licenca licenca = (Licenca) xstream.fromXML(textoPuro);
+//                System.out.println(licenca.getValidade());
+//                if (licenca.getValidade().before(new Date())) {
+//                    return "Licença expirada em: " + Formatacao.DataDMA(licenca.getValidade());
+//                } else {
+//                    long dt = (licenca.getValidade().getTime() - new Date().getTime());
+//                    Long dias = dt / 86400000L; // número de dias
+//                    int diasInteiros = dias.intValue();
+//                    if (diasInteiros <= 5 && diasInteiros > 0) {
+//                        return "Resta(m) " + diasInteiros + " dia(s) para a licença expirar!";
+//                    } else if (diasInteiros == 0) {
+//                        return "Último dia de licença! Solicite renovação.";
+//                    } else {
+//                        return "";
+//                    }
+//                }
+//            
+//        } catch (Exception e) {
+//            System.out.println(e);
+//            return "Falha ao verificar Licença!";
+//        }
+//    }
 
 }
