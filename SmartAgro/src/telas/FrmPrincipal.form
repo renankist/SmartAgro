@@ -330,7 +330,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="itmSair3">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/imagens/browser.png"/>
+                  <Image iconType="3" name="/imagens/document.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Licenciamento"/>
               </Properties>

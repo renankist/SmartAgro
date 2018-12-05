@@ -19,6 +19,7 @@ import java.io.*;
 import java.nio.*;
 import java.nio.channels.*;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
@@ -57,7 +58,6 @@ public class DlgLicenca extends javax.swing.JDialog {
         pnlCadastro = new javax.swing.JPanel();
         pnlLicenca = new javax.swing.JPanel();
         jlbTituloMensagem = new java.awt.Label();
-        jlbAtencao = new java.awt.Label();
         jlbMensagem = new java.awt.Label();
         tfdCaminho = new javax.swing.JTextField();
         btnSelecionarLicenca = new javax.swing.JButton();
@@ -92,12 +92,8 @@ public class DlgLicenca extends javax.swing.JDialog {
         jlbTituloMensagem.setName(""); // NOI18N
         jlbTituloMensagem.setText("ATENÇÃO");
 
-        jlbAtencao.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
-        jlbAtencao.setName(""); // NOI18N
-        jlbAtencao.setText("ATENÇÃO");
-
         jlbMensagem.setAlignment(java.awt.Label.CENTER);
-        jlbMensagem.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        jlbMensagem.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         jlbMensagem.setForeground(new java.awt.Color(255, 0, 0));
         jlbMensagem.setName(""); // NOI18N
         jlbMensagem.setText("ATENÇÃO");
@@ -106,31 +102,28 @@ public class DlgLicenca extends javax.swing.JDialog {
         pnlLicenca.setLayout(pnlLicencaLayout);
         pnlLicencaLayout.setHorizontalGroup(
             pnlLicencaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jlbMensagem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlLicencaLayout.createSequentialGroup()
-                .addContainerGap(69, Short.MAX_VALUE)
-                .addGroup(pnlLicencaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnlLicencaLayout.createSequentialGroup()
-                        .addGap(190, 190, 190)
-                        .addComponent(jlbAtencao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jlbTituloMensagem, javax.swing.GroupLayout.PREFERRED_SIZE, 513, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(74, 74, 74))
+            .addGroup(pnlLicencaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jlbMensagem, javax.swing.GroupLayout.DEFAULT_SIZE, 636, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(pnlLicencaLayout.createSequentialGroup()
+                .addGap(71, 71, 71)
+                .addComponent(jlbTituloMensagem, javax.swing.GroupLayout.PREFERRED_SIZE, 513, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pnlLicencaLayout.setVerticalGroup(
             pnlLicencaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlLicencaLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jlbAtencao, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jlbTituloMensagem, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(35, 35, 35)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jlbMensagem, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addContainerGap(35, Short.MAX_VALUE))
         );
 
         tfdCaminho.setEditable(false);
 
-        btnSelecionarLicenca.setText("Selecionar licença");
+        btnSelecionarLicenca.setText("Selecionar nova licença");
         btnSelecionarLicenca.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSelecionarLicencaActionPerformed(evt);
@@ -144,11 +137,11 @@ public class DlgLicenca extends javax.swing.JDialog {
             .addGroup(pnlCadastroLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pnlCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(pnlLicenca, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlCadastroLayout.createSequentialGroup()
-                        .addComponent(btnSelecionarLicenca, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(pnlLicenca, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(pnlCadastroLayout.createSequentialGroup()
+                        .addComponent(btnSelecionarLicenca, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tfdCaminho)))
+                        .addComponent(tfdCaminho, javax.swing.GroupLayout.PREFERRED_SIZE, 456, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         pnlCadastroLayout.setVerticalGroup(
@@ -219,7 +212,7 @@ public class DlgLicenca extends javax.swing.JDialog {
 
         String verificaLicenca = RSAcriptografia.verificaLicenca();
         if (verificaLicenca.contains("Erro") || verificaLicenca.contains("expirada") || verificaLicenca.contains("Falha")) {
-            JOptionPane.showMessageDialog(null, verificaLicenca, "Licença", JOptionPane.OK_OPTION);
+            JOptionPane.showMessageDialog(null, verificaLicenca + ". Software será fechado.", "Licença", JOptionPane.OK_OPTION);
             System.exit(0);
         } else if (verificaLicenca.contains("Resta(m)") || verificaLicenca.contains("Último")) {
             JOptionPane.showMessageDialog(null, verificaLicenca, "Licença", JOptionPane.INFORMATION_MESSAGE);
@@ -234,7 +227,9 @@ public class DlgLicenca extends javax.swing.JDialog {
 
     private void btnSelecionarLicencaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelecionarLicencaActionPerformed
         JFileChooser fileChooser = new JFileChooser();
+        
         int result = fileChooser.showOpenDialog(this);
+          //fileChooser.setFileFilter(new FileNameExtensionFilter("licence"));
         if (result == JFileChooser.APPROVE_OPTION) {
             File selectedFile = fileChooser.getSelectedFile();
             tfdCaminho.setText(selectedFile.getAbsolutePath());
@@ -290,7 +285,6 @@ public class DlgLicenca extends javax.swing.JDialog {
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnSelecionar;
     private javax.swing.JButton btnSelecionarLicenca;
-    private java.awt.Label jlbAtencao;
     private java.awt.Label jlbMensagem;
     private java.awt.Label jlbTituloMensagem;
     private javax.swing.JPanel pnlCadastro;

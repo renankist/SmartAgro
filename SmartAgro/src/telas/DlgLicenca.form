@@ -87,11 +87,11 @@
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="pnlLicenca" alignment="1" max="32767" attributes="0"/>
-                      <Group type="102" alignment="1" attributes="0">
-                          <Component id="btnSelecionarLicenca" min="-2" pref="164" max="-2" attributes="0"/>
+                      <Component id="pnlLicenca" max="32767" attributes="0"/>
+                      <Group type="102" attributes="0">
+                          <Component id="btnSelecionarLicenca" max="32767" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="tfdCaminho" max="32767" attributes="0"/>
+                          <Component id="tfdCaminho" min="-2" pref="456" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
@@ -103,7 +103,7 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="pnlLicenca" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="btnSelecionarLicenca" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="tfdCaminho" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -131,17 +131,15 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jlbMensagem" alignment="0" max="32767" attributes="0"/>
-                  <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace pref="69" max="32767" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="190" max="-2" attributes="0"/>
-                              <Component id="jlbAtencao" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <Component id="jlbTituloMensagem" alignment="0" min="-2" pref="513" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace min="-2" pref="74" max="-2" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jlbMensagem" pref="636" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="71" max="-2" attributes="0"/>
+                      <Component id="jlbTituloMensagem" min="-2" pref="513" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -149,12 +147,10 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jlbAtencao" min="-2" pref="30" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="jlbTituloMensagem" min="-2" pref="54" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="jlbMensagem" min="-2" pref="54" max="-2" attributes="0"/>
-                      <EmptySpace pref="19" max="32767" attributes="0"/>
+                      <EmptySpace pref="35" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -173,20 +169,11 @@
                 <Property name="text" type="java.lang.String" value="ATEN&#xc7;&#xc3;O"/>
               </Properties>
             </Component>
-            <Component class="java.awt.Label" name="jlbAtencao">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Dialog" size="24" style="1"/>
-                </Property>
-                <Property name="name" type="java.lang.String" value="" noResource="true"/>
-                <Property name="text" type="java.lang.String" value="ATEN&#xc7;&#xc3;O"/>
-              </Properties>
-            </Component>
             <Component class="java.awt.Label" name="jlbMensagem">
               <Properties>
                 <Property name="alignment" type="int" value="1"/>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Dialog" size="14" style="0"/>
+                  <Font name="Dialog" size="12" style="1"/>
                 </Property>
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="0" green="0" red="ff" type="rgb"/>
@@ -204,7 +191,7 @@
         </Component>
         <Component class="javax.swing.JButton" name="btnSelecionarLicenca">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Selecionar licen&#xe7;a"/>
+            <Property name="text" type="java.lang.String" value="Selecionar nova licen&#xe7;a"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSelecionarLicencaActionPerformed"/>

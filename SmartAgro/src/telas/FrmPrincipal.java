@@ -6,12 +6,25 @@
 package telas;
 
 import apoio.Client;
+import apoio.Formatacao;
 import apoio.Mensagem;
+import apoio.RSAcriptografia;
+import static apoio.RSAcriptografia.LOCAL_CHAVE_PRIVADA;
+import static apoio.RSAcriptografia.decriptografa;
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.DomDriver;
 import dao.GenericDAO;
 import dao.GraficoDAO;
 import dao.ReleaseDAO;
 import entidade.Config;
+import entidade.Licenca;
 import java.awt.BorderLayout;
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.security.PrivateKey;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -732,7 +745,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         });
         mnuSistema.add(itmSair2);
 
-        itmSair3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/browser.png"))); // NOI18N
+        itmSair3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/document.png"))); // NOI18N
         itmSair3.setText("Licenciamento");
         itmSair3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -918,10 +931,36 @@ public class FrmPrincipal extends javax.swing.JFrame {
         dlgFP.setLocationRelativeTo(this);
         dlgFP.setVisible(true);
     }
-    
-      private void licenciamento() {
+
+    private void licenciamento() {
         DlgLicenca licen = new DlgLicenca(this, true);
         licen.setLocationRelativeTo(this);
+
+        licen.getJlTitulobMensagem().setText("Status atual:");
+
+        try {
+
+            XStream xstream = new XStream(new DomDriver());
+
+            Path arquivo = Paths.get("smartagro.licenca");
+
+            byte[] textoCriptografado = Files.readAllBytes(arquivo);
+
+            ObjectInputStream inputStream = null;
+            inputStream = new ObjectInputStream(new FileInputStream("private.key"));
+            final PrivateKey chavePrivada = (PrivateKey) inputStream.readObject();
+
+            final String textoPuro = decriptografa(textoCriptografado, chavePrivada);
+            Licenca licenca = (Licenca) xstream.fromXML(textoPuro);
+             
+            licen.getJlbMensagem().setText("Sua licença expira em: " + Formatacao.DataDMA(licenca.getValidade()));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+       
+
         licen.setVisible(true);
     }
 
