@@ -1,10 +1,16 @@
 package smartagro;
 
+import apoio.RSAcriptografia;
 import dao.GenericDAO;
+import entidade.Licenca;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import javax.swing.JOptionPane;
 import telas.jfrLogin;
 import javax.swing.JWindow;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
+import telas.DlgLicenca;
 
 public class SmartAgro {
 
@@ -28,14 +34,14 @@ public class SmartAgro {
         window.setVisible(true);
 
         new SmartAgro.StartWorker().execute();
-          
-            
+
     }
 
     private class StartWorker extends SwingWorker<Void, Void> {
 
         @Override
         protected Void doInBackground() throws Exception {
+
             // Faz a primeira consulta no banco para carregar o hibernate
             new GenericDAO().consultarPorId(1, "Cidade");
             return null;
@@ -46,7 +52,7 @@ public class SmartAgro {
 
             // Dispose window when background process is finished
             window.dispose();
-            
+
             // Abre a tela de login
             jfrLogin telaLogin = new jfrLogin();
             telaLogin.setVisible(true);
