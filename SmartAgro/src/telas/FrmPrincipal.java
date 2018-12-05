@@ -216,6 +216,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         mnuSistema = new javax.swing.JMenu();
         itmSair = new javax.swing.JMenuItem();
         itmSair2 = new javax.swing.JMenuItem();
+        itmSair3 = new javax.swing.JMenuItem();
         itmParametros = new javax.swing.JMenuItem();
         itmPermissoes = new javax.swing.JMenuItem();
         itmSobre = new javax.swing.JMenuItem();
@@ -731,6 +732,15 @@ public class FrmPrincipal extends javax.swing.JFrame {
         });
         mnuSistema.add(itmSair2);
 
+        itmSair3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/browser.png"))); // NOI18N
+        itmSair3.setText("Licenciamento");
+        itmSair3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itmSair3ActionPerformed(evt);
+            }
+        });
+        mnuSistema.add(itmSair3);
+
         itmParametros.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/parametros.png"))); // NOI18N
         itmParametros.setText("Parâmetros");
         itmParametros.addActionListener(new java.awt.event.ActionListener() {
@@ -908,6 +918,12 @@ public class FrmPrincipal extends javax.swing.JFrame {
         dlgFP.setLocationRelativeTo(this);
         dlgFP.setVisible(true);
     }
+    
+      private void licenciamento() {
+        DlgLicenca licen = new DlgLicenca(this, true);
+        licen.setLocationRelativeTo(this);
+        licen.setVisible(true);
+    }
 
     private void itmPermissoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmPermissoesActionPerformed
         cadastroPermissoes();
@@ -946,6 +962,9 @@ public class FrmPrincipal extends javax.swing.JFrame {
         jtaNotificacoes.setText("");
     }//GEN-LAST:event_JtnLimparActionPerformed
 
+    private void itmSair3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmSair3ActionPerformed
+        licenciamento();
+    }//GEN-LAST:event_itmSair3ActionPerformed
     private void itmSobreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmSobreActionPerformed
         exibeSobre(false);
     }//GEN-LAST:event_itmSobreActionPerformed
@@ -1096,6 +1115,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem itmSair;
     private javax.swing.JMenuItem itmSair1;
     private javax.swing.JMenuItem itmSair2;
+    private javax.swing.JMenuItem itmSair3;
     private javax.swing.JMenuItem itmSobre;
     private javax.swing.JMenuItem itmUnidadeMedida;
     private javax.swing.JLabel jLabel3;

@@ -31,7 +31,20 @@ public class Formatacao {
         String valor = campo.getText();
         campo.setText(df.format(Double.parseDouble(valor)));
     }
-
+    public static String DataDMA(Date data) {
+        if (data == null) {
+            return null;
+        } else {
+            String dataFormatada = null;
+            try {
+                dataFormatada = new SimpleDateFormat("dd/MM/yyyy").format(data);
+            } catch (Exception e) {
+                System.err.println(e);
+            }
+            return (dataFormatada);
+        }
+    }
+    
     public static String formatarDecimal(double valor) {
         NumberFormat formatter = new DecimalFormat("##,###,###,##0.00");
         return (formatter.format(valor));

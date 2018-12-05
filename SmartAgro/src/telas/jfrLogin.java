@@ -6,6 +6,7 @@
 package telas;
 
 import apoio.Criptografia;
+import apoio.RSAcriptografia;
 import apoio.Mensagem;
 import dao.ColaboradorDAO;
 import entidade.Colaborador;
@@ -18,18 +19,15 @@ import java.net.Socket;
  * @author renan
  */
 public class jfrLogin extends javax.swing.JFrame {
-    
+
     private static Colaborador colab;
 
-  
-
-  
     // Função para retornar o usuário logado
-    public static Colaborador getUsuarioLogado(){
+    public static Colaborador getUsuarioLogado() {
         return colab;
     }
-    
-    public static void setUsuarioLogado(Colaborador c){
+
+    public static void setUsuarioLogado(Colaborador c) {
         colab = c;
     }
 
@@ -150,7 +148,7 @@ public class jfrLogin extends javax.swing.JFrame {
         ColaboradorDAO dao = new ColaboradorDAO();
 
         colab = dao.autenticarColaborador(jtfLogin.getText(), Criptografia.criptografar(jpfSenha.getText()));
-       
+
         if (colab != null) {
 
             if (colab.getSenhausuario().equals(Criptografia.criptografar("12345"))) {
@@ -187,9 +185,27 @@ public class jfrLogin extends javax.swing.JFrame {
                     java.util.logging.Logger.getLogger(FrmPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
                 }
 
-                new FrmPrincipal().setVisible(true);
-                
-                this.dispose();
+                String verificaLicenca = RSAcriptografia.verificaLicenca();
+
+                if (!verificaLicenca.equals("")) {
+                    DlgLicenca telaLicenca = new DlgLicenca(null, true);
+                    if (verificaLicenca.contains("Erro") || verificaLicenca.contains("expirada") || verificaLicenca.contains("Falha")) {
+                        telaLicenca.getJlTitulobMensagem().setText("Licença expirada!");
+                        telaLicenca.getJlbMensagem().setText("Selecione uma nova ou solicite outra a nossa equipe, pelo e-mail: licenca@smartagro.com");
+                        telaLicenca.setVisible(true);
+
+                    } else if (verificaLicenca.contains("Resta(m)") || verificaLicenca.contains("Último")) {
+                        telaLicenca.getJlTitulobMensagem().setText("Último dia de licença!");
+                        telaLicenca.getJlbMensagem().setText("Selecione uma nova ou solicite outra a nossa equipe, pelo e-mail: licenca@smartagro.com");
+                        telaLicenca.setVisible(true);
+                        new FrmPrincipal().setVisible(true);
+                        this.dispose();
+                    }
+
+                } else {
+                    new FrmPrincipal().setVisible(true);
+                    this.dispose();
+                }
 
             }
         } else {
@@ -220,16 +236,24 @@ public class jfrLogin extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(jfrLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(jfrLogin.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(jfrLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(jfrLogin.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(jfrLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(jfrLogin.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(jfrLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(jfrLogin.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
@@ -237,7 +261,7 @@ public class jfrLogin extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new jfrLogin().setVisible(true); 
+                new jfrLogin().setVisible(true);
             }
         });
     }
