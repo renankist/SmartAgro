@@ -183,7 +183,7 @@ public class IfrmBackup extends javax.swing.JInternalFrame {
 
         lblCodigo1.setText("Por favor, selecione um local para gravar o backup *");
 
-        lblDescricao.setText("Tipo de ackup *");
+        lblDescricao.setText("Tipo de backup *");
 
         rbtAudAtivada.setText("Completo");
         rbtAudAtivada.addActionListener(new java.awt.event.ActionListener() {
@@ -288,7 +288,6 @@ public class IfrmBackup extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_tabAbasStateChanged
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-
         this.setVisible(false);
     }//GEN-LAST:event_btnCancelarActionPerformed
 
@@ -352,7 +351,7 @@ public class IfrmBackup extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jbtSelecionarArqActionPerformed
 
     private void btnCancelar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelar1ActionPerformed
-        // TODO add your handling code here:
+        this.dispose();
     }//GEN-LAST:event_btnCancelar1ActionPerformed
 
     private void btnSalvar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvar2ActionPerformed

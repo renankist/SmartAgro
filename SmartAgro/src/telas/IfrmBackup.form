@@ -271,7 +271,7 @@
                     </Component>
                     <Component class="javax.swing.JLabel" name="lblDescricao">
                       <Properties>
-                        <Property name="text" type="java.lang.String" value="Tipo de ackup *"/>
+                        <Property name="text" type="java.lang.String" value="Tipo de backup *"/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JRadioButton" name="rbtAudAtivada">
