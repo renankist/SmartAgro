@@ -22,7 +22,6 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 
-
 /**
  *
  * @author Morgana
@@ -168,6 +167,18 @@ public class Cliente implements Serializable {
         this.endereco = endereco;
     }
 
+    public static String getClienteToString(Cliente c) {
+        String cpf_cnpj = "";
+        
+        if (c.getCpf() != null) {
+            cpf_cnpj = c.getCpf();
+        } else {
+            cpf_cnpj = c.getCnpj();
+        }
+        
+        return cpf_cnpj + " - " + c.getNome();
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -192,5 +203,5 @@ public class Cliente implements Serializable {
     public String toString() {
         return "entidade.Cliente[ id=" + id + " ]";
     }
-    
+
 }

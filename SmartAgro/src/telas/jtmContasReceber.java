@@ -5,6 +5,7 @@
  */
 package telas;
 
+import entidade.Cliente;
 import entidade.Contareceber;
 import java.util.ArrayList;
 import javax.swing.table.AbstractTableModel;
@@ -18,8 +19,8 @@ import java.util.Date;
 public class jtmContasReceber extends AbstractTableModel {
 
     private ArrayList<Contareceber> contas;
-    private String[] colunas = {"Código", "Venda", "Parcela", "Status", "Valor parcela", "Data vencimento", "Valor pago", "Data pagamento"};
-    final Class<?>[] columnClasses = {Integer.class, Integer.class, Integer.class, String.class, BigDecimal.class, Date.class, BigDecimal.class, Date.class};
+    private String[] colunas = {"Código", "Venda", "Cliente", "Parcela", "Status", "Valor parcela", "Data vencimento", "Valor pago", "Data pagamento"};
+    final Class<?>[] columnClasses = {Integer.class, Integer.class, String.class, Integer.class, String.class, BigDecimal.class, Date.class, BigDecimal.class, Date.class};
 
     public jtmContasReceber(ArrayList<Contareceber> contas) {
         this.contas = contas;
@@ -62,29 +63,21 @@ public class jtmContasReceber extends AbstractTableModel {
             case 0:
                 return contas.get(linha).getId();
             case 1:
-                return contas.get(linha).getDia();
+                return contas.get(linha).getVenda().getId();
             case 2:
-                String cpf_cnpj = "";
-                if (contas.get(linha).getCliente().getCpf() != null) {
-                    cpf_cnpj = contas.get(linha).getCliente().getCpf();
-                } else {
-                    cpf_cnpj = contas.get(linha).getCliente().getCnpj();
-                }
-                return cpf_cnpj;
+                return Cliente.getClienteToString(contas.get(linha).getVenda().getCliente());
             case 3:
-                return contas.get(linha).getCliente().getNome();
+                return contas.get(linha).getParcela();
             case 4:
-                return contas.get(linha).getValor();
+                return Contareceber.getStatusToString(contas.get(linha).getStatus());
             case 5:
-                return contas.get(linha).getDesconto();
+                return contas.get(linha).getValordevido();
             case 6:
-                return contas.get(linha).getValortotal();
+                return contas.get(linha).getVencimento();
             case 7:
-                return Contareceber.getDescricaoStatus(contas.get(linha).getStatus());
+                return contas.get(linha).getValorpago();
             case 8:
-                return (contas.get(linha).getPago() ? true : false);
-            case 9:
-                return contas.get(linha).getVendedor().getNomecompleto();
+                return contas.get(linha).getDatapagamento();
         }
 
         return null;

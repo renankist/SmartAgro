@@ -145,6 +145,21 @@ public class Contareceber implements Serializable {
     public Character getStatus() {
         return status;
     }
+    
+    public static String getStatusToString(char status){
+        String descr = "";
+        
+        switch (status){
+            case STATUS_PENDENTE:
+                descr = STATUS_PENDENTE_DESCRICAO;
+                break;
+            case STATUS_PAGA:
+                descr = STATUS_PAGA_DESCRICAO;
+                break;
+        }
+        
+        return descr;
+    }
 
     public void setStatus(Character status) {
         this.status = status;

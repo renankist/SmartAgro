@@ -10,8 +10,8 @@ import apoio.LimpaCampos;
 import apoio.Mensagem;
 import apoio.VerificadorCampos;
 import dao.GenericDAO;
+import entidade.Cliente;
 import entidade.Contareceber;
-import entidade.Formapagamento;
 import java.util.ArrayList;
 import javax.swing.JComponent;
 import javax.swing.event.ChangeEvent;
@@ -23,14 +23,15 @@ import smartagro.VerificaPermissao;
  * @author morganabagatini
  */
 public class IfrmContasReceber extends javax.swing.JInternalFrame {
-    
+
     private GenericDAO<Contareceber> dao;
     private ArrayList<Contareceber> contas;
+    private Contareceber conta;
     private VerificaPermissao permissoes;
     private jtmContasReceber modelContas;
-    
+
     private boolean editando = false;
-    
+
     private static final Logger logger = Logger.getLogger(IfrmContasReceber.class);
 
     /**
@@ -38,18 +39,31 @@ public class IfrmContasReceber extends javax.swing.JInternalFrame {
      */
     public IfrmContasReceber(int aba) {
         initComponents();
-        
+
         // Abre na aba passada por parametro
         tabAbas.setSelectedIndex(aba);
 
         // Ajusta os botões conforme as permissões
         permissoes = new VerificaPermissao(this.getClass().getSimpleName(), this.getContentPane());
         tabAbasStateChanged(new ChangeEvent(tabAbas));
-        
+
         // Preenche a tabela de consulta com as colunas corretas
-        contas = new ArrayList<Contareceber>();
+        contas = new ArrayList();
         modelContas = new jtmContasReceber(contas);
         tblContas.setModel(modelContas);
+
+        focus();
+    }
+
+    private void focus() {
+        javax.swing.SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                // Seta a aba de cadastro como a selecionada
+                tabAbas.setSelectedIndex(0);
+                tabAbasStateChanged(new ChangeEvent(tabAbas));
+                dchVencimento.requestFocusInWindow();
+            }
+        });
     }
 
     /**
@@ -87,6 +101,7 @@ public class IfrmContasReceber extends javax.swing.JInternalFrame {
         jYTableScrollPane1 = new de.javasoft.swing.JYTableScrollPane();
         tblContas = new de.javasoft.swing.JYTable();
 
+        setClosable(true);
         setIconifiable(true);
         setTitle("Contas a Receber");
 
@@ -183,7 +198,7 @@ public class IfrmContasReceber extends javax.swing.JInternalFrame {
                     .addComponent(tfdVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(tfdCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(tfdParcela, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(398, Short.MAX_VALUE))
+                .addContainerGap(596, Short.MAX_VALUE))
         );
         pnlCadastroLayout.setVerticalGroup(
             pnlCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -239,8 +254,12 @@ public class IfrmContasReceber extends javax.swing.JInternalFrame {
         pnlConsulta.setLayout(pnlConsultaLayout);
         pnlConsultaLayout.setHorizontalGroup(
             pnlConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(btnPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(jYTableScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 754, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(pnlConsultaLayout.createSequentialGroup()
+                .addComponent(btnPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(pnlConsultaLayout.createSequentialGroup()
+                .addComponent(jYTableScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         pnlConsultaLayout.setVerticalGroup(
             pnlConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -286,7 +305,7 @@ public class IfrmContasReceber extends javax.swing.JInternalFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 959, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -299,60 +318,62 @@ public class IfrmContasReceber extends javax.swing.JInternalFrame {
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
 
         //Pega o valor da primeira coluna da linha selecionada na tabela de serviços e atribuiu a uma variável do tipo inteiro
-        int id = Integer.parseInt(jTableFormasPagamento.getValueAt(jTableFormasPagamento.getSelectedRow(), 0).toString());
+        int id = Integer.parseInt(tblContas.getValueAt(tblContas.getSelectedRow(), 0).toString());
         //Busca um servico com o codigo/id pego anteriomente
-        forma = dao.consultarPorId(id, "Formapagamento");
+        conta = dao.consultarPorId(id, "Contareceber");
 
         LimpaCampos.limparCampos(pnlCadastro);
 
-        if (forma != null) { //Se o objeto buscado no método do ServidoDao for diferente de null
-            tfdVenda.setText(forma.getDescricao());//Seta no campo Descrição do formulário de serviços o valor da Descrição do obejto do tipo Servico
-            tabAbas.setSelectedIndex(0);//Passa da tela de "Consulta" para a "Manutenção"
-            tfdVenda.requestFocus();//Poem o cursor no campo Descriçã
-            setEditando(true);
+        if (conta != null) {
+            tfdVenda.setText(conta.getVenda().getId().toString());
+            tfdCliente.setText(Cliente.getClienteToString(conta.getVenda().getCliente()));
+            dchVencimento.setDate(conta.getVencimento());
+            dchPagto.setDate(conta.getDatapagamento());
+            tfdParcela.setText(String.valueOf(conta.getParcela()));
+            tfdValorParc.setText(conta.getValordevido().toString());
+            tfdValorPago.setText(conta.getValorpago().toString());
+
+            tabAbas.setSelectedIndex(0);
+            tfdVenda.requestFocus();
+            editando = true;
             focus();
         }
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         // Aplica o validador
-        JComponent[] components = new JComponent[]{tfdVenda};
+        JComponent[] components = new JComponent[]{dchVencimento, tfdValorPago, dchPagto};
         VerificadorCampos verifier = new VerificadorCampos(components);
 
         if (!verifier.validaCampos()) {
             return;
         }
 
-        this.dao = new GenericDAO<>();
-
-        //Modo edição
-        if (editando) {
-            forma.setDescricao(tfdVenda.getText());
-            if (this.dao.atualizar(forma)) {
-                Mensagem.mostraInformacao("Sucesso", "Forma de pagamento " + forma.getDescricao() + " atualizada com sucesso");
-                LimpaCampos.limparCampos(pnlCadastro);
-            } else {
-                Mensagem.mostraErro("Problema", "Problema para atualizar forma de pagamento");
-            }
-            setEditando(false);
-
-            //Modo inserção
-        } else {
-            this.forma = new Formapagamento();
-            forma.setDescricao(tfdVenda.getText());
-            if (this.dao.salvar(forma)) {
-                Mensagem.mostraInformacao("Sucesso", "Forma de pagamento " + forma.getDescricao() + " inserida com sucesso");
-                LimpaCampos.limparCampos(pnlCadastro);
-            } else {
-                Mensagem.mostraErro("Problema", "Problema para inserir forma de pagamento.");
-            }
+        if (!editando) {
+            Mensagem.mostraAletra("Atenção", "Nenhuma conta foi selecionada para edição");
+            return;
         }
+
+        this.dao = new GenericDAO();
+
+        conta.setVencimento(dchVencimento.getDate());
+        conta.setValorpago(tfdValorPago.getValue().setScale(2));
+        conta.setDatapagamento(dchPagto.getDate());
+
+        if (dao.atualizar(conta)) {
+            Mensagem.mostraInformacao("Sucesso", "Conta atualizado com sucesso");
+            LimpaCampos.limparCampos(pnlCadastro);
+        } else {
+            Mensagem.mostraErro("Problema", "Problema ao atualizar conta");
+        }
+
+        editando = false;
 
         focus();
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
-        
+        Mensagem.mostraInformacao("Atenção", "Não é permitido excluir contas");
     }//GEN-LAST:event_btnExcluirActionPerformed
 
     private void tabAbasStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tabAbasStateChanged

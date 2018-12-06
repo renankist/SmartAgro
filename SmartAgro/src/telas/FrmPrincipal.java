@@ -662,6 +662,11 @@ public class FrmPrincipal extends javax.swing.JFrame {
         mnuFinanceiro.setText("Financeiro");
 
         itmContasReceber.setText("Contas a Receber");
+        itmContasReceber.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itmContasReceberActionPerformed(evt);
+            }
+        });
         mnuFinanceiro.add(itmContasReceber);
 
         itmContasPagar.setText("Contas a Pagar");
@@ -957,6 +962,12 @@ public class FrmPrincipal extends javax.swing.JFrame {
             exibeSobre(true);
         }
     }//GEN-LAST:event_formWindowOpened
+
+    private void itmContasReceberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmContasReceberActionPerformed
+        IfrmContasReceber janelaReceber = new IfrmContasReceber(0);
+        dskArea.add(janelaReceber);
+        janelaReceber.setVisible(true);
+    }//GEN-LAST:event_itmContasReceberActionPerformed
 
     private void cadastroVenda(int aba) {
         IfrmVenda janelaVenda = new IfrmVenda(aba);
