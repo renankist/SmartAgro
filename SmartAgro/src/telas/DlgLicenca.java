@@ -7,6 +7,7 @@ package telas;
 
 import apoio.GeraLicenca;
 import apoio.RSAcriptografia;
+import apoio.VerificadorCampos;
 import dao.GenericDAO;
 import dao.ProdutoDAO;
 import entidade.Licenca;
@@ -19,6 +20,7 @@ import java.io.PrintWriter;
 import java.io.*;
 import java.nio.*;
 import java.nio.channels.*;
+import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -197,6 +199,16 @@ public class DlgLicenca extends javax.swing.JDialog {
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnSelecionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelecionarActionPerformed
+
+        JComponent[] components = new JComponent[]{tfdCaminho};
+        VerificadorCampos verifier = new VerificadorCampos(components);
+        
+        
+        if (!verifier.validaCampos()) {
+            return;
+        }
+
+
         try {
             File fIn = new File(tfdCaminho.getText());
             File fOut = new File("smartagro.licenca");
