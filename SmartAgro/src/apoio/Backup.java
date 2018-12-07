@@ -26,9 +26,9 @@ public class Backup {
        
         this.dir = arq;
         
-        String[] executeCmd = {"pg_restore","-d",dbName,"-h localhost","-p 5432","-U",dbUser,"--clean",dir};
+        String[] executeCmd = {"arquivos/pg_restore","-d",dbName,"-h localhost","-p 5432","-U",dbUser,"--clean",dir};
         
-        if(executarComandoBancoLinux(executeCmd)){
+        if(executarComandoBanco(executeCmd)){
             System.out.println(("Restauração executada com sucesso"));
             retorno = true;
         }else{
@@ -38,7 +38,7 @@ public class Backup {
     }
     
     
-    public boolean fazBackupLinux() throws FileNotFoundException {
+    public boolean fazBackup() throws FileNotFoundException {
         boolean retorno = false;
         
         final DateFormat df = new SimpleDateFormat("dd-MM-yyyy-hh:mm");
@@ -46,11 +46,11 @@ public class Backup {
         String fileName = df.format(c.getTime()) + "_smartAgro.backup";
         String savePath = this.dir + "/" + fileName;
         /*NOTE: Used to create a cmd command*/
-        String[] executeCmd = {"pg_dump", "-h", "localhost", "-p", "5432", "-U", "postgres", "-F", "c", "-b", "-v", "-f", savePath, dbName};
+        String[] executeCmd = {"arquivos/pg_dump", "-h", "localhost", "-p", "5432", "-U", "postgres", "-F", "c", "-b", "-v", "-f", savePath, dbName};
         
         
         
-        if (executarComandoBancoLinux(executeCmd)) {
+        if (executarComandoBanco(executeCmd)) {
             System.out.println(("Backup executado com sucesso"));
             retorno = true;
 
@@ -61,7 +61,7 @@ public class Backup {
 
     }
 
-    public boolean executarComandoBancoLinux(String[] executeCmd) {
+    public boolean executarComandoBanco(String[] executeCmd) {
         
         boolean retorno = false;
         

@@ -305,7 +305,7 @@ public class IfrmBackup extends javax.swing.JInternalFrame {
         try {
             Backup b = new Backup(tfdCaminhoSalvarBackup.getText());
 
-            if (b.fazBackupLinux()) {
+            if (b.fazBackup()) {
                 Mensagem.mostraInformacao("Sucesso", "Backup realizado com sucesso!");
                 tfdCaminhoSalvarBackup.setText("");
             } else {

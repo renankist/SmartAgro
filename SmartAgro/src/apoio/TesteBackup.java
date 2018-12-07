@@ -19,7 +19,7 @@ public class TesteBackup {
         Backup b = new Backup("/home/renan/Desktop");
         
         try { 
-            b.fazBackupLinux();
+            b.fazBackup();
         } catch (FileNotFoundException ex) {
             Logger.getLogger(TesteBackup.class.getName()).log(Level.SEVERE, null, ex);
         }
