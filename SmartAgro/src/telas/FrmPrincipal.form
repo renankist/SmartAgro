@@ -426,6 +426,8 @@
               <Component id="btnAtualizarDash" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="btnOcultarDash" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="440" max="-2" attributes="0"/>
+              <Component id="lbValidadeLicenca" min="-2" pref="303" max="-2" attributes="0"/>
               <EmptySpace max="32767" attributes="0"/>
               <Component id="lbUsuario" min="-2" pref="168" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
@@ -445,6 +447,7 @@
                       <Component id="btnOcultarDash" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
                       <Component id="btnAtualizarDash" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
                   </Group>
+                  <Component id="lbValidadeLicenca" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -518,14 +521,14 @@
                       <Component id="jplVendasPorVendedor" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="jplValorVendidoPorVendedor" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace min="72" max="32767" attributes="0"/>
+                  <EmptySpace min="72" pref="6" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="1" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="jplValorVendidoPorMes" alignment="1" min="-2" max="-2" attributes="0"/>
                               <Component id="jplBarra" alignment="1" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace min="-2" pref="136" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="130" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="1" attributes="0">
                           <Group type="103" groupAlignment="1" attributes="0">
@@ -850,7 +853,7 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Dialog" size="12" style="1"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="label1"/>
+        <Property name="text" type="java.lang.String" value="Ol&#xe1;, Usu&#xe1;rio"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="btnAtualizarDash">
@@ -864,6 +867,15 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAtualizarDashActionPerformed"/>
       </Events>
+    </Component>
+    <Component class="java.awt.Label" name="lbValidadeLicenca">
+      <Properties>
+        <Property name="alignment" type="int" value="1"/>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Dialog" size="12" style="1"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Licen&#xe7;a v&#xe1;lida at&#xe9;: 18/11/2019"/>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>

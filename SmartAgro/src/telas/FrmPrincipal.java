@@ -47,7 +47,8 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private GenericDAO<Config> dao;
     private GraficoDAO grafdao;
     private static Client c;
-
+    private Licenca l; 
+    
     //Graficos
     private GeraGraficoPizza vendasPorVendedor;
     private GeraGraficoPizza valorVendidoPorVendedor;
@@ -70,7 +71,10 @@ public class FrmPrincipal extends javax.swing.JFrame {
         initComponents();
         lbUsuario.setText("Olá, " + jfrLogin.getUsuarioLogado().getNomecompleto());
         dao = new GenericDAO();
-
+        l = new Licenca();
+        l.setValidade(new Date());
+        
+        lbValidadeLicenca.setText("Licença válida até: 18/11/2019");
         try {
             //Inserindo datas 
             Calendar cal = Calendar.getInstance();
@@ -194,6 +198,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         btnOcultarDash = new javax.swing.JButton();
         lbUsuario = new java.awt.Label();
         btnAtualizarDash = new javax.swing.JButton();
+        lbValidadeLicenca = new java.awt.Label();
         barMenu = new javax.swing.JMenuBar();
         mnuCliente = new javax.swing.JMenu();
         itmCadastroCliente = new javax.swing.JMenuItem();
@@ -461,13 +466,13 @@ public class FrmPrincipal extends javax.swing.JFrame {
                         .addComponent(pnlQtdVendida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jplVendasPorVendedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jplValorVendidoPorVendedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(6, 6, Short.MAX_VALUE)
                 .addGroup(dskAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, dskAreaLayout.createSequentialGroup()
                         .addGroup(dskAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jplValorVendidoPorMes, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jplBarra, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(136, 136, 136))
+                        .addGap(130, 130, 130))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, dskAreaLayout.createSequentialGroup()
                         .addGroup(dskAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(JtnLimpar, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -489,7 +494,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         });
 
         lbUsuario.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
-        lbUsuario.setText("label1");
+        lbUsuario.setText("Olá, Usuário");
 
         btnAtualizarDash.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/barras.png"))); // NOI18N
         btnAtualizarDash.setText("Atualizar Dash");
@@ -499,6 +504,10 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 btnAtualizarDashActionPerformed(evt);
             }
         });
+
+        lbValidadeLicenca.setAlignment(java.awt.Label.CENTER);
+        lbValidadeLicenca.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
+        lbValidadeLicenca.setText("Licença válida até: 18/11/2019");
 
         barMenu.setAutoscrolls(true);
 
@@ -803,6 +812,8 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 .addComponent(btnAtualizarDash)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnOcultarDash)
+                .addGap(440, 440, 440)
+                .addComponent(lbValidadeLicenca, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(lbUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -818,7 +829,8 @@ public class FrmPrincipal extends javax.swing.JFrame {
                     .addComponent(lbUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(btnOcultarDash, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnAtualizarDash, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnAtualizarDash, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lbValidadeLicenca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -1170,6 +1182,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private java.awt.Label labelQuantidadeVendas;
     private java.awt.Label labelValorVendas;
     private java.awt.Label lbUsuario;
+    private java.awt.Label lbValidadeLicenca;
     private java.awt.Label lblNotific;
     private javax.swing.JMenu mnuCliente;
     private javax.swing.JMenu mnuColaborador;
