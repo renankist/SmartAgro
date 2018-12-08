@@ -7,6 +7,7 @@ package entidade;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -66,17 +67,22 @@ public class Contapagar implements Serializable {
     private int parcela;
     @Basic(optional = false)
     @Column(name = "status")
-    private Character status;
+    private char status;
     
     @JoinColumn(name = "compra", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Compra compra;
     
     // Status
+    // Status
     public static final char   STATUS_PENDENTE = 'A';
     public static final String STATUS_PENDENTE_DESCRICAO = "Pendente";
     public static final char   STATUS_PAGA = 'P';
     public static final String STATUS_PAGA_DESCRICAO = "Paga";
+    public static final char   STATUS_CANCELADA = 'C';
+    public static final String STATUS_CANCELADA_DESCRICAO = "Cancelada";
+    public static final char   STATUS_PARCIAL = 'I';
+    public static final String STATUS_PARCIAL_DESCRICAO = "Parcimalmente paga";
 
     public Contapagar() {
     }
@@ -142,12 +148,68 @@ public class Contapagar implements Serializable {
         this.parcela = parcela;
     }
 
-    public Character getStatus() {
+    public char getStatus() {
         return status;
     }
 
-    public void setStatus(Character status) {
+    public void setStatus(char status) {
         this.status = status;
+    }
+    
+    public static String getDescricaoStatus(char status){
+        String descr = "";
+        
+        switch (status){
+            case STATUS_PENDENTE:
+                descr = STATUS_PENDENTE_DESCRICAO;
+                break;
+            case STATUS_PAGA:
+                descr = STATUS_PAGA_DESCRICAO;
+                break;
+            case STATUS_PARCIAL:
+                descr = STATUS_PARCIAL_DESCRICAO;
+                break;
+            case STATUS_CANCELADA:
+                descr = STATUS_CANCELADA_DESCRICAO;
+                break;
+        }
+        
+        return descr;
+    }
+    
+    public static ArrayList getTodosStatus() {
+        ArrayList status = new ArrayList();
+
+        status.add(getDescricaoStatus(STATUS_PAGA));
+        status.add(getDescricaoStatus(STATUS_PENDENTE));
+        status.add(getDescricaoStatus(STATUS_CANCELADA));
+        status.add(getDescricaoStatus(STATUS_PARCIAL));
+
+        return status;
+    }
+    
+    public static char getStatusPelaDescricao(String descr) {
+        char status = STATUS_PENDENTE;
+
+        switch (descr) {
+            case STATUS_CANCELADA_DESCRICAO:
+                status = STATUS_CANCELADA;
+                break;
+
+            case STATUS_PAGA_DESCRICAO:
+                status = STATUS_PAGA;
+                break;
+
+            case STATUS_PENDENTE_DESCRICAO:
+                status = STATUS_PENDENTE;
+                break;
+
+            case STATUS_PARCIAL_DESCRICAO:
+                status = STATUS_PARCIAL;
+                break;
+        }
+
+        return status;
     }
 
     public Compra getCompra() {

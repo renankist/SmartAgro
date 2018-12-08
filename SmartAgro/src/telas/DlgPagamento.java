@@ -213,7 +213,7 @@ public class DlgPagamento extends javax.swing.JDialog {
             cal.add(Calendar.MONTH, 1);
 
             c.setParcela(i);
-            c.setStatus(Contareceber.STATUS_PENDENTE);
+            c.setStatus(Contapagar.STATUS_PENDENTE);
             c.setValorpago(BigDecimal.ZERO);
             c.setValordevido(valor);
             c.setVencimento(cal.getTime());

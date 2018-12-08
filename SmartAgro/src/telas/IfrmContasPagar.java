@@ -10,8 +10,8 @@ import apoio.LimpaCampos;
 import apoio.Mensagem;
 import apoio.VerificadorCampos;
 import dao.GenericDAO;
-import entidade.Cliente;
-import entidade.Contareceber;
+import entidade.Contapagar;
+import entidade.Fornecedor;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import javax.swing.JComponent;
@@ -23,22 +23,22 @@ import smartagro.VerificaPermissao;
  *
  * @author morganabagatini
  */
-public class IfrmContasReceber extends javax.swing.JInternalFrame {
+public class IfrmContasPagar extends javax.swing.JInternalFrame {
 
-    private GenericDAO<Contareceber> dao;
-    private ArrayList<Contareceber> contas;
-    private Contareceber conta;
+    private GenericDAO<Contapagar> dao;
+    private ArrayList<Contapagar> contas;
+    private Contapagar conta;
     private VerificaPermissao permissoes;
-    private jtmContasReceber modelContas;
+    private jtmContasPagar modelContas;
 
     private boolean editando = false;
 
-    private static final Logger logger = Logger.getLogger(IfrmContasReceber.class);
+    private static final Logger logger = Logger.getLogger(IfrmContasPagar.class);
 
     /**
-     * Creates new form IfrmContasReceber
+     * Creates new form IfrmContasPagar
      */
-    public IfrmContasReceber(int aba) {
+    public IfrmContasPagar(int aba) {
         initComponents();
 
         // Abre na aba passada por parametro
@@ -50,7 +50,7 @@ public class IfrmContasReceber extends javax.swing.JInternalFrame {
 
         // Preenche a tabela de consulta com as colunas corretas
         contas = new ArrayList();
-        modelContas = new jtmContasReceber(contas);
+        modelContas = new jtmContasPagar(contas);
         tblContas.setModel(modelContas);
         
         popularComboStatus();
@@ -73,7 +73,7 @@ public class IfrmContasReceber extends javax.swing.JInternalFrame {
         cmbStatus.removeAllItems();
         cmbStatus.addItem("Selecione");
 
-        for (Object st : new Contareceber().getTodosStatus()) {
+        for (Object st : new Contapagar().getTodosStatus()) {
             cmbStatus.addItem(st.toString());
         }
 
@@ -96,10 +96,10 @@ public class IfrmContasReceber extends javax.swing.JInternalFrame {
         btnExcluir = new javax.swing.JButton();
         tabAbas = new javax.swing.JTabbedPane();
         pnlCadastro = new javax.swing.JPanel();
-        tfdVenda = new javax.swing.JTextField();
-        lbVenda = new javax.swing.JLabel();
-        lbCliente = new javax.swing.JLabel();
-        tfdCliente = new javax.swing.JTextField();
+        tfdCompra = new javax.swing.JTextField();
+        lblCompra = new javax.swing.JLabel();
+        lblFornecedor = new javax.swing.JLabel();
+        tfdFornecedor = new javax.swing.JTextField();
         lbCliente1 = new javax.swing.JLabel();
         dchVencimento = new com.toedter.calendar.JDateChooser();
         lblParcela = new javax.swing.JLabel();
@@ -119,7 +119,7 @@ public class IfrmContasReceber extends javax.swing.JInternalFrame {
 
         setClosable(true);
         setIconifiable(true);
-        setTitle("Contas a Receber");
+        setTitle("Contas a Pagar");
 
         btnEditar.setText("Editar");
         btnEditar.setName("btnEditar"); // NOI18N
@@ -159,13 +159,13 @@ public class IfrmContasReceber extends javax.swing.JInternalFrame {
 
         pnlCadastro.setName("pnlCadastro"); // NOI18N
 
-        tfdVenda.setEnabled(false);
+        tfdCompra.setEnabled(false);
 
-        lbVenda.setText("Venda");
+        lblCompra.setText("Compra");
 
-        lbCliente.setText("Cliente");
+        lblFornecedor.setText("Fornecedor");
 
-        tfdCliente.setEnabled(false);
+        tfdFornecedor.setEnabled(false);
 
         lbCliente1.setText("Data vencimento *");
 
@@ -202,8 +202,8 @@ public class IfrmContasReceber extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(pnlCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(lbCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(lbVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(lblFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblCompra, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(lblParcela, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblValorPago)
                     .addComponent(jLabel1)
@@ -225,10 +225,10 @@ public class IfrmContasReceber extends javax.swing.JInternalFrame {
                         .addContainerGap(555, Short.MAX_VALUE))
                     .addGroup(pnlCadastroLayout.createSequentialGroup()
                         .addGroup(pnlCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(tfdCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(tfdVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(tfdFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(tfdCompra, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(tfdParcela, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cmbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(cmbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         pnlCadastroLayout.setVerticalGroup(
@@ -236,12 +236,12 @@ public class IfrmContasReceber extends javax.swing.JInternalFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlCadastroLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(pnlCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(tfdVenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lbVenda))
+                    .addComponent(tfdCompra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblCompra))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(tfdCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lbCliente))
+                    .addComponent(tfdFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblFornecedor))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tfdParcela, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -351,14 +351,14 @@ public class IfrmContasReceber extends javax.swing.JInternalFrame {
         //Pega o valor da primeira coluna da linha selecionada na tabela de serviços e atribuiu a uma variável do tipo inteiro
         int id = Integer.parseInt(tblContas.getValueAt(tblContas.getSelectedRow(), 0).toString());
         //Busca um servico com o codigo/id pego anteriomente
-        conta = dao.consultarPorId(id, "Contareceber");
+        conta = dao.consultarPorId(id, "Contapagar");
 
         LimpaCampos.limparCampos(pnlCadastro);
 
         if (conta != null) {
-            tfdVenda.setText(conta.getVenda().getId().toString());
-            tfdCliente.setText(Cliente.getClienteToString(conta.getVenda().getCliente()));
-            cmbStatus.setSelectedItem(Contareceber.getDescricaoStatus(conta.getStatus()));
+            tfdCompra.setText(conta.getCompra().getId().toString());
+            tfdFornecedor.setText(Fornecedor.getFornecedorToString(conta.getCompra().getFornecedor()));
+            cmbStatus.setSelectedItem(Contapagar.getDescricaoStatus(conta.getStatus()));
             dchVencimento.setDate(conta.getVencimento());
             dchPagto.setDate(conta.getDatapagamento());
             tfdParcela.setText(String.valueOf(conta.getParcela()));
@@ -366,7 +366,7 @@ public class IfrmContasReceber extends javax.swing.JInternalFrame {
             tfdValorPago.setText(conta.getValorpago().toString());
 
             tabAbas.setSelectedIndex(0);
-            tfdVenda.requestFocus();
+            tfdCompra.requestFocus();
             editando = true;
             focus();
         }
@@ -394,15 +394,15 @@ public class IfrmContasReceber extends javax.swing.JInternalFrame {
 
         this.dao = new GenericDAO();
         
-        if (cmbStatus.getSelectedItem().toString().equals(Contareceber.STATUS_CANCELADA_DESCRICAO)) {
-            conta.setStatus(Contareceber.getStatusPelaDescricao(cmbStatus.getSelectedItem().toString()));
+        if (cmbStatus.getSelectedItem().toString().equals(Contapagar.STATUS_CANCELADA_DESCRICAO)) {
+            conta.setStatus(Contapagar.getStatusPelaDescricao(cmbStatus.getSelectedItem().toString()));
         } else {
             if (tfdValorPago.getValue().compareTo(tfdValorParc.getValue()) == 0) {
-                conta.setStatus(Contareceber.STATUS_PAGA);
+                conta.setStatus(Contapagar.STATUS_PAGA);
             }
             
             if (tfdValorPago.getValue().compareTo(tfdValorParc.getValue()) == -1) {
-                conta.setStatus(Contareceber.STATUS_PARCIAL);
+                conta.setStatus(Contapagar.STATUS_PARCIAL);
             }
         }
 
@@ -438,8 +438,8 @@ public class IfrmContasReceber extends javax.swing.JInternalFrame {
         dao = new GenericDAO();
         contas = new ArrayList();
 
-        contas = dao.consultarTodos("Contareceber");
-        tblContas.setModel(new jtmContasReceber(contas));
+        contas = dao.consultarTodos("Contapagar");
+        tblContas.setModel(new jtmContasPagar(contas));
     }//GEN-LAST:event_btnPesquisarActionPerformed
 
 
@@ -455,10 +455,10 @@ public class IfrmContasReceber extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private de.javasoft.swing.JYTableScrollPane jYTableScrollPane1;
-    private javax.swing.JLabel lbCliente;
     private javax.swing.JLabel lbCliente1;
-    private javax.swing.JLabel lbVenda;
+    private javax.swing.JLabel lblCompra;
     private javax.swing.JLabel lblDataPagto;
+    private javax.swing.JLabel lblFornecedor;
     private javax.swing.JLabel lblParcela;
     private javax.swing.JLabel lblValorPago;
     private javax.swing.JLabel lblValorParcela;
@@ -466,10 +466,10 @@ public class IfrmContasReceber extends javax.swing.JInternalFrame {
     private javax.swing.JPanel pnlConsulta;
     private javax.swing.JTabbedPane tabAbas;
     private de.javasoft.swing.JYTable tblContas;
-    private javax.swing.JTextField tfdCliente;
+    private javax.swing.JTextField tfdCompra;
+    private javax.swing.JTextField tfdFornecedor;
     private javax.swing.JTextField tfdParcela;
     private apoio.MoedaFormatada tfdValorPago;
     private apoio.MoedaFormatada tfdValorParc;
-    private javax.swing.JTextField tfdVenda;
     // End of variables declaration//GEN-END:variables
 }
