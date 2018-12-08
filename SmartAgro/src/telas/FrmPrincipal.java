@@ -205,8 +205,8 @@ public class FrmPrincipal extends javax.swing.JFrame {
         itmConsultaCompra = new javax.swing.JMenuItem();
         itmRelatorioCompra = new javax.swing.JMenuItem();
         mnuFinanceiro = new javax.swing.JMenu();
-        itmContasReceber = new javax.swing.JMenuItem();
         itmContasPagar = new javax.swing.JMenuItem();
+        itmContasReceber = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
         itmFormasPagamento = new javax.swing.JMenuItem();
         mnuColaborador = new javax.swing.JMenu();
@@ -661,6 +661,11 @@ public class FrmPrincipal extends javax.swing.JFrame {
         mnuFinanceiro.setMnemonic('F');
         mnuFinanceiro.setText("Financeiro");
 
+        itmContasPagar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/up.png"))); // NOI18N
+        itmContasPagar.setText("Contas a Pagar");
+        mnuFinanceiro.add(itmContasPagar);
+
+        itmContasReceber.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/down.png"))); // NOI18N
         itmContasReceber.setText("Contas a Receber");
         itmContasReceber.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -668,9 +673,6 @@ public class FrmPrincipal extends javax.swing.JFrame {
             }
         });
         mnuFinanceiro.add(itmContasReceber);
-
-        itmContasPagar.setText("Contas a Pagar");
-        mnuFinanceiro.add(itmContasPagar);
         mnuFinanceiro.add(jSeparator2);
 
         itmFormasPagamento.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/money.png"))); // NOI18N

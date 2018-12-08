@@ -129,69 +129,85 @@
                                       <Component id="lbCliente" min="-2" pref="80" max="-2" attributes="0"/>
                                       <Component id="lbVenda" min="-2" pref="80" max="-2" attributes="0"/>
                                   </Group>
-                                  <Component id="lbCliente1" alignment="0" min="-2" pref="117" max="-2" attributes="0"/>
                                   <Component id="lblParcela" alignment="0" min="-2" pref="72" max="-2" attributes="0"/>
                                   <Component id="lblValorPago" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Component id="lblValorParcela" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="lblDataPagto" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="dchPagto" min="-2" pref="99" max="-2" attributes="0"/>
-                                  <Component id="tfdValorParc" min="-2" pref="73" max="-2" attributes="0"/>
-                                  <Component id="tfdValorPago" min="-2" pref="73" max="-2" attributes="0"/>
-                                  <Component id="dchVencimento" min="-2" pref="99" max="-2" attributes="0"/>
-                                  <Component id="tfdVenda" alignment="0" min="-2" pref="225" max="-2" attributes="0"/>
-                                  <Component id="tfdCliente" alignment="0" min="-2" pref="225" max="-2" attributes="0"/>
-                                  <Component id="tfdParcela" alignment="0" min="-2" pref="43" max="-2" attributes="0"/>
+                                  <Group type="102" alignment="1" attributes="0">
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="tfdValorParc" alignment="0" min="-2" pref="73" max="-2" attributes="0"/>
+                                          <Component id="tfdValorPago" alignment="0" min="-2" pref="73" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace min="35" pref="40" max="32767" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="lblDataPagto" min="-2" max="-2" attributes="0"/>
+                                          <Component id="lbCliente1" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="dchVencimento" min="-2" pref="99" max="-2" attributes="0"/>
+                                          <Component id="dchPagto" min="-2" pref="99" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace pref="555" max="32767" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" attributes="0">
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="tfdCliente" min="-2" pref="225" max="-2" attributes="0"/>
+                                          <Component id="tfdVenda" alignment="0" min="-2" pref="225" max="-2" attributes="0"/>
+                                          <Component id="tfdParcela" alignment="0" min="-2" pref="43" max="-2" attributes="0"/>
+                                          <Component id="cmbStatus" alignment="0" min="-2" pref="99" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace max="32767" attributes="0"/>
+                                  </Group>
                               </Group>
-                              <EmptySpace pref="596" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
                     <DimensionLayout dim="1">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="1" attributes="0">
-                                  <Group type="102" attributes="0">
-                                      <Group type="103" groupAlignment="3" attributes="0">
-                                          <Component id="tfdVenda" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          <Component id="lbVenda" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="3" attributes="0">
-                                          <Component id="tfdCliente" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          <Component id="lbCliente" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="1" attributes="0">
-                                          <Component id="lbCliente1" min="-2" max="-2" attributes="0"/>
-                                          <Component id="dchVencimento" min="-2" pref="23" max="-2" attributes="0"/>
-                                      </Group>
-                                      <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="tfdParcela" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="lblParcela" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                              </Group>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="lblValorParcela" min="-2" max="-2" attributes="0"/>
-                                  <Component id="tfdValorParc" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Group type="102" alignment="1" attributes="0">
+                              <EmptySpace max="32767" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="tfdVenda" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lbVenda" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="lblValorPago" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="tfdValorPago" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="tfdCliente" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lbCliente" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="1" attributes="0">
-                                  <Component id="dchPagto" min="-2" pref="23" max="-2" attributes="0"/>
-                                  <Component id="lblDataPagto" min="-2" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="tfdParcela" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblParcela" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace pref="218" max="32767" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="cmbStatus" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="103" alignment="0" groupAlignment="3" attributes="0">
+                                      <Component id="tfdValorParc" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lblValorParcela" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lbCliente1" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Component id="dchVencimento" alignment="0" min="-2" pref="20" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="dchPagto" min="-2" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="tfdValorPago" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lblValorPago" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lblDataPagto" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
+                              <EmptySpace min="-2" pref="248" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -242,12 +258,12 @@
                     </Component>
                     <Component class="javax.swing.JLabel" name="lblValorPago">
                       <Properties>
-                        <Property name="text" type="java.lang.String" value="Valor pago"/>
+                        <Property name="text" type="java.lang.String" value="Valor pago *"/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JLabel" name="lblDataPagto">
                       <Properties>
-                        <Property name="text" type="java.lang.String" value="Data pagamento"/>
+                        <Property name="text" type="java.lang.String" value="Data pagamento *"/>
                       </Properties>
                     </Component>
                     <Component class="com.toedter.calendar.JDateChooser" name="dchPagto">
@@ -273,6 +289,26 @@
                         <Property name="horizontalAlignment" type="int" value="2"/>
                         <Property name="enabled" type="boolean" value="false"/>
                       </Properties>
+                    </Component>
+                    <Component class="javax.swing.JLabel" name="jLabel1">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="Status *"/>
+                      </Properties>
+                    </Component>
+                    <Component class="javax.swing.JComboBox" name="cmbStatus">
+                      <Properties>
+                        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                          <StringArray count="4">
+                            <StringItem index="0" value="Item 1"/>
+                            <StringItem index="1" value="Item 2"/>
+                            <StringItem index="2" value="Item 3"/>
+                            <StringItem index="3" value="Item 4"/>
+                          </StringArray>
+                        </Property>
+                      </Properties>
+                      <AuxValues>
+                        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+                      </AuxValues>
                     </Component>
                   </SubComponents>
                 </Container>

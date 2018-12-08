@@ -69,13 +69,13 @@ public class jtmContasReceber extends AbstractTableModel {
             case 3:
                 return contas.get(linha).getParcela();
             case 4:
-                return Contareceber.getStatusToString(contas.get(linha).getStatus());
+                return Contareceber.getDescricaoStatus(contas.get(linha).getStatus());
             case 5:
-                return contas.get(linha).getValordevido();
+                return contas.get(linha).getValordevido().setScale(2);
             case 6:
                 return contas.get(linha).getVencimento();
             case 7:
-                return contas.get(linha).getValorpago();
+                return contas.get(linha).getValorpago().setScale(2);
             case 8:
                 return contas.get(linha).getDatapagamento();
         }
