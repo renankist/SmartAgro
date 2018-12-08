@@ -695,6 +695,9 @@
                           <Properties>
                             <Property name="text" type="java.lang.String" value="Condi&#xe7;&#xe3;o de pagamento"/>
                           </Properties>
+                          <Events>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="brnPagamentoActionPerformed"/>
+                          </Events>
                         </Component>
                         <Component class="javax.swing.JLabel" name="lblTotal">
                           <Properties>

@@ -29,7 +29,6 @@ import java.util.ArrayList;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-
 /**
  *
  * @author Morgana
@@ -97,14 +96,17 @@ public class Venda implements Serializable {
     @OneToMany(mappedBy = "venda", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private Collection<Itemvenda> itemvendaCollection = new ArrayList<Itemvenda>();
 
+    @OneToMany(mappedBy = "venda", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    private Collection<Contareceber> contasCollection = new ArrayList<Contareceber>();
+
     // Status de uma venda
-    public static final char   STATUS_ORCAMENTO = 'O';
+    public static final char STATUS_ORCAMENTO = 'O';
     public static final String STATUS_ORCAMENTO_DESCRICAO = "Orçamento";
-    public static final char   STATUS_CANCELADA = 'C';
+    public static final char STATUS_CANCELADA = 'C';
     public static final String STATUS_CANCELADA_DESCRICAO = "Cancelada";
-    public static final char   STATUS_FINALIZADA = 'F';
+    public static final char STATUS_FINALIZADA = 'F';
     public static final String STATUS_FINALIZADA_DESCRICAO = "Finalizada";
-    public static final char   STATUS_PENDENTE = 'P';
+    public static final char STATUS_PENDENTE = 'P';
     public static final String STATUS_PENDENTE_DESCRICAO = "Pendente";
 
     public Venda() {
@@ -236,14 +238,22 @@ public class Venda implements Serializable {
     public void setItemvendaCollection(Collection<Itemvenda> itemvendaCollection) {
         this.itemvendaCollection = itemvendaCollection;
     }
-    
-    public void addItemvenda(Itemvenda item){
+
+    public void addItemvenda(Itemvenda item) {
         item.setVenda(this);
         this.itemvendaCollection.add(item);
     }
-    
-    public void removeAllItemvenda(){
+
+    public void removeAllItemvenda() {
         this.itemvendaCollection.clear();
+    }
+
+    public Collection<Contareceber> getContasCollection() {
+        return contasCollection;
+    }
+
+    public void setContasCollection(Collection<Contareceber> contasCollection) {
+        this.contasCollection = contasCollection;
     }
 
     @Override
@@ -294,7 +304,7 @@ public class Venda implements Serializable {
 
         return descr;
     }
-    
+
     public static char getStatusPelaDescricao(String descr) {
         char status = STATUS_PENDENTE;
 

@@ -4,13 +4,12 @@ import apoio.*;
 import com.thoughtworks.xstream.XStream;
 import java.util.ArrayList;
 import dao.GenericDAO;
-import entidade.Formapagamento;
 import entidade.Compra;
+import entidade.Contapagar;
 import entidade.Itemcompra;
 import entidade.ItemcompraPK;
 import entidade.Produto;
 import java.io.File;
-import java.io.FileWriter;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import javax.swing.JComponent;
@@ -27,12 +26,15 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
     private Produto produto;
     private ArrayList<Itemcompra> itens;
     private jtmItensCompra modelItens;
-    private DlgProdutos dlgProdutos;
     private jtmCompra modelCompra;
-    private DlgFornecedores dlgFornecedores;
-    private DlgColaboradores dlgColaboradores;
     private ArrayList<Compra> compras;
     private VerificaPermissao permissoes;
+    
+    private DlgProdutos dlgProdutos;
+    private DlgFornecedores dlgFornecedores;
+    private DlgColaboradores dlgColaboradores;
+    private DlgPagamento dlgPagamento;
+    
     private boolean editando = false;
     private boolean editandoItem = false;
 
@@ -65,6 +67,7 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
         dlgFornecedores = new DlgFornecedores(null, true);
         dlgColaboradores = new DlgColaboradores(null, true);
         dlgProdutos = new DlgProdutos(null, true);
+        dlgPagamento = new DlgPagamento(null, true);
         popularComboStatus();
 
         focus();
@@ -516,6 +519,11 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
         });
 
         brnPagamento.setText("Condição de pagamento");
+        brnPagamento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                brnPagamentoActionPerformed(evt);
+            }
+        });
 
         lblTotal.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         lblTotal.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -969,6 +977,12 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
         boolean inputOK = true;
 
         while (inputOK) {
+            if (!getEditando() && dlgPagamento.getFormaPagamento() == null) {
+                Mensagem.mostraAletra("Atenção", "Por favor, informe as condições de pagamento");
+                inputOK = false;
+                break;
+            }
+            
             if (modelItens.getRowCount() == 0) {
                 Mensagem.mostraAletra("Atenção", "Informe os itens da venda");
                 inputOK = false;
@@ -1027,12 +1041,18 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
         }
 
         compra.setStatus(Compra.getStatusPelaDescricao(cbmStatus.getSelectedItem().toString()));
-        compra.setFormapagamento(new Formapagamento(1));
         compra.setValor(getTotal());
         compra.setValortotal(getTotalLiquido());
         compra.setDesconto(tfdDesconto.getValue().setScale(2));
         compra.setDescricaodesconto(tfdDescrDesc.getText());
         compra.setObservacao(tfdObservacao.getText());
+        
+        if (dlgPagamento.getFormaPagamento() != null) {
+            compra.setFormapagamento(dlgPagamento.getFormaPagamento());
+
+            ArrayList<Contapagar> parcelas = dlgPagamento.getCondicoesPagamentoCompra(compra);
+            compra.setContasCollection(parcelas);
+        }
 
         if (getEditando()) {
             compra.removeAllItemcompra();
@@ -1232,6 +1252,10 @@ public class IfrmCompra extends javax.swing.JInternalFrame {
         }
 
     }//GEN-LAST:event_btnXMLActionPerformed
+
+    private void brnPagamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_brnPagamentoActionPerformed
+        dlgPagamento.setVisible(true);
+    }//GEN-LAST:event_brnPagamentoActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton brnPagamento;

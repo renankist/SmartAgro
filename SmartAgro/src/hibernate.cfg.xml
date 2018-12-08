@@ -19,6 +19,8 @@
         <mapping class="entidade.Produto"/>
         <mapping class="entidade.Colaborador"/>
         <mapping class="entidade.Cliente"/>
+        <mapping class="entidade.Contareceber"/>
+        <mapping class="entidade.Contapagar"/>
         <mapping class="entidade.Compra"/>
         <mapping class="entidade.Itemcompra"/> 
         <mapping class="entidade.Modulo"/>
