@@ -7,6 +7,7 @@ package telas;
 
 import apoio.Client;
 import apoio.Formatacao;
+import apoio.GeraLicenca;
 import apoio.Mensagem;
 import apoio.RSAcriptografia;
 import static apoio.RSAcriptografia.LOCAL_CHAVE_PRIVADA;
@@ -19,6 +20,7 @@ import dao.ReleaseDAO;
 import entidade.Config;
 import entidade.Licenca;
 import java.awt.BorderLayout;
+import java.awt.Label;
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
 import java.nio.file.Files;
@@ -72,9 +74,10 @@ public class FrmPrincipal extends javax.swing.JFrame {
         lbUsuario.setText("Olá, " + jfrLogin.getUsuarioLogado().getNomecompleto());
         dao = new GenericDAO();
         l = new Licenca();
-        l.setValidade(new Date());
+        l = GeraLicenca.pegaLicenca();
         
-        lbValidadeLicenca.setText("Licença válida até: 18/11/2019");
+        
+        lbValidadeLicenca.setText("Licença válida até: "+Formatacao.DataDMA(l.getValidade()));
         try {
             //Inserindo datas 
             Calendar cal = Calendar.getInstance();
@@ -159,7 +162,12 @@ public class FrmPrincipal extends javax.swing.JFrame {
         jplValorVendidoPorMes.add(valorVendidoPorMes.getPainel());
         valorVendidoPorMes.getGrafico().getPlot().setInsets(RectangleInsets.ZERO_INSETS);
     }
-
+    
+    
+    public static void setMensagemLicenca(String text){
+      lbValidadeLicenca.setText(text);
+    }
+    
     public static Config getParametros() {
         return parametros;
     }
@@ -1209,7 +1217,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private java.awt.Label labelQuantidadeVendas;
     private java.awt.Label labelValorVendas;
     private java.awt.Label lbUsuario;
-    private java.awt.Label lbValidadeLicenca;
+    private static java.awt.Label lbValidadeLicenca;
     private java.awt.Label lblNotific;
     private javax.swing.JMenu mnuCliente;
     private javax.swing.JMenu mnuColaborador;

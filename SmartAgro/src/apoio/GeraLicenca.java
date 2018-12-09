@@ -28,39 +28,37 @@ import java.util.Date;
  * @author renan
  */
 public class GeraLicenca {
-    
-    
-    public static boolean criaLicenca(Licenca licenca){
-        boolean retorno = false; 
-          try {
+
+    public static boolean criaLicenca(Licenca licenca) {
+        boolean retorno = false;
+        try {
             File arquivo = new File("smartagro.licenca");
-            
-            if(arquivo.exists()){
+
+            if (arquivo.exists()) {
                 arquivo.delete();
             }
-            
+
             XStream xstream = new XStream();
 
-            
             ObjectInputStream inputStream = null;
-            
+
             inputStream = new ObjectInputStream(new FileInputStream(RSAcriptografia.LOCAL_CHAVE_PUBLICA));
-            
+
             final PublicKey chavePublica = (PublicKey) inputStream.readObject();
             final byte[] textoCriptografado = RSAcriptografia.criptografa(xstream.toXML(licenca), chavePublica);
-            
+
             FileOutputStream in = new FileOutputStream(arquivo);
             in.write(textoCriptografado);
             in.close();
-            retorno = true; 
-            
+            retorno = true;
+
         } catch (Exception e) {
             System.out.println(e);
         }
-          
-          return retorno;
+
+        return retorno;
     }
-    
+
     public static String verificaLicenca() {
         try {
             XStream xstream = new XStream(new DomDriver());
@@ -73,29 +71,54 @@ public class GeraLicenca {
             inputStream = new ObjectInputStream(new FileInputStream(RSAcriptografia.LOCAL_CHAVE_PRIVADA));
             final PrivateKey chavePrivada = (PrivateKey) inputStream.readObject();
 
-                final String textoPuro = RSAcriptografia.decriptografa(textoCriptografado, chavePrivada);
-                Licenca licenca = (Licenca) xstream.fromXML(textoPuro);
-                System.out.println(licenca.getValidade());
-                if (licenca.getValidade().before(new Date())) {
-                    return "Licença expirada em: " + Formatacao.DataDMA(licenca.getValidade());
+            final String textoPuro = RSAcriptografia.decriptografa(textoCriptografado, chavePrivada);
+            Licenca licenca = (Licenca) xstream.fromXML(textoPuro);
+            System.out.println(licenca.getValidade());
+            if (licenca.getValidade().before(new Date())) {
+                return "Licença expirada em: " + Formatacao.DataDMA(licenca.getValidade());
+            } else {
+                long dt = (licenca.getValidade().getTime() - new Date().getTime());
+                Long dias = dt / 86400000L; // número de dias
+                int diasInteiros = dias.intValue();
+                if (diasInteiros <= 2 && diasInteiros > 0) {
+                    return "Resta(m) " + diasInteiros + " dia(s) para a licença expirar! Solicite renovação.";
+                } else if (diasInteiros == 0) {
+                    return "Último dia de licença! Solicite renovação.";
                 } else {
-                    long dt = (licenca.getValidade().getTime() - new Date().getTime());
-                    Long dias = dt / 86400000L; // número de dias
-                    int diasInteiros = dias.intValue();
-                    if (diasInteiros <= 2 && diasInteiros > 0) {
-                        return "Resta(m) " + diasInteiros + " dia(s) para a licença expirar! Solicite renovação.";
-                    } else if (diasInteiros == 0) {
-                        return "Último dia de licença! Solicite renovação.";
-                    } else {
-                        return "";
-                    }
+                    return "";
                 }
-            
+            }
+
         } catch (Exception e) {
             System.out.println(e);
             return "Falha ao verificar Licença!";
         }
     }
-    
-    
+
+    public static Licenca pegaLicenca() {
+        
+        Licenca l = null;
+        
+        try {
+            XStream xstream = new XStream(new DomDriver());
+
+            Path arquivo = Paths.get("smartagro.licenca");
+
+            byte[] textoCriptografado = Files.readAllBytes(arquivo);
+
+            ObjectInputStream inputStream = null;
+            inputStream = new ObjectInputStream(new FileInputStream(RSAcriptografia.LOCAL_CHAVE_PRIVADA));
+            final PrivateKey chavePrivada = (PrivateKey) inputStream.readObject();
+
+            final String textoPuro = RSAcriptografia.decriptografa(textoCriptografado, chavePrivada);
+            l = (Licenca) xstream.fromXML(textoPuro);
+            System.out.println(l.getValidade());
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        
+        return l;  
+    }
+
 }

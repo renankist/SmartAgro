@@ -5,6 +5,7 @@
  */
 package telas;
 
+import apoio.Formatacao;
 import apoio.GeraLicenca;
 import apoio.RSAcriptografia;
 import apoio.VerificadorCampos;
@@ -219,6 +220,9 @@ public class DlgLicenca extends javax.swing.JDialog {
             fcOut.transferFrom(fcIn, 0, fIn.length());
             fos.close();
             fis.close();
+            Licenca l = new Licenca();
+            l = GeraLicenca.pegaLicenca();
+            FrmPrincipal.setMensagemLicenca("Licença válida até: "+Formatacao.DataDMA(l.getValidade()));
         } catch (Exception e) {
             e.printStackTrace();
         }

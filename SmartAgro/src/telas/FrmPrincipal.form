@@ -894,6 +894,9 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Licen&#xe7;a v&#xe1;lida at&#xe9;: 18/11/2019"/>
       </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="10"/>
+      </AuxValues>
     </Component>
   </SubComponents>
 </Form>
