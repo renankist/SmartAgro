@@ -242,6 +242,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         mnuSistema = new javax.swing.JMenu();
         itmSair = new javax.swing.JMenuItem();
         itmSair2 = new javax.swing.JMenuItem();
+        itmBackup = new javax.swing.JMenuItem();
         itmSair3 = new javax.swing.JMenuItem();
         itmParametros = new javax.swing.JMenuItem();
         itmPermissoes = new javax.swing.JMenuItem();
@@ -777,6 +778,14 @@ public class FrmPrincipal extends javax.swing.JFrame {
         });
         mnuSistema.add(itmSair2);
 
+        itmBackup.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/Backup.png"))); // NOI18N
+        itmBackup.setText("Backup");
+        itmBackup.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itmBackupActionPerformed(evt);
+            }
+        });
+        mnuSistema.add(itmBackup);
         itmSair3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/document.png"))); // NOI18N
         itmSair3.setText("Licenciamento");
         itmSair3.addActionListener(new java.awt.event.ActionListener() {
@@ -1036,32 +1045,6 @@ public class FrmPrincipal extends javax.swing.JFrame {
         jtaNotificacoes.setText("");
     }//GEN-LAST:event_JtnLimparActionPerformed
 
-    private void itmSair3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmSair3ActionPerformed
-        licenciamento();
-    }//GEN-LAST:event_itmSair3ActionPerformed
-    private void itmSobreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmSobreActionPerformed
-        exibeSobre(false);
-    }//GEN-LAST:event_itmSobreActionPerformed
-
-    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        ReleaseDAO rDAO = new ReleaseDAO();
-
-        if (rDAO.existeReleaseParaVisualizar(jfrLogin.getUsuarioLogado().getId())) {
-            exibeSobre(true);
-        }
-    }//GEN-LAST:event_formWindowOpened
-
-    private void itmContasReceberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmContasReceberActionPerformed
-        IfrmContasReceber janelaReceber = new IfrmContasReceber(0);
-        dskArea.add(janelaReceber);
-        janelaReceber.setVisible(true);
-    }//GEN-LAST:event_itmContasReceberActionPerformed
-
-    private void itmContasPagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmContasPagarActionPerformed
-        IfrmContasPagar janelaPagar = new IfrmContasPagar(0);
-        dskArea.add(janelaPagar);
-        janelaPagar.setVisible(true);
-    }//GEN-LAST:event_itmContasPagarActionPerformed
 
     private void cadastroVenda(int aba) {
         IfrmVenda janelaVenda = new IfrmVenda(aba);
@@ -1119,6 +1102,13 @@ public class FrmPrincipal extends javax.swing.JFrame {
         dskArea.add(janelaFormaPagamento);
         janelaFormaPagamento.setVisible(true);
     }
+    
+    private void backup() {
+        IfrmBackup janelaBackup = new  IfrmBackup();
+        dskArea.add(janelaBackup);
+         janelaBackup.setVisible(true);
+    }
+
 
     private void cadastroFornecedor(int aba) {
         IfrmFornecedor janelaFornecedores = new IfrmFornecedor(aba);
@@ -1175,6 +1165,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private com.toedter.calendar.JDateChooser dchFim;
     private com.toedter.calendar.JDateChooser dchInicio;
     private javax.swing.JDesktopPane dskArea;
+    private javax.swing.JMenuItem itmBackup;
     private javax.swing.JMenuItem itmCadastroCliente;
     private javax.swing.JMenuItem itmCadastroColaborador;
     private javax.swing.JMenuItem itmCadastroCompra;
@@ -1231,4 +1222,34 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private javax.swing.JPanel pnlQtdVendida;
     private javax.swing.JPanel pnlTotalVendido;
     // End of variables declaration//GEN-END:variables
+
+    private void itmBackupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmBackupActionPerformed
+        backup();
+    }//GEN-LAST:event_itmBackupActionPerformed
+    private void itmSair3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmSair3ActionPerformed
+        licenciamento();
+    }//GEN-LAST:event_itmSair3ActionPerformed
+    private void itmSobreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmSobreActionPerformed
+        exibeSobre(false);
+    }//GEN-LAST:event_itmSobreActionPerformed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        ReleaseDAO rDAO = new ReleaseDAO();
+
+        if (rDAO.existeReleaseParaVisualizar(jfrLogin.getUsuarioLogado().getId())) {
+            exibeSobre(true);
+        }
+    }//GEN-LAST:event_formWindowOpened
+
+    private void itmContasReceberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmContasReceberActionPerformed
+        IfrmContasReceber janelaReceber = new IfrmContasReceber(0);
+        dskArea.add(janelaReceber);
+        janelaReceber.setVisible(true);
+    }//GEN-LAST:event_itmContasReceberActionPerformed
+
+    private void itmContasPagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmContasPagarActionPerformed
+        IfrmContasPagar janelaPagar = new IfrmContasPagar(0);
+        dskArea.add(janelaPagar);
+        janelaPagar.setVisible(true);
+    }//GEN-LAST:event_itmContasPagarActionPerformed
 }

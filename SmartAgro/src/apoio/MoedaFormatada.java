@@ -16,11 +16,7 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
 
-/**
- * Campo para a inserção de números com base em um formato.
- *
- * @author Dyorgio da Silva Nascimento
- */
+
 public class MoedaFormatada extends JTextField {
 
     private static final long serialVersionUID = -7506506392528621022L;
