@@ -37,6 +37,7 @@ public class IfrmBackup extends javax.swing.JInternalFrame {
         initComponents();
         //Deixar o focus no campo de descrição
         focus();
+        rbtSomenteDados.setSelected(true);
 
     }
 
@@ -70,7 +71,7 @@ public class IfrmBackup extends javax.swing.JInternalFrame {
         lblCodigo1 = new javax.swing.JLabel();
         lblDescricao = new javax.swing.JLabel();
         rbtAudAtivada = new javax.swing.JRadioButton();
-        rbtAudDesativada = new javax.swing.JRadioButton();
+        rbtSomenteDados = new javax.swing.JRadioButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -192,10 +193,10 @@ public class IfrmBackup extends javax.swing.JInternalFrame {
             }
         });
 
-        rbtAudDesativada.setText("Somente dados");
-        rbtAudDesativada.addActionListener(new java.awt.event.ActionListener() {
+        rbtSomenteDados.setText("Somente dados");
+        rbtSomenteDados.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rbtAudDesativadaActionPerformed(evt);
+                rbtSomenteDadosActionPerformed(evt);
             }
         });
 
@@ -223,7 +224,7 @@ public class IfrmBackup extends javax.swing.JInternalFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(rbtAudAtivada)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(rbtAudDesativada)))
+                                .addComponent(rbtSomenteDados)))
                         .addGap(0, 81, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -240,7 +241,7 @@ public class IfrmBackup extends javax.swing.JInternalFrame {
                 .addGroup(pnlCriarBackupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblDescricao)
                     .addComponent(rbtAudAtivada)
-                    .addComponent(rbtAudDesativada))
+                    .addComponent(rbtSomenteDados))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 293, Short.MAX_VALUE)
                 .addGroup(pnlCriarBackupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSalvar)
@@ -292,16 +293,14 @@ public class IfrmBackup extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
-         // Aplica o validador
-       JComponent[] components = new JComponent[]{tfdCaminhoSalvarBackup};
+        // Aplica o validador
+        JComponent[] components = new JComponent[]{tfdCaminhoSalvarBackup};
         VerificadorCampos verifier = new VerificadorCampos(components);
 
         if (!verifier.validaCampos()) {
             return;
         }
-        
-        
-        
+
         try {
             Backup b = new Backup(tfdCaminhoSalvarBackup.getText());
 
@@ -309,7 +308,7 @@ public class IfrmBackup extends javax.swing.JInternalFrame {
                 Mensagem.mostraInformacao("Sucesso", "Backup realizado com sucesso!");
                 tfdCaminhoSalvarBackup.setText("");
             } else {
-               Mensagem.mostraInformacao("Problema", "Erro ao tentar realizar backup!");
+                Mensagem.mostraInformacao("Problema", "Erro ao tentar realizar backup!");
             }
 
             focus();
@@ -357,14 +356,21 @@ public class IfrmBackup extends javax.swing.JInternalFrame {
     private void btnSalvar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvar2ActionPerformed
 
         Backup b = new Backup();
-        
-        if(Mensagem.confirmaMensagem("Confirmar restauração", "Deseja realmente restaurar o sistema?"))
 
-        
-        if (b.restaurarLinux(tfdCaminhoRestaurarBackup.getText())) {
-            Mensagem.mostraInformacao("Sucesso", "Restauração realizada com sucesso!");
-        } else {
-            Mensagem.mostraInformacao("Problema", "Erro ao tentar restaurar o sistema!");
+        if (Mensagem.confirmaMensagem("Confirmar restauração", "Deseja realmente restaurar o sistema? "
+                + "Todas as conexões com o banco de dados serão fechadas. O software será reiniciado.")) {
+            if (b.fecharConexoes()) {
+
+                if (b.restaurar(tfdCaminhoRestaurarBackup.getText())) {
+                    Mensagem.mostraInformacao("Sucesso", "Restauração realizada com sucesso! Sistema será fechado, por favor, reinicie.");
+                    System.exit(0);
+                } else {
+                    Mensagem.mostraInformacao("Problema", "Erro ao tentar restaurar o sistema!");
+                }
+
+            } else {
+                Mensagem.mostraInformacao("Problema", "Erro ao tentar fechar conexões!");
+            }
         }
 
         focus();
@@ -372,12 +378,12 @@ public class IfrmBackup extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnSalvar2ActionPerformed
 
     private void rbtAudAtivadaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbtAudAtivadaActionPerformed
-        rbtAudDesativada.setSelected(false);
+        rbtSomenteDados.setSelected(false);
     }//GEN-LAST:event_rbtAudAtivadaActionPerformed
 
-    private void rbtAudDesativadaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbtAudDesativadaActionPerformed
+    private void rbtSomenteDadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbtSomenteDadosActionPerformed
         rbtAudAtivada.setSelected(false);
-    }//GEN-LAST:event_rbtAudDesativadaActionPerformed
+    }//GEN-LAST:event_rbtSomenteDadosActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -395,7 +401,7 @@ public class IfrmBackup extends javax.swing.JInternalFrame {
     private javax.swing.JPanel pnlCriarBackup;
     private javax.swing.JPanel pnlRestaurarBackup;
     private javax.swing.JRadioButton rbtAudAtivada;
-    private javax.swing.JRadioButton rbtAudDesativada;
+    private javax.swing.JRadioButton rbtSomenteDados;
     private javax.swing.JTabbedPane tabAbas;
     private javax.swing.JTextField tfdCaminhoRestaurarBackup;
     private javax.swing.JTextField tfdCaminhoSalvarBackup;
