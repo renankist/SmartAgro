@@ -215,7 +215,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         mnuSistema = new javax.swing.JMenu();
         itmSair = new javax.swing.JMenuItem();
         itmSair2 = new javax.swing.JMenuItem();
-        itmSair3 = new javax.swing.JMenuItem();
+        itmBackup = new javax.swing.JMenuItem();
         itmParametros = new javax.swing.JMenuItem();
         itmPermissoes = new javax.swing.JMenuItem();
         itmSair1 = new javax.swing.JMenuItem();
@@ -733,14 +733,14 @@ public class FrmPrincipal extends javax.swing.JFrame {
         });
         mnuSistema.add(itmSair2);
 
-        itmSair3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/Backup.png"))); // NOI18N
-        itmSair3.setText("Backup");
-        itmSair3.addActionListener(new java.awt.event.ActionListener() {
+        itmBackup.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/Backup.png"))); // NOI18N
+        itmBackup.setText("Backup");
+        itmBackup.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                itmSair3ActionPerformed(evt);
+                itmBackupActionPerformed(evt);
             }
         });
-        mnuSistema.add(itmSair3);
+        mnuSistema.add(itmBackup);
 
         itmParametros.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/parametros.png"))); // NOI18N
         itmParametros.setText("Parâmetros");
@@ -967,9 +967,9 @@ public class FrmPrincipal extends javax.swing.JFrame {
         jtaNotificacoes.setText("");
     }//GEN-LAST:event_JtnLimparActionPerformed
 
-    private void itmSair3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmSair3ActionPerformed
+    private void itmBackupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmBackupActionPerformed
         backup();
-    }//GEN-LAST:event_itmSair3ActionPerformed
+    }//GEN-LAST:event_itmBackupActionPerformed
 
     private void cadastroVenda(int aba) {
         IfrmVenda janelaVenda = new IfrmVenda(aba);
@@ -1085,6 +1085,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private com.toedter.calendar.JDateChooser dchFim;
     private com.toedter.calendar.JDateChooser dchInicio;
     private javax.swing.JDesktopPane dskArea;
+    private javax.swing.JMenuItem itmBackup;
     private javax.swing.JMenuItem itmCadastroCliente;
     private javax.swing.JMenuItem itmCadastroColaborador;
     private javax.swing.JMenuItem itmCadastroCompra;
@@ -1111,7 +1112,6 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem itmSair;
     private javax.swing.JMenuItem itmSair1;
     private javax.swing.JMenuItem itmSair2;
-    private javax.swing.JMenuItem itmSair3;
     private javax.swing.JMenuItem itmUnidadeMedida;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
