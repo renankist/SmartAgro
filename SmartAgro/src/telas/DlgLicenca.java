@@ -57,7 +57,7 @@ public class DlgLicenca extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        btnSelecionar = new javax.swing.JButton();
+        btnAtivar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
         pnlCadastro = new javax.swing.JPanel();
         pnlLicenca = new javax.swing.JPanel();
@@ -70,11 +70,11 @@ public class DlgLicenca extends javax.swing.JDialog {
         setTitle("Licença");
         setResizable(false);
 
-        btnSelecionar.setText("Ativar");
-        btnSelecionar.setName("btnSelecionar"); // NOI18N
-        btnSelecionar.addActionListener(new java.awt.event.ActionListener() {
+        btnAtivar.setText("Ativar");
+        btnAtivar.setName("btnAtivar"); // NOI18N
+        btnAtivar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSelecionarActionPerformed(evt);
+                btnAtivarActionPerformed(evt);
             }
         });
 
@@ -171,7 +171,7 @@ public class DlgLicenca extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btnSelecionar, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnAtivar, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnCancelar)
                         .addGap(23, 23, 23))
@@ -185,7 +185,7 @@ public class DlgLicenca extends javax.swing.JDialog {
                 .addComponent(pnlCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnSelecionar)
+                    .addComponent(btnAtivar)
                     .addComponent(btnCancelar))
                 .addContainerGap())
         );
@@ -199,7 +199,7 @@ public class DlgLicenca extends javax.swing.JDialog {
         this.dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
-    private void btnSelecionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelecionarActionPerformed
+    private void btnAtivarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtivarActionPerformed
 
         JComponent[] components = new JComponent[]{tfdCaminho};
         VerificadorCampos verifier = new VerificadorCampos(components);
@@ -240,7 +240,7 @@ public class DlgLicenca extends javax.swing.JDialog {
         }
 
         this.dispose();
-    }//GEN-LAST:event_btnSelecionarActionPerformed
+    }//GEN-LAST:event_btnAtivarActionPerformed
 
     private void btnSelecionarLicencaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelecionarLicencaActionPerformed
         JFileChooser fileChooser = new JFileChooser();
@@ -299,8 +299,8 @@ public class DlgLicenca extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAtivar;
     private javax.swing.JButton btnCancelar;
-    private javax.swing.JButton btnSelecionar;
     private javax.swing.JButton btnSelecionarLicenca;
     private java.awt.Label jlbMensagem;
     private java.awt.Label jlbTituloMensagem;

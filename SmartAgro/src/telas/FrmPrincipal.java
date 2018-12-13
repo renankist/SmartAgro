@@ -20,7 +20,9 @@ import dao.ReleaseDAO;
 import entidade.Config;
 import entidade.Licenca;
 import java.awt.BorderLayout;
+import java.awt.KeyboardFocusManager;
 import java.awt.Label;
+import java.awt.event.KeyEvent;
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
 import java.nio.file.Files;
@@ -211,25 +213,20 @@ public class FrmPrincipal extends javax.swing.JFrame {
         mnuCliente = new javax.swing.JMenu();
         itmCadastroCliente = new javax.swing.JMenuItem();
         itmConsultaCliente = new javax.swing.JMenuItem();
-        itmRelatorioCliente = new javax.swing.JMenuItem();
         mnuProduto = new javax.swing.JMenu();
         itmCadastroProduto = new javax.swing.JMenuItem();
         itmConsultaProduto = new javax.swing.JMenuItem();
-        itmRelatorioProduto = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         itmUnidadeMedida = new javax.swing.JMenuItem();
         mnuVendas = new javax.swing.JMenu();
         itmCadastroVenda = new javax.swing.JMenuItem();
         itmConsultaVenda = new javax.swing.JMenuItem();
-        itmRelatorioVenda = new javax.swing.JMenuItem();
         mnuFornecedor = new javax.swing.JMenu();
         itmCadastroFornecedor = new javax.swing.JMenuItem();
         itmConsultaFornecedor = new javax.swing.JMenuItem();
-        itmRelatorioFornecedor = new javax.swing.JMenuItem();
         mnuCompras = new javax.swing.JMenu();
         itmCadastroCompra = new javax.swing.JMenuItem();
         itmConsultaCompra = new javax.swing.JMenuItem();
-        itmRelatorioCompra = new javax.swing.JMenuItem();
         mnuFinanceiro = new javax.swing.JMenu();
         itmContasPagar = new javax.swing.JMenuItem();
         itmContasReceber = new javax.swing.JMenuItem();
@@ -238,7 +235,6 @@ public class FrmPrincipal extends javax.swing.JFrame {
         mnuColaborador = new javax.swing.JMenu();
         itmCadastroColaborador = new javax.swing.JMenuItem();
         itmConsultaColaborador = new javax.swing.JMenuItem();
-        itmRelatorioColaborador = new javax.swing.JMenuItem();
         mnuSistema = new javax.swing.JMenu();
         itmSair = new javax.swing.JMenuItem();
         itmSair2 = new javax.swing.JMenuItem();
@@ -482,7 +478,6 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 .addGap(4, 4, 4)
                 .addGroup(dskAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(dskAreaLayout.createSequentialGroup()
-                        .addGap(0, 0, 0)
                         .addGroup(dskAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jplBarra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jplValorVendidoPorMes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -547,15 +542,6 @@ public class FrmPrincipal extends javax.swing.JFrame {
         });
         mnuCliente.add(itmConsultaCliente);
 
-        itmRelatorioCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/report.png"))); // NOI18N
-        itmRelatorioCliente.setText("Relatório");
-        itmRelatorioCliente.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                itmRelatorioClienteActionPerformed(evt);
-            }
-        });
-        mnuCliente.add(itmRelatorioCliente);
-
         barMenu.add(mnuCliente);
 
         mnuProduto.setMnemonic('P');
@@ -578,15 +564,6 @@ public class FrmPrincipal extends javax.swing.JFrame {
             }
         });
         mnuProduto.add(itmConsultaProduto);
-
-        itmRelatorioProduto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/report.png"))); // NOI18N
-        itmRelatorioProduto.setText("Relatório");
-        itmRelatorioProduto.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                itmRelatorioProdutoActionPerformed(evt);
-            }
-        });
-        mnuProduto.add(itmRelatorioProduto);
         mnuProduto.add(jSeparator1);
 
         itmUnidadeMedida.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/compass.png"))); // NOI18N
@@ -621,15 +598,6 @@ public class FrmPrincipal extends javax.swing.JFrame {
         });
         mnuVendas.add(itmConsultaVenda);
 
-        itmRelatorioVenda.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/report.png"))); // NOI18N
-        itmRelatorioVenda.setText("Relatório");
-        itmRelatorioVenda.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                itmRelatorioVendaActionPerformed(evt);
-            }
-        });
-        mnuVendas.add(itmRelatorioVenda);
-
         barMenu.add(mnuVendas);
 
         mnuFornecedor.setMnemonic('F');
@@ -653,15 +621,6 @@ public class FrmPrincipal extends javax.swing.JFrame {
         });
         mnuFornecedor.add(itmConsultaFornecedor);
 
-        itmRelatorioFornecedor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/report.png"))); // NOI18N
-        itmRelatorioFornecedor.setText("Relatório");
-        itmRelatorioFornecedor.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                itmRelatorioFornecedorActionPerformed(evt);
-            }
-        });
-        mnuFornecedor.add(itmRelatorioFornecedor);
-
         barMenu.add(mnuFornecedor);
 
         mnuCompras.setMnemonic('M');
@@ -684,15 +643,6 @@ public class FrmPrincipal extends javax.swing.JFrame {
             }
         });
         mnuCompras.add(itmConsultaCompra);
-
-        itmRelatorioCompra.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/report.png"))); // NOI18N
-        itmRelatorioCompra.setText("Relatório");
-        itmRelatorioCompra.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                itmRelatorioCompraActionPerformed(evt);
-            }
-        });
-        mnuCompras.add(itmRelatorioCompra);
 
         barMenu.add(mnuCompras);
 
@@ -748,15 +698,6 @@ public class FrmPrincipal extends javax.swing.JFrame {
             }
         });
         mnuColaborador.add(itmConsultaColaborador);
-
-        itmRelatorioColaborador.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/report.png"))); // NOI18N
-        itmRelatorioColaborador.setText("Relatório");
-        itmRelatorioColaborador.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                itmRelatorioColaboradorActionPerformed(evt);
-            }
-        });
-        mnuColaborador.add(itmRelatorioColaborador);
 
         barMenu.add(mnuColaborador);
 
@@ -878,14 +819,12 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private void itmCadastroClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmCadastroClienteActionPerformed
         cadastroCliente(0);
     }//GEN-LAST:event_itmCadastroClienteActionPerformed
-
+    
+   
+    
     private void itmConsultaClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmConsultaClienteActionPerformed
         cadastroCliente(1);
     }//GEN-LAST:event_itmConsultaClienteActionPerformed
-
-    private void itmRelatorioClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmRelatorioClienteActionPerformed
-        cadastroCliente(2);
-    }//GEN-LAST:event_itmRelatorioClienteActionPerformed
 
     private void itmCadastroProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmCadastroProdutoActionPerformed
         cadastroProduto(0);
@@ -894,10 +833,6 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private void itmConsultaProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmConsultaProdutoActionPerformed
         cadastroProduto(1);
     }//GEN-LAST:event_itmConsultaProdutoActionPerformed
-
-    private void itmRelatorioProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmRelatorioProdutoActionPerformed
-        cadastroProduto(2);
-    }//GEN-LAST:event_itmRelatorioProdutoActionPerformed
 
     private void itmUnidadeMedidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmUnidadeMedidaActionPerformed
         cadastroUnidadeMedida();
@@ -911,10 +846,6 @@ public class FrmPrincipal extends javax.swing.JFrame {
         cadastroFornecedor(1);
     }//GEN-LAST:event_itmConsultaFornecedorActionPerformed
 
-    private void itmRelatorioFornecedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmRelatorioFornecedorActionPerformed
-        cadastroFornecedor(2);
-    }//GEN-LAST:event_itmRelatorioFornecedorActionPerformed
-
     private void itmCadastroColaboradorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmCadastroColaboradorActionPerformed
         cadastroColaborador(0);
     }//GEN-LAST:event_itmCadastroColaboradorActionPerformed
@@ -922,10 +853,6 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private void itmConsultaColaboradorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmConsultaColaboradorActionPerformed
         cadastroColaborador(1);
     }//GEN-LAST:event_itmConsultaColaboradorActionPerformed
-
-    private void itmRelatorioColaboradorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmRelatorioColaboradorActionPerformed
-
-    }//GEN-LAST:event_itmRelatorioColaboradorActionPerformed
 
     private void itmSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmSairActionPerformed
         alterarSenha();
@@ -943,10 +870,6 @@ public class FrmPrincipal extends javax.swing.JFrame {
         cadastroCompra(1);
     }//GEN-LAST:event_itmConsultaCompraActionPerformed
 
-    private void itmRelatorioCompraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmRelatorioCompraActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_itmRelatorioCompraActionPerformed
-
     private void itmCadastroVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmCadastroVendaActionPerformed
         cadastroVenda(0);
     }//GEN-LAST:event_itmCadastroVendaActionPerformed
@@ -954,10 +877,6 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private void itmConsultaVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmConsultaVendaActionPerformed
         cadastroVenda(1);
     }//GEN-LAST:event_itmConsultaVendaActionPerformed
-
-    private void itmRelatorioVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmRelatorioVendaActionPerformed
-        cadastroVenda(2);
-    }//GEN-LAST:event_itmRelatorioVendaActionPerformed
 
     private void itmSair1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmSair1ActionPerformed
         try {
@@ -1188,12 +1107,6 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem itmFormasPagamento;
     private javax.swing.JMenuItem itmParametros;
     private javax.swing.JMenuItem itmPermissoes;
-    private javax.swing.JMenuItem itmRelatorioCliente;
-    private javax.swing.JMenuItem itmRelatorioColaborador;
-    private javax.swing.JMenuItem itmRelatorioCompra;
-    private javax.swing.JMenuItem itmRelatorioFornecedor;
-    private javax.swing.JMenuItem itmRelatorioProduto;
-    private javax.swing.JMenuItem itmRelatorioVenda;
     private javax.swing.JMenuItem itmSair;
     private javax.swing.JMenuItem itmSair1;
     private javax.swing.JMenuItem itmSair2;
