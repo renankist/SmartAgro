@@ -1,5 +1,5 @@
 # SmartAgro
-Sistema desktop destinado a pequenas agropecuárias(adaptável a outras áreas de negócio),desenvolvido na disciplina de Projeto Integrador I, no curso de Engenharia de Software na Universidade do Vale do Taquari.
+Sistema desktop destinado a pequenas agropecuárias(adaptável a outras áreas de negócio), desenvolvido na disciplina de Projeto Integrador I, no curso de Engenharia de Software na Universidade do Vale do Taquari.
 
 ### Rodando o sistema
 
