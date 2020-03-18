@@ -10,7 +10,7 @@ Ao seguir os passos abaixo, você poderá executar o software em seu computador:
   - ScriptsBD_Base_Tabelas_SmartAgro; 
   - ScriptsBD_Inserts_SmartAgro;
   - ScriptsBD_functions_SmartAgro;
-3) Neste momento, você já poderá logar no sistema com o usuário "admin" senha "12345"(no primeiro acesso será solicitado a alteração desta); 
+3) Neste momento, você já poderá logar no sistema com o usuário "admin" senha "12345" (no primeiro acesso será solicitado a alteração desta); 
 
 ### Pré-requisitos
  - PostgresSQL; 
